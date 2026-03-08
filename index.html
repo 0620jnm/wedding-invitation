@@ -108,7 +108,7 @@ document.getElementById('msg').style.display='block';
 </div>
 
 <!-- 音樂控制按鈕 -->
-<button id="music-toggle" style="position:fixed;bottom:30px;right:30px;width:60px;height:60px;border-radius:50%;background:#c9a96e;border:none;cursor:pointer;z-index:10000;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;" onclick="toggleMusic()" aria-label="音樂控制">
+<button id="music-toggle" style="position:fixed;bottom:30px;right:30px;width:60px;height:60px;border-radius:50%;background:#c9a96e;border:none;cursor:pointer;z-index:10000;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;" onclick="160()" aria-label="音樂控制">
   <svg id="play-icon" width="24" height="24" viewBox="0 0 24 24" fill="white" style="display:block;">
     <path d="M8 5v14l11-7z"/>
   </svg>
@@ -159,7 +159,7 @@ function onPlayerStateChange(event) {
 
 function toggleMusic() {
   if (!playerReady) {
-    alert('音樂正在載入中，請稍候...');
+  
     return;
   }
   
