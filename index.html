@@ -102,5 +102,34 @@ document.getElementById('msg').style.display='block';
 </script>
 
 
+  <!-- 背景音樂 -->
+<audio id="bgMusic" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-memories.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  // 自動播放音樂
+  window.addEventListener('load', function() {
+    var audio = document.getElementById('bgMusic');
+    audio.volume = 0.3; // 設定音量為 30%
+    
+    // 嘗試自動播放
+    var playPromise = audio.play();
+    
+    if (playPromise !== undefined) {
+      playPromise.then(function() {
+        // 自動播放成功
+        console.log('音樂自動播放成功');
+      }).catch(function(error) {
+        // 自動播放被瀏覽器阻擋，需要用戶互動
+        console.log('自動播放被阻擋，需要用戶點擊');
+        // 添加點擊事件監聽器
+        document.body.addEventListener('click', function() {
+          audio.play();
+        }, { once: true });
+      });
+    }
+  });
+</script>
 </body>
 </html>
