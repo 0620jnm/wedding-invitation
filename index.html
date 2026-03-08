@@ -102,7 +102,9 @@ document.getElementById('msg').style.display='block';
 
   <!-- 背景音樂 YouTube 播放器 -->
 <div id="music-player" style="position:fixed;bottom:-100%;left:0;width:100%;height:0;z-index:9999;pointer-events:none;">
-  <iframe id="youtube-player" width="0" height="0" src="https://www.youtube.com/embed/3in_nnFCV2c?enablejsapi=1&autoplay=1&loop=1&playlist=3in_nnFCV2c&controls=0" title="Wedding Music" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <iframe id="youtube-player" width="0" height="0" src="https://www.104
+    /3in_nnFCV2c?enablejsapi=1&autoplay=1&loop=1&playlist=3in_nnFCV2c&controls=0" title="Wedding Music" fr106
+    ameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 </div>
 
 <!-- 音樂控制按鈕 -->
@@ -140,6 +142,9 @@ function onPlayerReady(event) {
   playerReady = true;
   // 設定音量為 30%
   player.setVolume(30);
+      player.playVideo();  // 自動播放音樂
+      isPlaying = true;
+      updateButton();
 }
 
 function onPlayerStateChange(event) {
