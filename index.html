@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Jay & Michelle 婚禮邀請函 - 2026.06.20">
+<title>Jay & Michelle Wedding Invitation</title>
+//fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&family=Noto+Serif+TC:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream: #faf8f5;
+  --white: #ffffff;
+  --gold: #c9a96e;
+  --gold-light: #e8d5b0;
+  --charcoal: #2c2c2c;
+  --gray: #888;
+  --border: #e0d9d0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Montserrat', 'Noto Serif TC', sans-serif;
+  background: var(--cream);
+  color: var(--charcoal);
+  overflow-x: hidden;
+}
+
+/* ── COVER ── */
+.cover {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f5f5dc 0%, #e8dcc4 100%);
+}
+
+.cover-bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(201,169,110,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(232,213,176,0.15) 0%, transparent 50%);
+  opacity: 0.6;
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+  color: var(--charcoal);
+  animation: fadeUp 1.4s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cover-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+
+.cover-names {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 10vw, 5.5rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  margin-bottom: 10px;
+}
+
+.cover-ampersand {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.cover-date {
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  color: var(--gray);
+  margin-top: 18px;
+}
+
+.cover-divider {
+  width: 60px;
+  height: 1px;
+  background: var(--gold);
+  margin: 20px auto;
+  opacity: 0.7;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--gold);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  animation: bounce 2s infinite;
+}
+
+.scroll-hint::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 36px;
+  background: rgba(201,169,110,0.4);
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ── SECTIONS ── */
+section {
+  padding: 80px 24px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  font-weight: 300;
+  text-align: center;
+  color: var(--charcoal);
+  margin-bottom: 8px;
+  font-style: italic;
+}
+
+.gold-rule {
+  width: 50px;
+  height: 1px;
+  background: var(--gold);
+  margin: 20px auto 40px;
+}
+
+/* ── INVITE TEXT ── */
+.invite-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  line-height: 2.1;
+  text-align: center;
+  color: #4a4a4a;
+}
+
+/* ── DETAILS CARDS ── */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+@media (max-width: 480px) {
+  .details-grid { grid-template-columns: 1fr; }
+}
+
+.detail-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 32px 24px;
+  text-align: center;
+  position: relative;
+}
+
+.detail-card::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border: 1px solid var(--gold-light);
+  pointer-events: none;
+}
+
+.detail-icon {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.detail-card h3 {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.detail-card p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--charcoal);
+}
+
+.detail-card .time-big {
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: var(--charcoal);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ── COUNTDOWN ── */
+.countdown-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+.countdown-item {
+  text-align: center;
+}
+
+.countdown-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--charcoal);
+  line-height: 1;
+  display: block;
+}
+
+.countdown-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 6px;
+  display: block;
+}
+
+.countdown-sep {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  color: var(--gold-light);
+  align-self: flex-start;
+  padding-top: 4px;
+}
+
+/* ── MAP ── */
+.map-section {
+  padding: 0 0 80px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.map-section .section-label,
+.map-section .section-title,
+.map-section .gold-rule {
+  padding: 0 24px;
+}
+
+.map-section .section-label {
+  padding-top: 80px;
+}
+
+.map-container {
+  width: 100%;
+  height: 320px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.venue-address {
+  text-align: center;
+  margin-top: 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.9;
+  padding: 0 24px;
+}
+
+.map-btn {
+  display: block;
+  width: fit-content;
+  margin: 18px auto 0;
+  padding: 11px 28px;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.map-btn:hover {
+  background: var(--gold);
+  color: #fff;
+}
+
+/* ── RSVP ── */
+.rsvp-section {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 80px 24px;
+  max-width: 100%;
+}
+
+.rsvp-inner {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.rsvp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 40px;
+}
+
+.rsvp-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rsvp-row label {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.rsvp-row input,
+.rsvp-row select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  background: var(--cream);
+  font-size: 0.9rem;
+  font-family: 'Montserrat', sans-serif;
+  color: var(--charcoal);
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.rsvp-row input:focus,
+.rsvp-row select:focus {
+  border-color: var(--gold);
+}
+
+.attend-group {
+  display: flex;
+  gap: 12px;
+}
+
+.attend-btn {
+  flex: 1;
+  padding: 13px;
+  border: 1px solid var(--border);
+  background: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray);
+  transition: all 0.3s;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.attend-btn.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #fff;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--charcoal);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  transition: background 0.3s;
+  margin-top: 8px;
+}
+
+.submit-btn:hover {
+  background: var(--gold);
+}
+
+.rsvp-success {
+  display: none;
+  text-align: center;
+  padding: 40px 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--gold);
+  line-height: 2;
+}
+
+.rsvp-note {
+  font-size: 0.72rem;
+  color: var(--gray);
+  text-align: center;
+  margin-top: 14px;
+  line-height: 1.7;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 60px 24px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-bg"></div>
+  <div class="cover-content">
+    <div class="cover-label">We're Getting Married</div>
+    <h1 class="cover-names">
+      Jay <span class="cover-ampersand">&</span> Michelle
+    </h1>
+    <div class="cover-divider"></div>
+    <div class="cover-date">06 • 20 • 2026</div>
+  </div>
+  <div class="scroll-hint
