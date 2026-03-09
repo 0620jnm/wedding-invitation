@@ -106,7 +106,37 @@ document.getElementById('msg').style.display='block';
 <audio id="bgMusic" loop>
   <source src="https://www.bensound.com/bensound-music/bensound-memories.mp3" type="audio/mpeg">
 </audio>
+  
+<!-- 播放/暫停按鈕 -->
+<button id="musicToggle" style="position:fixed;bottom:20px;right:20px;width:50px;height:50px;border-radius:50%;background:#c9a96e;border:none;color:white;font-size:24px;cursor:pointer;z-index:9999;box-shadow:0 2px 10px rgba(0,0,0,0.3);">▶</button>
 
+  
+<script>
+// 播放/暫停功能
+var toggleBtn = document.getElementById('musicToggle');
+var bgMusic = document.getElementById('bgMusic');
+var isPlaying = false;
+
+// 監聽音樂的實際播放狀態
+bgMusic.addEventListener('play', function() {
+  isPlaying = true;
+  toggleBtn.innerHTML = '⏸';
+});
+
+bgMusic.addEventListener('pause', function() {
+  isPlaying = false;
+  toggleBtn.innerHTML = '▶';
+});
+
+// 按鈕點擊事件
+toggleBtn.addEventListener('click', function() {
+  if (isPlaying) {
+    bgMusic.pause();
+  } else {
+    bgMusic.play();
+  }
+});
+</script>
 <script>
   // 自動播放音樂
   window.addEventListener('load', function() {
