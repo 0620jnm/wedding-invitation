@@ -6,25 +6,25 @@
 <title>Jay & Michelle Wedding</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Monsieur+La+Doulaise&family=Playfair+Display:ital,wght@0,400;1,400&family=Noto+Serif+TC:wght@300;400&display=swap" rel="stylesheet">
 <style>
-    /* --- 1. 您原本的內容與樣式還原 --- */
+    /* --- 1. 基礎還原與圓角優化 --- */
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c;overflow-x:hidden}
     .cover{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#f5f5dc,#e8dcc4);text-align:center}
     .cover h1{font-family:'Playfair Display', serif;font-size:clamp(3rem,10vw,5.5rem);font-weight:300}
     .cover .amp{color:#c9a96e;font-style:italic}
     .cover p{margin-top:20px;letter-spacing:0.3em;color:#888}
+    
     section{padding:80px 24px;max-width:700px;margin:0 auto;text-align:center}
     h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#c9a96e;margin-bottom:20px}
-    .info{background:#fff;padding:30px;margin:20px 0;border:1px solid #e0d9d0}
     
-    /* 地圖顯示穩定化 */
-    iframe{width:100%;height:320px;border:1px solid #e0d9d0;margin:20px 0;display:block;}
-    
-    input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #e0d9d0;background:#faf8f5}
-    button{width:100%;padding:15px;background:#2c2c2c;color:#fff;border:none;cursor:pointer;margin-top:10px;letter-spacing:0.2em}
+    /* 增加圓角設定 */
+    .info{background:#fff;padding:30px;margin:20px 0;border:1px solid #e0d9d0; border-radius: 12px;}
+    iframe{width:100%;height:320px;border:1px solid #e0d9d0;margin:20px 0; border-radius: 15px;}
+    input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #e0d9d0;background:#faf8f5; border-radius: 8px;}
+    button{width:100%;padding:15px;background:#2c2c2c;color:#fff;border:none;cursor:pointer;margin-top:10px;letter-spacing:0.2em; border-radius: 8px;}
     button:hover{background:#c9a96e}
 
-    /* --- 2. 信封開場動畫設定 --- */
+    /* --- 2. 信封與動效控制 --- */
     #envelope-wrapper {
         position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
         background: #2a1f1a; display: flex; align-items: center; justify-content: center;
@@ -32,7 +32,7 @@
     }
     .envelope {
         position: relative; width: 320px; height: 220px; background: #fdfcf8;
-        border-radius: 2px; cursor: pointer; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        border-radius: 4px; cursor: pointer; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     }
     .flap {
         position: absolute; top: 0; width: 0; height: 0;
@@ -42,19 +42,26 @@
     .wax-seal {
         position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%);
         width: 65px; height: 65px; background: #8e1e1e; border-radius: 50%; z-index: 10;
-        box-shadow: 2px 5px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;
+        box-shadow: 2px 5px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; transition: 0.5s;
     }
     .wax-seal::after { 
         content: "MJ"; font-family: 'Monsieur La Doulaise', cursive; color: rgba(255,255,255,0.4); font-size: 26px;
     }
     .open .flap { transform: rotateX(180deg); z-index: 1; }
-    .open .wax-seal { opacity: 0; transform: translateX(-50%) scale(0.5); transition: 0.5s; }
+    .open .wax-seal { opacity: 0; transform: translateX(-50%) scale(0.5); }
 
-    /* 全站淡入控制 */
+    /* 主內容與淡入效果 */
     #main-content { opacity: 0; visibility: hidden; }
     #main-content.reveal { opacity: 1; visibility: visible; transition: opacity 1.5s ease; }
-    .fade-item { opacity: 0; transform: translateY(20px); transition: all 1.2s ease; }
+    .fade-item { opacity: 0; transform: translateY(25px); transition: all 1s ease; }
     .fade-item.show { opacity: 1; transform: translateY(0); }
+    .welcome-font { font-family: 'Monsieur La Doulaise', cursive; font-size: 4.5rem; color: #8d705a; display: block; }
+    
+    /* 地圖按鈕圓角 */
+    .map-btn {
+        display:inline-block;margin-top:15px;padding:10px 25px;border:1px solid #c9a96e;
+        color:#c9a96e;text-decoration:none;letter-spacing:0.2em; border-radius: 25px;
+    }
 </style>
 </head>
 <body>
@@ -63,12 +70,13 @@
     <div class="envelope" id="env" onclick="startOpen()">
         <div class="flap"></div>
         <div class="wax-seal"></div>
-        <p style="position:absolute; bottom:-50px; left:50%; transform:translateX(-50%); color:#c9a96e; letter-spacing:2px; font-size:12px;">TAP TO OPEN</p>
+        <p style="position:absolute; bottom:-50px; left:50%; transform:translateX(-50%); color:#c9a96e; letter-spacing:2px; font-size:12px; font-family:sans-serif;">TAP TO OPEN</p>
     </div>
 </div>
 
 <div id="main-content">
     <div class="cover fade-item">
+        <span class="welcome-font">Welcome</span>
         <p style="font-size:0.85rem;letter-spacing:0.35em;color:#c9a96e;margin-bottom:18px">WE'RE GETTING MARRIED</p>
         <h1>Jay <span class="amp">&</span> Michelle</h1>
         <p>2026·06·20</p>
@@ -100,12 +108,8 @@
 
     <section class="fade-item">
         <h2>婚宴地點</h2>
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m12!1m3!1d3639.67026027877!2d120.7107!3d24.1755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917804473e0c3%3A0x6a2c300890060000!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1700000000000!5m2!1szh-TW!2stw" 
-            allowfullscreen="" 
-            loading="lazy">
-        </iframe>
-        <a href="https://maps.app.goo.gl/w95f6Gf8k6A68hM67" target="_blank" style="display:inline-block;margin-top:15px;padding:10px 25px;border:1px solid #c9a96e;color:#c9a96e;text-decoration:none;letter-spacing:0.2em">開啟 Google 地圖</a>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m120.7107!3d24.1788!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e3f6d7d9a1%3A0x2a3e3b3e3b3e3b3e!2z5pqu5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1700000000000" loading="lazy"></iframe>
+        <a href="https://maps.app.goo.gl/3A7vM3uVqfPqB6N98" target="_blank" class="map-btn">開啟 Google 地圖</a>
     </section>
 
     <section style="background:#fff;max-width:100%;padding:80px 24px" class="fade-item">
@@ -118,10 +122,10 @@
                     <option>1位</option><option>2位</option><option>3位</option><option>4位</option><option>5位以上</option>
                 </select>
                 <div style="display:flex;gap:10px;margin:10px 0">
-                    <button type="button" style="flex:1; background:#c9a96e" onclick="this.style.background='#c9a96e';this.nextElementSibling.style.background='#ccc'">我會出席</button>
-                    <button type="button" style="flex:1; background:#ccc" onclick="this.style.background='#c9a96e';this.previousElementSibling.style.background='#ccc'">無法出席</button>
+                    <button type="button" style="background:#c9a96e; flex:1;" onclick="this.style.background='#c9a96e';this.nextElementSibling.style.background='#ccc'">我會出席</button>
+                    <button type="button" style="background:#ccc; flex:1;" onclick="this.style.background='#c9a96e';this.previousElementSibling.style.background='#ccc'">無法出席</button>
                 </div>
-                <button type="submit">送出回覆</button>
+                <button type="submit" style="background:#5d4037">送出回覆</button>
             </form>
             <p id="msg" style="display:none;margin-top:20px;color:#c9a96e;font-size:1.2rem">感謝您的回覆！</p>
         </div>
@@ -144,10 +148,10 @@
             document.getElementById('main-content').classList.add('reveal');
             document.body.style.overflow = 'auto';
             handleScroll();
-        }, 1200);
+        }, 1500);
         setTimeout(() => {
             document.getElementById('envelope-wrapper').style.display = 'none';
-        }, 2500);
+        }, 2700);
     }
 
     function handleScroll() {
@@ -167,7 +171,6 @@
         document.getElementById('msg').style.display='block';
     });
 
-    // YouTube 播放器
     var player;
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('player', {
