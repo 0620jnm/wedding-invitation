@@ -10,49 +10,59 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflow: hidden;} 
 
-/* 照片開場 (橫式大照片)保持穩定 */
+/* --- 照片開場：💎 全部恢復為直式框 --- */
 #intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     background: #e8dcc4; z-index: 10000;
     display: flex; align-items: center; justify-content: center;
     transition: opacity 1.8s ease;
 }
-.photo-stack { position: relative; width: 360px; height: 380px; cursor: pointer; }
+/* 照片堆疊容器 (直式比例) */
+.photo-stack { position: relative; width: 300px; height: 400px; cursor: pointer; }
+
+/* 💎 照片框樣式系統：全直式 */
 .photo {
     position: absolute; left: 50%;
-    background: #fff; border: 12px solid #fff; box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    width: 280px; height: 380px; /* 💎 全直式直向比例 */
+    background: #fff; border: 12px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     display: flex; align-items: center; justify-content: center;
     transition: transform 2.8s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 1.2s ease-out; 
     background-size: cover; background-position: center;
 }
 .photo::after { content: "TAP"; font-family: 'Cormorant Garamond'; color: #c9a96e; font-size: 1.1rem; opacity: 0.6; }
-.photo:nth-child(1) { width: 360px; height: 270px; transform: translateX(-50%) translateY(40px) rotate(-3deg); z-index: 3;}
-.photo:nth-child(n+2) { width: 280px; height: 380px; }
+
+/* 初始旋轉角度 */
+.photo:nth-child(1) { transform: translateX(-50%) rotate(-4deg); z-index: 3; }
 .photo:nth-child(2) { transform: translateX(-50%) rotate(2deg); z-index: 2; }
 .photo:nth-child(3) { transform: translateX(-50%) rotate(-1deg); z-index: 1; }
-.photo.dropped { transform: translateY(130vh) translateX(40px) rotate(35deg) !important; opacity: 0; }
 
-/* --- 💎 主視覺：手寫體 & 平均卡位設計 --- */
+/* 照片飄落動畫 */
+.photo.dropped { 
+    transform: translateY(130vh) translateX(40px) rotate(35deg) !important; 
+    opacity: 0; 
+}
+
+/* --- 主視覺：💎 手寫體 & 平均卡位修正 --- */
 #main-wrapper { opacity: 0; transition: opacity 2s ease; }
 .cover{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#f5f5dc,#e8dcc4);text-align:center}
 
-.name-container { position: relative; display: inline-block; padding: 20px 0; }
+.name-container { position: relative; display: inline-block; padding: 30px 0; z-index: 1; }
 
-/* 💎 大大的手寫體 &：平均卡住 */
+/* 💎 大大的手寫體 &：平均卡住 (層次修正) */
 .large-amp {
     position: absolute;
     top: 50%; left: 50%;
-    transform: translate(-50%, -50%); /* 💎 核心：絕對對齊中英文姓名中間 */
-    font-family: 'Gwendolyn', cursive; /* 💎 協調的藝術字體 */
+    transform: translate(-50%, -50%); /* 絕對對齊中英文姓名中間 */
+    font-family: 'Gwendolyn', cursive; /* 英式藝術字體 */
     font-size: 15rem; /* 大大的 & */
-    color: #c9a96e;
-    opacity: 0.15; /* 💎 核心：半透明，水印般效果 */
+    color: #C9A466; /* 指定金色色號 */
+    opacity: 0.15; /* 半透明，水印般效果 */
     font-weight: 700;
-    z-index: -1; /* 💎 核心：放在文字下方，不搶戲 */
-    pointer-events: none; /* 💎 防止擋住TAP提示 */
+    z-index: -1; /* 💎 核心：放在文字下方 */
+    pointer-events: none; /* 防止擋住TAP提示 */
 }
 
-/* 英文字型：保持穩定，移除 h1 中的 & */
+/* 英文字型：Jay Michelle */
 .cover h1 {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(3rem, 10vw, 5.5rem);
@@ -79,11 +89,11 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 
 /* 其他區塊保持穩定 */
 section{padding: 80px 24px; max-width: 700px; margin: 0 auto; text-align: center;}
-h2{font-family:'Cormorant Garamond',serif; font-size: 2rem; font-weight: 300; color: #c9a96e; margin-bottom: 20px;}
+h2{font-family:'Cormorant Garamond',serif; font-size: 2rem; font-weight: 300; color: #C9A466; margin-bottom: 20px;}
 .info{background: #fff; padding: 30px; margin: 20px 0; border: 1px solid #e0d9d0;}
 .map-container { width: 100%; height: 350px; margin: 20px 0; border: 1px solid #e0d9d0; overflow: hidden; }
 iframe { width: 100%; height: 100%; border: 0; }
-#musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a96e; border: none; color: white; cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+#musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #C9A466; border: none; color: white; cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 </style>
 </head>
 <body>
@@ -98,7 +108,7 @@ iframe { width: 100%; height: 100%; border: 0; }
 
 <div id="main-wrapper">
     <div class="cover">
-        <p style="font-size:0.85rem;letter-spacing:0.35em;color:#c9a96e;margin-bottom:18px">WE'RE GETTING MARRIED</p>
+        <p style="font-size:0.85rem;letter-spacing:0.35em;color:#C9A466;margin-bottom:18px">WE'RE GETTING MARRIED</p>
         
         <div class="name-container">
             <h1>Jay Michelle</h1>
@@ -121,11 +131,11 @@ iframe { width: 100%; height: 100%; border: 0; }
     <section>
         <h2>Wedding Info</h2>
         <div class="info">
-            <h3 style="color:#c9a96e; letter-spacing:0.2em; margin-bottom:10px">日期</h3>
+            <h3 style="color:#C9A466; letter-spacing:0.2em; margin-bottom:10px">日期</h3>
             <p style="font-size:1.5rem">2026年6月20日</p>
         </div>
         <div class="info">
-            <h3 style="color:#c9a96e; letter-spacing:0.2em; margin-bottom:10px">地點</h3>
+            <h3 style="color:#C9A466; letter-spacing:0.2em; margin-bottom:10px">地點</h3>
             <p>暖居日穀 (台中市北屯區松竹路一段3號)</p>
         </div>
     </section>
@@ -133,12 +143,12 @@ iframe { width: 100%; height: 100%; border: 0; }
     <section>
         <h2>婚宴地點</h2>
         <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.467406691461!2d120.70617327608588!3d24.172861278385287!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e742886f4b%3A0xb353043272990666!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000!5m2!1szh-TW!2stw8" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.467406691461!2d120.70617327608588!3d24.172861278385287!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e742886f4b%3A0xb353043272990666!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000!5m2!1szh-TW!2stw9" allowfullscreen="" loading="lazy"></iframe>
         </div>
         <a href="https://maps.app.goo.gl/ChIJtXO-3TAZaTQR8e6e_iieAek" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a96e; color:#c9a96e; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
     </section>
 
-    <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#c9a96e">
+    <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#C9A466">
         See You Soon
     </footer>
 </div>
