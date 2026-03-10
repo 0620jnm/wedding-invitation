@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jay & Michelle Wedding</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Monsieur+La+Doulaise&family=Playfair+Display:ital,wght@0,400;1,400&family=Noto+Serif+TC:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Playfair+Display:ital,wght@0,400;1,400&family=Noto+Serif+TC:wght@300;400&family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
 <style>
-    /* --- 1. 基礎還原與圓角優化 --- */
+    /* --- 1. 核心樣式還原與圓角 --- */
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c;overflow-x:hidden}
+    
     .cover{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#f5f5dc,#e8dcc4);text-align:center}
     .cover h1{font-family:'Playfair Display', serif;font-size:clamp(3rem,10vw,5.5rem);font-weight:300}
     .cover .amp{color:#c9a96e;font-style:italic}
@@ -17,14 +18,23 @@
     section{padding:80px 24px;max-width:700px;margin:0 auto;text-align:center}
     h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#c9a96e;margin-bottom:20px}
     
-    /* 增加圓角設定 */
+    /* 圓角與區塊設定 */
     .info{background:#fff;padding:30px;margin:20px 0;border:1px solid #e0d9d0; border-radius: 12px;}
-    iframe{width:100%;height:320px;border:1px solid #e0d9d0;margin:20px 0; border-radius: 15px;}
+    iframe{width:100%;height:320px;border:1px solid #e0d9d0;margin:20px 0; border-radius: 15px; display: block;}
     input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #e0d9d0;background:#faf8f5; border-radius: 8px;}
     button{width:100%;padding:15px;background:#2c2c2c;color:#fff;border:none;cursor:pointer;margin-top:10px;letter-spacing:0.2em; border-radius: 8px;}
     button:hover{background:#c9a96e}
 
-    /* --- 2. 信封與動效控制 --- */
+    /* --- 2. 深色地圖導航按鈕 --- */
+    .map-btn {
+        display:inline-block; margin-top:15px; padding:12px 30px; 
+        background:#362e2b; color:#ffffff; /* 深色底白色文字 */
+        text-decoration:none; letter-spacing:0.2em; border-radius: 25px;
+        transition: background 0.3s;
+    }
+    .map-btn:hover { background: #5d4037; }
+
+    /* --- 3. 信封與動效控制 --- */
     #envelope-wrapper {
         position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
         background: #2a1f1a; display: flex; align-items: center; justify-content: center;
@@ -47,21 +57,15 @@
     .wax-seal::after { 
         content: "MJ"; font-family: 'Monsieur La Doulaise', cursive; color: rgba(255,255,255,0.4); font-size: 26px;
     }
+
     .open .flap { transform: rotateX(180deg); z-index: 1; }
     .open .wax-seal { opacity: 0; transform: translateX(-50%) scale(0.5); }
 
-    /* 主內容與淡入效果 */
+    /* 淡入控制 */
     #main-content { opacity: 0; visibility: hidden; }
     #main-content.reveal { opacity: 1; visibility: visible; transition: opacity 1.5s ease; }
     .fade-item { opacity: 0; transform: translateY(25px); transition: all 1s ease; }
     .fade-item.show { opacity: 1; transform: translateY(0); }
-    .welcome-font { font-family: 'Monsieur La Doulaise', cursive; font-size: 4.5rem; color: #8d705a; display: block; }
-    
-    /* 地圖按鈕圓角 */
-    .map-btn {
-        display:inline-block;margin-top:15px;padding:10px 25px;border:1px solid #c9a96e;
-        color:#c9a96e;text-decoration:none;letter-spacing:0.2em; border-radius: 25px;
-    }
 </style>
 </head>
 <body>
@@ -76,7 +80,6 @@
 
 <div id="main-content">
     <div class="cover fade-item">
-        <span class="welcome-font">Welcome</span>
         <p style="font-size:0.85rem;letter-spacing:0.35em;color:#c9a96e;margin-bottom:18px">WE'RE GETTING MARRIED</p>
         <h1>Jay <span class="amp">&</span> Michelle</h1>
         <p>2026·06·20</p>
@@ -108,8 +111,8 @@
 
     <section class="fade-item">
         <h2>婚宴地點</h2>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m120.7107!3d24.1788!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e3f6d7d9a1%3A0x2a3e3b3e3b3e3b3e!2z5pqu5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1700000000000" loading="lazy"></iframe>
-        <a href="https://maps.app.goo.gl/3A7vM3uVqfPqB6N98" target="_blank" class="map-btn">開啟 Google 地圖</a>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.123!2d120.7!3d24.17!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917f8b9b8b8b9%3A0x1b8b8b8b8b8b8b8b!2z5pqW5bGF5pel6LC3!5e0!3m2!1szh-TW!2stw!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
+        <a href="https://maps.app.goo.gl/K8XfTfA3m7Xz9Vvj9" target="_blank" class="map-btn">開啟 Google 地圖</a>
     </section>
 
     <section style="background:#fff;max-width:100%;padding:80px 24px" class="fade-item">
@@ -125,7 +128,7 @@
                     <button type="button" style="background:#c9a96e; flex:1;" onclick="this.style.background='#c9a96e';this.nextElementSibling.style.background='#ccc'">我會出席</button>
                     <button type="button" style="background:#ccc; flex:1;" onclick="this.style.background='#c9a96e';this.previousElementSibling.style.background='#ccc'">無法出席</button>
                 </div>
-                <button type="submit" style="background:#5d4037">送出回覆</button>
+                <button type="submit" style="background:#362e2b">送出回覆</button>
             </form>
             <p id="msg" style="display:none;margin-top:20px;color:#c9a96e;font-size:1.2rem">感謝您的回覆！</p>
         </div>
