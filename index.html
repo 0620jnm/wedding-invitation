@@ -5,92 +5,59 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jay & Michelle Wedding</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Monsieur+La+Doulaise&family=Playfair+Display:ital,wght@0,400;1,400&family=Noto+Serif+TC:wght@300;400&display=swap" rel="stylesheet">
+
 <style>
-    /* --- 基礎還原 --- */
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c;overflow-x:hidden;}
+/* --- 1. 您原本的 CSS 完全還原 --- */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c;overflow-x:hidden}
+.cover{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#f5f5dc,#e8dcc4);text-align:center}
+/* 套用指定的 Playfair Display */
+.cover h1{font-family:'Playfair Display', serif;font-size:clamp(3rem,10vw,5.5rem);font-weight:300}
+.cover .amp{color:#c9a96e;font-style:italic}
+.cover p{margin-top:20px;letter-spacing:0.3em;color:#888}
+section{padding:80px 24px;max-width:700px;margin:0 auto;text-align:center}
+h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#c9a96e;margin-bottom:20px}
+.info{background:#fff;padding:30px;margin:20px 0;border:1px solid #e0d9d0}
+iframe{width:100%;height:320px;border:1px solid #e0d9d0;margin:20px 0}
+input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #e0d9d0;background:#faf8f5}
+button{width:100%;padding:15px;background:#2c2c2c;color:#fff;border:none;cursor:pointer;margin-top:10px;letter-spacing:0.2em}
+button:hover{background:#c9a96e}
 
-    /* --- 1. 參考圖風格信封區 --- */
-    #envelope-wrapper {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-        background: #2a1f1a; /* 深色木質感底色 */
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cfilter id='wood'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.01 0.4' numOctaves='2' /%3E%3CfeDisplacementMap in='SourceGraphic' scale='10' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%232a1f1a'/%3E%3Crect width='100%25' height='100%25' filter='url(%23wood)' opacity='0.2'/%3E%3C/svg%3E");
-        display: flex; align-items: center; justify-content: center;
-        z-index: 10000; transition: opacity 1.5s ease; perspective: 1500px;
-    }
+/* --- 2. 新增：信封動畫與淡入控制 --- */
+#envelope-wrapper {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    background: #2a1f1a; display: flex; align-items: center; justify-content: center;
+    z-index: 10000; transition: opacity 1.2s ease; perspective: 1500px;
+}
+.envelope {
+    position: relative; width: 320px; height: 220px; background: #fdfcf8;
+    border-radius: 2px; cursor: pointer; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+.flap {
+    position: absolute; top: 0; width: 0; height: 0;
+    border-left: 160px solid transparent; border-right: 160px solid transparent;
+    border-top: 130px solid #f2ede4; transform-origin: top; transition: transform 0.8s ease; z-index: 3;
+}
+.wax-seal {
+    position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%);
+    width: 65px; height: 65px; background: #8e1e1e; border-radius: 50%; z-index: 10;
+    box-shadow: 2px 5px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; transition: 0.5s;
+}
+/* 封蠟章 MJ 草寫 */
+.wax-seal::after { 
+    content: "MJ"; font-family: 'Monsieur La Doulaise', cursive; color: rgba(255,255,255,0.4); font-size: 26px;
+}
+.open .flap { transform: rotateX(180deg); z-index: 1; }
+.open .wax-seal { opacity: 0; transform: translateX(-50%) scale(0.5); }
 
-    .envelope {
-        position: relative; width: 320px; height: 220px;
-        background: #fdfcf8; /* 乾淨米白 */
-        border-radius: 2px; cursor: pointer;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        transition: transform 0.5s;
-    }
+/* 淡入效果設定 */
+#main-content { opacity: 0; visibility: hidden; }
+#main-content.reveal { opacity: 1; visibility: visible; transition: opacity 1.5s ease; }
+.fade-item { opacity: 0; transform: translateY(25px); transition: all 1s ease; }
+.fade-item.show { opacity: 1; transform: translateY(0); }
 
-    /* 信封蓋 */
-    .flap {
-        position: absolute; top: 0; width: 0; height: 0;
-        border-left: 160px solid transparent; border-right: 160px solid transparent;
-        border-top: 130px solid #f2ede4; /* 稍微深一點的內蓋色 */
-        transform-origin: top; transition: transform 0.8s ease; z-index: 3;
-    }
-
-    /* 擬真 MJ 封蠟 */
-    .wax-seal {
-        position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%);
-        width: 65px; height: 65px; background: #8e1e1e; border-radius: 50%; z-index: 10;
-        box-shadow: 2px 5px 15px rgba(0,0,0,0.4), inset -3px -3px 8px rgba(0,0,0,0.4); 
-        display: flex; align-items: center; justify-content: center; transition: all 0.5s;
-    }
-    .wax-seal::after { 
-        content: "MJ"; font-family: 'Monsieur La Doulaise', cursive;
-        color: rgba(255,255,255,0.3); font-size: 24px; font-weight: bold;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    }
-
-    /* 提示文字 */
-    .tap-hint {
-        position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%);
-        color: #c9a96e; letter-spacing: 3px; font-size: 0.9rem; font-family: 'Playfair Display';
-    }
-
-    /* 打開後的狀態 */
-    .open .flap { transform: rotateX(180deg); z-index: 1; }
-    .open .wax-seal { opacity: 0; transform: translateX(-50%) scale(0.5); }
-    
-    /* --- 2. 信件滑出動畫 --- */
-    .letter-card {
-        position: absolute; top: 10px; left: 10px; width: 300px; height: 200px;
-        background: #fff; z-index: 2; transition: transform 1.5s ease-in-out;
-        display: flex; align-items: center; justify-content: center; padding: 20px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .open .letter-card { transform: translateY(-180px); }
-
-    /* --- 3. 內容還原 --- */
-    #main-content { opacity: 0; visibility: hidden; }
-    #main-content.reveal { opacity: 1; visibility: visible; transition: opacity 1.5s ease; }
-    
-    .fade-item { 
-        opacity: 0; transform: translateY(30px); 
-        transition: opacity 1.2s ease, transform 1.2s ease; 
-    }
-    .fade-item.show { opacity: 1; transform: translateY(0); }
-
-    .cover{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#f5f5dc,#e8dcc4);text-align:center}
-    .welcome-text { font-family: 'Monsieur La Doulaise', cursive; font-size: 5rem; color: #8d705a; opacity: 0; transition: opacity 2s ease 0.8s; }
-    .reveal .welcome-text { opacity: 1; }
-    .cover h1{font-family:'Playfair Display', serif; font-size:clamp(2.5rem, 8vw, 3.5rem); font-weight:400; margin: 10px 0;}
-    .cover .amp{color:#c9a96e;font-style:italic}
-    .cover p{margin-top:10px;letter-spacing:0.3em;color:#888}
-
-    section{padding:80px 24px;max-width:700px;margin:0 auto;text-align:center}
-    h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#c9a96e;margin-bottom:20px}
-    .info{background:#fff;padding:30px;margin:20px 0;border:1px solid #e0d9d0}
-    iframe{width:100%;height:320px;border:1px solid #e0d9d0;margin:20px 0}
-    
-    .submit-btn {width:100%;padding:15px;background:#5d4037;color:#fff;border:none;cursor:pointer;margin-top:10px;letter-spacing:0.2em}
-    .submit-btn:hover{background:#c9a96e}
+/* 特別還原：Monsieur La Doulaise 字體 */
+.welcome-font { font-family: 'Monsieur La Doulaise', cursive; font-size: 4.5rem; color: #8d705a; display: block; }
 </style>
 </head>
 <body>
@@ -98,20 +65,14 @@
 <div id="envelope-wrapper">
     <div class="envelope" id="env" onclick="startOpen()">
         <div class="flap"></div>
-        <div class="letter-card">
-            <div style="text-align:center">
-                <p style="font-family:'Playfair Display'; font-size:12px; color:#8d705a;">You're Invited</p>
-                <p style="font-family:'Monsieur La Doulaise'; font-size:24px;">Jay & Michelle</p>
-            </div>
-        </div>
         <div class="wax-seal"></div>
-        <div class="tap-hint">TAP TO OPEN</div>
+        <p style="position:absolute; bottom:-50px; left:50%; transform:translateX(-50%); color:#c9a96e; letter-spacing:2px; font-size:12px;">TAP TO OPEN</p>
     </div>
 </div>
 
 <div id="main-content">
     <div class="cover fade-item">
-        <h1 class="welcome-text">Welcome</h1>
+        <span class="welcome-font">Welcome</span>
         <p style="font-size:0.85rem;letter-spacing:0.35em;color:#c9a96e;margin-bottom:18px">WE'RE GETTING MARRIED</p>
         <h1>Jay <span class="amp">&</span> Michelle</h1>
         <p>2026·06·20</p>
@@ -143,24 +104,24 @@
 
     <section class="fade-item">
         <h2>婚宴地點</h2>
-        <iframe src="https://maps.app.goo.gl/TWhkYyv9W67D78uG71" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-        <a href="https://maps.app.goo.gl/TWhkYyv9W67D78uG72" target="_blank" style="display:inline-block;margin-top:15px;padding:10px 25px;border:1px solid #c9a96e;color:#c9a96e;text-decoration:none;letter-spacing:0.2em">開啟 Google 地圖</a>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m12.355!17.15!" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <a href="https://maps.app.goo.gl/..." target="_blank" style="display:inline-block;margin-top:15px;padding:10px 25px;border:1px solid #c9a96e;color:#c9a96e;text-decoration:none;letter-spacing:0.2em">開啟 Google 地圖</a>
     </section>
 
     <section style="background:#fff;max-width:100%;padding:80px 24px" class="fade-item">
         <div style="max-width:480px;margin:0 auto">
             <h2>出席回覆</h2>
             <form id="rsvpForm" style="margin-top:30px">
-                <input type="text" placeholder="您的姓名" style="width:100%;padding:12px;margin:8px 0;border:1px solid #e0d9d0;background:#faf8f5" required>
-                <select required style="width:100%;padding:12px;margin:8px 0;border:1px solid #e0d9d0;background:#faf8f5">
+                <input type="text" placeholder="您的姓名" required>
+                <select required>
                     <option value="">選擇人數</option>
                     <option>1位</option><option>2位</option><option>3位</option><option>4位</option><option>5位以上</option>
                 </select>
                 <div style="display:flex;gap:10px;margin:10px 0">
-                    <button type="button" style="flex:1;padding:15px;background:#c9a96e;color:white;border:none;cursor:pointer;" onclick="this.style.background='#c9a96e';this.nextElementSibling.style.background='#ccc'">我會出席</button>
-                    <button type="button" style="flex:1;padding:15px;background:#ccc;color:white;border:none;cursor:pointer;" onclick="this.style.background='#c9a96e';this.previousElementSibling.style.background='#ccc'">無法出席</button>
+                    <button type="button" style="background:#c9a96e" onclick="this.style.background='#c9a96e';this.nextElementSibling.style.background='#ccc'">我會出席</button>
+                    <button type="button" style="background:#ccc" onclick="this.style.background='#c9a96e';this.previousElementSibling.style.background='#ccc'">無法出席</button>
                 </div>
-                <button type="submit" class="submit-btn">送出回覆</button>
+                <button type="submit">送出回覆</button>
             </form>
             <p id="msg" style="display:none;margin-top:20px;color:#c9a96e;font-size:1.2rem">感謝您的回覆！</p>
         </div>
@@ -176,23 +137,21 @@
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
+    // 啟動信封與場景轉換
     function startOpen() {
-        const env = document.getElementById('env');
-        env.classList.add('open');
-        
-        // 1.5秒後信封淡出，主內容淡入
+        document.getElementById('env').classList.add('open');
         setTimeout(() => {
             document.getElementById('envelope-wrapper').style.opacity = '0';
             document.getElementById('main-content').classList.add('reveal');
             document.body.style.overflow = 'auto';
-            handleScroll(); 
-        }, 1800);
-
+            handleScroll();
+        }, 1500);
         setTimeout(() => {
             document.getElementById('envelope-wrapper').style.display = 'none';
-        }, 3300);
+        }, 2700);
     }
 
+    // 滾動偵測淡入
     function handleScroll() {
         const items = document.querySelectorAll('.fade-item');
         items.forEach(item => {
@@ -204,8 +163,13 @@
     }
 
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('load', () => { window.scrollTo(0,0); });
+    document.getElementById('rsvpForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        this.style.display='none';
+        document.getElementById('msg').style.display='block';
+    });
 
+    // YouTube 原本邏輯還原
     var player;
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('player', {
