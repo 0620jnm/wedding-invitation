@@ -1,165 +1,347 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jay & Michelle Wedding</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Playfair+Display:ital,wght@0,400;1,400&family=Noto+Serif+TC:wght@300;400&family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
-<style>
-    /* --- 1. 核心樣式 --- */
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c;overflow-x:hidden}
-    
-    .cover{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#fdfbf7,#f5f0e6);text-align:center}
-    .cover h1{font-family:'Playfair Display', serif;font-size:clamp(3rem,10vw,5.5rem);font-weight:300}
-    
-    /* 指定色號 #C9A466 */
-    .highlight-gold { color: #C9A466 !important; }
-    .cover .amp{font-style:italic}
-    
-    .cover p{margin-top:20px;letter-spacing:0.3em;color:#888}
-    
-    section{padding:80px 24px;max-width:700px;margin:0 auto;text-align:center}
-    h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A466;margin-bottom:20px}
-    
-    .info{background:#fff;padding:30px;margin:20px 0;border:1px solid #e0d9d0; border-radius: 12px;}
-    iframe{width:100%;height:320px;border:none;margin:20px 0; border-radius: 15px; display: block; background:#eee;}
-    input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #e0d9d0;background:#faf8f5; border-radius: 8px;}
-    
-    .map-btn {
-        display:inline-block; margin-top:15px; padding:12px 30px; 
-        background:#362e2b; color:#ffffff; 
-        text-decoration:none; letter-spacing:0.2em; border-radius: 25px;
-        transition: background 0.3s;
-    }
-    .map-btn:hover { background: #5d4037; }
 
-    /* --- 2. 全文字與元素淡入特效 --- */
-    /* 初始狀態直接顯示 main-content */
-    #main-content { opacity: 1; visibility: visible; }
-    
-    h1, h2, h3, p, .info, form, iframe, .map-btn { 
-        opacity: 0; transform: translateY(20px); 
-        transition: opacity 1.2s ease-out, transform 1.2s ease-out; 
-    }
-    /* 啟動顯示類別 */
-    .show { opacity: 1 !important; transform: translateY(0) !important; }
+<html lang="zh-TW">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Jay & Michelle Wedding</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c}
+
+.cover{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#f5f5dc,#e8dcc4);text-align:center}
+
+.cover h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,10vw,5.5rem);font-weight:300}
+
+.cover .amp{color:#c9a96e;font-style:italic}
+
+.cover p{margin-top:20px;letter-spacing:0.3em;color:#888}
+
+section{padding:80px 24px;max-width:700px;margin:0 auto;text-align:center}
+
+h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#c9a96e;margin-bottom:20px}
+
+.info{background:#fff;padding:30px;margin:20px 0;border:1px solid #e0d9d0}
+
+iframe{width:100%;height:320px;border:1px solid #e0d9d0;margin:20px 0}
+
+input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #e0d9d0;background:#faf8f5}
+
+button{width:100%;padding:15px;background:#2c2c2c;color:#fff;border:none;cursor:pointer;margin-top:10px;letter-spacing:0.2em}
+
+button:hover{background:#c9a96e}
+
 </style>
+
 </head>
+
 <body>
 
-<div id="main-content">
-    <div class="cover">
-        <p class="highlight-gold" style="font-size:0.85rem;letter-spacing:0.35em;margin-bottom:18px">WE'RE GETTING MARRIED</p>
-        
-        <h1>Jay <span class="amp highlight-gold">&</span> Michelle</h1>
-        
-        <p class="highlight-gold">2026·06·20</p>
-    </div>
 
-    <section>
-        <h2>誠摯邀請您</h2>
-        <p style="line-height:2">我們誠摯邀請您，一同見證我們的幸福時刻，分享這份喜悅與愛。<br><br>
-        愛情是一段奇妙的旅程，而今天，我們即將啟航人生新的篇章。<br>
-        謝謝你一直以來的支持與陪伴，你的到來將使這個特別的日子更加完美。<br>
-        讓我們一同見證這份美好，共享這份喜悅，期待與你共度這難忘的時刻。</p>
-    </section>
 
-    <section>
-        <h2>Wedding Info</h2>
-        <div class="info">
-            <h3 class="highlight-gold" style="font-size:0.8rem;letter-spacing:0.3em;margin-bottom:10px">日期</h3>
-            <p style="font-size:1.5rem">2026年6月20日</p>
-        </div>
-        <div class="info">
-            <h3 class="highlight-gold" style="font-size:0.8rem;letter-spacing:0.3em;margin-bottom:10px;">時間</h3>
-            <p>10:00 賓客入場<br>11:00 證婚儀式<br>12:00 準時開席</p>  
-        </div>
-        <div class="info">
-            <h3 class="highlight-gold" style="font-size:0.8rem;letter-spacing:0.3em;margin-bottom:10px">地點</h3>
-            <p>暖居日穀<br>台中市北屯區松竹路一段3號</p>
-        </div>
-    </section>
+<div class="cover">
 
-    <section>
-        <h2>婚宴地點</h2>
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.467406691461!2d120.70617327608588!3d24.172861278385287!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e742886f4b%3A0xb353043272990666!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000!5m2!1szh-TW!2stw" 
-            allowfullscreen="" loading="lazy"></iframe>
-        <a href="https://maps.app.goo.gl/YyR9YmYvN8f7y7x7" target="_blank" class="map-btn">開啟 Google 地圖</a>
-    </section>
+<p style="font-size:0.85rem;letter-spacing:0.35em;color:#c9a96e;margin-bottom:18px">WE'RE GETTING MARRIED</p>
 
-    <section style="background:#fff;max-width:100%;padding:80px 24px">
-        <div style="max-width:480px;margin:0 auto">
-            <h2>出席回覆</h2>
-            <form id="rsvpForm" style="margin-top:30px">
-                <input type="text" placeholder="您的姓名" style="width:100%;padding:12px;margin:8px 0;border:1px solid #e0d9d0;background:#faf8f5; border-radius: 8px;" required>
-                <select required style="width:100%;padding:12px;margin:8px 0;border:1px solid #e0d9d0;background:#faf8f5; border-radius: 8px;">
-                    <option value="">選擇人數</option>
-                    <option>1位</option><option>2位</option><option>3位</option><option>4位</option><option>5位以上</option>
-                </select>
-                <div style="display:flex;gap:10px;margin:10px 0">
-                    <button type="button" style="background:#C9A466; flex:1; border-radius: 8px; color:white; border:none; padding:15px; cursor:pointer;" onclick="this.style.background='#C9A466';this.nextElementSibling.style.background='#ccc'">我會出席</button>
-                    <button type="button" style="background:#ccc; flex:1; border-radius: 8px; color:white; border:none; padding:15px; cursor:pointer;" onclick="this.style.background='#C9A466';this.previousElementSibling.style.background='#ccc'">無法出席</button>
-                </div>
-                <button type="submit" style="width:100%;padding:15px;background:#362e2b;color:#fff;border:none;cursor:pointer;margin-top:10px;letter-spacing:0.2em; border-radius: 8px;">送出回覆</button>
-            </form>
-            <p id="msg" style="display:none;margin-top:20px;color:#C9A466;font-size:1.2rem">感謝您的回覆！</p>
-        </div>
-    </section>
+<h1>Jay <span class="amp">&</span> Michelle</h1>
 
-    <footer style="text-align:center;padding:60px 24px;font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-style:italic;color:#C9A466">
-        See You Soon
-    </footer>
+<p>2026·06·20</p>
+
 </div>
 
+
+
+<section>
+
+<h2>誠摯邀請您</h2>
+
+<p style="line-height:2">我們誠摯邀請您，一同見證我們的幸福時刻，分享這份喜悅與愛。
+
+<br><br>
+
+愛情是一段奇妙的旅程，而今天，我們即將啟航人生新的篇章。<br>
+
+謝謝你一直以來的支持與陷伴，你的到來將使這個特別的日子更加完美。<br>
+
+讓我們一同見證這份美好，共享這份喜悅，
+
+期待與你共度這難忘的時刻。
+
+</p>63
+
+  
+
+</section>
+
+
+
+<section>
+
+<h2>40
+
+</h2>
+
+<div class="info">
+
+<h3 style="color:#c9a96e;font-size:0.8rem;letter-spacing:0.3em;margin-bottom:10px">日期</h3>
+
+<p style="font-size:1.5rem">2026年6月20日</p>
+
+</div>
+
+<div class="info">
+
+<h3 style="color:#c9a96e;font-size:0.8rem;letter-spacing:0.3em;margin-bottom:10px;">時間</h3>
+
+<p>10:00 賓客入場<br>11:00 證婚儀式<br>12:00 準時開席</p>  
+
+</div>
+
+<div class="info">
+
+<h3 style="color:#c9a96e;font-size:0.8rem;letter-spacing:0.3em;margin-bottom:10px">地點</h3>
+
+<p>暖居日穀<br>台中市北屯區松竹路一段3號</p>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<h2>婚宴地點</h2>
+
+<63
+
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.9095592137087!2d120.7299703!3d24.1749044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1772992560371!5m2!1szh-TW!2stw" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
+
+<a href="https://maps.google.com/?q=暖居日穀,台中市北屯區松竹路一段3號" target="_blank" style="display:inline-block;margin-top:15px;padding:10px 25px;border:1px solid #c9a96e;color:#c9a96e;text-decoration:none;letter-spacing:0.2em">開啟 Google 地圖</a>
+
+</section>
+
+
+
+<section style="background:#fff;max-width:100%;padding:80px 24px">
+
+<div style="max-width:480px;margin:0 auto">
+
+<h2>出席回覆</h2>
+
+<form id="rsvpForm" style="margin-top:30px">
+
+<input type="text" placeholder="您的姓名" required>
+
+<select required>
+
+<option value="">選擇人數</option>
+
+<option>1位</option>
+
+<option>2位</option>
+
+<option>3位</option>
+
+<option>4位</option>
+
+<option>5位以上</option>
+
+</select>
+
+<div style="display:flex;gap:10px;margin:10px 0">
+
+<button type="button" style="background:#c9a96e" onclick="this.style.background='#c9a96e';this.nextElementSibling.style.background='#ccc'">我會出席</button>
+
+<button type="button" style="background:#ccc" onclick="this.style.background='#c9a96e';this.previousElementSibling.style.background='#ccc'">無法出席</button>
+
+</div>
+
+<button type="submit">送出回覆</button>
+
+</form>
+
+<p id="msg" style="display:none;margin-top:20px;color:#c9a96e;font-size:1.2rem">感謝您的回覆！</p>
+
+</div>
+
+</section>
+
+
+
+<footer style="text-align:center;padding:60px 24px;font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-style:italic;color:#c9a96e">
+
+See You Soon
+
+</footer>
+
+
+
+<script>
+
+document.getElementById('rsvpForm').addEventListener('submit',function(e){
+
+e.preventDefault();
+
+this.style.display='none';
+
+document.getElementById('msg').style.display='block';
+
+});
+
+</script>
+
+
+
+  <!-- YouTube背景音樂 -->
+
 <div id="player" style="position:fixed;top:-9999px;left:-9999px;"></div>
-<button id="musicToggle" style="position:fixed;bottom:20px;right:20px;width:50px;height:50px;border-radius:50%;background:#C9A466;border:none;color:white;font-size:24px;cursor:pointer;z-index:9999;box-shadow:0 2px 10px rgba(0,0,0,0.3);">▶</button>
+
+
+
+<!-- 播放/暫停按鈕 -->
+
+<button id="musicToggle" style="position:fixed;bottom:20px;right:20px;width:50px;height:50px;border-radius:50%;background:#c9a96e;border:none;color:white;font-size:24px;cursor:pointer;z-index:9999;box-shadow:0 2px 10px rgba(0,0,0,0.3);">▶</button>
+
+
+
+<!-- YouTube IFrame Player API -->
 
 <script src="https://www.youtube.com/iframe_api"></script>
+
+
+
 <script>
-    // 頁面加載後啟動淡入
-    window.onload = function() {
-        handleScroll();
-    };
 
-    function handleScroll() {
-        const tags = ['h1', 'h2', 'h3', 'p', '.info', 'form', 'iframe', '.map-btn'];
-        tags.forEach(selector => {
-            const elements = document.querySelectorAll(selector);
-            elements.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.9) {
-                    el.classList.add('show');
-                }
-            });
-        });
+var player;
+
+var isPlaying = false;
+
+var toggleBtn = document.getElementById('musicToggle');
+
+
+
+// YouTube API 準備就緒時自動調用
+
+function onYouTubeIframeAPIReady() {
+
+  player = new YT.Player('player', {
+
+    height: '360',
+
+    width: '640',
+
+    videoId: 'pmrCXt4lNyA', // 你的YouTube影片ID
+
+    playerVars: {
+
+      'autoplay': 1,
+
+      'loop': 1,
+
+      'playlist': 'pmrCXt4lNyA', // 循環播放需要
+
+      'controls': 0,
+
+      'showinfo': 0,
+
+      'rel': 0,
+
+      'modestbranding': 1
+
+    },
+
+    events: {
+
+      'onReady': onPlayerReady,
+
+      'onStateChange': onPlayerStateChange
+
     }
 
-    window.addEventListener('scroll', handleScroll);
-    document.getElementById('rsvpForm').addEventListener('submit', function(e){
-        e.preventDefault();
-        this.style.display='none';
-        document.getElementById('msg').style.display='block';
-        document.getElementById('msg').classList.add('show');
-    });
+  });
 
-    var player;
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-            videoId: 'pmrCXt4lNyA',
-            playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0 },
-            events: {
-                'onReady': (e) => { e.target.setVolume(30); },
-                'onStateChange': (e) => {
-                    document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '⏸' : '▶';
-                }
-            }
-        });
+}
+
+
+
+// 播放器準備就緒
+
+function onPlayerReady(event) {
+
+  event.target.setVolume(30); // 設定音量 30%
+
+  event.target.playVideo();
+
+  isPlaying = true;
+
+  toggleBtn.innerHTML = '⏸';
+
+}
+
+
+
+// 播放狀態改變
+
+function onPlayerStateChange(event) {
+
+  if (event.data == YT.PlayerState.PLAYING) {
+
+    isPlaying = true;
+
+    toggleBtn.innerHTML = '⏸';
+
+  } else if (event.data == YT.PlayerState.PAUSED) {
+
+    isPlaying = false;
+
+    toggleBtn.innerHTML = '▶';
+
+  }
+
+}
+
+
+
+// 按鈕點擊事件
+
+toggleBtn.addEventListener('click', function() {
+
+  if (player && player.getPlayerState) {
+
+    if (isPlaying) {
+
+      player.pauseVideo();
+
+    } else {
+
+      player.playVideo();
+
     }
-    document.getElementById('musicToggle').addEventListener('click', function() {
-        if (player) player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
-    });
+
+  }
+
+});
+
 </script>
+
+
+
+
+
+  
+
 </body>
+
 </html>
