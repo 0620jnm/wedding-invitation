@@ -1,131 +1,139 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jay & Michelle Wedding</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Noto+Serif+TC:wght@300&display=swap" rel="stylesheet">
-<style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Noto Serif TC', serif; background: #faf8f5; overflow-x: hidden; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jay & Michelle's Wedding</title>
+    <link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Playfair+Display:ital,wght@0,400;1,400&family=Noto+Serif+TC:wght@300&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Serif TC', serif; background-color: #faf8f5; color: #333; overflow-x: hidden; }
 
-    /* --- 1. 背景與信封 --- */
-    #envelope-wrapper {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-        background: #362e2b; /* 深色背景 */
-        display: flex; align-items: center; justify-content: center;
-        z-index: 10000; transition: opacity 1s ease;
-    }
+        /* --- 1. 信封開場區 (還原深色背景) --- */
+        #envelope-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: #362e2b; display: flex; align-items: center; justify-content: center;
+            z-index: 10000; transition: opacity 1s ease;
+        }
+        .envelope {
+            position: relative; width: 300px; height: 200px;
+            background: #e6d8c3; border-radius: 5px; cursor: pointer;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        .flap {
+            position: absolute; top: 0; width: 0; height: 0;
+            border-left: 150px solid transparent; border-right: 150px solid transparent;
+            border-top: 120px solid #d4c3ab; transform-origin: top; transition: transform 0.8s ease; z-index: 3;
+        }
+        .wax-seal {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            width: 50px; height: 50px; background: #8e1e1e; border-radius: 50%; z-index: 10;
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; transition: opacity 0.5s;
+        }
+        .wax-seal::after { content: "J&M"; color: rgba(255,255,255,0.4); font-size: 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; padding: 3px; }
+        
+        .open .flap { transform: rotateX(180deg); z-index: 1; }
+        .open .wax-seal { opacity: 0; }
 
-    .envelope {
-        position: relative; width: 300px; height: 200px;
-        background: #e6d8c3; border-radius: 5px; cursor: pointer;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-    }
+        /* --- 2. 全站淡入動畫設定 --- */
+        #main-content { opacity: 0; }
+        #main-content.reveal { opacity: 1; transition: opacity 1.5s ease; }
+        
+        /* 每個區塊的淡入效果 */
+        .fade-item { 
+            opacity: 0; transform: translateY(30px); 
+            transition: opacity 1.2s ease, transform 1.2s ease; 
+        }
+        .fade-item.show { opacity: 1; transform: translateY(0); }
 
-    /* 信封蓋 */
-    .flap {
-        position: absolute; top: 0; width: 0; height: 0;
-        border-left: 150px solid transparent;
-        border-right: 150px solid transparent;
-        border-top: 120px solid #d4c3ab;
-        transform-origin: top; transition: transform 0.8s ease;
-        z-index: 3;
-    }
+        /* --- 3. 內容風格還原 --- */
+        .cover { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        
+        /* 標題一：Monsieur La Doulaise (最後淡入) */
+        .welcome-title { 
+            font-family: 'Monsieur La Doulaise', cursive; 
+            font-size: 5rem; color: #8d705a; margin-bottom: -10px;
+            opacity: 0; transition: opacity 2s ease 0.5s; /* 增加延遲讓它最後出現 */
+        }
+        .reveal .welcome-title { opacity: 1; }
 
-    /* --- 2. 擬真封蠟 (純CSS) --- */
-    .wax-seal {
-        position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-        width: 50px; height: 50px; background: #8e1e1e;
-        border-radius: 50%; z-index: 10;
-        box-shadow: 2px 4px 10px rgba(0,0,0,0.4), inset -2px -2px 5px rgba(0,0,0,0.3);
-        display: flex; align-items: center; justify-content: center;
-        transition: opacity 0.5s ease;
-    }
-    .wax-seal::after { content: "J&M"; color: rgba(255,255,255,0.4); font-size: 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; padding: 3px; }
+        /* 標題二：Playfair Display */
+        .wedding-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin: 20px 0; letter-spacing: 2px; }
+        
+        section { padding: 60px 20px; text-align: center; max-width: 800px; margin: 0 auto; }
+        
+        /* 還原褐色底白色文字 (多選下載樣式) */
+        .download-btn-style {
+            background-color: #5d4037; /* 褐色 */
+            color: #ffffff !important;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
 
-    /* --- 3. 乾燥花 (純CSS) --- */
-    .dried-flower {
-        position: absolute; bottom: 55px; left: 50%; width: 2px; height: 60px;
-        background: #5d6d4e; transform: translateX(-50%) rotate(-15deg);
-        z-index: 9; transition: opacity 0.5s ease;
-    }
-    .dried-flower::before {
-        content: ""; position: absolute; top: 5px; left: 3px;
-        width: 10px; height: 15px; background: #7a8a68; border-radius: 50% 0; transform: rotate(45deg);
-    }
-
-    /* 動態狀態 */
-    .open .flap { transform: rotateX(180deg); z-index: 1; }
-    .open .wax-seal, .open .dried-flower { opacity: 0; }
-
-    /* --- 4. 全站物件淡入效果 --- */
-    #main-content { opacity: 0; }
-    #main-content.reveal { opacity: 1; transition: opacity 1.5s ease; }
-
-    .fade-item { 
-        opacity: 0; transform: translateY(30px); 
-        transition: all 1s ease; 
-    }
-    .fade-item.show { opacity: 1; transform: translateY(0); }
-
-    /* 內容樣式 */
-    .cover { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-    .cover h1 { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; margin: 20px 0; }
-    section { padding: 80px 20px; text-align: center; max-width: 600px; margin: 0 auto; }
-</style>
+        .info-section { margin: 40px 0; line-height: 2; }
+        .map-container { margin-top: 30px; border-radius: 15px; overflow: hidden; border: 1px solid #ddd; }
+    </style>
 </head>
 <body>
 
 <div id="envelope-wrapper">
     <div class="envelope" id="env" onclick="startReveal()">
         <div class="flap"></div>
-        <div class="dried-flower"></div>
         <div class="wax-seal"></div>
     </div>
 </div>
 
 <div id="main-content">
     <div class="cover fade-item">
-        <p style="letter-spacing:5px; color:#c9a96e;">INVITATION</p>
-        <h1>Jay & Michelle</h1>
-        <p>2026.06.20</p>
+        <h1 class="welcome-title">Welcome</h1>
+        <h2 class="wedding-title">Jay & Michelle's Wedding</h2>
+        <p style="letter-spacing: 5px; color: #888;">2026.06.20</p>
     </div>
 
     <section class="fade-item">
-        <h2 style="color:#c9a96e; margin-bottom:20px;">關於這一天</h2>
-        <p>誠摯邀請您參與我們的婚禮。<br>期待在那裡見到您。</p>
+        <div class="info-section">
+            <h3 style="color: #8d705a; margin-bottom: 15px;">關於這一天</h3>
+            <p>誠摯邀請您參與我們的婚禮<br>您的到來將是我們最大的榮幸</p>
+        </div>
+        
+        <div class="info-section">
+            <p style="margin-bottom: 15px;">照片分享與下載</p>
+            <a href="#" class="download-btn-style">多選下載照片</a>
+        </div>
     </section>
 
     <section class="fade-item">
-        <div style="background:white; padding:40px; border-radius:20px;">
-            <p>地點：暖居日穀</p>
-            <p>地址：台中市北屯區松竹路一段3號</p>
+        <div class="info-section">
+            <h3 style="color: #8d705a;">婚禮地點</h3>
+            <p>暖居日穀</p>
+            <p style="font-size: 0.9rem; color: #666;">台中市北屯區松竹路一段3號</p>
+        </div>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m13!1d3639.423456789!2d120.7061!3d24.1789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e753457193%3A0x6b2e3d3f5f3e5f3e!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
     </section>
 </div>
 
 <script>
-    // 點擊打開信封
     function startReveal() {
         document.getElementById('env').classList.add('open');
         
-        // 延遲顯示內容
         setTimeout(() => {
             document.getElementById('envelope-wrapper').style.opacity = '0';
             document.getElementById('main-content').classList.add('reveal');
             document.body.style.overflow = 'auto';
             
-            // 觸發第一個物件淡入
+            // 觸發滾動偵測
             handleScroll(); 
-        }, 1200);
+        }, 1000);
 
         setTimeout(() => {
             document.getElementById('envelope-wrapper').style.display = 'none';
         }, 2500);
     }
 
-    // 淡入淡出滾動偵測
     function handleScroll() {
         const items = document.querySelectorAll('.fade-item');
         items.forEach(item => {
@@ -137,7 +145,6 @@
     }
 
     window.addEventListener('scroll', handleScroll);
-    // 初始化一次
     window.addEventListener('load', () => { window.scrollTo(0,0); });
 </script>
 
