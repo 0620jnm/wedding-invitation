@@ -9,7 +9,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Noto Serif TC', serif; background-color: #faf8f5; color: #333; overflow-x: hidden; }
 
-        /* --- 1. 信封開場區 (還原深色背景) --- */
+        /* --- 1. 信封開場 CSS (不變) --- */
         #envelope-wrapper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: #362e2b; display: flex; align-items: center; justify-content: center;
@@ -28,51 +28,41 @@
         .wax-seal {
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
             width: 50px; height: 50px; background: #8e1e1e; border-radius: 50%; z-index: 10;
-            box-shadow: 2px 4px 10px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; transition: opacity 0.5s;
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;
         }
         .wax-seal::after { content: "J&M"; color: rgba(255,255,255,0.4); font-size: 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; padding: 3px; }
-        
         .open .flap { transform: rotateX(180deg); z-index: 1; }
-        .open .wax-seal { opacity: 0; }
+        .open .wax-seal { opacity: 0; transition: opacity 0.5s; }
 
-        /* --- 2. 全站淡入動畫設定 --- */
-        #main-content { opacity: 0; }
-        #main-content.reveal { opacity: 1; transition: opacity 1.5s ease; }
+        /* --- 2. 淡入動畫 CSS --- */
+        #main-content { opacity: 0; visibility: hidden; }
+        #main-content.reveal { opacity: 1; visibility: visible; transition: opacity 1.5s ease; }
         
-        /* 每個區塊的淡入效果 */
         .fade-item { 
             opacity: 0; transform: translateY(30px); 
             transition: opacity 1.2s ease, transform 1.2s ease; 
         }
         .fade-item.show { opacity: 1; transform: translateY(0); }
 
-        /* --- 3. 內容風格還原 --- */
+        /* --- 3. 還原你的原本內容樣式 --- */
         .cover { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        
-        /* 標題一：Monsieur La Doulaise (最後淡入) */
         .welcome-title { 
-            font-family: 'Monsieur La Doulaise', cursive; 
-            font-size: 5rem; color: #8d705a; margin-bottom: -10px;
-            opacity: 0; transition: opacity 2s ease 0.5s; /* 增加延遲讓它最後出現 */
+            font-family: 'Monsieur La Doulaise', cursive; font-size: 5rem; color: #8d705a; 
+            opacity: 0; transition: opacity 2s ease 0.6s; /* 確保最後才出現 */
         }
         .reveal .welcome-title { opacity: 1; }
-
-        /* 標題二：Playfair Display */
-        .wedding-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin: 20px 0; letter-spacing: 2px; }
+        .wedding-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin: 10px 0; }
         
-        section { padding: 60px 20px; text-align: center; max-width: 800px; margin: 0 auto; }
+        section { padding: 40px 20px; text-align: center; max-width: 800px; margin: 0 auto; }
         
-        /* 還原褐色底白色文字 (多選下載樣式) */
-        .download-btn-style {
-            background-color: #5d4037; /* 褐色 */
-            color: #ffffff !important;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            display: inline-block;
+        /* 褐色底白色文字 */
+        .download-btn {
+            background-color: #5d4037 !important; color: #ffffff !important;
+            padding: 10px 20px; border-radius: 5px; text-decoration: none; display: inline-block; border: none; cursor: pointer;
         }
 
-        .info-section { margin: 40px 0; line-height: 2; }
+        .upload-section { margin-top: 30px; padding: 20px; border: 1px dashed #ccc; border-radius: 10px; }
+        .progress-bar { width: 0%; height: 5px; background: #8d705a; margin-top: 10px; transition: width 0.3s; }
         .map-container { margin-top: 30px; border-radius: 15px; overflow: hidden; border: 1px solid #ddd; }
     </style>
 </head>
@@ -89,60 +79,69 @@
     <div class="cover fade-item">
         <h1 class="welcome-title">Welcome</h1>
         <h2 class="wedding-title">Jay & Michelle's Wedding</h2>
-        <p style="letter-spacing: 5px; color: #888;">2026.06.20</p>
+        <p>2026.06.20</p>
     </div>
 
     <section class="fade-item">
-        <div class="info-section">
-            <h3 style="color: #8d705a; margin-bottom: 15px;">關於這一天</h3>
-            <p>誠摯邀請您參與我們的婚禮<br>您的到來將是我們最大的榮幸</p>
+        <h3 style="color: #8d705a;">分享您的喜悅</h3>
+        <p>請上傳您拍下的照片，與我們分享這個瞬間</p>
+        
+        <div class="upload-section">
+            <input type="file" id="photo-input" multiple accept="image/*" style="display:none">
+            <button onclick="document.getElementById('photo-input').click()" class="download-btn">選擇照片</button>
+            <div id="progress-container" style="display:none;">
+                <div class="progress-bar" id="bar"></div>
+                <p id="upload-status">準備上傳...</p>
+            </div>
         </div>
         
-        <div class="info-section">
-            <p style="margin-bottom: 15px;">照片分享與下載</p>
-            <a href="#" class="download-btn-style">多選下載照片</a>
+        <div style="margin-top: 30px;">
+            <button class="download-btn" id="multi-download">多選下載照片</button>
         </div>
     </section>
 
     <section class="fade-item">
-        <div class="info-section">
-            <h3 style="color: #8d705a;">婚禮地點</h3>
-            <p>暖居日穀</p>
-            <p style="font-size: 0.9rem; color: #666;">台中市北屯區松竹路一段3號</p>
-        </div>
+        <h3 style="color: #8d705a;">婚禮地點</h3>
+        <p>暖居日穀</p>
+        <p style="font-size: 0.9rem; color: #666;">台中市北屯區松竹路一段3號</p>
         <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m13!1d3639.423456789!2d120.7061!3d24.1789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e753457193%3A0x6b2e3d3f5f3e5f3e!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.423985552345!2d120.70617357593537!3d24.19192997230419!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e928236209%3A0xc6c768677f50a8b4!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000!5m2!1szh-TW!2stw" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
     </section>
 </div>
 
 <script>
+    // 1. 信封啟動腳本
     function startReveal() {
         document.getElementById('env').classList.add('open');
-        
         setTimeout(() => {
             document.getElementById('envelope-wrapper').style.opacity = '0';
             document.getElementById('main-content').classList.add('reveal');
             document.body.style.overflow = 'auto';
-            
-            // 觸發滾動偵測
-            handleScroll(); 
+            handleScroll(); // 觸發首屏淡入
         }, 1000);
-
         setTimeout(() => {
             document.getElementById('envelope-wrapper').style.display = 'none';
         }, 2500);
     }
 
+    // 2. 滾動淡入腳本
     function handleScroll() {
         const items = document.querySelectorAll('.fade-item');
         items.forEach(item => {
             const rect = item.getBoundingClientRect();
-            if (rect.top < window.innerHeight * 0.85) {
+            if (rect.top < window.innerHeight * 0.9) {
                 item.classList.add('show');
             }
         });
     }
+
+    // 3. 原有的上傳邏輯 (範例預留位置)
+    document.getElementById('photo-input')?.addEventListener('change', function(e) {
+        document.getElementById('progress-container').style.display = 'block';
+        // 這裡請保留你原本處理 Google Drive 上傳的 Google Apps Script 呼叫代碼
+        console.log("開始上傳照片...");
+    });
 
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('load', () => { window.scrollTo(0,0); });
