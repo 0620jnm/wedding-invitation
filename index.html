@@ -4,145 +4,162 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jay & Michelle Wedding</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Playfair+Display:ital,wght@0,400;1,400&family=Noto+Serif+TC:wght@300;400&family=Monsieur+La+Doulaise&family=Gwendolyn:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Playfair+Display:ital,wght@0,400;1,400&family=Noto+Serif+TC:wght@300;400&family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
 <style>
-    /* --- 1. 色號與樣式系統 --- */
-    :root {
-        --color-gold: #C9A466;    /* 金棕色 */
-        --color-beige: #EBDDB5;   /* 淺米色 */
-        --color-cream: #F7F6ED;   /* 奶油底色 */
-        --color-light-green: #DDE7A9; /* 淺草綠 */
-        --color-moss: #A6A35D;    /* 苔蘚綠 */
-        --color-dark: #362e2b;    /* 深褐色 */
-    }
-
+    /* --- 1. 核心樣式 --- */
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Noto Serif TC',serif;background: var(--color-cream); color: var(--color-dark); overflow-x:hidden}
+    body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c;overflow-x:hidden}
     
-    /* --- 2. 💎 首頁底色調整：波浪流動立體感區塊 --- */
-    .cover {
-        height:100vh;
-        display:flex; flex-direction:column; align-items:center; justify-content:center;
-        text-align:center; padding: 20px;
-        
-        /* 💎 方案一：使用生成圖片作背景 */
-        /* background-image: url('YOUR_IMAGE_URL_HERE'); */
-        /* background-size: cover; */
-        /* background-position: center; */
-        
-        /* 💎 方案二：使用代碼模擬 (目前版本) */
-        background-color: var(--color-cream);
-        position: relative;
-    }
-
-    /* --- 標題藝術美感 --- */
-    .wedding-title {
-        display: flex; align-items: baseline; justify-content: center; gap: 12px; margin: 24px 0;
-        font-family: 'Playfair Display', serif;
-    }
-    .name-j { font-size: clamp(3.5rem, 12vw, 6rem); color: var(--color-dark); font-weight: 300; }
-    .name-m { font-size: clamp(2.8rem, 10vw, 5rem); color: var(--color-moss); font-weight: 300; } /* 色號 #A6A35D */
-    .amp { 
-        font-family: 'Gwendolyn', cursive; /* 指定字體 */
-        font-size: 3rem; color: var(--color-gold); 
-        transform: translateY(-8px); font-weight: 700;
-    }
-
-    section{padding:100px 24px; max-width:700px; margin:0 auto; text-align:center}
-    h2{font-family:'Cormorant Garamond',serif; font-size:2.2rem; color: var(--color-gold); margin-bottom:24px; letter-spacing: 0.15em;}
+    .cover{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#fdfbf7,#f5f0e6);text-align:center}
+    .cover h1{font-family:'Playfair Display', serif;font-size:clamp(3rem,10vw,5.5rem);font-weight:300}
     
-    /* 資訊卡片配色協調 */
-    .info-card {
-        background: var(--color-beige); padding:40px 30px; margin:20px 0; 
-        border: 1px solid var(--color-light-green); border-radius: 12px;
-    }
-    .info-card h3 { color: var(--color-moss); font-size: 0.9rem; letter-spacing: 0.4em; margin-bottom: 12px; }
+    /* 指定色號 #C9A466 */
+    .highlight-gold { color: #C9A466 !important; }
+    .cover .amp{font-style:italic}
     
-    iframe{width:100%; height:350px; border:none; margin:24px 0; border-radius: 15px; background: var(--color-light-green);}
+    .cover p{margin-top:20px;letter-spacing:0.3em;color:#888}
     
-    /* 深色導航按鈕 */
-    .btn-main {
-        display:inline-block; padding:14px 40px; background: var(--color-moss); color: white;
-        text-decoration:none; border-radius: 30px; transition: 0.3s; border: none; cursor: pointer;
+    section{padding:80px 24px;max-width:700px;margin:0 auto;text-align:center}
+    h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A466;margin-bottom:20px}
+    
+    .info{background:#fff;padding:30px;margin:20px 0;border:1px solid #e0d9d0; border-radius: 12px;}
+    iframe{width:100%;height:320px;border:none;margin:20px 0; border-radius: 15px; display: block; background:#eee;}
+    input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #e0d9d0;background:#faf8f5; border-radius: 8px;}
+    
+    .map-btn {
+        display:inline-block; margin-top:15px; padding:12px 30px; 
+        background:#362e2b; color:#ffffff; 
+        text-decoration:none; letter-spacing:0.2em; border-radius: 25px;
+        transition: background 0.3s;
     }
-    .btn-main:hover { background: var(--color-gold); transform: translateY(-2px); }
+    .map-btn:hover { background: #5d4037; }
 
-    input, select { 
-        width: 100%; padding: 14px; margin: 10px 0; border: 1px solid var(--color-light-green); 
-        background: white; border-radius: 8px;
-    }
-
-    /* --- 3. 全文字淡入特效 --- */
-    .fade-item { 
-        opacity: 0; transform: translateY(30px); 
+    /* --- 2. 全文字與元素淡入特效 --- */
+    /* 初始狀態直接顯示 main-content */
+    #main-content { opacity: 1; visibility: visible; }
+    
+    h1, h2, h3, p, .info, form, iframe, .map-btn { 
+        opacity: 0; transform: translateY(20px); 
         transition: opacity 1.2s ease-out, transform 1.2s ease-out; 
     }
-    .fade-item.show { opacity: 1; transform: translateY(0); }
+    /* 啟動顯示類別 */
+    .show { opacity: 1 !important; transform: translateY(0) !important; }
 </style>
 </head>
 <body>
 
 <div id="main-content">
     <div class="cover">
-        <p class="fade-item" style="font-size:0.9rem; letter-spacing:0.5em; color: var(--color-gold); margin-bottom:10px">WE'RE GETTING MARRIED</p>
+        <p class="highlight-gold" style="font-size:0.85rem;letter-spacing:0.35em;margin-bottom:18px">WE'RE GETTING MARRIED</p>
         
-        <div class="wedding-title fade-item">
-            <span class="name-j">Jay</span>
-            <span class="amp">&</span>
-            <span class="name-m">Michelle</span>
-        </div>
+        <h1>Jay <span class="amp highlight-gold">&</span> Michelle</h1>
         
-        <p class="fade-item" style="color: var(--color-gold); letter-spacing: 4px; font-weight: 300;">2026.06.20</p>
+        <p class="highlight-gold">2026·06·20</p>
     </div>
 
     <section>
-        <h2 class="fade-item">誠摯邀請您</h2>
-        <p class="fade-item" style="line-height:2.4; color: var(--color-dark); font-size: 1.05rem;">
-            我們誠摯邀請您，一同見證我們的幸福時刻，<br>
-            分享這份喜悅與愛。<br><br>
-            愛情是一段奇妙的旅程，而今天，<br>
-            我們即將啟航人生新的篇章。
-        </p>
+        <h2>誠摯邀請您</h2>
+        <p style="line-height:2">我們誠摯邀請您，一同見證我們的幸福時刻，分享這份喜悅與愛。<br><br>
+        愛情是一段奇妙的旅程，而今天，我們即將啟航人生新的篇章。<br>
+        謝謝你一直以來的支持與陪伴，你的到來將使這個特別的日子更加完美。<br>
+        讓我們一同見證這份美好，共享這份喜悅，期待與你共度這難忘的時刻。</p>
     </section>
 
     <section>
-        <h2 class="fade-item">婚宴地點</h2>
-        <div class="fade-item">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.018151322199!2d120.70992387534!3d24.17106097838522!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917ef367098e9%3A0x630e9d6d1b82d3e0!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v17095000000005" allowfullscreen="" loading="lazy"></iframe>
-            <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.018151322199!2d120.70992387534!3d24.17106097838522!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917ef367098e9%3A0x630e9d6d1b82d3e0!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v17095000000006" target="_blank" class="btn-main">開啟 Google 地圖</a>
+        <h2>Wedding Info</h2>
+        <div class="info">
+            <h3 class="highlight-gold" style="font-size:0.8rem;letter-spacing:0.3em;margin-bottom:10px">日期</h3>
+            <p style="font-size:1.5rem">2026年6月20日</p>
+        </div>
+        <div class="info">
+            <h3 class="highlight-gold" style="font-size:0.8rem;letter-spacing:0.3em;margin-bottom:10px;">時間</h3>
+            <p>10:00 賓客入場<br>11:00 證婚儀式<br>12:00 準時開席</p>  
+        </div>
+        <div class="info">
+            <h3 class="highlight-gold" style="font-size:0.8rem;letter-spacing:0.3em;margin-bottom:10px">地點</h3>
+            <p>暖居日穀<br>台中市北屯區松竹路一段3號</p>
         </div>
     </section>
 
-    <section style="background: var(--color-beige); max-width:100%; padding:100px 24px;">
-        <div style="max-width:480px; margin:0 auto">
-            <h2 class="fade-item">出席回覆</h2>
-            <form id="rsvpForm" class="fade-item" style="margin-top:30px">
-                <input type="text" placeholder="您的姓名" required>
-                <button type="submit" class="btn-main" style="width:100%; border-radius: 8px;">送出回覆</button>
+    <section>
+        <h2>婚宴地點</h2>
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.467406691461!2d120.70617327608588!3d24.172861278385287!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e742886f4b%3A0xb353043272990666!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000!5m2!1szh-TW!2stw" 
+            allowfullscreen="" loading="lazy"></iframe>
+        <a href="https://maps.app.goo.gl/YyR9YmYvN8f7y7x7" target="_blank" class="map-btn">開啟 Google 地圖</a>
+    </section>
+
+    <section style="background:#fff;max-width:100%;padding:80px 24px">
+        <div style="max-width:480px;margin:0 auto">
+            <h2>出席回覆</h2>
+            <form id="rsvpForm" style="margin-top:30px">
+                <input type="text" placeholder="您的姓名" style="width:100%;padding:12px;margin:8px 0;border:1px solid #e0d9d0;background:#faf8f5; border-radius: 8px;" required>
+                <select required style="width:100%;padding:12px;margin:8px 0;border:1px solid #e0d9d0;background:#faf8f5; border-radius: 8px;">
+                    <option value="">選擇人數</option>
+                    <option>1位</option><option>2位</option><option>3位</option><option>4位</option><option>5位以上</option>
+                </select>
+                <div style="display:flex;gap:10px;margin:10px 0">
+                    <button type="button" style="background:#C9A466; flex:1; border-radius: 8px; color:white; border:none; padding:15px; cursor:pointer;" onclick="this.style.background='#C9A466';this.nextElementSibling.style.background='#ccc'">我會出席</button>
+                    <button type="button" style="background:#ccc; flex:1; border-radius: 8px; color:white; border:none; padding:15px; cursor:pointer;" onclick="this.style.background='#C9A466';this.previousElementSibling.style.background='#ccc'">無法出席</button>
+                </div>
+                <button type="submit" style="width:100%;padding:15px;background:#362e2b;color:#fff;border:none;cursor:pointer;margin-top:10px;letter-spacing:0.2em; border-radius: 8px;">送出回覆</button>
             </form>
-            <p id="msg" style="display:none; margin-top:25px; color: var(--color-moss); font-size: 1.3rem;">感謝您的回覆！</p>
+            <p id="msg" style="display:none;margin-top:20px;color:#C9A466;font-size:1.2rem">感謝您的回覆！</p>
         </div>
     </section>
 
-    <footer class="fade-item" style="padding:80px 24px; font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-style:italic; color: var(--color-gold); text-align: center;">
+    <footer style="text-align:center;padding:60px 24px;font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-style:italic;color:#C9A466">
         See You Soon
     </footer>
 </div>
 
+<div id="player" style="position:fixed;top:-9999px;left:-9999px;"></div>
+<button id="musicToggle" style="position:fixed;bottom:20px;right:20px;width:50px;height:50px;border-radius:50%;background:#C9A466;border:none;color:white;font-size:24px;cursor:pointer;z-index:9999;box-shadow:0 2px 10px rgba(0,0,0,0.3);">▶</button>
+
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
-    // 滾動偵測淡入
+    // 頁面加載後啟動淡入
+    window.onload = function() {
+        handleScroll();
+    };
+
     function handleScroll() {
-        const items = document.querySelectorAll('.fade-item');
-        items.forEach(el => {
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight * 0.95) {
-                el.classList.add('show');
-            }
+        const tags = ['h1', 'h2', 'h3', 'p', '.info', 'form', 'iframe', '.map-btn'];
+        tags.forEach(selector => {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.9) {
+                    el.classList.add('show');
+                }
+            });
         });
     }
 
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('load', handleScroll); // 初始載入偵測
+    document.getElementById('rsvpForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        this.style.display='none';
+        document.getElementById('msg').style.display='block';
+        document.getElementById('msg').classList.add('show');
+    });
+
+    var player;
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+            videoId: 'pmrCXt4lNyA',
+            playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0 },
+            events: {
+                'onReady': (e) => { e.target.setVolume(30); },
+                'onStateChange': (e) => {
+                    document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '⏸' : '▶';
+                }
+            }
+        });
+    }
+    document.getElementById('musicToggle').addEventListener('click', function() {
+        if (player) player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
+    });
 </script>
 </body>
 </html>
