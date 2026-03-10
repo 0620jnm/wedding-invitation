@@ -6,203 +6,157 @@
 <title>Jay & Michelle Wedding Invitation</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@300;400&display=swap" rel="stylesheet">
 <style>
-    /* 全域設定 */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Noto Serif TC', serif; background: #faf8f5; color: #2c2c2c; line-height: 1.8; overflow: hidden; } /* 初始隱藏捲軸 */
-    
-    /* --- 信封開場區塊 (深色背景) --- */
+    body { font-family: 'Noto Serif TC', serif; background: #faf8f5; color: #2c2c2c; line-height: 1.8; overflow: hidden; }
+
+    /* --- 信封開場：深色質感背景 --- */
     #envelope-wrapper {
         position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-        /* 1. 改為深色高質感背景 (深古銅/深啡色紙紋) */
-        background-color: #362e2b;
-        background-image: url('https://www.transparenttextures.com/patterns/dark-dotted-2.png'); /* 深色紙紋 */
+        background: radial-gradient(circle, #4a3f35 0%, #1a1614 100%);
         display: flex; align-items: center; justify-content: center;
-        z-index: 10000; transition: opacity 1.2s ease 1.8s; perspective: 1500px;
+        z-index: 10000; transition: opacity 1s ease 1.5s; perspective: 1000px;
     }
-    
-    .envelope-container {
-        position: relative; width: 350px; height: 240px; cursor: pointer;
+
+    .envelope-box {
+        position: relative; width: 320px; height: 210px; cursor: pointer;
         transition: transform 0.3s ease;
     }
-    .envelope-container:hover { transform: translateY(-5px) scale(1.02); }
+    .envelope-box:hover { transform: scale(1.03) translateY(-5px); }
 
-    /* --- 2. 全實體擬真信封照片 --- */
-    .envelope-base {
+    /* 信封本體 */
+    .env-paper {
         position: absolute; width: 100%; height: 100%;
-        /* 替換為高品質手工紙信封實體照片 (去背PNG) */
-        background-image: url('https://i.imgur.com/8fGfXFf.png'); 
-        background-size: cover; background-position: center;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        border-radius: 5px; z-index: 1;
-    }
-    
-    /* 信封翻蓋 (實體照片) */
-    .envelope-flap {
-        position: absolute; top: 0; left: 0; width: 100%; height: 50%; /* 翻蓋高度 */
-        /* 替換為對應的信封翻蓋實體照片 (去背PNG) */
-        background-image: url('https://i.imgur.com/4gX8N6O.png');
-        background-size: cover; background-position: top;
-        transform-origin: top;
-        transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 3;
+        background: #e6d8c3; border-radius: 4px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        overflow: hidden;
     }
 
-    /* --- 3. 實體封蠟與乾燥花束 --- */
-    #seal-group {
-        position: absolute; top: 35%; left: 50%; transform: translateX(-50%);
-        z-index: 10; transition: all 0.8s ease; display: flex; flex-direction: column; align-items: center;
-        pointer-events: none; /* 防止擋住信封點擊 */
+    /* 信封翻蓋 (V型) */
+    .env-flap {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: #d4c3ab;
+        clip-path: polygon(0 0, 100% 0, 50% 60%);
+        z-index: 5; transform-origin: top;
+        transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        border-bottom: 1px solid rgba(0,0,0,0.1);
     }
-    
-    /* 乾燥花束 (高品質去背PNG) */
-    .dried-flowers {
-        width: 150px; height: auto; margin-bottom: -35px; /* 讓封蠟蓋在花上 */
-        filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
-        /* 這裡預設了一個優雅的乾燥花束素材連結 */
-        content: url('https://i.imgur.com/Y4jH2T2.png'); 
+
+    /* --- 立體蜂蠟與乾燥花束 (純CSS繪製) --- */
+    .seal-area {
+        position: absolute; top: 110px; left: 50%; transform: translateX(-50%);
+        z-index: 10; transition: all 0.6s ease;
     }
-    
-    /* 立體蜂蠟封印 (高品質去背PNG，看起來要有立體感與光澤) */
+
+    /* 乾燥花束模擬 */
+    .flower-stem {
+        position: absolute; bottom: 10px; left: 50%; width: 2px; height: 60px;
+        background: #5d6d4e; transform: translateX(-50%) rotate(-15deg);
+    }
+    .flower-leaf {
+        position: absolute; bottom: 30px; left: 55%; width: 15px; height: 8px;
+        background: #7a8a68; border-radius: 50%; transform: rotate(20deg);
+    }
+
+    /* 蜂蠟封印 */
     .wax-seal {
-        width: 75px; height: 75px;
-        filter: drop-shadow(0 6px 12px rgba(80,0,0,0.6));
-        /* 這裡預設了一個立體的古銅色封蠟素材連結 (你可以換成有名字縮寫的) */
-        content: url('https://i.imgur.com/P7G2C0G.png');
+        position: relative; width: 55px; height: 55px;
+        background: radial-gradient(circle, #a32a2a 0%, #7a1a1a 100%);
+        border-radius: 50%;
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.3), 0 4px 10px rgba(0,0,0,0.5);
+        display: flex; align-items: center; justify-content: center;
+        border: 2px solid #8b2020;
+    }
+    .wax-seal::after {
+        content: "JM"; color: rgba(255,255,255,0.2); font-size: 14px;
+        font-family: serif; font-weight: bold; border: 1px solid rgba(255,255,255,0.1);
+        padding: 4px; border-radius: 50%;
     }
 
-    /* --- 打開後的動畫狀態 --- */
-    .envelope-container.open .envelope-flap { transform: rotateX(170deg); z-index: 0; }
-    .envelope-container.open #seal-group { opacity: 0; transform: translateX(-50%) translateY(30px); }
+    /* 打開狀態 */
+    .envelope-box.open .env-flap { transform: rotateX(160deg); z-index: 1; }
+    .envelope-box.open .seal-area { opacity: 0; transform: translateX(-50%) translateY(30px); }
 
-    /* --- 網頁主內容控制 (保持原樣) --- */
-    #main-content { opacity: 0; transform: translateY(100vh); transition: all 1.8s cubic-bezier(0.4, 0, 0.2, 1); }
+    /* --- 內容滑出 --- */
+    #main-content { opacity: 0; transform: translateY(100vh); transition: all 1.5s ease; }
     #main-content.reveal { opacity: 1; transform: translateY(0); }
 
-    /* 原有喜帖樣式保持不變 */
-    .cover { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #f5f5dc, #e8dcc4); text-align: center; padding: 20px; }
-    .cover h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 10vw, 5.5rem); font-weight: 300; margin: 15px 0; letter-spacing: 0.05em; }
-    .cover .amp { color: #c9a96e; font-style: italic; }
-    .cover p { letter-spacing: 0.35em; color: #888; font-size: 0.9rem; text-transform: uppercase; }
-    section { padding: 80px 24px; max-width: 700px; margin: 0 auto; text-align: center; }
-    h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; color: #c9a96e; margin-bottom: 30px; letter-spacing: 0.15em; }
-    .info { background: #fff; padding: 35px; margin: 25px 0; border: 1px solid #e0d9d0; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-    .map-container { overflow: hidden; border-radius: 25px; border: 1px solid #e0d9d0; margin: 25px 0; line-height: 0; box-shadow: 0 5px 20px rgba(0,0,0,0.05); background: #eee; }
-    iframe { width: 100%; height: 380px; border: none; }
-    .btn-nav { display: inline-block; margin-top: 15px; padding: 14px 40px; background: #8d705a; color: #ffffff; text-decoration: none; letter-spacing: 0.2em; border-radius: 35px; font-size: 0.95rem; transition: all 0.3s ease; border: 1px solid #8d705a; }
-    input, select { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #e0d9d0; background: #fff; border-radius: 15px; font-family: inherit; font-size: 1rem; outline: none; }
-    .btn-submit { width: 100%; padding: 16px; background: #2c2c2c; color: #fff; border: none; cursor: pointer; margin-top: 15px; letter-spacing: 0.2em; border-radius: 35px; transition: all 0.3s ease; font-size: 1rem; }
-    .attendance-btns { display: flex; gap: 12px; margin: 15px 0; }
-    .attendance-btns button { flex: 1; padding: 15px; border: none; cursor: pointer; border-radius: 35px; transition: 0.3s; font-family: inherit; font-size: 0.95rem; color: #fff; }
-    .music-btn { position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px; border-radius: 50%; background: #c9a96e; border: none; color: white; font-size: 22px; cursor: pointer; z-index: 9999; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; }
+    /* 原有內容樣式優化 */
+    .cover { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #faf8f5; text-align: center; }
+    .cover h1 { font-family: 'Cormorant Garamond', serif; font-size: 4rem; margin: 10px 0; }
+    section { padding: 60px 24px; max-width: 600px; margin: 0 auto; text-align: center; }
+    .info { background: #fff; padding: 30px; margin: 20px 0; border-radius: 20px; border: 1px solid #eee; }
+    .btn-nav { display: inline-block; padding: 12px 35px; background: #8d705a; color: #fff; text-decoration: none; border-radius: 30px; margin-top: 20px; }
+    .music-btn { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: #c9a96e; border: none; color: white; cursor: pointer; z-index: 999; }
 </style>
 </head>
 <body>
 
 <div id="envelope-wrapper">
-    <div class="envelope-container" id="envelope-container" onclick="openEnvelope()">
-        <div class="envelope-base"></div>
-        <div class="envelope-flap"></div>
-        
-        <div id="seal-group">
-            <img class="dried-flowers">
-            <img class="wax-seal">
+    <div class="envelope-box" id="envBox" onclick="openEnvelope()">
+        <div class="env-paper">
+            <div class="env-flap"></div>
+        </div>
+        <div class="seal-area">
+            <div class="flower-stem"></div>
+            <div class="flower-leaf" style="left:40%; bottom:40%; transform:rotate(-40deg);"></div>
+            <div class="flower-leaf"></div>
+            <div class="wax-seal"></div>
         </div>
     </div>
-    <p style="position: absolute; bottom: 18%; color: #c9a96e; letter-spacing: 0.25em; font-size: 0.9rem; font-weight: 300;">TAP TO OPEN</p>
+    <p style="position:absolute; bottom:20%; color:#c9a96e; letter-spacing:3px; font-size:12px;">TAP TO OPEN</p>
 </div>
 
 <div id="main-content">
     <div class="cover">
-        <p>We're Getting Married</p>
-        <h1>Jay <span class="amp">&</span> Michelle</h1>
-        <p>2026 · 06 · 20</p>
+        <p style="color:#c9a96e; letter-spacing:5px;">WE ARE GETTING MARRIED</p>
+        <h1>Jay <span style="font-style:italic;color:#c9a96e;">&</span> Michelle</h1>
+        <p>2026 / 06 / 20</p>
     </div>
 
     <section>
-        <h2>誠摯邀請您</h2>
-        <p>我們誠摯邀請您，一同見證我們的幸福時刻，分享這份喜悅與愛。<br><br>讓我們一同見證這份美好。</p>
-    </section>
-
-    <section>
-        <h2>WEDDING DETAILS</h2>
+        <h2 style="color:#c9a96e; font-family:serif; margin-bottom:20px;">誠摯邀請</h2>
+        <p>我們即將開啟人生新的篇章，<br>誠摯邀請您與我們一同分享這份喜悅。</p>
+        
         <div class="info">
-            <h3 style="color:#c9a96e; font-size:0.85rem; letter-spacing:0.3em; margin-bottom:12px">DATE</h3>
-            <p style="font-size:1.6rem; font-weight: 300;">2026年6月20日 (六)</p>
+            <p style="font-size:0.8rem; color:#888;">DATE</p>
+            <p style="font-size:1.4rem;">2026.06.20 (Sat)</p>
         </div>
         <div class="info">
-            <h3 style="color:#c9a96e; font-size:0.85rem; letter-spacing:0.3em; margin-bottom:12px">VENUE</h3>
+            <p style="font-size:0.8rem; color:#888;">VENUE</p>
             <p>暖居日穀<br>台中市北屯區松竹路一段3號</p>
         </div>
-    </section>
-
-    <section>
-        <h2>婚宴地點</h2>
-        <div class="map-container">
-            <iframe src="https://maps.google.com/?q=暖居日穀,台中市北屯區松竹路一段3號9" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.467406987157!2d120.7061324!3d24.1729019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917865f375555%3A0x6b77c5d5a6c0c6c0!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v17000000000000" target="_blank" class="btn-nav">開啟 Google 地圖導航</a>
-    </section>
-
-    <section style="background:#fff; max-width:100%; padding:100px 24px">
-        <div style="max-width:480px; margin:0 auto">
-            <h2>出席回覆</h2>
-            <form id="rsvpForm">
-                <input type="text" placeholder="您的姓名" required>
-                <select required>
-                    <option value="">選擇出席人數</option>
-                    <option>1 位</option><option>2 位</option><option>3 位</option>
-                </select>
-                <div class="attendance-btns">
-                    <button type="button" id="btnWillGo" style="background:#c9a96e" onclick="setAttendance(true)">我會出席</button>
-                    <button type="button" id="btnCantGo" style="background:#ccc" onclick="setAttendance(false)">無法出席</button>
-                </div>
-                <button type="submit" class="btn-submit">送出回覆</button>
-            </form>
-            <p id="msg" style="display:none; margin-top:30px; color:#c9a96e; font-size:1.4rem; font-weight: 300;">我們那天見！</p>
+        
+        <div style="margin:40px 0;">
+            <div style="border-radius:20px; overflow:hidden; border:1px solid #eee;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.670690014022!2d120.72744887612185!3d24.18328637837683!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0x29019e28fe9eeef1!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <a href="https://maps.app.goo.gl/ChIJtXO-3TAZaTQR8e6e_iieAek" target="_blank" class="btn-nav">開啟 Google 地圖導航</a>
         </div>
     </section>
 
-    <footer style="text-align:center; padding:80px 24px; font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-style:italic; color:#c9a96e; letter-spacing: 0.1em;">
+    <footer style="padding:100px 0; color:#c9a96e; font-style:italic; font-size:1.5rem;">
         See You Soon
     </footer>
 </div>
 
-<div id="player" style="position:fixed;top:-9999px;left:-9999px;"></div>
+<div id="player" style="position:fixed;top:-999px;left:-999px;"></div>
 <button id="musicToggle" class="music-btn">▶</button>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-    // 信封打開邏輯
     function openEnvelope() {
-        const container = document.getElementById('envelope-container');
-        const wrapper = document.getElementById('envelope-wrapper');
-        const main = document.getElementById('main-content');
-        
-        container.classList.add('open');
-        
-        // 1. 先讓內容滑出 (等信封蓋翻開)
+        document.getElementById('envBox').classList.add('open');
         setTimeout(() => {
-            main.classList.add('reveal');
-            document.body.style.overflow = 'auto'; // 恢復捲軸
-            if (player && player.playVideo) { player.playVideo(); } // 嘗試播放音樂
-        }, 1200);
-
-        // 2. 讓深色信封背景淡出
+            document.getElementById('main-content').classList.add('reveal');
+            document.body.style.overflow = 'auto';
+            if (player) player.playVideo();
+        }, 800);
         setTimeout(() => {
-            wrapper.style.opacity = '0';
-        }, 1800);
-
-        // 3. 完全移除遮罩防止擋住點擊
-        setTimeout(() => { wrapper.style.display = 'none'; }, 3200);
-    }
-
-    // 原有 RSVP 表單邏輯
-    document.getElementById('rsvpForm').addEventListener('submit', function(e){
-        e.preventDefault(); this.style.display = 'none'; document.getElementById('msg').style.display = 'block';
-    });
-    function setAttendance(willGo) {
-        document.getElementById('btnWillGo').style.background = willGo ? '#c9a96e' : '#ccc';
-        document.getElementById('btnCantGo').style.background = willGo ? '#ccc' : '#c9a96e';
+            document.getElementById('envelope-wrapper').style.opacity = '0';
+        }, 1500);
+        setTimeout(() => {
+            document.getElementById('envelope-wrapper').style.display = 'none';
+        }, 2500);
     }
 
     var player;
@@ -210,17 +164,14 @@
         player = new YT.Player('player', {
             videoId: 'pmrCXt4lNyA',
             playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'pmrCXt4lNyA' },
-            events: { 'onStateChange': onPlayerStateChange }
+            events: { 'onStateChange': (e) => {
+                document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '⏸' : '▶';
+            }}
         });
     }
-    function onPlayerStateChange(event) {
-        const btn = document.getElementById('musicToggle');
-        btn.innerHTML = (event.data == YT.PlayerState.PLAYING) ? '⏸' : '▶';
-    }
-    document.getElementById('musicToggle').onclick = function() {
-        if (player) { player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo(); }
+    document.getElementById('musicToggle').onclick = () => {
+        player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
     };
 </script>
-
 </body>
 </html>
