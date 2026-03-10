@@ -10,14 +10,23 @@
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c;overflow-x:hidden}
     
-    .cover{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#fdfbf7,#f5f0e6);text-align:center}
+    /* 首頁底色更換為 #DDE7A9 */
+    .cover{
+        height:100vh;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        background-color: #DDE7A9; 
+        text-align:center;
+    }
     .cover h1{font-family:'Playfair Display', serif;font-size:clamp(3rem,10vw,5.5rem);font-weight:300}
     
     /* 指定色號 #C9A466 */
     .highlight-gold { color: #C9A466 !important; }
     .cover .amp{font-style:italic}
     
-    .cover p{margin-top:20px;letter-spacing:0.3em;color:#888}
+    .cover p{margin-top:20px;letter-spacing:0.3em;color:#555} /* 微調文字顏色以適應草綠背景 */
     
     section{padding:80px 24px;max-width:700px;margin:0 auto;text-align:center}
     h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#C9A466;margin-bottom:20px}
@@ -35,14 +44,12 @@
     .map-btn:hover { background: #5d4037; }
 
     /* --- 2. 全文字與元素淡入特效 --- */
-    /* 初始狀態直接顯示 main-content */
     #main-content { opacity: 1; visibility: visible; }
     
     h1, h2, h3, p, .info, form, iframe, .map-btn { 
         opacity: 0; transform: translateY(20px); 
         transition: opacity 1.2s ease-out, transform 1.2s ease-out; 
     }
-    /* 啟動顯示類別 */
     .show { opacity: 1 !important; transform: translateY(0) !important; }
 </style>
 </head>
@@ -84,9 +91,9 @@
     <section>
         <h2>婚宴地點</h2>
         <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.467406691461!2d120.70617327608588!3d24.172861278385287!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e742886f4b%3A0xb353043272990666!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000!5m2!1szh-TW!2stw" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.516584281781!2d120.7042858!3d24.1711107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e75344499d%3A0xc6657c913508496c!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1700000000000" 
             allowfullscreen="" loading="lazy"></iframe>
-        <a href="https://maps.app.goo.gl/YyR9YmYvN8f7y7x7" target="_blank" class="map-btn">開啟 Google 地圖</a>
+        <a href="https://maps.app.goo.gl/FkX6xL1ZqG6p7B6X9" target="_blank" class="map-btn">開啟 Google 地圖</a>
     </section>
 
     <section style="background:#fff;max-width:100%;padding:80px 24px">
@@ -118,7 +125,6 @@
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-    // 頁面加載後啟動淡入
     window.onload = function() {
         handleScroll();
     };
