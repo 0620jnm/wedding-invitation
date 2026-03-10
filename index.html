@@ -10,7 +10,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Noto Serif TC', serif; background: #faf8f5; color: #2c2c2c; line-height: 1.8; overflow-x: hidden; }
     
-    /* 優雅封面 */
+    /* 封面 */
     .cover { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #f5f5dc, #e8dcc4); text-align: center; padding: 20px; }
     .cover h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 10vw, 5.5rem); font-weight: 300; margin: 15px 0; letter-spacing: 0.05em; }
     .cover .amp { color: #c9a96e; font-style: italic; }
@@ -21,25 +21,25 @@
     h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; color: #c9a96e; margin-bottom: 30px; letter-spacing: 0.15em; }
 
     /* 圓角資訊框 */
-    .info { background: #fff; padding: 35px; margin: 25px 0; border: 1px solid #e0d9d0; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: transform 0.3s ease; }
-    .info:hover { transform: translateY(-5px); }
+    .info { background: #fff; padding: 35px; margin: 25px 0; border: 1px solid #e0d9d0; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
     
     /* 圓角地圖容器 */
     .map-container { overflow: hidden; border-radius: 25px; border: 1px solid #e0d9d0; margin: 25px 0; line-height: 0; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
-    iframe { width: 100%; height: 350px; border: none; }
+    iframe { width: 100%; height: 380px; border: none; }
 
-    /* 表單元件圓角 */
-    input, select { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #e0d9d0; background: #fff; border-radius: 15px; font-family: inherit; font-size: 1rem; outline: none; transition: 0.3s; }
-    input:focus, select:focus { border-color: #c9a96e; box-shadow: 0 0 0 2px rgba(201, 169, 110, 0.1); }
+    /* 導航按鈕：褐色底、白色字 */
+    .btn-nav { display: inline-block; margin-top: 15px; padding: 14px 40px; background: #8d705a; color: #ffffff; text-decoration: none; letter-spacing: 0.2em; border-radius: 35px; font-size: 0.95rem; transition: all 0.3s ease; border: 1px solid #8d705a; }
+    .btn-nav:hover { background: #765d4b; border-color: #765d4b; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(141, 112, 90, 0.3); }
 
-    /* 按鈕圓角 */
-    .btn-submit { width: 100%; padding: 16px; background: #2c2c2c; color: #fff; border: none; cursor: pointer; margin-top: 15px; letter-spacing: 0.2em; border-radius: 35px; transition: all 0.3s ease; font-weight: 400; font-size: 1rem; }
-    .btn-submit:hover { background: #c9a96e; box-shadow: 0 5px 15px rgba(201, 169, 110, 0.3); }
+    /* 表單元件 */
+    input, select { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #e0d9d0; background: #fff; border-radius: 15px; font-family: inherit; font-size: 1rem; outline: none; }
+    .btn-submit { width: 100%; padding: 16px; background: #2c2c2c; color: #fff; border: none; cursor: pointer; margin-top: 15px; letter-spacing: 0.2em; border-radius: 35px; transition: all 0.3s ease; font-size: 1rem; }
+    .btn-submit:hover { background: #c9a96e; }
 
     .attendance-btns { display: flex; gap: 12px; margin: 15px 0; }
-    .attendance-btns button { flex: 1; padding: 15px; border: none; cursor: pointer; border-radius: 35px; transition: 0.3s; font-family: inherit; font-size: 0.95rem; color: #fff; font-weight: 400; }
+    .attendance-btns button { flex: 1; padding: 15px; border: none; cursor: pointer; border-radius: 35px; transition: 0.3s; font-family: inherit; font-size: 0.95rem; color: #fff; }
 
-    /* 懸浮音樂按鈕 */
+    /* 音樂按鈕 */
     .music-btn { position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px; border-radius: 50%; background: #c9a96e; border: none; color: white; font-size: 22px; cursor: pointer; z-index: 9999; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; }
 </style>
 </head>
@@ -57,7 +57,7 @@
         我們誠摯邀請您，一同見證我們的幸福時刻，分享這份喜悅與愛。<br><br>
         愛情是一段奇妙的旅程，而今天，我們即將啟航人生新的篇章。<br>
         謝謝你一直以來的支持與陪伴，你的到來將使這個特別的日子更加完美。<br><br>
-        讓我們一同見證這份美好，共享這份喜悅，<br>期待與你共度這難忘的時刻。
+        讓我們一同見證這份美好，共享這份喜悅。
     </p>
 </section>
 
@@ -80,9 +80,13 @@
 <section>
     <h2>婚宴地點</h2>
     <div class="map-container">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.4674069871147!2d120.71078427610058!3d24.181635372338275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917ef28d84429%3A0x6a2339677271ccf8!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m12!1m3!1d3640.067341851214!2d120.72739537604314!3d24.174904378383836!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeff1!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000!5m2!1szh-TW!2stw" 
+            allowfullscreen="" 
+            loading="lazy">
+        </iframe>
     </div>
-    <a href="https://maps.app.goo.gl/YV599Jb9m8x8v8F68" target="_blank" style="display:inline-block; margin-top:10px; padding:12px 30px; border:1px solid #c9a96e; color:#c9a96e; text-decoration:none; letter-spacing:0.2em; border-radius: 35px; font-size: 0.9rem;">開啟 Google 地圖導航</a>
+    <a href="https://maps.app.goo.gl/3HhYAnfD6F97vE8S8" target="_blank" class="btn-nav">開啟 Google 地圖導航</a>
 </section>
 
 <section style="background:#fff; max-width:100%; padding:100px 24px">
@@ -104,7 +108,7 @@
             </div>
             <button type="submit" class="btn-submit">送出回覆</button>
         </form>
-        <p id="msg" style="display:none; margin-top:30px; color:#c9a96e; font-size:1.4rem; font-weight: 300;">感謝您的回覆！<br>我們那天見！</p>
+        <p id="msg" style="display:none; margin-top:30px; color:#c9a96e; font-size:1.4rem; font-weight: 300;">感謝您的回覆！我們那天見！</p>
     </div>
 </section>
 
@@ -117,14 +121,10 @@
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-    // RSVP 表單互動
     document.getElementById('rsvpForm').addEventListener('submit', function(e){
         e.preventDefault();
-        this.style.opacity = '0';
-        setTimeout(() => {
-            this.style.display = 'none';
-            document.getElementById('msg').style.display = 'block';
-        }, 300);
+        this.style.display = 'none';
+        document.getElementById('msg').style.display = 'block';
     });
 
     function setAttendance(willGo) {
@@ -132,32 +132,19 @@
         document.getElementById('btnCantGo').style.background = willGo ? '#ccc' : '#c9a96e';
     }
 
-    // YouTube 播放器設定
     var player;
     var isPlaying = false;
     var toggleBtn = document.getElementById('musicToggle');
 
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('player', {
-            videoId: 'pmrCXt4lNyA', // 你的音樂ID
-            playerVars: {
-                'autoplay': 1,
-                'loop': 1,
-                'playlist': 'pmrCXt4lNyA',
-                'controls': 0,
-                'showinfo': 0,
-                'modestbranding': 1
-            },
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
-            }
+            videoId: 'pmrCXt4lNyA',
+            playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0 },
+            events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange }
         });
     }
 
-    function onPlayerReady(event) {
-        event.target.setVolume(30);
-    }
+    function onPlayerReady(event) { event.target.setVolume(25); }
 
     function onPlayerStateChange(event) {
         if (event.data == YT.PlayerState.PLAYING) {
@@ -170,9 +157,7 @@
     }
 
     toggleBtn.addEventListener('click', function() {
-        if (player) {
-            if (isPlaying) { player.pauseVideo(); } else { player.playVideo(); }
-        }
+        if (player) { isPlaying ? player.pauseVideo() : player.playVideo(); }
     });
 </script>
 
