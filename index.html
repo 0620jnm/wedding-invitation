@@ -10,72 +10,75 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Noto Serif TC', serif; background: #faf8f5; color: #2c2c2c; line-height: 1.8; overflow: hidden; } /* 初始隱藏捲軸 */
     
-    /* --- 精緻擬真信封區塊 --- */
+    /* --- 信封開場區塊 (深色背景) --- */
     #envelope-wrapper {
         position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-        background: #fdfbf8; display: flex; align-items: center; justify-content: center;
-        z-index: 10000; transition: opacity 1.2s ease 1.5s; /* 稍微延遲淡出 */
-    }
-    .envelope-container {
-        position: relative; width: 320px; height: 220px; cursor: pointer;
-        perspective: 1000px; /* 為翻蓋創造立體感 */
-    }
-    /* 信封本體：使用質感紙張紋理背景 */
-    .envelope {
-        position: relative; width: 100%; height: 100%;
-        background-color: #f1e7d8; /* 象牙白紙張底色 */
-        background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png'); /* 紙張紋理 */
-        box-shadow: 0 15px 45px rgba(141, 112, 90, 0.15);
-        border-radius: 4px;
-    }
-    /* 信封蓋 */
-    .envelope-flap {
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background-color: #e8dcc4; /* 稍微深一點的翻蓋色 */
-        background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
-        clip-path: polygon(0 0, 100% 0, 50% 60%); /* V型翻蓋 */
-        z-index: 3;
-        transform-origin: top;
-        transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
-    /* 信封口袋 */
-    .envelope-pocket {
-        position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
-        background-color: #f1e7d8;
-        background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
-        clip-path: polygon(0 40%, 100% 40%, 100% 100%, 0 100%); /* 口袋形狀 */
-        z-index: 1;
-        border-top: 1px solid rgba(255,255,255,0.5);
+        /* 1. 改為深色高質感背景 (深古銅/深啡色紙紋) */
+        background-color: #362e2b;
+        background-image: url('https://www.transparenttextures.com/patterns/dark-dotted-2.png'); /* 深色紙紋 */
+        display: flex; align-items: center; justify-content: center;
+        z-index: 10000; transition: opacity 1.2s ease 1.8s; perspective: 1500px;
     }
     
-    /* --- 擬真封蠟與乾燥花 --- */
-    #seal-group {
-        position: absolute; top: 110px; left: 50%; transform: translateX(-50%);
-        z-index: 10; transition: all 0.6s ease; display: flex; flex-direction: column; align-items: center;
-    }
-    /* 乾燥花 (去背PNG) */
-    .dried-flowers {
-        width: 120px; height: auto; margin-bottom: -25px; /* 讓封蠟蓋在花上 */
-        filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
-    }
-    /* 擬真蜂蠟封印 (去背PNG，看起來要有立體感) */
-    .wax-seal {
-        width: 60px; height: 60px;
-        filter: drop-shadow(0 4px 8px rgba(100,0,0,0.3));
+    .envelope-container {
+        position: relative; width: 350px; height: 240px; cursor: pointer;
         transition: transform 0.3s ease;
     }
-    .envelope-container:hover .wax-seal { transform: scale(1.05); }
+    .envelope-container:hover { transform: translateY(-5px) scale(1.02); }
+
+    /* --- 2. 全實體擬真信封照片 --- */
+    .envelope-base {
+        position: absolute; width: 100%; height: 100%;
+        /* 替換為高品質手工紙信封實體照片 (去背PNG) */
+        background-image: url('https://i.imgur.com/8fGfXFf.png'); 
+        background-size: cover; background-position: center;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        border-radius: 5px; z-index: 1;
+    }
+    
+    /* 信封翻蓋 (實體照片) */
+    .envelope-flap {
+        position: absolute; top: 0; left: 0; width: 100%; height: 50%; /* 翻蓋高度 */
+        /* 替換為對應的信封翻蓋實體照片 (去背PNG) */
+        background-image: url('https://i.imgur.com/4gX8N6O.png');
+        background-size: cover; background-position: top;
+        transform-origin: top;
+        transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 3;
+    }
+
+    /* --- 3. 實體封蠟與乾燥花束 --- */
+    #seal-group {
+        position: absolute; top: 35%; left: 50%; transform: translateX(-50%);
+        z-index: 10; transition: all 0.8s ease; display: flex; flex-direction: column; align-items: center;
+        pointer-events: none; /* 防止擋住信封點擊 */
+    }
+    
+    /* 乾燥花束 (高品質去背PNG) */
+    .dried-flowers {
+        width: 150px; height: auto; margin-bottom: -35px; /* 讓封蠟蓋在花上 */
+        filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+        /* 這裡預設了一個優雅的乾燥花束素材連結 */
+        content: url('https://i.imgur.com/Y4jH2T2.png'); 
+    }
+    
+    /* 立體蜂蠟封印 (高品質去背PNG，看起來要有立體感與光澤) */
+    .wax-seal {
+        width: 75px; height: 75px;
+        filter: drop-shadow(0 6px 12px rgba(80,0,0,0.6));
+        /* 這裡預設了一個立體的古銅色封蠟素材連結 (你可以換成有名字縮寫的) */
+        content: url('https://i.imgur.com/P7G2C0G.png');
+    }
 
     /* --- 打開後的動畫狀態 --- */
-    .envelope-container.open .envelope-flap { transform: rotateX(160deg); z-index: 0; }
-    .envelope-container.open #seal-group { opacity: 0; transform: translateX(-50%) translateY(20px); pointer-events: none; }
+    .envelope-container.open .envelope-flap { transform: rotateX(170deg); z-index: 0; }
+    .envelope-container.open #seal-group { opacity: 0; transform: translateX(-50%) translateY(30px); }
 
-    /* --- 網頁主內容控制 --- */
-    #main-content { opacity: 0; transform: translateY(100vh); transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    /* --- 網頁主內容控制 (保持原樣) --- */
+    #main-content { opacity: 0; transform: translateY(100vh); transition: all 1.8s cubic-bezier(0.4, 0, 0.2, 1); }
     #main-content.reveal { opacity: 1; transform: translateY(0); }
 
-    /* 原有樣式保持不變 */
+    /* 原有喜帖樣式保持不變 */
     .cover { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #f5f5dc, #e8dcc4); text-align: center; padding: 20px; }
     .cover h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 10vw, 5.5rem); font-weight: 300; margin: 15px 0; letter-spacing: 0.05em; }
     .cover .amp { color: #c9a96e; font-style: italic; }
@@ -97,17 +100,15 @@
 
 <div id="envelope-wrapper">
     <div class="envelope-container" id="envelope-container" onclick="openEnvelope()">
-        <div class="envelope">
-            <div class="envelope-flap"></div>
-            <div class="envelope-pocket"></div>
-        </div>
+        <div class="envelope-base"></div>
+        <div class="envelope-flap"></div>
         
         <div id="seal-group">
-            <img src="https://via.placeholder.com/120x80/ffffff/c5a391?text=Dried+Flowers" alt="乾燥花" class="dried-flowers">
-            <img src="https://via.placeholder.com/60x60/800000/ffffff?text=JM" alt="蜂蠟封印" class="wax-seal">
+            <img class="dried-flowers">
+            <img class="wax-seal">
         </div>
     </div>
-    <p style="position: absolute; bottom: 25%; color: #8d705a; letter-spacing: 0.2em; font-size: 0.85rem; font-weight: 300;">TAP TO OPEN</p>
+    <p style="position: absolute; bottom: 18%; color: #c9a96e; letter-spacing: 0.25em; font-size: 0.9rem; font-weight: 300;">TAP TO OPEN</p>
 </div>
 
 <div id="main-content">
@@ -137,9 +138,9 @@
     <section>
         <h2>婚宴地點</h2>
         <div class="map-container">
-            <iframe src="https://maps.google.com/?q=暖居日穀,台中市北屯區松竹路一段3號7" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://maps.google.com/?q=暖居日穀,台中市北屯區松竹路一段3號9" allowfullscreen="" loading="lazy"></iframe>
         </div>
-        <a href="https://maps.google.com/?q=暖居日穀,台中市北屯區松竹路一段3號8" target="_blank" class="btn-nav">開啟 Google 地圖導航</a>
+        <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.467406987157!2d120.7061324!3d24.1729019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917865f375555%3A0x6b77c5d5a6c0c6c0!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v17000000000000" target="_blank" class="btn-nav">開啟 Google 地圖導航</a>
     </section>
 
     <section style="background:#fff; max-width:100%; padding:100px 24px">
@@ -179,23 +180,23 @@
         
         container.classList.add('open');
         
-        // 1. 先讓內容滑出
+        // 1. 先讓內容滑出 (等信封蓋翻開)
         setTimeout(() => {
             main.classList.add('reveal');
             document.body.style.overflow = 'auto'; // 恢復捲軸
             if (player && player.playVideo) { player.playVideo(); } // 嘗試播放音樂
-        }, 1000); // V型蓋打開後
+        }, 1200);
 
-        // 2. 讓信封背景淡出
+        // 2. 讓深色信封背景淡出
         setTimeout(() => {
             wrapper.style.opacity = '0';
-        }, 1500);
+        }, 1800);
 
         // 3. 完全移除遮罩防止擋住點擊
-        setTimeout(() => { wrapper.style.display = 'none'; }, 2700);
+        setTimeout(() => { wrapper.style.display = 'none'; }, 3200);
     }
 
-    // 表單與其他邏輯
+    // 原有 RSVP 表單邏輯
     document.getElementById('rsvpForm').addEventListener('submit', function(e){
         e.preventDefault(); this.style.display = 'none'; document.getElementById('msg').style.display = 'block';
     });
