@@ -6,78 +6,77 @@
 <title>Jay & Michelle Wedding</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400&family=Gwendolyn:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* 核心樣式 */
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflow: hidden;} 
 
-/* --- 瞬間反應的照片掉落開場 --- */
+/* --- 瞬間反應但優雅掉落的開場 --- */
 #intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     background: #e8dcc4; z-index: 10000;
     display: flex; align-items: center; justify-content: center;
-    transition: opacity 1.2s ease;
+    transition: opacity 1.8s ease;
 }
 .photo-stack { position: relative; width: 300px; height: 400px; cursor: pointer; }
 .photo {
     position: absolute; left: 50%; width: 280px; height: 380px;
     background: #fff; border: 12px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    /* 💎 核心優化：更短的動畫時間與硬體加速 */
-    transition: transform 1.2s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.8s ease; 
-    will-change: transform;
+    /* 💎 核心修正：will-change 消除點擊延遲，維持 2.8s 優雅飄落時間 */
+    transition: transform 2.8s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 1.2s ease-out; 
+    will-change: transform; 
     background-size: cover; background-position: center;
 }
 
-/* 初始疊放角度 */
 .photo:nth-child(1) { transform: translateX(-50%) rotate(-4deg); z-index: 3; }
 .photo:nth-child(2) { transform: translateX(-50%) rotate(2deg); z-index: 2; }
 .photo:nth-child(3) { transform: translateX(-50%) rotate(-1deg); z-index: 1; }
 
-/* 掉落姿態 */
 .photo.dropped { 
-    transform: translateY(110vh) translateX(30px) rotate(25deg) !important; 
+    transform: translateY(130vh) translateX(40px) rotate(35deg) !important; 
     opacity: 0; 
-    pointer-events: none;
 }
 
-/* --- 主視覺：乾淨優雅的姓名排版 --- */
+/* --- 主視覺：姓名層次修正 --- */
 #main-wrapper { opacity: 0; transition: opacity 2s ease; }
 .cover{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#f5f5dc,#e8dcc4);text-align:center}
 
-.name-container { display: flex; flex-direction: column; align-items: center; }
+.name-container { display: flex; flex-direction: column; align-items: center; position: relative; }
 
-/* 英文：大大的 & */
+/* 英文層：調低 z-index */
 .english-names {
     display: flex; align-items: center;
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(3rem, 10vw, 5.5rem);
     font-weight: 300;
+    position: relative;
+    z-index: 1; 
 }
 .english-names .amp {
     font-family: 'Gwendolyn', cursive;
     font-size: 8rem; color: #c9a96e; margin: 0 15px; 
-    line-height: 0; position: relative; top: 8px;
+    line-height: 0; position: relative; top: 10px;
 }
 
-/* 中文：移除 &，純粹對齊 */
+/* 中文層：調高 z-index 並增加間距防止遮擋 */
 .chinese-names {
     display: flex; justify-content: space-between;
-    width: 100%; padding: 0 8%; margin-top: -15px;
+    width: 100%; padding: 0 5%; 
+    margin-top: 10px; /* 💎 增加與英文的間距 */
     font-family: 'Noto Serif TC', serif; font-weight: 200; font-size: 1.2rem;
     letter-spacing: 0.5em; color: #4a4a4a;
+    position: relative;
+    z-index: 2; /* 確保在英文之上 */
 }
 
 .cover p { margin-top: 35px; letter-spacing: 0.3em; color: #888; }
 
-/* 內容區塊 */
+/* 地圖修正 */
 section{padding: 80px 24px; max-width: 700px; margin: 0 auto; text-align: center;}
 h2{font-family:'Cormorant Garamond',serif; font-size: 2rem; font-weight: 300; color: #c9a96e; margin-bottom: 20px;}
 .info{background: #fff; padding: 30px; margin: 20px 0; border: 1px solid #e0d9d0;}
 
-/* 地圖修正 */
 .map-container { width: 100%; height: 350px; margin: 20px 0; border: 1px solid #e0d9d0; overflow: hidden; }
 iframe { width: 100%; height: 100%; border: 0; }
 
-/* 音樂按鈕：置中 || */
 #musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a96e; border: none; color: white; cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 </style>
 </head>
@@ -121,9 +120,9 @@ iframe { width: 100%; height: 100%; border: 0; }
     <section>
         <h2>婚宴地點</h2>
         <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.673891784949!2d120.70732837591873!3d24.180237078377823!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3469177573449339%3A0x9adb9c5220c578f1!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710100000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.86602052467!2d120.70732837588077!3d24.18024187215167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691788647a510d%3A0x9adb99645224e771!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1709999999999!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
         </div>
-        <a href="https://maps.app.goo.gl/B9p6pPh6EwXhK16R8" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a96e; color:#c9a96e; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
+        <a href="https://maps.app.goo.gl/uXv4K6K8B3V1V6X66" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a96e; color:#c9a96e; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
     </section>
 
     <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#c9a96e">See You Soon</footer>
@@ -140,7 +139,7 @@ var player;
 function dropPhoto(el) {
     if (el.classList.contains('dropped')) return;
     
-    // 💡 點擊瞬間立即觸發，不等待
+    // 💡 點擊瞬間立即觸發音效/音樂
     if (droppedCount === 0 && player && player.playVideo) {
         player.playVideo();
     }
@@ -153,8 +152,8 @@ function dropPhoto(el) {
             document.getElementById('intro-overlay').style.opacity = '0';
             document.getElementById('main-wrapper').style.opacity = '1';
             document.body.style.overflow = 'auto'; 
-            setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1500);
-        }, 800);
+            setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 2000);
+        }, 1200);
     }
 }
 
