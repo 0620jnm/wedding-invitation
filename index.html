@@ -10,16 +10,20 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflow: hidden;} 
 
-/* 溫柔浪漫的照片掉落開場 */
+/* --- 💎 溫柔浪漫的照片掉落開場 --- */
 #intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     background: #e8dcc4; z-index: 10000;
     display: flex; align-items: center; justify-content: center;
     transition: opacity 1.8s ease;
 }
-.photo-stack { position: relative; width: 280px; height: 380px; cursor: pointer; }
+
+/* 照片堆疊容器 (自適應大小) */
+.photo-stack { position: relative; width: 320px; height: 380px; cursor: pointer; }
+
+/* 💎 照片框樣式系統 */
 .photo {
-    position: absolute; width: 100%; height: 100%;
+    position: absolute; left: 50%;
     background: #fff; border: 12px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     display: flex; align-items: center; justify-content: center;
     transition: transform 2.8s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 1.2s ease-out; 
@@ -27,12 +31,25 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 }
 .photo::after { content: "TAP"; font-family: 'Cormorant Garamond'; color: #c9a96e; font-size: 1.1rem; opacity: 0.6; }
 
-/* 初始旋轉角度 */
-.photo:nth-child(1) { transform: rotate(-4deg); z-index: 3; }
-.photo:nth-child(2) { transform: rotate(2deg); z-index: 2; }
-.photo:nth-child(3) { transform: rotate(-1deg); z-index: 1; }
+/* 💎 第一張：橫式照片框樣式 */
+.photo:nth-child(1) { 
+    width: 320px; height: 240px; /* 橫式比例 */
+    transform: translateX(-50%) translateY(20px) rotate(-4deg); /* 初始位置與旋轉 */
+    z-index: 3; /* 在最上面 */
+}
 
-.photo.dropped { transform: translateY(130vh) translateX(40px) rotate(35deg) !important; opacity: 0; }
+/* 💎 第二、三張：豎式照片框樣式 (保持原樣) */
+.photo:nth-child(n+2) { 
+    width: 280px; height: 380px; /* 豎式比例 */
+}
+.photo:nth-child(2) { transform: translateX(-50%) rotate(2deg); z-index: 2; }
+.photo:nth-child(3) { transform: translateX(-50%) rotate(-1deg); z-index: 1; }
+
+/* 照片飄落動畫：通用姿態 */
+.photo.dropped { 
+    transform: translateY(130vh) translateX(40px) rotate(35deg) !important; 
+    opacity: 0; 
+}
 
 /* 主畫面 */
 #main-wrapper { opacity: 0; transition: opacity 2s ease; }
@@ -44,12 +61,20 @@ section{padding:80px 24px;max-width:700px;margin:0 auto;text-align:center}
 h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#c9a96e;margin-bottom:20px}
 .info{background:#fff;padding:30px;margin:20px 0;border:1px solid #e0d9d0}
 
-/* 修正地圖容器 */
+/* 地圖修正容器 */
 .map-container { width: 100%; height: 350px; margin: 20px 0; border: 1px solid #e0d9d0; overflow: hidden; }
 iframe { width: 100%; height: 100%; border: 0; }
 
-button{width:100%;padding:15px;background:#2c2c2c;color:#fff;border:none;cursor:pointer;margin-top:10px;letter-spacing:0.2em}
-button:hover{background:#c9a96e}
+/* 音樂按鈕：置中符號 */
+#musicToggle {
+    position: fixed; bottom: 20px; right: 20px;
+    width: 45px; height: 45px; border-radius: 50%;
+    background: #c9a96e; border: none; color: white;
+    cursor: pointer; z-index: 9999;
+    display: flex; align-items: center; justify-content: center; /* 置中符號 */
+    font-size: 14px; font-weight: bold; letter-spacing: -1px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
 </style>
 </head>
 <body>
@@ -71,9 +96,7 @@ button:hover{background:#c9a96e}
 
     <section>
         <h2>誠摯邀請您</h2>
-        <p style="line-height:2">我們誠摯邀請您，一同見證我們的幸福時刻，分享這份喜悅與愛。<br><br>
-        期待與你共度這難忘的時刻。
-        </p>
+        <p style="line-height:2">我們誠摯邀請您，一同見證我們的幸福時刻。<br>期待與你共度這難忘的時刻。</p>
     </section>
 
     <section>
@@ -91,16 +114,18 @@ button:hover{background:#c9a96e}
     <section>
         <h2>婚宴地點</h2>
         <div class="map-container">
-            <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.4215705307524!2d120.7075727761066!3d24.183244972323714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9edef1!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1709971234567!5m2!1szh-TW!2stw" 
-                allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.467406691461!2d120.70617327608588!3d24.172861278385287!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e742886f4b%3A0xb353043272990666!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000!5m2!1szh-TW!2stw1" allowfullscreen="" loading="lazy"></iframe>
         </div>
         <a href="https://maps.app.goo.gl/ChIJtXO-3TAZaTQR8e6e_iieAek" target="_blank" style="display:inline-block;margin-top:15px;padding:10px 25px;border:1px solid #c9a96e;color:#c9a96e;text-decoration:none;letter-spacing:0.1em">開啟 Google 地圖導航</a>
     </section>
+
+    <footer style="text-align:center;padding:60px 24px;font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-style:italic;color:#c9a96e">
+        See You Soon
+    </footer>
 </div>
 
 <div id="player" style="position:fixed;top:-9999px;left:-9999px;"></div>
-<button id="musicToggle" style="position:fixed;bottom:20px;right:20px;width:45px;height:45px;border-radius:50%;background:#c9a96e;border:none;color:white;font-size:20px;cursor:pointer;z-index:9999;">▶</button>
+<button id="musicToggle">▶</button>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
@@ -110,7 +135,7 @@ var player;
 function dropPhoto(el) {
     if (el.classList.contains('dropped')) return;
     
-    // 點擊第一張照片時觸發音樂
+    // 點擊第一張即啟動音樂
     if (droppedCount === 0 && player && player.playVideo) {
         player.playVideo();
     }
@@ -135,7 +160,8 @@ function onYouTubeIframeAPIReady() {
     events: {
       'onReady': (e) => { e.target.setVolume(30); },
       'onStateChange': (e) => {
-          document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '⏸' : '▶';
+          // 切換雙線 || (暫停) 與 ▶ (播放)
+          document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
       }
     }
   });
