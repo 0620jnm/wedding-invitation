@@ -8,34 +8,42 @@
 <style>
 /* --- 1. 核心樣式 --- */
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflow: hidden;} /* 初始鎖定滾動 */
+body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflow: hidden;} 
 
-/* --- 2. 照片掉落開場特效 --- */
+/* --- 2. 💎 照片掉落開場特效 (浪漫緩慢版) --- */
 #intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     background: #e8dcc4; z-index: 10000;
     display: flex; align-items: center; justify-content: center;
-    transition: opacity 1.5s ease;
+    transition: opacity 1.8s ease;
 }
 .photo-stack { position: relative; width: 300px; height: 400px; cursor: pointer; }
 .photo {
     position: absolute; width: 100%; height: 100%;
-    background: #fff; border: 10px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    background: #fff; border: 12px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     display: flex; align-items: center; justify-content: center;
-    transition: transform 0.8s cubic-bezier(0.5, 0, 0.5, 1.2), opacity 0.5s;
-    overflow: hidden;
+    
+    /* 💎 關鍵：將動畫時間拉長至 2.5s，並使用 ease-in-out 讓動作更溫柔 */
+    transition: transform 2.5s ease-in-out, opacity 1s ease-in-out; 
+    
+    background-size: cover; background-position: center;
 }
-/* 模擬照片內容 (您之後可以換成 <img>) */
-.photo::after { content: "TAP"; font-family: 'Cormorant Garamond'; color: #c9a96e; font-size: 1.2rem; }
+
+/* 提示文字 */
+.photo::after { content: "TAP"; font-family: 'Cormorant Garamond'; color: #c9a96e; font-size: 1.2rem; font-style: italic; }
+
 .photo:nth-child(1) { transform: rotate(-5deg); z-index: 3; }
 .photo:nth-child(2) { transform: rotate(3deg); z-index: 2; }
 .photo:nth-child(3) { transform: rotate(-2deg); z-index: 1; }
 
-/* 掉落動畫類別 */
-.photo.dropped { transform: translateY(120vh) rotate(20deg) !important; opacity: 0; }
+/* 💎 浪漫掉落動畫：增加位移和旋轉，營造飄落感 */
+.photo.dropped { 
+    transform: translateY(130vh) translateX(50px) rotate(45deg) !important; 
+    opacity: 0; 
+}
 
-/* --- 3. 原本的樣式 --- */
-#main-wrapper { opacity: 0; transition: opacity 1.5s ease; }
+/* --- 3. 主畫面樣式 --- */
+#main-wrapper { opacity: 0; transition: opacity 1.8s ease; }
 .cover{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#f5f5dc,#e8dcc4);text-align:center}
 .cover h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,10vw,5.5rem);font-weight:300}
 .cover .amp{color:#c9a96e;font-style:italic}
@@ -53,9 +61,9 @@ button:hover{background:#c9a96e}
 
 <div id="intro-overlay">
     <div class="photo-stack" id="stack">
-        <div class="photo" onclick="dropPhoto(this)"></div>
-        <div class="photo" onclick="dropPhoto(this)"></div>
-        <div class="photo" onclick="dropPhoto(this)"></div>
+        <div class="photo" onclick="dropPhoto(this)" style="background-image: url('https://drive.google.com/file/d/1bodtrUku_sCWA136H5rhLcKbq5oR21vT/view?usp=drive_link');"></div>
+        <div class="photo" onclick="dropPhoto(this)" style="background-image: url('https://drive.google.com/file/d/1bJ2RnW-OiO-ny2AujRRcoRuOGM9HUvdz/view?usp=drive_link');"></div>
+        <div class="photo" onclick="dropPhoto(this)" style="background-image: url('https://drive.google.com/file/d/1hcgzizO944EDRYrdURyjHygC-J9bQCd9/view?usp=drive_link');"></div>
     </div>
 </div>
 
@@ -72,8 +80,7 @@ button:hover{background:#c9a96e}
         <br><br>
         愛情是一段奇妙的旅程，而今天，我們即將啟航人生新的篇章。<br>
         謝謝你一直以來的支持與陪伴，你的到來將使這個特別的日子更加完美。<br>
-        讓我們一同見證這份美好，共享這份喜悅，
-        期待與你共度這難忘的時刻。
+        讓我們一同見證這份美好，共享這份喜悅，期待與你共度這難忘的時刻。
         </p>
     </section>
 
@@ -95,8 +102,8 @@ button:hover{background:#c9a96e}
 
     <section>
         <h2>婚宴地點</h2>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.467406385497!2d120.7029192!3d24.1728471!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e882a6d701%3A0xc3437e462d73356!2zNDA25Y-w5Lit5biC5YyX5bGv5Y2A5p2-5uS56Lev5LiA5q61M-iZnw!5e0!3m2!1szh-TW!2stw!4v1710000000000" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-        <a href="https://maps.app.goo.gl/3fX8S6E4u1eLpG9G7" target="_blank" style="display:inline-block;margin-top:15px;padding:10px 25px;border:1px solid #c9a96e;color:#c9a96e;text-decoration:none;letter-spacing:0.2em">開啟 Google 地圖</a>
+        <iframe src="https://maps.app.goo.gl/K8XfTfA3m7Xz9Vvj94" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <a href="https://maps.app.goo.gl/K8XfTfA3m7Xz9Vvj95" target="_blank" style="display:inline-block;margin-top:15px;padding:10px 25px;border:1px solid #c9a96e;color:#c9a96e;text-decoration:none;letter-spacing:0.2em">開啟 Google 地圖</a>
     </section>
 
     <section style="background:#fff;max-width:100%;padding:80px 24px">
@@ -134,49 +141,35 @@ function dropPhoto(el) {
     el.classList.add('dropped');
     droppedCount++;
 
-    // 當點擊完 3 張照片
     if (droppedCount === 3) {
         setTimeout(() => {
             document.getElementById('intro-overlay').style.opacity = '0';
             document.getElementById('main-wrapper').style.opacity = '1';
-            document.body.style.overflow = 'auto'; // 恢復滾動
-            if (player && player.playVideo) player.playVideo(); // 自動播放音樂
+            document.body.style.overflow = 'auto'; 
+            if (player && player.playVideo) player.playVideo();
             setTimeout(() => {
                 document.getElementById('intro-overlay').style.display = 'none';
-            }, 1500);
-        }, 600);
+            }, 1800);
+        }, 800); // 點完後稍微停留再切換
     }
 }
 
-// --- 原有的 YouTube 邏輯 ---
 var player;
-var isPlaying = false;
-var toggleBtn = document.getElementById('musicToggle');
-
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
     videoId: 'pmrCXt4lNyA',
     playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0 },
     events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
+      'onReady': (e) => { e.target.setVolume(30); },
+      'onStateChange': (e) => {
+          document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '⏸' : '▶';
+      }
     }
   });
 }
-function onPlayerReady(event) {
-  event.target.setVolume(30);
-  // 注意：瀏覽器通常禁止自動播放，這裡等照片點完再啟動
-}
-function onPlayerStateChange(event) {
-  if (event.data == YT.PlayerState.PLAYING) {
-    isPlaying = true; toggleBtn.innerHTML = '⏸';
-  } else {
-    isPlaying = false; toggleBtn.innerHTML = '▶';
-  }
-}
-toggleBtn.addEventListener('click', function() {
+document.getElementById('musicToggle').addEventListener('click', function() {
   if (player && player.getPlayerState) {
-    isPlaying ? player.pauseVideo() : player.playVideo();
+    player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
   }
 });
 
@@ -184,6 +177,7 @@ document.getElementById('rsvpForm').addEventListener('submit',function(e){
     e.preventDefault();
     this.style.display='none';
     document.getElementById('msg').style.display='block';
+    document.getElementById('msg').classList.add('show');
 });
 </script>
 </body>
