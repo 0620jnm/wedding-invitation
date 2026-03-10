@@ -6,7 +6,7 @@
 <title>Jay & Michelle Wedding</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Playfair+Display:ital,wght@0,400;1,400&family=Noto+Serif+TC:wght@300;400&family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
 <style>
-    /* --- 1. 核心樣式與圓角 --- */
+    /* --- 1. 核心樣式 --- */
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c;overflow-x:hidden}
     
@@ -19,21 +19,19 @@
     h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#c9a96e;margin-bottom:20px}
     
     .info{background:#fff;padding:30px;margin:20px 0;border:1px solid #e0d9d0; border-radius: 12px;}
-    /* 地圖圓角與顯示 */
-    iframe{width:100%;height:320px;border:none;margin:20px 0; border-radius: 15px; display: block;}
+    iframe{width:100%;height:320px;border:none;margin:20px 0; border-radius: 15px; display: block; background:#eee;}
     input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #e0d9d0;background:#faf8f5; border-radius: 8px;}
-    button{width:100%;padding:15px;background:#2c2c2c;color:#fff;border:none;cursor:pointer;margin-top:10px;letter-spacing:0.2em; border-radius: 8px;}
     
-    /* --- 2. 深色按鈕設定 --- */
-    .map-btn {
+    /* 深色導航與送出按鈕 */
+    .map-btn, .submit-btn {
         display:inline-block; margin-top:15px; padding:12px 30px; 
         background:#362e2b; color:#ffffff; 
         text-decoration:none; letter-spacing:0.2em; border-radius: 25px;
-        transition: background 0.3s;
+        transition: background 0.3s; border:none; cursor:pointer; font-size: 1rem;
     }
-    .map-btn:hover { background: #5d4037; }
+    .map-btn:hover, .submit-btn:hover { background: #5d4037; }
 
-    /* --- 3. 信封與開場動畫 --- */
+    /* --- 2. 信封開場 --- */
     #envelope-wrapper {
         position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
         background: #2a1f1a; display: flex; align-items: center; justify-content: center;
@@ -59,14 +57,14 @@
     .open .flap { transform: rotateX(180deg); z-index: 1; }
     .open .wax-seal { opacity: 0; transform: translateX(-50%) scale(0.5); }
 
-    /* --- 4. 全站文字與元素淡入特效 --- */
-    #main-content { opacity: 0; visibility: hidden; }
-    #main-content.reveal { opacity: 1; visibility: visible; transition: opacity 1.5s ease; }
+    /* --- 3. 全文字與元素淡入特效 --- */
+    #main-content { opacity: 0; visibility: hidden; transition: opacity 1.5s ease; }
+    #main-content.reveal { opacity: 1; visibility: visible; }
     
-    /* 針對所有文字與區塊設定淡入 */
-    .fade-item, h1, h2, h3, p, div, form, button, iframe, a { 
+    /* 預設隱藏所有需要淡入的文字元素 */
+    h1, h2, h3, p, .info, form, iframe, .map-btn { 
         opacity: 0; transform: translateY(20px); 
-        transition: opacity 1.2s ease, transform 1.2s ease; 
+        transition: opacity 1s ease-out, transform 1s ease-out; 
     }
     .show { opacity: 1 !important; transform: translateY(0) !important; }
 </style>
@@ -77,7 +75,7 @@
     <div class="envelope" id="env" onclick="startOpen()">
         <div class="flap"></div>
         <div class="wax-seal"></div>
-        <p style="position:absolute; bottom:-50px; left:50%; transform:translateX(-50%); color:#c9a96e; letter-spacing:2px; font-size:12px; font-family:sans-serif; opacity: 1; transform: none;">TAP TO OPEN</p>
+        <p style="position:absolute; bottom:-50px; left:50%; transform:translateX(-50%); color:#c9a96e; letter-spacing:2px; font-size:12px; font-family:sans-serif;">TAP TO OPEN</p>
     </div>
 </div>
 
@@ -114,8 +112,11 @@
 
     <section>
         <h2>婚宴地點</h2>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.115865507011!2d120.70273767591873!3d24.16768397262145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691786a3449337%3A0x6336e788e04e9c71!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1709400000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
-        <a href="https://maps.app.goo.gl/uP9f6hK3F4V9Z5Xm7" target="_blank" class="map-btn">開啟 Google 地圖</a>
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.673894738678!2d120.706798!3d24.175152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917f6c3877995%3A0xc3c942485579f972!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1709123456789!5m2!1szh-TW!2stw" 
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        <a href="https://maps.app.goo.gl/9r8sK6yL6J6J6J6J6" target="_blank" class="map-btn">開啟 Google 地圖</a>
     </section>
 
     <section style="background:#fff;max-width:100%;padding:80px 24px">
@@ -128,10 +129,10 @@
                     <option>1位</option><option>2位</option><option>3位</option><option>4位</option><option>5位以上</option>
                 </select>
                 <div style="display:flex;gap:10px;margin:10px 0">
-                    <button type="button" style="background:#c9a96e; flex:1;" onclick="this.style.background='#c9a96e';this.nextElementSibling.style.background='#ccc'">我會出席</button>
-                    <button type="button" style="background:#ccc; flex:1;" onclick="this.style.background='#c9a96e';this.previousElementSibling.style.background='#ccc'">無法出席</button>
+                    <button type="button" style="background:#c9a96e; flex:1; border-radius: 8px; color:white; border:none; padding:15px; cursor:pointer;" onclick="this.style.background='#c9a96e';this.nextElementSibling.style.background='#ccc'">我會出席</button>
+                    <button type="button" style="background:#ccc; flex:1; border-radius: 8px; color:white; border:none; padding:15px; cursor:pointer;" onclick="this.style.background='#c9a96e';this.previousElementSibling.style.background='#ccc'">無法出席</button>
                 </div>
-                <button type="submit" style="background:#362e2b">送出回覆</button>
+                <button type="submit" class="submit-btn" style="width:100%">送出回覆</button>
             </form>
             <p id="msg" style="display:none;margin-top:20px;color:#c9a96e;font-size:1.2rem">感謝您的回覆！</p>
         </div>
@@ -153,7 +154,7 @@
             document.getElementById('envelope-wrapper').style.opacity = '0';
             document.getElementById('main-content').classList.add('reveal');
             document.body.style.overflow = 'auto';
-            // 開場後立即跑一次偵測，讓第一屏文字浮現
+            // 進入後立刻手動觸發一次淡入偵測
             handleScroll();
         }, 1500);
         setTimeout(() => {
@@ -161,15 +162,15 @@
         }, 2700);
     }
 
-    // 偵測滾動讓文字與元素淡入
     function handleScroll() {
-        const triggers = ['h1', 'h2', 'h3', 'p', 'div', 'form', 'button', 'iframe', 'a'];
-        triggers.forEach(tag => {
-            const elements = document.querySelectorAll(tag);
+        // 抓取所有需要淡入的標籤
+        const tags = ['h1', 'h2', 'h3', 'p', '.info', 'form', 'iframe', '.map-btn'];
+        tags.forEach(selector => {
+            const elements = document.querySelectorAll(selector);
             elements.forEach(el => {
                 const rect = el.getBoundingClientRect();
-                // 如果元素進入可視範圍 85%
-                if (rect.top < window.innerHeight * 0.85) {
+                // 只要元素頂部進入可視範圍 90%
+                if (rect.top < window.innerHeight * 0.9) {
                     el.classList.add('show');
                 }
             });
