@@ -10,36 +10,69 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Noto Serif TC', serif; background: #faf8f5; color: #2c2c2c; line-height: 1.8; overflow: hidden; } /* 初始隱藏捲軸 */
     
-    /* --- 信封動畫區塊 --- */
+    /* --- 精緻擬真信封區塊 --- */
     #envelope-wrapper {
         position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-        background: #e8dcc4; display: flex; align-items: center; justify-content: center;
-        z-index: 10000; transition: opacity 1s ease 1s;
+        background: #fdfbf8; display: flex; align-items: center; justify-content: center;
+        z-index: 10000; transition: opacity 1.2s ease 1.5s; /* 稍微延遲淡出 */
     }
+    .envelope-container {
+        position: relative; width: 320px; height: 220px; cursor: pointer;
+        perspective: 1000px; /* 為翻蓋創造立體感 */
+    }
+    /* 信封本體：使用質感紙張紋理背景 */
     .envelope {
-        position: relative; width: 280px; height: 180px; background: #d4b89d;
-        cursor: pointer; box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        position: relative; width: 100%; height: 100%;
+        background-color: #f1e7d8; /* 象牙白紙張底色 */
+        background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png'); /* 紙張紋理 */
+        box-shadow: 0 15px 45px rgba(141, 112, 90, 0.15);
+        border-radius: 4px;
     }
-    .envelope::before { /* 信封蓋 */
-        content: ""; position: absolute; top: 0; z-index: 2;
-        border-top: 100px solid #c5a391; border-left: 140px solid transparent; border-right: 140px solid transparent;
-        transform-origin: top; transition: transform 0.6s ease;
+    /* 信封蓋 */
+    .envelope-flap {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: #e8dcc4; /* 稍微深一點的翻蓋色 */
+        background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+        clip-path: polygon(0 0, 100% 0, 50% 60%); /* V型翻蓋 */
+        z-index: 3;
+        transform-origin: top;
+        transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
     }
-    .envelope::after { /* 信封底座 */
-        content: ""; position: absolute; z-index: 1;
-        border-top: 90px solid transparent; border-right: 140px solid #d4b89d;
-        border-bottom: 90px solid #d4b89d; border-left: 140px solid #d4b89d;
+    /* 信封口袋 */
+    .envelope-pocket {
+        position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
+        background-color: #f1e7d8;
+        background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+        clip-path: polygon(0 40%, 100% 40%, 100% 100%, 0 100%); /* 口袋形狀 */
+        z-index: 1;
+        border-top: 1px solid rgba(255,255,255,0.5);
     }
-    .heart-seal {
-        position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
-        z-index: 3; font-size: 24px; color: #fff; transition: opacity 0.4s;
+    
+    /* --- 擬真封蠟與乾燥花 --- */
+    #seal-group {
+        position: absolute; top: 110px; left: 50%; transform: translateX(-50%);
+        z-index: 10; transition: all 0.6s ease; display: flex; flex-direction: column; align-items: center;
     }
-    /* 打開後的狀態 */
-    .envelope.open::before { transform: rotateX(180deg); z-index: 0; }
-    .envelope.open .heart-seal { opacity: 0; }
+    /* 乾燥花 (去背PNG) */
+    .dried-flowers {
+        width: 120px; height: auto; margin-bottom: -25px; /* 讓封蠟蓋在花上 */
+        filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
+    }
+    /* 擬真蜂蠟封印 (去背PNG，看起來要有立體感) */
+    .wax-seal {
+        width: 60px; height: 60px;
+        filter: drop-shadow(0 4px 8px rgba(100,0,0,0.3));
+        transition: transform 0.3s ease;
+    }
+    .envelope-container:hover .wax-seal { transform: scale(1.05); }
+
+    /* --- 打開後的動畫狀態 --- */
+    .envelope-container.open .envelope-flap { transform: rotateX(160deg); z-index: 0; }
+    .envelope-container.open #seal-group { opacity: 0; transform: translateX(-50%) translateY(20px); pointer-events: none; }
 
     /* --- 網頁主內容控制 --- */
-    #main-content { opacity: 0; transform: translateY(100vh); transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    #main-content { opacity: 0; transform: translateY(100vh); transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1); }
     #main-content.reveal { opacity: 1; transform: translateY(0); }
 
     /* 原有樣式保持不變 */
@@ -63,10 +96,18 @@
 <body>
 
 <div id="envelope-wrapper">
-    <div class="envelope" id="envelope" onclick="openEnvelope()">
-        <div class="heart-seal">❤</div>
+    <div class="envelope-container" id="envelope-container" onclick="openEnvelope()">
+        <div class="envelope">
+            <div class="envelope-flap"></div>
+            <div class="envelope-pocket"></div>
+        </div>
+        
+        <div id="seal-group">
+            <img src="https://via.placeholder.com/120x80/ffffff/c5a391?text=Dried+Flowers" alt="乾燥花" class="dried-flowers">
+            <img src="https://via.placeholder.com/60x60/800000/ffffff?text=JM" alt="蜂蠟封印" class="wax-seal">
+        </div>
     </div>
-    <p style="position: absolute; bottom: 30%; color: #8d705a; letter-spacing: 0.2em; font-size: 0.8rem;">TAP TO OPEN</p>
+    <p style="position: absolute; bottom: 25%; color: #8d705a; letter-spacing: 0.2em; font-size: 0.85rem; font-weight: 300;">TAP TO OPEN</p>
 </div>
 
 <div id="main-content">
@@ -96,9 +137,9 @@
     <section>
         <h2>婚宴地點</h2>
         <div class="map-container">
-            <iframe src="https://maps.google.com/?q=暖居日穀,台中市北屯區松竹路一段3號5" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://maps.google.com/?q=暖居日穀,台中市北屯區松竹路一段3號7" allowfullscreen="" loading="lazy"></iframe>
         </div>
-        <a href="https://maps.google.com/?q=暖居日穀,台中市北屯區松竹路一段3號6" target="_blank" class="btn-nav">開啟 Google 地圖導航</a>
+        <a href="https://maps.google.com/?q=暖居日穀,台中市北屯區松竹路一段3號8" target="_blank" class="btn-nav">開啟 Google 地圖導航</a>
     </section>
 
     <section style="background:#fff; max-width:100%; padding:100px 24px">
@@ -132,24 +173,26 @@
 <script>
     // 信封打開邏輯
     function openEnvelope() {
-        const env = document.getElementById('envelope');
+        const container = document.getElementById('envelope-container');
         const wrapper = document.getElementById('envelope-wrapper');
         const main = document.getElementById('main-content');
         
-        env.classList.add('open');
+        container.classList.add('open');
         
-        // 延遲執行：等信封蓋打開後再滑出內容
+        // 1. 先讓內容滑出
         setTimeout(() => {
             main.classList.add('reveal');
-            wrapper.style.opacity = '0';
             document.body.style.overflow = 'auto'; // 恢復捲軸
-            
-            // 同時嘗試播放音樂 (部分瀏覽器仍會攔截，但這能提高成功率)
-            if (player && player.playVideo) { player.playVideo(); }
-        }, 800);
+            if (player && player.playVideo) { player.playVideo(); } // 嘗試播放音樂
+        }, 1000); // V型蓋打開後
 
-        // 完全移除遮罩防止擋住點擊
-        setTimeout(() => { wrapper.style.display = 'none'; }, 2000);
+        // 2. 讓信封背景淡出
+        setTimeout(() => {
+            wrapper.style.opacity = '0';
+        }, 1500);
+
+        // 3. 完全移除遮罩防止擋住點擊
+        setTimeout(() => { wrapper.style.display = 'none'; }, 2700);
     }
 
     // 表單與其他邏輯
