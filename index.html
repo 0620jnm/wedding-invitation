@@ -6,11 +6,10 @@
 <title>Jay & Michelle Wedding</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@300;400&display=swap" rel="stylesheet">
 <style>
-/* 核心樣式 */
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflow: hidden;} 
 
-/* 溫柔浪漫的照片掉落開場 */
+/* 照片開場層 */
 #intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     background: #e8dcc4; z-index: 10000;
@@ -23,22 +22,16 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
     background: #fff; border: 12px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     display: flex; align-items: center; justify-content: center;
     transition: transform 2.8s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 1.2s ease-out; 
-    background-size: cover; 
-    background-position: center;
-    background-repeat: no-repeat;
+    background-size: cover; background-position: center;
 }
-.photo::after { content: "TAP"; font-family: 'Cormorant Garamond'; color: #c9a96e; font-size: 1.1rem; letter-spacing: 0.2em; opacity: 0.6; }
+/* 增加這段確保圖片讀取 */
+.photo[style*="background-image"] { background-color: #fff; }
 
-/* 初始旋轉角度 */
+.photo::after { content: "TAP"; font-family: 'Cormorant Garamond'; color: #c9a96e; font-size: 1.1rem; letter-spacing: 0.2em; opacity: 0.6; }
 .photo:nth-child(1) { transform: rotate(-4deg); z-index: 3; }
 .photo:nth-child(2) { transform: rotate(2deg); z-index: 2; }
 .photo:nth-child(3) { transform: rotate(-1deg); z-index: 1; }
-
-/* 照片飄落動畫 */
-.photo.dropped { 
-    transform: translateY(130vh) translateX(40px) rotate(35deg) !important; 
-    opacity: 0; 
-}
+.photo.dropped { transform: translateY(130vh) translateX(40px) rotate(35deg) !important; opacity: 0; }
 
 /* 主畫面 */
 #main-wrapper { opacity: 0; transition: opacity 2s ease; }
@@ -58,9 +51,9 @@ button:hover{background:#c9a96e}
 
 <div id="intro-overlay">
     <div class="photo-stack">
-        <div class="photo" onclick="dropPhoto(this)" style="background-image: url('https://drive.google.com/uc?export=view&id=1bodtrUku_sCWA136H5rhLcKbq5oR21vT');"></div>
-        <div class="photo" onclick="dropPhoto(this)" style="background-image: url('https://drive.google.com/uc?export=view&id=1bJ2RnW-OiO-ny2AujRRcoRuOGM9HUvdz');"></div>
-        <div class="photo" onclick="dropPhoto(this)" style="background-image: url('https://drive.google.com/uc?export=view&id=1hcgzizO944EDRYrdURyjHygC-J9bQCd9');"></div>
+        <div class="photo" onclick="dropPhoto(this)" style="background-image: url('https://drive.google.com/uc?export=download&id=1bodtrUku_sCWA136H5rhLcKbq5oR21vT');"></div>
+        <div class="photo" onclick="dropPhoto(this)" style="background-image: url('https://drive.google.com/uc?export=download&id=1bJ2RnW-OiO-ny2AujRRcoRuOGM9HUvdz');"></div>
+        <div class="photo" onclick="dropPhoto(this)" style="background-image: url('https://drive.google.com/uc?export=download&id=1hcgzizO944EDRYrdURyjHygC-J9bQCd9');"></div>
     </div>
 </div>
 
@@ -74,8 +67,7 @@ button:hover{background:#c9a96e}
     <section>
         <h2>誠摯邀請您</h2>
         <p style="line-height:2">我們誠摯邀請您，一同見證我們的幸福時刻，分享這份喜悅與愛。<br><br>
-        愛情是一段奇妙的旅程，而今天，我們即將啟航人生新的篇章。<br>
-        謝謝你一直以來的支持與陪伴。
+        謝謝你一直以來的支持與陪伴，期待與你共度這難忘的時刻。
         </p>
     </section>
 
@@ -93,11 +85,8 @@ button:hover{background:#c9a96e}
 
     <section>
         <h2>婚宴地點</h2>
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.141885542841!2d120.70788307590215!3d24.184307572352844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeee1!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000!5m2!1szh-TW!2stw" 
-            style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-        
-        <a href="https://maps.app.goo.gl/uXpDshE8N6y8j9b96" target="_blank" style="display:inline-block;margin-top:15px;padding:10px 25px;border:1px solid #c9a96e;color:#c9a96e;text-decoration:none;letter-spacing:0.1em">開啟 Google 地圖導航</a>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m13!1d3639.52980645163!2d120.707511376043!3d24.183883671842932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0x79019e28fe9eef01!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1709400000000!5m2!1szh-TW!2stw" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <a href="https://maps.app.goo.gl/qM8uS2X6jY98y6oU7" target="_blank" style="display:inline-block;margin-top:15px;padding:10px 25px;border:1px solid #c9a96e;color:#c9a96e;text-decoration:none;letter-spacing:0.1em">開啟 Google 地圖</a>
     </section>
 
     <footer style="text-align:center;padding:60px 24px;font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-style:italic;color:#c9a96e">
@@ -111,22 +100,29 @@ button:hover{background:#c9a96e}
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
 let droppedCount = 0;
+var player;
+
 function dropPhoto(el) {
     if (el.classList.contains('dropped')) return;
+    
+    // 💎 解決自動播放：點擊第一張照片時嘗試播放音樂
+    if (droppedCount === 0 && player && player.playVideo) {
+        player.playVideo();
+    }
+
     el.classList.add('dropped');
     droppedCount++;
+
     if (droppedCount === 3) {
         setTimeout(() => {
             document.getElementById('intro-overlay').style.opacity = '0';
             document.getElementById('main-wrapper').style.opacity = '1';
             document.body.style.overflow = 'auto'; 
-            if (player && player.playVideo) player.playVideo();
             setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 2000);
         }, 1200);
     }
 }
 
-var player;
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
     videoId: 'pmrCXt4lNyA',
@@ -139,6 +135,7 @@ function onYouTubeIframeAPIReady() {
     }
   });
 }
+
 document.getElementById('musicToggle').addEventListener('click', function() {
   if (player && player.getPlayerState) {
     player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
