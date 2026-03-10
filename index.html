@@ -6,128 +6,151 @@
 <title>Jay & Michelle Wedding Invitation</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@300;400&display=swap" rel="stylesheet">
 <style>
-    /* 全域設定 */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Noto Serif TC', serif; background: #faf8f5; color: #2c2c2c; line-height: 1.8; overflow: hidden; } /* 初始隱藏捲軸 */
-    
-    /* --- 精緻擬真信封區塊 --- */
+    body { font-family: 'Noto Serif TC', serif; background: #faf8f5; overflow: hidden; }
+
+    /* --- 深色高級背景 --- */
     #envelope-wrapper {
         position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-        background: radial-gradient(circle, #4a3f35 0%, #1a1614 100%); /* 深色背景營造儀式感 */
+        background: radial-gradient(circle at center, #3d352e 0%, #1a1816 100%);
         display: flex; align-items: center; justify-content: center;
-        z-index: 10000; transition: opacity 1s ease 1.5s; perspective: 1000px;
+        z-index: 10000; transition: opacity 1.2s ease 1.5s; perspective: 1200px;
     }
-    .envelope-container {
-        position: relative; width: 350px; height: 240px; cursor: pointer;
-        perspective: 1000px; /* 為翻蓋創造立體感 */
-    }
-    .envelope-container:hover { transform: translateY(-5px) scale(1.02); }
 
-    /* --- 1. 全實體擬真信封照片 --- */
-    .envelope-base {
+    /* --- 擬真信封主體 --- */
+    .envelope-box {
+        position: relative; width: 340px; height: 230px; cursor: pointer;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .envelope-box:hover { transform: translateY(-8px) scale(1.02); }
+
+    /* 具有紋理的手工紙 */
+    .env-paper {
         position: absolute; width: 100%; height: 100%;
-        /* 替換為高品質手工紙信封實體照片 (去背PNG) */
-        background-image: url('https://i.imgur.com/vHqB3qf.png'); 
-        background-size: cover; background-position: center;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        border-radius: 5px; z-index: 1;
+        background-color: #efeadf;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+        border-radius: 3px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 40px rgba(0,0,0,0.05);
+        overflow: hidden;
     }
-    
-    /* 信封翻蓋 (實體照片) */
-    .envelope-flap {
-        position: absolute; top: 0; left: 0; width: 100%; height: 50%; /* 翻蓋高度 */
-        /* 替換為對應的信封翻蓋實體照片 (去背PNG) */
-        background-image: url('https://i.imgur.com/GzBvY4P.png');
-        background-size: cover; background-position: top;
-        transform-origin: top;
+
+    /* 翻蓋動畫 */
+    .env-flap {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: #e2d8c5;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+        clip-path: polygon(0 0, 100% 0, 50% 62%);
+        z-index: 5; transform-origin: top;
         transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 3;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
-    /* --- 2. 實體封蠟與乾燥花束 --- */
-    #seal-group {
-        position: absolute; top: 35%; left: 50%; transform: translateX(-50%);
-        z-index: 10; transition: all 0.8s ease; display: flex; flex-direction: column; align-items: center;
-        pointer-events: none; /* 防止擋住信封點擊 */
-    }
-    
-    /* 乾燥花束 (高品質去背PNG) */
-    .dried-flowers {
-        width: 150px; height: auto; margin-bottom: -35px; /* 讓封蠟蓋在花上 */
-        filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
-        /* 這裡預設了一個優雅的乾燥花束素材連結 */
-        content: url('https://i.imgur.com/HnNqH4G.png'); 
-    }
-    
-    /* 立體蜂蠟封印 (高品質去背PNG，看起來要有立體感與光澤) */
-    .wax-seal {
-        width: 75px; height: 75px;
-        filter: drop-shadow(0 6px 12px rgba(80,0,0,0.6));
-        /* 這裡預設了一個立體的古銅色封蠟素材連結 (你可以換成有名字縮寫的) */
-        content: url('https://i.imgur.com/4gC9qB8.png');
+    /* --- 實體蜂蠟與乾燥花 --- */
+    .seal-container {
+        position: absolute; top: 115px; left: 50%; transform: translateX(-50%);
+        z-index: 10; transition: all 0.7s ease;
     }
 
-    /* --- 打開後的動畫狀態 --- */
-    .envelope-container.open .envelope-flap { transform: rotateX(170deg); z-index: 0; }
-    .envelope-container.open #seal-group { opacity: 0; transform: translateX(-50%) translateY(30px); }
+    /* 模擬乾燥花 (尤加利葉感) */
+    .dried-botanical {
+        position: absolute; bottom: 15px; left: 50%; width: 120px; height: 80px;
+        transform: translateX(-50%);
+    }
+    .stem { position: absolute; bottom: 0; left: 50%; width: 2px; height: 60px; background: #555d4a; transform: rotate(-10deg); }
+    .leaf { position: absolute; background: #6b775d; border-radius: 50% 0 50% 0; opacity: 0.8; }
 
-    /* --- 網頁主內容控制 --- */
-    #main-content { opacity: 0; transform: translateY(100vh); transition: all 1.5s ease; }
+    /* 立體蜂蠟封印 */
+    .wax-seal-real {
+        position: relative; width: 64px; height: 64px;
+        background: #8e1e1e;
+        border-radius: 52% 48% 55% 45% / 45% 55% 42% 58%; /* 不規則圓形 */
+        box-shadow: 
+            inset 0 -5px 10px rgba(0,0,0,0.4),
+            inset 0 5px 10px rgba(255,255,255,0.2),
+            3px 8px 15px rgba(0,0,0,0.4);
+        display: flex; align-items: center; justify-content: center;
+        border: 1px solid #721616;
+    }
+    .wax-seal-real::before {
+        content: "J & M";
+        font-family: 'Cormorant Garamond', serif;
+        color: #5c0f0f; font-weight: bold; font-size: 16px;
+        text-shadow: 1px 1px 1px rgba(255,255,255,0.1);
+        border: 1.5px solid rgba(0,0,0,0.15);
+        padding: 6px; border-radius: 50%;
+    }
+
+    /* 打開狀態 */
+    .envelope-box.open .env-flap { transform: rotateX(165deg); z-index: 1; }
+    .envelope-box.open .seal-container { opacity: 0; transform: translateX(-50%) translateY(40px) scale(0.8); }
+
+    /* --- 喜帖主內容 --- */
+    #main-content { opacity: 0; transform: translateY(80px); transition: all 1.8s ease; }
     #main-content.reveal { opacity: 1; transform: translateY(0); }
 
-    /* 原有樣式優化 */
     .cover { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #faf8f5; text-align: center; }
-    .cover h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 10vw, 5.5rem); font-weight: 300; margin: 15px 0; letter-spacing: 0.05em; }
-    section { padding: 60px 24px; max-width: 600px; margin: 0 auto; text-align: center; }
-    .info { background: #fff; padding: 30px; margin: 20px 0; border-radius: 20px; border: 1px solid #eee; }
-    .btn-nav { display: inline-block; padding: 12px 35px; background: #8d705a; color: #fff; text-decoration: none; border-radius: 30px; margin-top: 20px; }
-    .music-btn { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: #c9a96e; border: none; color: white; cursor: pointer; z-index: 999; }
+    .cover h1 { font-family: 'Cormorant Garamond', serif; font-size: 4.5rem; font-weight: 300; margin: 15px 0; letter-spacing: 2px; }
+    .cover .amp { color: #c9a96e; font-style: italic; margin: 0 10px; }
+    
+    section { padding: 80px 24px; max-width: 650px; margin: 0 auto; text-align: center; }
+    .info-card { background: white; padding: 40px; margin: 25px 0; border-radius: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.03); border: 1px solid #f0ede9; }
+    
+    .map-box { border-radius: 25px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin: 30px 0; background: #eee; line-height: 0; }
+    .btn-nav { display: inline-block; padding: 15px 45px; background: #8d705a; color: white; text-decoration: none; border-radius: 35px; letter-spacing: 2px; transition: 0.3s; }
+    .music-btn { position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px; border-radius: 50%; background: #c9a96e; color: white; border: none; cursor: pointer; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 </style>
 </head>
 <body>
 
 <div id="envelope-wrapper">
-    <div class="envelope-container" id="envContainer" onclick="openEnvelope()">
-        <div class="envelope-base"></div>
-        <div class="envelope-flap"></div>
+    <div class="envelope-box" id="envBox" onclick="openEnvelope()">
+        <div class="env-paper">
+            <div class="env-flap"></div>
+        </div>
         
-        <div id="seal-group">
-            <img class="dried-flowers">
-            <img class="wax-seal">
+        <div class="seal-container">
+            <div class="dried-botanical">
+                <div class="stem"></div>
+                <div class="leaf" style="width:20px; height:12px; top:10px; left:30px; transform:rotate(-30deg);"></div>
+                <div class="leaf" style="width:18px; height:10px; top:25px; right:35px; transform:rotate(40deg);"></div>
+                <div class="leaf" style="width:22px; height:13px; top:40px; left:35px; transform:rotate(-10deg);"></div>
+            </div>
+            <div class="wax-seal-real"></div>
         </div>
     </div>
-    <p style="position: absolute; bottom: 18%; color: #c9a96e; letter-spacing: 3px; font-size: 14px;">TAP TO OPEN</p>
+    <p style="position: absolute; bottom: 20%; color: #c9a96e; letter-spacing: 4px; font-size: 13px; font-weight: 300;">TAP TO OPEN</p>
 </div>
 
 <div id="main-content">
     <div class="cover">
-        <p style="color:#c9a96e; letter-spacing:5px;">WE ARE GETTING MARRIED</p>
-        <h1>Jay <span style="font-style:italic;color:#c9a96e;">&</span> Michelle</h1>
-        <p>2026 / 06 / 20</p>
+        <p style="color:#c9a96e; letter-spacing:6px; font-size:0.9rem;">JOIN US FOR THE WEDDING OF</p>
+        <h1>Jay <span class="amp">&</span> Michelle</h1>
+        <p style="letter-spacing:4px;">2026 · 06 · 20</p>
     </div>
 
     <section>
-        <h2 style="color:#c9a96e; font-family:serif; margin-bottom:20px;">誠摯邀請</h2>
-        <p>我們即將開啟人生新的篇章，<br>誠摯邀請您與我們一同分享這份喜悅。</p>
+        <h2 style="color:#c9a96e; font-family:serif; font-weight:300; font-size:2rem; margin-bottom:25px; letter-spacing:4px;">誠摯邀請您</h2>
+        <p>這是一個關於愛與承諾的新起點。<br>在這個特別的日子裡，誠摯邀請您與我們一同分享這份喜悅與美好。</p>
         
-        <div class="info">
-            <p style="font-size:0.8rem; color:#888;">DATE</p>
-            <p style="font-size:1.4rem;">2026.06.20 (Sat)</p>
+        <div class="info-card">
+            <h3 style="color:#c9a96e; font-size:0.8rem; letter-spacing:3px; margin-bottom:15px;">WEDDING DAY</h3>
+            <p style="font-size:1.6rem; font-weight:300;">2026年6月20日 (六)</p>
+            <p style="margin-top:10px; color:#888;">11:00 證婚儀式 | 12:00 準時開席</p>
         </div>
-        <div class="info">
-            <p style="font-size:0.8rem; color:#888;">VENUE</p>
-            <p>暖居日穀<br>台中市北屯區松竹路一段3號</p>
+
+        <div class="info-card">
+            <h3 style="color:#c9a96e; font-size:0.8rem; letter-spacing:3px; margin-bottom:15px;">VENUE</h3>
+            <p style="font-size:1.4rem; font-weight:300;">暖居日穀</p>
+            <p style="color:#888; margin-top:5px;">台中市北屯區松竹路一段3號</p>
         </div>
-        
-        <div style="margin:40px 0;">
-            <div style="border-radius:20px; overflow:hidden; border:1px solid #eee;">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.467406987157!2d120.7061324!3d24.1729019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917865f375555%3A0x6b77c5d5a6c0c6c0!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v17000000000003" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
-            <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.467406987157!2d120.7061324!3d24.1729019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917865f375555%3A0x6b77c5d5a6c0c6c0!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v17000000000004" target="_blank" class="btn-nav">開啟 Google 地圖導航</a>
+
+        <div class="map-box">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.8820496150534!2d120.7042898!3d24.1758652!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346919e36502393d%3A0x67343e0616b77943!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1709400000000" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
+        <a href="https://maps.app.goo.gl/uXv7V8R8V8R8V8R8" target="_blank" class="btn-nav">GOOGLE MAPS 導航</a>
     </section>
 
-    <footer style="padding:100px 0; color:#c9a96e; font-style:italic; font-size:1.5rem;">
+    <footer style="padding:100px 0; text-align:center; color:#c9a96e; font-family:'Cormorant Garamond',serif; font-size:2rem; font-style:italic;">
         See You Soon
     </footer>
 </div>
@@ -138,18 +161,18 @@
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
     function openEnvelope() {
-        document.getElementById('envContainer').classList.add('open');
+        document.getElementById('envBox').classList.add('open');
         setTimeout(() => {
             document.getElementById('main-content').classList.add('reveal');
             document.body.style.overflow = 'auto';
             if (player) player.playVideo();
-        }, 1200);
+        }, 800);
         setTimeout(() => {
             document.getElementById('envelope-wrapper').style.opacity = '0';
         }, 1800);
         setTimeout(() => {
             document.getElementById('envelope-wrapper').style.display = 'none';
-        }, 3200);
+        }, 3000);
     }
 
     var player;
