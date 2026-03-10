@@ -8,157 +8,174 @@
 <style>
     /* 全域設定 */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Noto Serif TC', serif; background: #faf8f5; color: #2c2c2c; line-height: 1.8; overflow-x: hidden; }
+    body { font-family: 'Noto Serif TC', serif; background: #faf8f5; color: #2c2c2c; line-height: 1.8; overflow: hidden; } /* 初始隱藏捲軸 */
     
-    /* 封面 */
+    /* --- 信封動畫區塊 --- */
+    #envelope-wrapper {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+        background: #e8dcc4; display: flex; align-items: center; justify-content: center;
+        z-index: 10000; transition: opacity 1s ease 1s;
+    }
+    .envelope {
+        position: relative; width: 280px; height: 180px; background: #d4b89d;
+        cursor: pointer; box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+    .envelope::before { /* 信封蓋 */
+        content: ""; position: absolute; top: 0; z-index: 2;
+        border-top: 100px solid #c5a391; border-left: 140px solid transparent; border-right: 140px solid transparent;
+        transform-origin: top; transition: transform 0.6s ease;
+    }
+    .envelope::after { /* 信封底座 */
+        content: ""; position: absolute; z-index: 1;
+        border-top: 90px solid transparent; border-right: 140px solid #d4b89d;
+        border-bottom: 90px solid #d4b89d; border-left: 140px solid #d4b89d;
+    }
+    .heart-seal {
+        position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
+        z-index: 3; font-size: 24px; color: #fff; transition: opacity 0.4s;
+    }
+    /* 打開後的狀態 */
+    .envelope.open::before { transform: rotateX(180deg); z-index: 0; }
+    .envelope.open .heart-seal { opacity: 0; }
+
+    /* --- 網頁主內容控制 --- */
+    #main-content { opacity: 0; transform: translateY(100vh); transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    #main-content.reveal { opacity: 1; transform: translateY(0); }
+
+    /* 原有樣式保持不變 */
     .cover { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #f5f5dc, #e8dcc4); text-align: center; padding: 20px; }
-    .cover h1 { font-family: 'Cormorant Gramamond', serif; font-size: clamp(2.8rem, 10vw, 5.5rem); font-weight: 300; margin: 15px 0; letter-spacing: 0.05em; }
+    .cover h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 10vw, 5.5rem); font-weight: 300; margin: 15px 0; letter-spacing: 0.05em; }
     .cover .amp { color: #c9a96e; font-style: italic; }
     .cover p { letter-spacing: 0.35em; color: #888; font-size: 0.9rem; text-transform: uppercase; }
-
-    /* 區塊樣式 */
     section { padding: 80px 24px; max-width: 700px; margin: 0 auto; text-align: center; }
     h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; color: #c9a96e; margin-bottom: 30px; letter-spacing: 0.15em; }
-
-    /* 圓角資訊框 */
     .info { background: #fff; padding: 35px; margin: 25px 0; border: 1px solid #e0d9d0; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-    
-    /* 圓角地圖容器 */
     .map-container { overflow: hidden; border-radius: 25px; border: 1px solid #e0d9d0; margin: 25px 0; line-height: 0; box-shadow: 0 5px 20px rgba(0,0,0,0.05); background: #eee; }
     iframe { width: 100%; height: 380px; border: none; }
-
-    /* 導航按鈕：褐色底、白色字 */
     .btn-nav { display: inline-block; margin-top: 15px; padding: 14px 40px; background: #8d705a; color: #ffffff; text-decoration: none; letter-spacing: 0.2em; border-radius: 35px; font-size: 0.95rem; transition: all 0.3s ease; border: 1px solid #8d705a; }
-    .btn-nav:hover { background: #765d4b; border-color: #765d4b; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(141, 112, 90, 0.3); }
-
-    /* 表單元件 */
     input, select { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #e0d9d0; background: #fff; border-radius: 15px; font-family: inherit; font-size: 1rem; outline: none; }
     .btn-submit { width: 100%; padding: 16px; background: #2c2c2c; color: #fff; border: none; cursor: pointer; margin-top: 15px; letter-spacing: 0.2em; border-radius: 35px; transition: all 0.3s ease; font-size: 1rem; }
-    .btn-submit:hover { background: #c9a96e; }
-
     .attendance-btns { display: flex; gap: 12px; margin: 15px 0; }
     .attendance-btns button { flex: 1; padding: 15px; border: none; cursor: pointer; border-radius: 35px; transition: 0.3s; font-family: inherit; font-size: 0.95rem; color: #fff; }
-
-    /* 音樂按鈕 */
     .music-btn { position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px; border-radius: 50%; background: #c9a96e; border: none; color: white; font-size: 22px; cursor: pointer; z-index: 9999; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; }
 </style>
 </head>
 <body>
 
-<div class="cover">
-    <p>We're Getting Married</p>
-    <h1>Jay <span class="amp">&</span> Michelle</h1>
-    <p>2026 · 06 · 20</p>
+<div id="envelope-wrapper">
+    <div class="envelope" id="envelope" onclick="openEnvelope()">
+        <div class="heart-seal">❤</div>
+    </div>
+    <p style="position: absolute; bottom: 30%; color: #8d705a; letter-spacing: 0.2em; font-size: 0.8rem;">TAP TO OPEN</p>
 </div>
 
-<section>
-    <h2>誠摯邀請您</h2>
-    <p>
-        我們誠摯邀請您，一同見證我們的幸福時刻，分享這份喜悅與愛。<br><br>
-        愛情是一段奇妙的旅程，而今天，我們即將啟航人生新的篇章。<br>
-        謝謝你一直以來的支持與陪伴，你的到來將使這個特別的日子更加完美。<br><br>
-        讓我們一同見證這份美好，共享這份喜悅。
-    </p>
-</section>
+<div id="main-content">
+    <div class="cover">
+        <p>We're Getting Married</p>
+        <h1>Jay <span class="amp">&</span> Michelle</h1>
+        <p>2026 · 06 · 20</p>
+    </div>
 
-<section>
-    <h2>WEDDING DETAILS</h2>
-    <div class="info">
-        <h3 style="color:#c9a96e; font-size:0.85rem; letter-spacing:0.3em; margin-bottom:12px">DATE</h3>
-        <p style="font-size:1.6rem; font-weight: 300;">2026年6月20日 (六)</p>
-    </div>
-    <div class="info">
-        <h3 style="color:#c9a96e; font-size:0.85rem; letter-spacing:0.3em; margin-bottom:12px;">TIME</h3>
-        <p>10:00 賓客入場<br>11:00 證婚儀式<br>12:00 準時開席</p>
-    </div>
-    <div class="info">
-        <h3 style="color:#c9a96e; font-size:0.85rem; letter-spacing:0.3em; margin-bottom:12px">VENUE</h3>
-        <p>暖居日穀<br>台中市北屯區松竹路一段3號</p>
-    </div>
-</section>
+    <section>
+        <h2>誠摯邀請您</h2>
+        <p>我們誠摯邀請您，一同見證我們的幸福時刻，分享這份喜悅與愛。<br><br>讓我們一同見證這份美好。</p>
+    </section>
 
-<section>
-    <h2>婚宴地點</h2>
-    <div class="map-container">
-        <iframe 
-            src="https://www.google.com/maps?q=暖居日穀&output=embed" 
-            allowfullscreen="" 
-            loading="lazy">
-        </iframe>
-    </div>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=暖居日穀" target="_blank" class="btn-nav">開啟 Google 地圖導航</a>
-</section>
+    <section>
+        <h2>WEDDING DETAILS</h2>
+        <div class="info">
+            <h3 style="color:#c9a96e; font-size:0.85rem; letter-spacing:0.3em; margin-bottom:12px">DATE</h3>
+            <p style="font-size:1.6rem; font-weight: 300;">2026年6月20日 (六)</p>
+        </div>
+        <div class="info">
+            <h3 style="color:#c9a96e; font-size:0.85rem; letter-spacing:0.3em; margin-bottom:12px">VENUE</h3>
+            <p>暖居日穀<br>台中市北屯區松竹路一段3號</p>
+        </div>
+    </section>
 
-<section style="background:#fff; max-width:100%; padding:100px 24px">
-    <div style="max-width:480px; margin:0 auto">
-        <h2>出席回覆</h2>
-        <form id="rsvpForm">
-            <input type="text" placeholder="您的姓名" required>
-            <select required>
-                <option value="">選擇出席人數</option>
-                <option>1 位</option>
-                <option>2 位</option>
-                <option>3 位</option>
-                <option>4 位</option>
-                <option>5 位以上</option>
-            </select>
-            <div class="attendance-btns">
-                <button type="button" id="btnWillGo" style="background:#c9a96e" onclick="setAttendance(true)">我會出席</button>
-                <button type="button" id="btnCantGo" style="background:#ccc" onclick="setAttendance(false)">無法出席</button>
-            </div>
-            <button type="submit" class="btn-submit">送出回覆</button>
-        </form>
-        <p id="msg" style="display:none; margin-top:30px; color:#c9a96e; font-size:1.4rem; font-weight: 300;">感謝您的回覆！我們那天見！</p>
-    </div>
-</section>
+    <section>
+        <h2>婚宴地點</h2>
+        <div class="map-container">
+            <iframe src="https://maps.google.com/?q=暖居日穀,台中市北屯區松竹路一段3號5" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <a href="https://maps.google.com/?q=暖居日穀,台中市北屯區松竹路一段3號6" target="_blank" class="btn-nav">開啟 Google 地圖導航</a>
+    </section>
 
-<footer style="text-align:center; padding:80px 24px; font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-style:italic; color:#c9a96e; letter-spacing: 0.1em;">
-    See You Soon
-</footer>
+    <section style="background:#fff; max-width:100%; padding:100px 24px">
+        <div style="max-width:480px; margin:0 auto">
+            <h2>出席回覆</h2>
+            <form id="rsvpForm">
+                <input type="text" placeholder="您的姓名" required>
+                <select required>
+                    <option value="">選擇出席人數</option>
+                    <option>1 位</option><option>2 位</option><option>3 位</option>
+                </select>
+                <div class="attendance-btns">
+                    <button type="button" id="btnWillGo" style="background:#c9a96e" onclick="setAttendance(true)">我會出席</button>
+                    <button type="button" id="btnCantGo" style="background:#ccc" onclick="setAttendance(false)">無法出席</button>
+                </div>
+                <button type="submit" class="btn-submit">送出回覆</button>
+            </form>
+            <p id="msg" style="display:none; margin-top:30px; color:#c9a96e; font-size:1.4rem; font-weight: 300;">我們那天見！</p>
+        </div>
+    </section>
+
+    <footer style="text-align:center; padding:80px 24px; font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-style:italic; color:#c9a96e; letter-spacing: 0.1em;">
+        See You Soon
+    </footer>
+</div>
 
 <div id="player" style="position:fixed;top:-9999px;left:-9999px;"></div>
 <button id="musicToggle" class="music-btn">▶</button>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-    document.getElementById('rsvpForm').addEventListener('submit', function(e){
-        e.preventDefault();
-        this.style.display = 'none';
-        document.getElementById('msg').style.display = 'block';
-    });
+    // 信封打開邏輯
+    function openEnvelope() {
+        const env = document.getElementById('envelope');
+        const wrapper = document.getElementById('envelope-wrapper');
+        const main = document.getElementById('main-content');
+        
+        env.classList.add('open');
+        
+        // 延遲執行：等信封蓋打開後再滑出內容
+        setTimeout(() => {
+            main.classList.add('reveal');
+            wrapper.style.opacity = '0';
+            document.body.style.overflow = 'auto'; // 恢復捲軸
+            
+            // 同時嘗試播放音樂 (部分瀏覽器仍會攔截，但這能提高成功率)
+            if (player && player.playVideo) { player.playVideo(); }
+        }, 800);
 
+        // 完全移除遮罩防止擋住點擊
+        setTimeout(() => { wrapper.style.display = 'none'; }, 2000);
+    }
+
+    // 表單與其他邏輯
+    document.getElementById('rsvpForm').addEventListener('submit', function(e){
+        e.preventDefault(); this.style.display = 'none'; document.getElementById('msg').style.display = 'block';
+    });
     function setAttendance(willGo) {
         document.getElementById('btnWillGo').style.background = willGo ? '#c9a96e' : '#ccc';
         document.getElementById('btnCantGo').style.background = willGo ? '#ccc' : '#c9a96e';
     }
 
     var player;
-    var isPlaying = false;
-    var toggleBtn = document.getElementById('musicToggle');
-
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('player', {
             videoId: 'pmrCXt4lNyA',
-            playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0 },
-            events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange }
+            playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'pmrCXt4lNyA' },
+            events: { 'onStateChange': onPlayerStateChange }
         });
     }
-
-    function onPlayerReady(event) { event.target.setVolume(25); }
-
     function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING) {
-            isPlaying = true;
-            toggleBtn.innerHTML = '⏸';
-        } else {
-            isPlaying = false;
-            toggleBtn.innerHTML = '▶';
-        }
+        const btn = document.getElementById('musicToggle');
+        btn.innerHTML = (event.data == YT.PlayerState.PLAYING) ? '⏸' : '▶';
     }
-
-    toggleBtn.addEventListener('click', function() {
-        if (player) { isPlaying ? player.pauseVideo() : player.playVideo(); }
-    });
+    document.getElementById('musicToggle').onclick = function() {
+        if (player) { player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo(); }
+    };
 </script>
 
 </body>
