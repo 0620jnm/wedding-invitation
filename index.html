@@ -6,7 +6,7 @@
 <title>Jay & Michelle Wedding</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Playfair+Display:ital,wght@0,400;1,400&family=Noto+Serif+TC:wght@300;400&family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
 <style>
-    /* --- 1. 核心樣式還原與圓角 --- */
+    /* --- 1. 核心樣式與圓角 --- */
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c;overflow-x:hidden}
     
@@ -18,23 +18,22 @@
     section{padding:80px 24px;max-width:700px;margin:0 auto;text-align:center}
     h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#c9a96e;margin-bottom:20px}
     
-    /* 圓角與區塊設定 */
     .info{background:#fff;padding:30px;margin:20px 0;border:1px solid #e0d9d0; border-radius: 12px;}
-    iframe{width:100%;height:320px;border:1px solid #e0d9d0;margin:20px 0; border-radius: 15px; display: block;}
+    /* 地圖圓角與顯示 */
+    iframe{width:100%;height:320px;border:none;margin:20px 0; border-radius: 15px; display: block;}
     input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #e0d9d0;background:#faf8f5; border-radius: 8px;}
     button{width:100%;padding:15px;background:#2c2c2c;color:#fff;border:none;cursor:pointer;margin-top:10px;letter-spacing:0.2em; border-radius: 8px;}
-    button:hover{background:#c9a96e}
-
-    /* --- 2. 深色地圖導航按鈕 --- */
+    
+    /* --- 2. 深色按鈕設定 --- */
     .map-btn {
         display:inline-block; margin-top:15px; padding:12px 30px; 
-        background:#362e2b; color:#ffffff; /* 深色底白色文字 */
+        background:#362e2b; color:#ffffff; 
         text-decoration:none; letter-spacing:0.2em; border-radius: 25px;
         transition: background 0.3s;
     }
     .map-btn:hover { background: #5d4037; }
 
-    /* --- 3. 信封與動效控制 --- */
+    /* --- 3. 信封與開場動畫 --- */
     #envelope-wrapper {
         position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
         background: #2a1f1a; display: flex; align-items: center; justify-content: center;
@@ -57,15 +56,19 @@
     .wax-seal::after { 
         content: "MJ"; font-family: 'Monsieur La Doulaise', cursive; color: rgba(255,255,255,0.4); font-size: 26px;
     }
-
     .open .flap { transform: rotateX(180deg); z-index: 1; }
     .open .wax-seal { opacity: 0; transform: translateX(-50%) scale(0.5); }
 
-    /* 淡入控制 */
+    /* --- 4. 全站文字與元素淡入特效 --- */
     #main-content { opacity: 0; visibility: hidden; }
     #main-content.reveal { opacity: 1; visibility: visible; transition: opacity 1.5s ease; }
-    .fade-item { opacity: 0; transform: translateY(25px); transition: all 1s ease; }
-    .fade-item.show { opacity: 1; transform: translateY(0); }
+    
+    /* 針對所有文字與區塊設定淡入 */
+    .fade-item, h1, h2, h3, p, div, form, button, iframe, a { 
+        opacity: 0; transform: translateY(20px); 
+        transition: opacity 1.2s ease, transform 1.2s ease; 
+    }
+    .show { opacity: 1 !important; transform: translateY(0) !important; }
 </style>
 </head>
 <body>
@@ -74,18 +77,18 @@
     <div class="envelope" id="env" onclick="startOpen()">
         <div class="flap"></div>
         <div class="wax-seal"></div>
-        <p style="position:absolute; bottom:-50px; left:50%; transform:translateX(-50%); color:#c9a96e; letter-spacing:2px; font-size:12px; font-family:sans-serif;">TAP TO OPEN</p>
+        <p style="position:absolute; bottom:-50px; left:50%; transform:translateX(-50%); color:#c9a96e; letter-spacing:2px; font-size:12px; font-family:sans-serif; opacity: 1; transform: none;">TAP TO OPEN</p>
     </div>
 </div>
 
 <div id="main-content">
-    <div class="cover fade-item">
+    <div class="cover">
         <p style="font-size:0.85rem;letter-spacing:0.35em;color:#c9a96e;margin-bottom:18px">WE'RE GETTING MARRIED</p>
         <h1>Jay <span class="amp">&</span> Michelle</h1>
         <p>2026·06·20</p>
     </div>
 
-    <section class="fade-item">
+    <section>
         <h2>誠摯邀請您</h2>
         <p style="line-height:2">我們誠摯邀請您，一同見證我們的幸福時刻，分享這份喜悅與愛。<br><br>
         愛情是一段奇妙的旅程，而今天，我們即將啟航人生新的篇章。<br>
@@ -93,7 +96,7 @@
         讓我們一同見證這份美好，共享這份喜悅，期待與你共度這難忘的時刻。</p>
     </section>
 
-    <section class="fade-item">
+    <section>
         <h2>Wedding Info</h2>
         <div class="info">
             <h3 style="color:#c9a96e;font-size:0.8rem;letter-spacing:0.3em;margin-bottom:10px">日期</h3>
@@ -109,13 +112,13 @@
         </div>
     </section>
 
-    <section class="fade-item">
+    <section>
         <h2>婚宴地點</h2>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.123!2d120.7!3d24.17!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917f8b9b8b8b9%3A0x1b8b8b8b8b8b8b8b!2z5pqW5bGF5pel6LC3!5e0!3m2!1szh-TW!2stw!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
-        <a href="https://maps.app.goo.gl/K8XfTfA3m7Xz9Vvj9" target="_blank" class="map-btn">開啟 Google 地圖</a>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.115865507011!2d120.70273767591873!3d24.16768397262145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691786a3449337%3A0x6336e788e04e9c71!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1709400000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
+        <a href="https://maps.app.goo.gl/uP9f6hK3F4V9Z5Xm7" target="_blank" class="map-btn">開啟 Google 地圖</a>
     </section>
 
-    <section style="background:#fff;max-width:100%;padding:80px 24px" class="fade-item">
+    <section style="background:#fff;max-width:100%;padding:80px 24px">
         <div style="max-width:480px;margin:0 auto">
             <h2>出席回覆</h2>
             <form id="rsvpForm" style="margin-top:30px">
@@ -134,7 +137,7 @@
         </div>
     </section>
 
-    <footer class="fade-item" style="text-align:center;padding:60px 24px;font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-style:italic;color:#c9a96e">
+    <footer style="text-align:center;padding:60px 24px;font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-style:italic;color:#c9a96e">
         See You Soon
     </footer>
 </div>
@@ -150,6 +153,7 @@
             document.getElementById('envelope-wrapper').style.opacity = '0';
             document.getElementById('main-content').classList.add('reveal');
             document.body.style.overflow = 'auto';
+            // 開場後立即跑一次偵測，讓第一屏文字浮現
             handleScroll();
         }, 1500);
         setTimeout(() => {
@@ -157,13 +161,18 @@
         }, 2700);
     }
 
+    // 偵測滾動讓文字與元素淡入
     function handleScroll() {
-        const items = document.querySelectorAll('.fade-item');
-        items.forEach(item => {
-            const rect = item.getBoundingClientRect();
-            if (rect.top < window.innerHeight * 0.9) {
-                item.classList.add('show');
-            }
+        const triggers = ['h1', 'h2', 'h3', 'p', 'div', 'form', 'button', 'iframe', 'a'];
+        triggers.forEach(tag => {
+            const elements = document.querySelectorAll(tag);
+            elements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                // 如果元素進入可視範圍 85%
+                if (rect.top < window.innerHeight * 0.85) {
+                    el.classList.add('show');
+                }
+            });
         });
     }
 
@@ -172,6 +181,7 @@
         e.preventDefault();
         this.style.display='none';
         document.getElementById('msg').style.display='block';
+        document.getElementById('msg').classList.add('show');
     });
 
     var player;
