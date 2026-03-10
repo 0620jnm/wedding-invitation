@@ -22,21 +22,13 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
     position: absolute; width: 100%; height: 100%;
     background: #fff; border: 12px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     display: flex; align-items: center; justify-content: center;
-    
-    /* 💎 關鍵：將動畫時間拉長至 2.5s，並使用 ease-in-out 讓動作更溫柔 */
     transition: transform 2.5s ease-in-out, opacity 1s ease-in-out; 
-    
     background-size: cover; background-position: center;
 }
-
-/* 提示文字 */
 .photo::after { content: "TAP"; font-family: 'Cormorant Garamond'; color: #c9a96e; font-size: 1.2rem; font-style: italic; }
-
 .photo:nth-child(1) { transform: rotate(-5deg); z-index: 3; }
 .photo:nth-child(2) { transform: rotate(3deg); z-index: 2; }
 .photo:nth-child(3) { transform: rotate(-2deg); z-index: 1; }
-
-/* 💎 浪漫掉落動畫：增加位移和旋轉，營造飄落感 */
 .photo.dropped { 
     transform: translateY(130vh) translateX(50px) rotate(45deg) !important; 
     opacity: 0; 
@@ -102,8 +94,9 @@ button:hover{background:#c9a96e}
 
     <section>
         <h2>婚宴地點</h2>
-        <iframe src="https://maps.app.goo.gl/K8XfTfA3m7Xz9Vvj94" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-        <a href="https://maps.app.goo.gl/K8XfTfA3m7Xz9Vvj95" target="_blank" style="display:inline-block;margin-top:15px;padding:10px 25px;border:1px solid #c9a96e;color:#c9a96e;text-decoration:none;letter-spacing:0.2em">開啟 Google 地圖</a>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.082594611598!2d120.72739537607733!3d24.174904378383836!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0x29019e28fe9eeff1!2z5pqW5bGF5pel56穀L-WPsOS4reWpmuauqC_nvo7lvI_pobrmuqwv5oi25aSW5pmuauqC_pwsOS4reWkluWkvy_lhazlj7joiZrppJDvvI_ml6XlvI_m穀5YCJL-a9mOWRoua0vuWwiQ!5e0!3m2!1szh-TW!2stw!4v1710000000000!5m2!1szh-TW!2stw" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        
+        <a href="https://maps.app.goo.gl/B9p5K9pX6jKx6k6X6" target="_blank" style="display:inline-block;margin-top:15px;padding:10px 25px;border:1px solid #c9a96e;color:#c9a96e;text-decoration:none;letter-spacing:0.2em">開啟 Google 地圖</a>
     </section>
 
     <section style="background:#fff;max-width:100%;padding:80px 24px">
@@ -140,7 +133,6 @@ function dropPhoto(el) {
     if (el.classList.contains('dropped')) return;
     el.classList.add('dropped');
     droppedCount++;
-
     if (droppedCount === 3) {
         setTimeout(() => {
             document.getElementById('intro-overlay').style.opacity = '0';
@@ -150,7 +142,7 @@ function dropPhoto(el) {
             setTimeout(() => {
                 document.getElementById('intro-overlay').style.display = 'none';
             }, 1800);
-        }, 800); // 點完後稍微停留再切換
+        }, 800);
     }
 }
 
@@ -171,13 +163,6 @@ document.getElementById('musicToggle').addEventListener('click', function() {
   if (player && player.getPlayerState) {
     player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
   }
-});
-
-document.getElementById('rsvpForm').addEventListener('submit',function(e){
-    e.preventDefault();
-    this.style.display='none';
-    document.getElementById('msg').style.display='block';
-    document.getElementById('msg').classList.add('show');
 });
 </script>
 </body>
