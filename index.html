@@ -6,32 +6,55 @@
 <title>Jay & Michelle Wedding</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Serif+TC:wght@200;300;400&family=Monsieur+La+Doulaise&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
-/* 核心樣式 */
+/* 核心樣式：回歸您指定的色調 */
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflow-x: hidden;} 
 
-/* --- 照片開場 --- */
+/* --- 💎 開場：拍立得淡出特效 --- */
 #intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     background: #e8dcc4; z-index: 10000;
     display: flex; align-items: center; justify-content: center;
-    transition: opacity 1.8s ease;
+    transition: opacity 2s ease-in-out; 
 }
 .photo-stack { position: relative; width: 300px; height: 400px; cursor: pointer; }
 .photo {
     position: absolute; left: 50%; width: 280px; height: 380px;
-    background: #fff; border: 12px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    transition: transform 2.8s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 1.2s ease-out; 
-    will-change: transform;
+    background: #fff; border: 12px solid #fff; 
+    /* 拍立得風格底框 */
+    border-bottom: 30px solid #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: transform 2s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 1s ease-out; 
+    will-change: transform, opacity;
     background-size: cover; background-position: center;
+    opacity: 0; /* 初始隱藏，用於淡入 */
 }
-.photo:nth-child(1) { transform: translateX(-50%) rotate(-4deg); z-index: 3; }
-.photo:nth-child(2) { transform: translateX(-50%) rotate(2deg); z-index: 2; }
-.photo:nth-child(3) { transform: translateX(-50%) rotate(-1deg); z-index: 1; }
-.photo.dropped { transform: translateY(130vh) translateX(40px) rotate(35deg) !important; opacity: 0; }
 
-/* --- 主視覺：回歸純粹靜態絲綢背景 --- */
-#main-wrapper { opacity: 0; transition: opacity 2s ease; }
+/* 💎 照片依序淡入與輕微位移 */
+.photo:nth-child(1) { animation: printOut 2.5s forwards 0.5s; z-index: 3; --rot: -4deg; --slide: 30px; }
+.photo:nth-child(2) { animation: printOut 3s forwards 1.2s; z-index: 2; --rot: 2deg; --slide: 15px; }
+.photo:nth-child(3) { animation: printOut 3.5s forwards 1.9s; z-index: 1; --rot: 0deg; --slide: 0px; }
+
+@keyframes printOut { 
+    from { opacity: 0; transform: translateY(-80px) rotate(0deg); } 
+    to { opacity: 1; transform: translateY(var(--slide)) rotate(var(--rot)); } 
+}
+
+/* 💎 點擊後淡出特效 */
+.photo.dropped { 
+    transform: scale(1.15) translateY(-20px) rotate(10deg) !important; 
+    opacity: 0 !important; 
+    filter: blur(8px);
+    pointer-events: none;
+}
+
+/* --- 💎 主視覺：回歸純粹靜態絲綢背景 --- */
+#main-wrapper { 
+    opacity: 0; visibility: hidden; 
+    transition: opacity 3.5s ease, visibility 3.5s; 
+}
+#main-wrapper.is-visible { opacity: 1; visibility: visible; }
+
 .cover {
     height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
     position: relative; overflow: hidden;
@@ -44,12 +67,12 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 
 .name-container { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
 
-/* 💎 重點優化 1：We're getting married! (字體放大兩倍，手寫體呈現) */
-.getting-married-text {
+/* 💎 回歸 Monsieur La Doulaise */
+.welcome-text {
     font-family: 'Monsieur La Doulaise', cursive;
-    font-size: clamp(3.5rem, 12vw, 6rem); /* 💎 極致放大，確保第一眼看到 */
+    font-size: 4rem;
     color: #C9A466;
-    margin-bottom: -15px; /* 與下方英文名字更緊湊 */
+    margin-bottom: -10px;
     opacity: 0;
     animation: fadeInLast 2s forwards 1s; 
 }
@@ -57,17 +80,15 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 /* 💎 回歸 Playfair Display */
 .english-names {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
     color: #2c2c2c;
     letter-spacing: 0.05em;
 }
 
-/* 💎 重點優化 2：中文姓名回歸 Noto Serif TC (宋體) */
 .chinese-names {
     display: flex; justify-content: space-between;
-    width: 100%; padding: 0 10%; margin-top: 28px; 
-    font-family: 'Noto Serif TC', serif; /* 回歸宋體 */
-    font-weight: 200; font-size: 1.2rem;
+    width: 100%; padding: 0 10%; margin-top: 35px; 
+    font-family: 'Noto Serif TC', serif; font-weight: 200; font-size: 1.2rem;
     letter-spacing: 0.5em; color: #4a4a4a;
 }
 
@@ -78,7 +99,7 @@ section{padding: 80px 24px; max-width: 700px; margin: 0 auto; text-align: center
 h2{font-family:'Cormorant Garamond',serif; font-size: 2rem; font-weight: 300; color: #C9A466; margin-bottom: 20px;}
 .info{background: #fff; padding: 30px; margin: 20px 0; border: 1px solid #DDE7A9;}
 
-/* 💎 地圖最終修復：地標紅針精準顯示模式 */
+/* 💎 地圖：官方正確地標嵌入，解決 PB 參數報錯 */
 .map-container { width: 100%; height: 400px; margin: 20px 0; border: 1px solid #DDE7A9; overflow: hidden; }
 iframe { width: 100%; height: 100%; border: 0; }
 
@@ -97,7 +118,7 @@ iframe { width: 100%; height: 100%; border: 0; }
 
 <div id="main-wrapper">
     <div class="cover">
-        <div class="getting-married-text">We're getting married!</div>
+        <div class="welcome-text">Welcome</div>
         <div class="name-container">
             <div class="english-names">Jay & Michelle's Wedding</div>
             <div class="chinese-names">
@@ -115,7 +136,7 @@ iframe { width: 100%; height: 100%; border: 0; }
             <p>暖居日穀 (台中市北屯區松竹路一段3號)</p>
         </div>
         <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.421596700873!2d120.70613207604515!3d24.174495572422797!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917f8a3c89f55%3A0xc6222c2c2c22222!2z5pqq5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710400000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.0185958043694!2d120.70617327610052!3d24.171064172462612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3469177f9859f77f%3A0x6b801a2f6a73c09b!2z5pqq5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710400000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
         </div>
         <a href="http://googleusercontent.com/maps.google.com/1" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #C9A466; color:#C9A466; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
     </section>
@@ -133,15 +154,19 @@ var player;
 
 function dropPhoto(el) {
     if (el.classList.contains('dropped')) return;
-    if (droppedCount === 0 && player && player.playVideo) { player.playVideo(); }
+    if (droppedCount === 0 && player && typeof player.playVideo === 'function') { player.playVideo(); }
     el.classList.add('dropped');
     droppedCount++;
     if (droppedCount === 3) {
         setTimeout(() => {
-            document.getElementById('intro-overlay').style.opacity = '0';
-            document.getElementById('main-wrapper').style.opacity = '1';
-            document.body.style.overflow = 'auto'; 
-            setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 2000);
+            const overlay = document.getElementById('intro-overlay');
+            const wrapper = document.getElementById('main-wrapper');
+            overlay.style.opacity = '0';
+            wrapper.classList.add('is-visible');
+            setTimeout(() => {
+                document.body.style.overflow = 'auto';
+                overlay.style.display = 'none';
+            }, 2500); 
         }, 1200);
     }
 }
