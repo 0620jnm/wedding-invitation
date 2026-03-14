@@ -29,29 +29,18 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 .photo:nth-child(3) { transform: translateX(-50%) rotate(-1deg); z-index: 1; }
 .photo.dropped { transform: translateY(130vh) translateX(40px) rotate(35deg) !important; opacity: 0; }
 
-/* --- 💎 主視覺背景：保留原色 + 導入綢緞紋理 --- */
+/* --- 💎 主視覺背景：💎 替換為香檳金絲綢紋理 --- */
 #main-wrapper { opacity: 0; transition: opacity 2s ease; }
 .cover {
     height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
     position: relative; overflow: hidden;
-    /* 1. 這裡維持您最喜歡的米色漸層 */
-    background: linear-gradient(135deg,#f5f5dc,#e8dcc4); 
-}
-
-/* 2. 獨立的綢緞紋理層：確保不改色，只給紋理感 */
-.cover::after {
-    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    /* 💎 請將下方的 URL 換成您在 GitHub 上的綢緞圖路徑 (image_3ecb74.png) */
-    background-image: url('image_3ecb74.png'); 
+    /* 💎 核心：替換為香檳金絲綢圖，請確保檔案命名正確且存在於 GitHub 資料夾中 */
+    background-image: url('image_3.png'); 
     background-size: cover;
     background-position: center;
-    /* 使用 luminosity 模式只抓取紋理陰影，並降低透明度 */
-    mix-blend-mode: luminosity; 
-    opacity: 0.15; 
-    pointer-events: none;
-    z-index: 1;
 }
 
+/* 💎 強化的姓名對齊設計：確保在絲綢上清晰可見 */
 .name-container { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
 
 .english-names {
@@ -68,19 +57,19 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 
 .chinese-names {
     display: flex; justify-content: space-between;
-    width: 100%; padding: 0 10%; margin-top: 28px; 
+    width: 100%; padding: 0 8%; margin-top: 25px; /* 💎 確保垂直間距不遮擋姓名 */
     font-family: 'Noto Serif TC', serif; font-weight: 200; font-size: 1.2rem;
     letter-spacing: 0.5em; color: #4a4a4a;
 }
 
 .cover p { margin-top: 35px; letter-spacing: 0.3em; color: #888; position: relative; z-index: 10;}
 
-/* 資訊區 */
+/* 其他區塊保持穩定 */
 section{padding: 80px 24px; max-width: 700px; margin: 0 auto; text-align: center;}
 h2{font-family:'Cormorant Garamond',serif; font-size: 2rem; font-weight: 300; color: #c9a466; margin-bottom: 20px;}
 .info{background: #fff; padding: 30px; margin: 20px 0; border: 1px solid #e0d9d0;}
 
-/* 💎 地圖修正：使用 Google 官方標準 Embedding */
+/* 💎 地圖：鎖定為精確座標 Embedding */
 .map-container { width: 100%; height: 400px; margin: 20px 0; border: 1px solid #e0d9d0; overflow: hidden; }
 iframe { width: 100%; height: 100%; border: 0; }
 
@@ -127,9 +116,9 @@ iframe { width: 100%; height: 100%; border: 0; }
     <section>
         <h2>婚宴地點</h2>
         <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.0638515024225!2d120.7061732!3d24.1695421!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917f8b2c45167%3A0xc067201df1e15e8a!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710400000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="maps.google.com/maps?q=暖居日穀...&output=embed`）。這能避開先前" allowfullscreen="" loading="lazy"></iframe>
         </div>
-        <a href="https://maps.app.goo.gl/vE9Z8zV6C7H7Vn9L8" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
+        <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.141885542841!2d120.70788307590215!3d24.184307572352844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeee1!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000!5m2!1szh-TW!2stw6" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a96e; color:#c9a96e; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
     </section>
 
     <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#c9a466">See You Soon</footer>
