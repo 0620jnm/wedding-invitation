@@ -6,10 +6,11 @@
 <title>Jay & Michelle Wedding</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400&family=Gwendolyn:wght@400;700&display=swap" rel="stylesheet">
 <style>
+/* 核心樣式 */
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflow: hidden;} 
 
-/* --- 瞬間反應但優雅掉落的開場 --- */
+/* --- 照片開場：保持流暢優雅 --- */
 #intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     background: #e8dcc4; z-index: 10000;
@@ -20,24 +21,28 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 .photo {
     position: absolute; left: 50%; width: 280px; height: 380px;
     background: #fff; border: 12px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    /* 💎 核心修正：will-change 消除點擊延遲，維持 2.8s 優雅飄落時間 */
+    /* 將 william-change 優化保留，維持優雅飄落 */
     transition: transform 2.8s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 1.2s ease-out; 
-    will-change: transform; 
+    will-change: transform;
     background-size: cover; background-position: center;
 }
-
 .photo:nth-child(1) { transform: translateX(-50%) rotate(-4deg); z-index: 3; }
 .photo:nth-child(2) { transform: translateX(-50%) rotate(2deg); z-index: 2; }
 .photo:nth-child(3) { transform: translateX(-50%) rotate(-1deg); z-index: 1; }
+.photo.dropped { transform: translateY(130vh) translateX(40px) rotate(35deg) !important; opacity: 0; }
 
-.photo.dropped { 
-    transform: translateY(130vh) translateX(40px) rotate(35deg) !important; 
-    opacity: 0; 
-}
-
-/* --- 主視覺：姓名層次修正 --- */
+/* --- 💎 主視覺：米色絲綢紋理背景 --- */
 #main-wrapper { opacity: 0; transition: opacity 2s ease; }
-.cover{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#f5f5dc,#e8dcc4);text-align:center}
+.cover{
+    height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    /* 💎 核心優化：疊加絲綢紋理 */
+    background-image: 
+        linear-gradient(135deg,#f5f5dc,#e8dcc4), /* 保留原本米色漸層 */
+        url('https://drive.google.com/uc?export=view&id=1X1y3D-f3-d08910d6556111002'); /* 導入黑色絲綢紋理圖，請使用正確的 GitHub 直連網址 */
+    background-blend-mode: overlay; /* 💎 核心：融合模式，將布紋疊加在米色上，產生高級質感 */
+    background-size: cover; 
+    background-position: center;
+}
 
 .name-container { display: flex; flex-direction: column; align-items: center; position: relative; }
 
@@ -56,27 +61,25 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
     line-height: 0; position: relative; top: 10px;
 }
 
-/* 中文層：調高 z-index 並增加間距防止遮擋 */
+/* 中文層：調高 z-index 並增加間距 */
 .chinese-names {
     display: flex; justify-content: space-between;
     width: 100%; padding: 0 5%; 
-    margin-top: 10px; /* 💎 增加與英文的間距 */
+    margin-top: 10px;
     font-family: 'Noto Serif TC', serif; font-weight: 200; font-size: 1.2rem;
     letter-spacing: 0.5em; color: #4a4a4a;
     position: relative;
-    z-index: 2; /* 確保在英文之上 */
+    z-index: 2; 
 }
 
 .cover p { margin-top: 35px; letter-spacing: 0.3em; color: #888; }
 
-/* 地圖修正 */
+/* 其他區塊保持穩定 */
 section{padding: 80px 24px; max-width: 700px; margin: 0 auto; text-align: center;}
 h2{font-family:'Cormorant Garamond',serif; font-size: 2rem; font-weight: 300; color: #c9a96e; margin-bottom: 20px;}
 .info{background: #fff; padding: 30px; margin: 20px 0; border: 1px solid #e0d9d0;}
-
 .map-container { width: 100%; height: 350px; margin: 20px 0; border: 1px solid #e0d9d0; overflow: hidden; }
 iframe { width: 100%; height: 100%; border: 0; }
-
 #musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a96e; border: none; color: white; cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 </style>
 </head>
@@ -120,9 +123,9 @@ iframe { width: 100%; height: 100%; border: 0; }
     <section>
         <h2>婚宴地點</h2>
         <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.86602052467!2d120.70732837588077!3d24.18024187215167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691788647a510d%3A0x9adb99645224e771!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1709999999999!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.1600742512613!2d120.7078336762031!3d24.183111078434057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbedb35%3A0x9a019e28fe9eee0e!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1709876543210!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
         </div>
-        <a href="https://maps.app.goo.gl/uXv4K6K8B3V1V6X66" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a96e; color:#c9a96e; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
+        <a href="https://maps.app.goo.gl/3A6F6vC7JvH8Jt3L8" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a96e; color:#c9a96e; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
     </section>
 
     <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#c9a96e">See You Soon</footer>
@@ -138,15 +141,9 @@ var player;
 
 function dropPhoto(el) {
     if (el.classList.contains('dropped')) return;
-    
-    // 💡 點擊瞬間立即觸發音效/音樂
-    if (droppedCount === 0 && player && player.playVideo) {
-        player.playVideo();
-    }
-
+    if (droppedCount === 0 && player && player.playVideo) { player.playVideo(); }
     el.classList.add('dropped');
     droppedCount++;
-
     if (droppedCount === 3) {
         setTimeout(() => {
             document.getElementById('intro-overlay').style.opacity = '0';
