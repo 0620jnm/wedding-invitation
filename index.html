@@ -2,54 +2,58 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Jay & Michelle Wedding</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Jay & Michelle</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400&family=Gwendolyn:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&family=Zen+Old+Mincho:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* 基礎設定 */
-*{margin:0;padding:0;box-sizing:border-box}
-html, body { width: 100%; overflow-x: hidden; background: #faf8f5; -webkit-text-size-adjust: 100%;}
-body{font-family:'Noto Serif TC',serif; color:#2c2c2c;} 
+/* 基礎修正：解決手機版高度與捲動問題 */
+*{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+html, body { width: 100%; height: 100%; height: -webkit-fill-available; overflow-x: hidden; background: #faf8f5;}
+body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;} 
 
-/* --- 💎 開場：拍立得 (影像淡出版) --- */
+/* --- 💎 開場：拍立得 --- */
 #intro-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: #e8dcc4; z-index: 10000;
     display: flex; align-items: center; justify-content: center;
     transition: opacity 1.5s ease-in-out; 
+    touch-action: none; /* 防止滑動干擾點擊 */
 }
 .camera-container {
-    position: relative; width: 320px; height: 380px;
+    position: relative; width: 280px; height: 340px;
     background-image: url('camera.png'); background-size: contain; background-position: center; background-repeat: no-repeat;
     z-index: 10001;
 }
-.photo-stack { position: absolute; top: 50px; left: 50%; transform: translateX(-50%); width: 250px; height: 300px; z-index: 10000; }
+.photo-stack { position: absolute; top: 40px; left: 50%; transform: translateX(-50%); width: 220px; height: 260px; z-index: 10000; }
 .photo {
     position: absolute; left: 0; top: 0; width: 100%; height: 100%;
-    background: #fff; border: 8px solid #fff; border-bottom: 30px solid #fff;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.5s ease-out; 
+    background: #fff; border: 6px solid #fff; border-bottom: 25px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.2s ease-out, filter 1.2s; 
     background-size: cover; background-position: center; opacity: 0;
+    cursor: pointer;
 }
 
-.photo:nth-child(1) { animation: printOut 1.5s forwards 0.3s; z-index: 3; --rot: -5deg; --slide: 30px; }
-.photo:nth-child(2) { animation: printOut 1.5s forwards 0.6s; z-index: 2; --rot: 3deg; --slide: 15px; }
-.photo:nth-child(3) { animation: printOut 1.5s forwards 0.9s; z-index: 1; --rot: 0deg; --slide: 0px; }
+/* 動態滑出 */
+.photo:nth-child(1) { animation: printOut 1.2s forwards 0.3s; z-index: 3; --rot: -5deg; --slide: 20px; }
+.photo:nth-child(2) { animation: printOut 1.2s forwards 0.6s; z-index: 2; --rot: 3deg; --slide: 10px; }
+.photo:nth-child(3) { animation: printOut 1.2s forwards 0.9s; z-index: 1; --rot: 0deg; --slide: 0px; }
 
 @keyframes printOut { 
-    from { opacity: 0; transform: translateY(-80px) rotate(0deg); } 
+    from { opacity: 0; transform: translateY(-50px) rotate(0deg); } 
     to { opacity: 1; transform: translateY(var(--slide)) rotate(var(--rot)); } 
 }
 
-/* 💎 點擊後的「影像慢慢淡出」特效 */
+/* 💎 點擊後：影像慢慢淡出特效 */
 .photo.dropped { 
-    transform: translateY(50px) scale(0.9) !important; 
+    transform: translateY(-20px) scale(1.1) rotate(5deg) !important; 
     opacity: 0 !important; 
+    filter: blur(10px); /* 增加模糊感讓淡出更美 */
     pointer-events: none; 
 }
 
 /* --- 💎 主視覺 --- */
-#main-wrapper { opacity: 0; visibility: hidden; transition: opacity 3s ease; }
+#main-wrapper { opacity: 0; visibility: hidden; transition: opacity 2s ease; }
 #main-wrapper.is-visible { opacity: 1; visibility: visible; }
 
 .cover {
@@ -57,40 +61,38 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c;}
     position: relative; overflow: hidden; background-color: #f5f5dc; 
 }
 .cover::before {
-    content: ""; position: absolute; top: -5%; left: -5%; width: 110%; height: 110%;
+    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background-image: url('bg_silk.jpg.png'); background-size: cover; background-position: center;
-    animation: silkFloat 30s infinite alternate ease-in-out; z-index: 1;
+    z-index: 1;
 }
-@keyframes silkFloat { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
 
-.getting-married-text { color:#c9a466; margin-bottom:12px; letter-spacing:0.4em; font-size: 0.9rem; z-index: 10; }
+.getting-married-text { color:#c9a466; margin-bottom:12px; letter-spacing:0.4em; font-size: 0.85rem; z-index: 10; position: relative;}
 
 .name-container { position: relative; z-index: 10; width: 100%; }
-.english-names { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 300; }
-.english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(4rem, 12vw, 6rem); color: #c9a466; margin: 0 10px; vertical-align: middle; }
+.english-names { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 7vw, 4rem); font-weight: 300; }
+.english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 
 .chinese-names { 
-    display: flex; justify-content: space-around; width: 80%; max-width: 500px; margin: 30px auto 0; 
-    font-family: 'Zen Old Mincho', serif; font-size: 2.2rem; letter-spacing: 0.3em; color: #4a4a4a; 
+    display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 25px auto 0; 
+    font-family: 'Zen Old Mincho', serif; font-size: 2rem; letter-spacing: 0.2em; color: #4a4a4a; 
 }
 
-/* --- 內容區 --- */
-.content-section { padding: 60px 20px; max-width: 1000px; margin: 0 auto; }
-.grid-row { display: flex; flex-wrap: wrap; gap: 40px; align-items: center; margin-bottom: 80px; }
-.grid-row.reverse { flex-direction: row-reverse; }
-.grid-images { flex: 1.2; display: flex; gap: 10px; min-width: 320px; }
-.grid-img { flex: 1; height: 300px; background-size: cover; background-position: center; border: 8px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-.grid-text { flex: 1; min-width: 300px; }
-.grid-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: #c9a466; margin-bottom: 15px; }
+/* 內容區 */
+.content-section { padding: 50px 20px; max-width: 1000px; margin: 0 auto; }
+.grid-row { display: flex; flex-direction: column; gap: 30px; margin-bottom: 60px; }
+.grid-images { display: flex; gap: 10px; width: 100%; }
+.grid-img { flex: 1; height: 250px; background-size: cover; background-position: center; border: 5px solid #fff; box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
+.grid-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: #c9a466; margin-bottom: 10px; }
 
-.info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
-.info-card { background: #fff; padding: 40px; max-width: 700px; margin: 20px auto; border: 1px solid #e0d9d0; }
-.map-container { width: 100%; height: 350px; margin: 25px 0; border: 1px solid #e0d9d0; }
+/* 婚禮資訊 */
+.info-section { padding: 60px 20px; background: #fbf9f7; text-align: center; }
+.info-card { background: #fff; padding: 30px; margin: 20px auto; border: 1px solid #e0d9d0; }
+.map-container { width: 100%; height: 300px; margin: 20px 0; border: 1px solid #e0d9d0; }
 
-#musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a466; border: none; color: white; cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; }
+#musicToggle { position: fixed; bottom: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: #c9a466; border: none; color: white; cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; }
 </style>
 </head>
-<body>
+<body onload="checkImages()">
 
 <div id="intro-overlay">
     <div class="camera-container">
@@ -109,33 +111,32 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c;}
             <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
             <div class="chinese-names"><span>蔡宇杰</span><span>陳旻瑄</span></div>
         </div>
-        <p style="margin-top:25px; color:#888; letter-spacing:0.2em;">2026·06·20</p>
+        <p style="margin-top:20px; color:#888; letter-spacing:0.2em; font-size: 0.9rem; z-index: 10; position: relative;">2026·06·20</p>
     </div>
 
     <section class="content-section">
         <div class="grid-row">
-            <div class="grid-images"><div class="grid-img" style="background-image: url('story1a.jpg');"></div><div class="grid-img" style="background-image: url('story1b.jpg');"></div></div>
+            <div class="grid-images">
+                <div class="grid-img" style="background-image: url('story1a.jpg');"></div>
+                <div class="grid-img" style="background-image: url('story1b.jpg');"></div>
+            </div>
             <div class="grid-text"><h3>Our Story</h3><p>在此輸入內容...</p></div>
         </div>
     </section>
 
     <section class="info-section">
-        <h2 style="font-family:'Cormorant Garamond',serif; color:#c9a466; font-size:2.5rem;">Wedding Info</h2>
+        <h2 style="font-family:'Cormorant Garamond',serif; color:#c9a466;">Wedding Info</h2>
         <div class="info-card">
-            <h3>日期時間</h3>
-            <p style="font-size:1.2rem; margin-top:10px;">2026年6月20日 (六)</p>
-        </div>
-        <div class="info-card">
-            <h3>地點與地圖</h3>
-            <p>暖居日穀 (台中市北屯區松竹路一段3號)</p>
+            <p>2026年6月20日 (六)</p>
+            <p style="margin-top:10px;">暖居日穀 (台中市北屯區松竹路一段3號)</p>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.1234!2d120.7061732!3d24.1695421!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e765509935%3A0xc3199182372d887a!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.815591321703!2d120.70359827606342!3d24.17822557262145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917ef2f1a603d%3A0x6e9a7e6b7f3295b9!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710400000000!5m2!1szh-TW!2stw" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
-            <a href="https://maps.app.goo.gl/uXpDaq89oUu3X8L37" target="_blank" style="display:inline-block; padding:12px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none;">開啟 Google 地圖導航</a>
+            <a href="https://maps.app.goo.gl/9ZpYxX9H2T2rB7vF8" target="_blank" style="display:inline-block; padding:10px 20px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; font-size: 0.9rem;">開啟地圖導航</a>
         </div>
     </section>
 
-    <footer style="text-align:center; padding:80px 0; color:#c9a466; font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-style:italic;">See You Soon</footer>
+    <footer style="text-align:center; padding:50px 0; color:#c9a466; font-family:'Cormorant Garamond',serif; font-style:italic;">See You Soon</footer>
 </div>
 
 <div id="player" style="position:fixed; top:-9999px;"></div>
@@ -146,12 +147,17 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c;}
 let droppedCount = 0;
 var player;
 
+// 檢查圖片是否載入成功 (調試用)
+function checkImages() {
+    console.log("頁面已載入，等待點擊照片...");
+}
+
 function dropPhoto(el) {
     if (el.classList.contains('dropped')) return;
     
-    // 💎 手機端修正：必須由使用者點擊動作觸發音樂
-    if (droppedCount === 0 && player) {
-        try { player.playVideo(); } catch(e) {}
+    // 💎 強制：手機端必須在第一次點擊時啟動音訊上下文
+    if (droppedCount === 0 && player && typeof player.playVideo === 'function') {
+        player.playVideo();
     }
     
     el.classList.add('dropped');
@@ -159,12 +165,12 @@ function dropPhoto(el) {
     
     if (droppedCount === 3) {
         setTimeout(() => {
-            document.getElementById('intro-overlay').style.opacity = '0';
-            document.getElementById('main-wrapper').classList.add('is-visible');
-            setTimeout(() => {
-                document.body.style.overflow = 'auto';
-                document.getElementById('intro-overlay').style.display = 'none';
-            }, 1500); 
+            const overlay = document.getElementById('intro-overlay');
+            const wrapper = document.getElementById('main-wrapper');
+            overlay.style.opacity = '0';
+            wrapper.classList.add('is-visible');
+            document.body.style.overflow = 'auto';
+            setTimeout(() => { overlay.style.display = 'none'; }, 1500); 
         }, 800);
     }
 }
@@ -177,7 +183,8 @@ function onYouTubeIframeAPIReady() {
         'loop': 1, 
         'playlist': 'pmrCXt4lNyA', 
         'controls': 0,
-        'playsinline': 1 // 💎 關鍵：讓影片在手機網頁內播放，而不跳出 App
+        'playsinline': 1, // 💎 關鍵：手機內聯播放
+        'mute': 0 
     },
     events: {
       'onReady': (e) => { e.target.setVolume(30); },
@@ -193,6 +200,11 @@ document.getElementById('musicToggle').onclick = function() {
     player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
   }
 };
+
+// 阻止手機瀏覽器預設滑動行為
+document.getElementById('intro-overlay').addEventListener('touchmove', function(e) {
+    e.preventDefault();
+}, { passive: false });
 </script>
 </body>
 </html>
