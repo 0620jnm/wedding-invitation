@@ -30,7 +30,7 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 .photo:nth-child(3) { transform: translateX(-50%) rotate(-1deg); z-index: 1; }
 .photo.dropped { transform: translateY(130vh) translateX(40px) rotate(35deg) !important; opacity: 0; }
 
-/* --- 💎 主視覺：💎 強化 SVG 綢緞波動背景 --- */
+/* --- 💎 主視覺：💎 強化厚重綢緞波光背景 --- */
 #main-wrapper { opacity: 0; transition: opacity 3.5s ease; }
 .cover {
     height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
@@ -38,32 +38,50 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
     background-color: #f5f5dc; 
 }
 
-/* 💎 背景浮動與 SVG 波紋混合特效 */
+/* 💎 背景：獨立的綢緞紋理與光影混合層 */
 .cover::before {
     content: "";
     position: absolute;
-    /* 加大圖片範圍防止邊緣空白 */
-    top: -20%; left: -20%; width: 140%; height: 140%;
-    
-    /* 1. 導入您的檔案 bg_silk.jpg.png */
+    /* 💎 核心：導入您的檔案 bg_silk.jpg.png */
+    top: 0; left: 0; width: 100%; height: 100%;
     background-image: url('bg_silk.jpg.png'); 
     background-size: cover;
     background-position: center;
-    
-    /* 💎 2. 核心：應用 SVG 扭曲波紋濾鏡 */
-    filter: url(#wave) blur(1px); /* 💎 稍微模糊讓波紋更柔和 */
-    -webkit-filter: url(#wave) blur(1px);
-    
-    /* 3. 保留極微小的呼吸感浮動 */
-    animation: silkFloat 30s infinite alternate ease-in-out; 
     z-index: 1;
-    will-change: filter, transform; /* 💎 硬體加速優化 */
 }
 
-/* 微小的呼吸與旋轉，配合 SVG 波動 */
-@keyframes silkFloat {
-    0% { transform: scale(1) translate(0, 0) rotate(0deg); }
-    100% { transform: scale(1.05) translate(-1%, -1%) rotate(1deg); }
+/* 💎 核心優化：東北向西南垂墜波動特效 */
+.cover::after {
+    content: "";
+    position: absolute;
+    /* 加大範圍防止位移時空白 */
+    top: -100%; left: -100%; width: 300%; height: 300%;
+    
+    /* 💎 核心：東北向西南（135度）的线性漸層，模擬厚重絲綢的波紋陰影 */
+    background: repeating-linear-gradient(
+        135deg,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,0) 10%,
+        rgba(255,255,255,0.2) 20%, /* 💎 模擬波峰光澤 */
+        rgba(0,0,0,0.1) 30%,     /* 💎 模擬波谷陰影 */
+        rgba(0,0,0,0) 40%,
+        rgba(0,0,0,0) 50%
+    );
+    background-size: 200px 200px; /* 控制波紋寬度 */
+    
+    /* 💎 核心：使用 luminosity 模式只抓取光影，保留絲綢原色 */
+    mix-blend-mode: luminosity; 
+    opacity: 0.8;
+    
+    /* 💎 核心動畫：極緩慢的東北向西南（135度）位移 */
+    animation: silkWaveMove 20s infinite linear; 
+    z-index: 2;
+    pointer-events: none;
+}
+
+@keyframes silkWaveMove {
+    from { background-position: 0 0; }
+    to { background-position: -200px 200px; } /* 💎 向西南方向移動 */
 }
 
 .name-container { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
@@ -94,7 +112,7 @@ section{padding: 80px 24px; max-width: 700px; margin: 0 auto; text-align: center
 h2{font-family:'Cormorant Garamond',serif; font-size: 2rem; font-weight: 300; color: #c9a466; margin-bottom: 20px;}
 .info{background: #fff; padding: 30px; margin: 20px 0; border: 1px solid #e0d9d0;}
 
-/* 地圖區 */
+/* 地圖修正 */
 .map-container { width: 100%; height: 400px; margin: 20px 0; border: 1px solid #e0d9d0; overflow: hidden; }
 iframe { width: 100%; height: 100%; border: 0; }
 
@@ -146,29 +164,11 @@ iframe { width: 100%; height: 100%; border: 0; }
         <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.1600742512613!2d120.7078336762031!3d24.183111078434057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbedb35%3A0x9a019e28fe9eee0e!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1709876543210!5m2!1szh-TW!2stw6" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a96e; color:#c9a96e; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
     </section>
 
-    <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#c9a96e">See You Soon</footer>
+    <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#c9a466">See You Soon</footer>
 </div>
 
 <div id="player" style="position:fixed; top:-9999px; left:-9999px;"></div>
 <button id="musicToggle">▶</button>
-
-<svg style="position: absolute; width: 0; height: 0;" xmlns="http://www.w3.org/2000/svg">
-  <filter id="wave">
-    <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="3" result="noise" seed="2"/>
-    <feDisplacementMap in="SourceGraphic" in2="noise" scale="25" xChannelSelector="R" yChannelSelector="G"/>
-    
-    <animate 
-      xlink:href="#noise" 
-      attributeName="baseFrequency" 
-      from="0.01" 
-      to="0.03" 
-      dur="20s" 
-      repeatCount="indefinite" 
-      additive="replace" 
-      direction="alternate" 
-      ease="ease-in-out"/>
-  </filter>
-</svg>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
