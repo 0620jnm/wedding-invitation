@@ -6,68 +6,60 @@
 <title>Jay & Michelle Wedding</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400&family=Gwendolyn:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
-/* 基礎修正：防止手機版左右滑動 */
+/* 基礎修正 */
 *{margin:0;padding:0;box-sizing:border-box}
-html, body { width: 100%; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
-body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c;} 
+html, body { width: 100%; overflow-x: hidden; -webkit-overflow-scrolling: touch; background: #faf8f5;}
+body{font-family:'Noto Serif TC',serif; color:#2c2c2c; opacity: 1;} 
 
-/* --- 開場動畫：淡入與飄入 --- */
+/* --- 💎 開場照片：淡入與飄入 --- */
 #intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: #e8dcc4; z-index: 10000;
     display: flex; align-items: center; justify-content: center;
-    transition: opacity 1.5s ease-in-out; 
+    transition: opacity 2.5s ease-in-out; 
 }
 .photo-stack { position: relative; width: 280px; height: 380px; cursor: pointer; }
 .photo {
     position: absolute; left: 0; top: 0; width: 100%; height: 100%;
     background: #fff; border: 10px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    transition: transform 1.5s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 1s ease-out; 
+    transition: transform 2.8s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 2s ease-out; 
     background-size: cover; background-position: center;
-    opacity: 0;
+    opacity: 0; /* 初始隱藏，用於淡入 */
 }
 
-/* 照片飄入 */
-.photo:nth-child(1) { animation: flyIn 1.5s forwards 0.3s; z-index: 3; }
-.photo:nth-child(2) { animation: flyIn 1.8s forwards 0.6s; z-index: 2; }
-.photo:nth-child(3) { animation: flyIn 2.1s forwards 0.9s; z-index: 1; }
+/* 💎 照片依序淡入與輕微位移 */
+.photo:nth-child(1) { animation: photoFadeIn 2s forwards 0.3s; z-index: 3; --rot: -4deg; }
+.photo:nth-child(2) { animation: photoFadeIn 2.5s forwards 0.6s; z-index: 2; --rot: 2deg; }
+.photo:nth-child(3) { animation: photoFadeIn 3s forwards 0.9s; z-index: 1; --rot: -1deg; }
 
-@keyframes flyIn {
+@keyframes photoFadeIn {
     from { opacity: 0; transform: translateY(20px) rotate(0deg); }
-    to { 
-        opacity: 1; 
-        transform: translateY(0) rotate(var(--rot)); 
-    }
+    to { opacity: 1; transform: translateY(0) rotate(var(--rot)); }
 }
 
-/* 設定旋轉角度變數 */
-.photo:nth-child(1) { --rot: -4deg; }
-.photo:nth-child(2) { --rot: 2deg; }
-.photo:nth-child(3) { --rot: -1deg; }
+.photo.dropped { transform: translateY(130vh) rotate(35deg) !important; opacity: 0; }
 
-.photo.dropped { transform: translateY(120vh) rotate(35deg) !important; opacity: 0; }
-
-/* --- 主視覺 --- */
+/* --- 💎 主視覺：優雅淡入 --- */
 #main-wrapper { 
-    display: none; /* 初始完全隱藏，避免空白佔位 */
     opacity: 0; 
-    transition: opacity 2s ease; 
+    visibility: hidden; /* 防止預先佔位但保持可渲染 */
+    transition: opacity 3.5s ease, visibility 3.5s; 
+}
+
+/* 當啟動時顯示 */
+#main-wrapper.is-visible {
+    opacity: 1;
+    visibility: visible;
 }
 
 .cover {
     height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-    position: relative; overflow: hidden;
-    background-color: #f5f5dc; 
+    position: relative; overflow: hidden; background-color: #f5f5dc; 
 }
 .cover::before {
-    content: "";
-    position: absolute;
-    top: -5%; left: -5%; width: 110%; height: 110%;
-    background-image: url('bg_silk.jpg.png'); 
-    background-size: cover;
-    background-position: center;
-    animation: silkFloat 30s infinite alternate ease-in-out; 
-    z-index: 1;
+    content: ""; position: absolute; top: -5%; left: -5%; width: 110%; height: 110%;
+    background-image: url('bg_silk.jpg.png'); background-size: cover; background-position: center;
+    animation: silkFloat 30s infinite alternate ease-in-out; z-index: 1;
 }
 @keyframes silkFloat {
     0% { transform: scale(1); }
@@ -76,22 +68,22 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c;}
 
 .name-container { position: relative; z-index: 10; width: 100%; }
 .english-names { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 5.5rem); font-weight: 300; }
-.english-names .amp { font-family: 'Gwendolyn', cursive; font-size: 5rem; color: #c9a466; margin: 0 10px; position: relative; top: 5px; }
-.chinese-names { display: flex; justify-content: space-around; width: 60%; margin: 20px auto 0; font-family: 'Noto Serif TC', serif; font-weight: 200; font-size: 1.1rem; letter-spacing: 0.3em; color: #4a4a4a; }
-.cover p { margin-top: 30px; letter-spacing: 0.3em; color: #888; position: relative; z-index: 10; font-size: 0.9rem;}
+.english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(4rem, 12vw, 6rem); color: #c9a466; margin: 0 10px; position: relative; top: 10px; }
+.chinese-names { display: flex; justify-content: space-around; width: 60%; max-width: 300px; margin: 25px auto 0; font-family: 'Noto Serif TC', serif; font-weight: 200; font-size: 1.1rem; letter-spacing: 0.4em; color: #4a4a4a; }
+.cover p { margin-top: 35px; letter-spacing: 0.3em; color: #888; position: relative; z-index: 10; font-size: 0.9rem;}
 
-/* --- 內容擴展區塊 --- */
-.story-section { padding: 60px 20px; max-width: 900px; margin: 0 auto; }
-.story-grid { display: flex; flex-wrap: wrap; gap: 30px; align-items: center; }
-.story-img { flex: 1; min-width: 300px; height: 400px; background-size: cover; background-position: center; border: 8px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+/* --- 內容區 --- */
+.story-section { padding: 80px 20px; max-width: 900px; margin: 0 auto; }
+.story-grid { display: flex; flex-wrap: wrap; gap: 40px; align-items: center; }
+.story-img { flex: 1; min-width: 300px; height: 450px; background-size: cover; background-position: center; border: 10px solid #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
 .story-text { flex: 1; min-width: 300px; text-align: left; padding: 10px; }
-.story-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: #c9a466; margin-bottom: 15px; }
-.story-text p { line-height: 1.8; color: #666; font-size: 0.95rem; }
+.story-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: #c9a466; margin-bottom: 20px; }
+.story-text p { line-height: 2; color: #666; font-size: 0.95rem; }
 
-section { padding: 60px 20px; max-width: 700px; margin: 0 auto; text-align: center; }
-h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: #c9a466; margin-bottom: 15px; }
-.info { background: #fff; padding: 25px; margin: 15px 0; border: 1px solid #e0d9d0; }
-.map-container { width: 100%; height: 300px; margin: 20px 0; border: 1px solid #e0d9d0; }
+section { padding: 80px 20px; max-width: 700px; margin: 0 auto; text-align: center; }
+h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: #c9a466; margin-bottom: 25px; }
+.info { background: #fff; padding: 30px; margin: 20px 0; border: 1px solid #e0d9d0; }
+.map-container { width: 100%; height: 350px; margin: 25px 0; border: 1px solid #e0d9d0; }
 
 #musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a466; border: none; color: white; cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 </style>
@@ -108,7 +100,7 @@ h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: #c9a466
 
 <div id="main-wrapper">
     <div class="cover">
-        <p style="color:#c9a466; margin-bottom:10px;">WE'RE GETTING MARRIED</p>
+        <p style="color:#c9a466; margin-bottom:12px; letter-spacing:0.4em;">WE'RE GETTING MARRIED</p>
         <div class="name-container">
             <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
             <div class="chinese-names"><span>蔡宇杰</span><span>陳旻瑄</span></div>
@@ -128,15 +120,17 @@ h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: #c9a466
 
     <section>
         <h2>Wedding Info</h2>
-        <div class="info"><h3>日期</h3><p>2026年6月20日</p></div>
-        <div class="info"><h3>地點</h3><p>暖居日穀 (台中市北屯區松竹路一段3號)</p></div>
+        <div class="info"><h3>日期</h3><p style="font-size:1.3rem; margin-top:5px;">2026年6月20日</p></div>
+        <div class="info"><h3>地點</h3><p style="font-size:1.1rem; margin-top:5px;">暖居日穀 (台中市北屯區松竹路一段3號)</p></div>
+        
         <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.0123456789!2d120.7!3d24.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDA2JzAwLjAiTiAxMjDCsDQyJzAwLjAiRQ!5e0!3m2!1szh-TW!2stw!4v123456789" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.0185958043694!2d120.70617327610052!3d24.171064172462612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3469177f9859f77f%3A0x6b801a2f6a73c09b!2z5pqq5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710400000000!5m2!1szh-TW!2stw" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
-        <a href="https://maps.app.goo.gl/YourActualLink" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none;">開啟 Google 地圖導航</a>
+        
+        <a href="https://maps.app.goo.gl/uP4V223xNisHic11A" target="_blank" style="display:inline-block; margin-top:15px; padding:12px 30px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; letter-spacing:0.1em;">開啟 Google 地圖導航</a>
     </section>
 
-    <footer style="text-align:center; padding:60px 0; color:#c9a466; font-style:italic;">See You Soon</footer>
+    <footer style="text-align:center; padding:80px 0; color:#c9a466; font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-style:italic;">See You Soon</footer>
 </div>
 
 <div id="player" style="position:fixed; top:-9999px;"></div>
@@ -147,11 +141,9 @@ h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: #c9a466
 let droppedCount = 0;
 var player;
 
-// 修正：確保 dropPhoto 在手機上點擊靈敏
 function dropPhoto(el) {
     if (el.classList.contains('dropped')) return;
     
-    // 第一次點擊嘗試播放音樂
     if (droppedCount === 0 && player && typeof player.playVideo === 'function') {
         player.playVideo();
     }
@@ -160,19 +152,19 @@ function dropPhoto(el) {
     droppedCount++;
     
     if (droppedCount === 3) {
-        // 增加延遲，確保下落動畫跑完
         setTimeout(() => {
             const overlay = document.getElementById('intro-overlay');
             const wrapper = document.getElementById('main-wrapper');
             
             overlay.style.opacity = '0';
-            wrapper.style.display = 'block'; // 先轉為區塊
+            
+            // 💎 修復淡入機制：先加 Class 觸發 CSS 動畫
+            wrapper.classList.add('is-visible');
             
             setTimeout(() => {
-                wrapper.style.opacity = '1';
                 document.body.style.overflow = 'auto';
                 overlay.style.display = 'none';
-            }, 50); // 微小延遲確保過渡動畫生效
+            }, 2500); 
         }, 1000);
     }
 }
