@@ -9,85 +9,84 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflow-x: hidden;} 
 
-/* --- 照片開場 --- */
+/* --- 💎 開場優化：飄入與淡入 --- */
 #intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     background: #e8dcc4; z-index: 10000;
     display: flex; align-items: center; justify-content: center;
-    transition: opacity 2.5s ease-in-out; /* 💎 進入主視覺的淡入時間延長，讓過程更慢更優雅 */
+    transition: opacity 2.5s ease-in-out; 
 }
 .photo-stack { position: relative; width: 300px; height: 400px; cursor: pointer; }
 .photo {
     position: absolute; left: 50%; width: 280px; height: 380px;
     background: #fff; border: 12px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    transition: transform 2.8s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 1.2s ease-out; 
-    will-change: transform;
+    transition: transform 2.8s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 2s ease-out; 
     background-size: cover; background-position: center;
+    opacity: 0; /* 預設隱藏 */
 }
-.photo:nth-child(1) { transform: translateX(-50%) rotate(-4deg); z-index: 3; }
-.photo:nth-child(2) { transform: translateX(-50%) rotate(2deg); z-index: 2; }
-.photo:nth-child(3) { transform: translateX(-50%) rotate(-1deg); z-index: 1; }
+
+/* 💎 三張照片分別從不同角度輕輕飄入 */
+.photo:nth-child(1) { transform: translate(-50%, -20px) rotate(-10deg); animation: flyIn 2s forwards 0.3s; z-index: 3; }
+.photo:nth-child(2) { transform: translate(-50%, 20px) rotate(10deg); animation: flyIn 2.5s forwards 0.6s; z-index: 2; }
+.photo:nth-child(3) { transform: translate(-50%, 0) rotate(5deg); animation: flyIn 3s forwards 0.9s; z-index: 1; }
+
+@keyframes flyIn {
+    to { opacity: 1; } /* 讓它回到 CSS 定義的旋轉角度，僅控制淡入 */
+}
+
+/* 下落動畫保持不變 */
 .photo.dropped { transform: translateY(130vh) translateX(40px) rotate(35deg) !important; opacity: 0; }
 
-/* --- 💎 主視覺：絲綢背景與緩慢浮動特效 --- */
-#main-wrapper { opacity: 0; transition: opacity 3.5s ease; } /* 💎 內容呈現的速度也調慢 */
+/* --- 主視覺 --- */
+#main-wrapper { opacity: 0; transition: opacity 3.5s ease; }
 .cover {
     height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
     position: relative; overflow: hidden;
     background-color: #f5f5dc; 
 }
-
-/* 💎 背景浮動動畫：讓絲綢像在流動 */
 .cover::before {
     content: "";
     position: absolute;
     top: -10%; left: -10%; width: 120%; height: 120%;
-    /* 💎 使用您的特定檔名 bg_silk.jpg.png */
     background-image: url('bg_silk.jpg.png'); 
     background-size: cover;
     background-position: center;
-    animation: silkFloat 25s infinite alternate ease-in-out; /* 極緩慢的呼吸感浮動 */
+    animation: silkFloat 25s infinite alternate ease-in-out; 
     z-index: 1;
 }
-
 @keyframes silkFloat {
     0% { transform: scale(1) translate(0, 0); }
     100% { transform: scale(1.08) translate(-2%, -2%); }
 }
 
 .name-container { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
-
-.english-names {
-    display: flex; align-items: center;
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(3rem, 10vw, 5.5rem);
-    font-weight: 300;
-}
-.english-names .amp {
-    font-family: 'Gwendolyn', cursive;
-    font-size: 8rem; color: #c9a466; margin: 0 15px; 
-    line-height: 0; position: relative; top: 12px;
-}
-
-.chinese-names {
-    display: flex; justify-content: space-between;
-    width: 100%; padding: 0 10%; margin-top: 30px; 
-    font-family: 'Noto Serif TC', serif; font-weight: 200; font-size: 1.2rem;
-    letter-spacing: 0.5em; color: #4a4a4a;
-}
-
+.english-names { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 5.5rem); font-weight: 300; }
+.english-names .amp { font-family: 'Gwendolyn', cursive; font-size: 8rem; color: #c9a466; margin: 0 15px; line-height: 0; position: relative; top: 12px; }
+.chinese-names { display: flex; justify-content: space-between; width: 100%; padding: 0 10%; margin-top: 30px; font-family: 'Noto Serif TC', serif; font-weight: 200; font-size: 1.2rem; letter-spacing: 0.5em; color: #4a4a4a; }
 .cover p { margin-top: 35px; letter-spacing: 0.3em; color: #888; position: relative; z-index: 10;}
 
-/* 資訊區 */
+/* --- 💎 內容擴展區塊：Our Story --- */
+.story-section { padding: 100px 24px; max-width: 900px; margin: 0 auto; }
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.story-img { width: 100%; height: 500px; background-size: cover; background-position: center; border: 1px solid #e0d9d0; padding: 10px; background-color: #fff; }
+.story-text { text-align: left; padding: 20px; }
+.story-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: #c9a466; margin-bottom: 20px; }
+.story-text p { line-height: 2; color: #666; font-size: 0.95rem; }
+
+/* 資訊區 & 地圖 */
 section{padding: 80px 24px; max-width: 700px; margin: 0 auto; text-align: center;}
 h2{font-family:'Cormorant Garamond',serif; font-size: 2rem; font-weight: 300; color: #c9a466; margin-bottom: 20px;}
 .info{background: #fff; padding: 30px; margin: 20px 0; border: 1px solid #e0d9d0;}
-
-/* 地圖區 */
 .map-container { width: 100%; height: 400px; margin: 20px 0; border: 1px solid #e0d9d0; overflow: hidden; }
 iframe { width: 100%; height: 100%; border: 0; }
 
 #musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a466; border: none; color: white; cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+/* 手機版適應 */
+@media (max-width: 768px) {
+    .story-grid { grid-template-columns: 1fr; }
+    .story-img { height: 350px; }
+}
 </style>
 </head>
 <body>
@@ -115,6 +114,23 @@ iframe { width: 100%; height: 100%; border: 0; }
         <p style="position:relative;z-index:10">2026·06·20</p>
     </div>
 
+    <div class="story-section">
+        <div class="story-grid">
+            <div class="story-img" style="background-image: url('story1.jpg');"></div>
+            <div class="story-text">
+                <h3>Our Story</h3>
+                <p>
+                    在這裡可以寫下關於你們的故事。<br>
+                    那是在一個微風徐徐的午後，<br>
+                    兩顆心在偶然的相遇中，開始了緩慢而浪漫的交集。<br><br>
+                    歲月在平凡的日常中累積成永恆，<br>
+                    我們決定在 2026 年的仲夏，<br>
+                    許下相伴一生的諾言。
+                </p>
+            </div>
+        </div>
+    </div>
+
     <section>
         <h2>Wedding Info</h2>
         <div class="info">
@@ -130,9 +146,9 @@ iframe { width: 100%; height: 100%; border: 0; }
     <section>
         <h2>婚宴地點</h2>
         <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.117466826622!2d120.7013837760777!3d24.167664472600213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691763102796e9%3A0x6b72a088913364f7!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1711200000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.111111111111!2d120.7!3d24.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e766e4a64d%3A0xc665e8a71d2b8e3a!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1234567890123" allowfullscreen="" loading="lazy"></iframe>
         </div>
-        <a href="https://maps.app.goo.gl/uX3f5f5f5f5f" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
+        <a href="https://maps.app.goo.gl/uF5jXfP3f3XfP3f3" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
     </section>
 
     <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#c9a466">See You Soon</footer>
@@ -156,7 +172,7 @@ function dropPhoto(el) {
             document.getElementById('intro-overlay').style.opacity = '0';
             document.getElementById('main-wrapper').style.opacity = '1';
             document.body.style.overflow = 'auto'; 
-            setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 2500); // 💎 對應變慢的淡入時間
+            setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 2500); 
         }, 1200);
     }
 }
