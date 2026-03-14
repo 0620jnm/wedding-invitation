@@ -6,7 +6,6 @@
 <title>Jay & Michelle Wedding</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400&family=Gwendolyn:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* 核心樣式 */
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflow-x: hidden;} 
 
@@ -30,38 +29,30 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 .photo:nth-child(3) { transform: translateX(-50%) rotate(-1deg); z-index: 1; }
 .photo.dropped { transform: translateY(130vh) translateX(40px) rotate(35deg) !important; opacity: 0; }
 
-/* --- 💎 主視覺：強化的綢緞波光背景 --- */
+/* --- 💎 主視覺背景：保留原色 + 導入綢緞紋理 --- */
 #main-wrapper { opacity: 0; transition: opacity 2s ease; }
 .cover {
     height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
     position: relative; overflow: hidden;
-    background: #f7f6ed; /* 基礎米色 */
+    /* 1. 這裡維持您最喜歡的米色漸層 */
+    background: linear-gradient(135deg,#f5f5dc,#e8dcc4); 
 }
 
-/* 💎 綢緞光澤模擬：使用多層陰影與高亮漸層 */
-.cover::before {
-    content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-    /* 核心：高亮與陰影的交錯模擬皺褶 */
-    background: 
-        repeating-linear-gradient(
-            120deg,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.4) 15%,
-            rgba(201, 164, 102, 0.1) 25%,
-            rgba(255, 255, 255, 0.5) 35%,
-            rgba(255, 255, 255, 0) 50%
-        );
-    filter: blur(50px);
-    opacity: 0.7;
-    animation: silk-move 20s infinite alternate ease-in-out;
+/* 2. 獨立的綢緞紋理層：確保不改色，只給紋理感 */
+.cover::after {
+    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    /* 💎 請將下方的 URL 換成您在 GitHub 上的綢緞圖路徑 (image_3ecb74.png) */
+    background-image: url('image_3ecb74.png'); 
+    background-size: cover;
+    background-position: center;
+    /* 使用 luminosity 模式只抓取紋理陰影，並降低透明度 */
+    mix-blend-mode: luminosity; 
+    opacity: 0.15; 
+    pointer-events: none;
+    z-index: 1;
 }
 
-@keyframes silk-move {
-    0% { transform: translate(0, 0) rotate(0deg); }
-    100% { transform: translate(5%, 5%) rotate(3deg); }
-}
-
-.name-container { display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10; }
+.name-container { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
 
 .english-names {
     display: flex; align-items: center;
@@ -77,7 +68,7 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 
 .chinese-names {
     display: flex; justify-content: space-between;
-    width: 100%; padding: 0 10%; margin-top: 25px; 
+    width: 100%; padding: 0 10%; margin-top: 28px; 
     font-family: 'Noto Serif TC', serif; font-weight: 200; font-size: 1.2rem;
     letter-spacing: 0.5em; color: #4a4a4a;
 }
@@ -89,8 +80,8 @@ section{padding: 80px 24px; max-width: 700px; margin: 0 auto; text-align: center
 h2{font-family:'Cormorant Garamond',serif; font-size: 2rem; font-weight: 300; color: #c9a466; margin-bottom: 20px;}
 .info{background: #fff; padding: 30px; margin: 20px 0; border: 1px solid #e0d9d0;}
 
-/* 💎 地圖：絕對修正為官方嵌入版 */
-.map-container { width: 100%; height: 350px; margin: 20px 0; border: 1px solid #e0d9d0; overflow: hidden; }
+/* 💎 地圖修正：使用 Google 官方標準 Embedding */
+.map-container { width: 100%; height: 400px; margin: 20px 0; border: 1px solid #e0d9d0; overflow: hidden; }
 iframe { width: 100%; height: 100%; border: 0; }
 
 #musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a466; border: none; color: white; cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
@@ -136,13 +127,9 @@ iframe { width: 100%; height: 100%; border: 0; }
     <section>
         <h2>婚宴地點</h2>
         <div class="map-container">
-            <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.2312688846394!2d120.707328376136!3d24.180237078378377!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691929319e3477%3A0xc3f34e32049d562!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710400000000!5m2!1szh-TW!2stw" 
-                allowfullscreen="" 
-                loading="lazy">
-            </iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.0638515024225!2d120.7061732!3d24.1695421!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917f8b2c45167%3A0xc067201df1e15e8a!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710400000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
         </div>
-        <a href="https://maps.app.goo.gl/9T2YmWh1uKxJm7NMA" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
+        <a href="https://maps.app.goo.gl/vE9Z8zV6C7H7Vn9L8" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
     </section>
 
     <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#c9a466">See You Soon</footer>
