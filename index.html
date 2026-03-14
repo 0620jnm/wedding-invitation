@@ -9,12 +9,12 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflow-x: hidden;} 
 
-/* --- 照片開場：維持優雅淡入 --- */
+/* --- 照片開場 --- */
 #intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     background: #e8dcc4; z-index: 10000;
     display: flex; align-items: center; justify-content: center;
-    transition: opacity 1.8s ease;
+    transition: opacity 2.5s ease-in-out; /* 💎 進入主視覺的淡入時間延長，讓過程更慢更優雅 */
 }
 .photo-stack { position: relative; width: 300px; height: 400px; cursor: pointer; }
 .photo {
@@ -29,23 +29,37 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 .photo:nth-child(3) { transform: translateX(-50%) rotate(-1deg); z-index: 1; }
 .photo.dropped { transform: translateY(130vh) translateX(40px) rotate(35deg) !important; opacity: 0; }
 
-/* --- 💎 主視覺：使用您上傳的絲綢背景 --- */
-#main-wrapper { opacity: 0; transition: opacity 2s ease; }
+/* --- 💎 主視覺：絲綢背景與緩慢浮動特效 --- */
+#main-wrapper { opacity: 0; transition: opacity 3.5s ease; } /* 💎 內容呈現的速度也調慢 */
 .cover {
     height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
     position: relative; overflow: hidden;
-    /* 💎 這裡請填入您上傳到 GitHub 的絲綢圖檔名 */
+    background-color: #f5f5dc; 
+}
+
+/* 💎 背景浮動動畫：讓絲綢像在流動 */
+.cover::before {
+    content: "";
+    position: absolute;
+    top: -10%; left: -10%; width: 120%; height: 120%;
+    /* 💎 使用您的特定檔名 bg_silk.jpg.png */
     background-image: url('bg_silk.jpg.png'); 
     background-size: cover;
     background-position: center;
-    background-color: #f5f5dc; /* 備用底色，防止圖片載入前全白 */
+    animation: silkFloat 25s infinite alternate ease-in-out; /* 極緩慢的呼吸感浮動 */
+    z-index: 1;
+}
+
+@keyframes silkFloat {
+    0% { transform: scale(1) translate(0, 0); }
+    100% { transform: scale(1.08) translate(-2%, -2%); }
 }
 
 .name-container { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
 
 .english-names {
     display: flex; align-items: center;
-    font-family: 'Playfair Display', serif; /* 回歸您偏好的字體 */
+    font-family: 'Playfair Display', serif;
     font-size: clamp(3rem, 10vw, 5.5rem);
     font-weight: 300;
 }
@@ -69,7 +83,7 @@ section{padding: 80px 24px; max-width: 700px; margin: 0 auto; text-align: center
 h2{font-family:'Cormorant Garamond',serif; font-size: 2rem; font-weight: 300; color: #c9a466; margin-bottom: 20px;}
 .info{background: #fff; padding: 30px; margin: 20px 0; border: 1px solid #e0d9d0;}
 
-/* 💎 地圖：使用最原始的座標鎖定法 */
+/* 地圖區 */
 .map-container { width: 100%; height: 400px; margin: 20px 0; border: 1px solid #e0d9d0; overflow: hidden; }
 iframe { width: 100%; height: 100%; border: 0; }
 
@@ -88,7 +102,7 @@ iframe { width: 100%; height: 100%; border: 0; }
 
 <div id="main-wrapper">
     <div class="cover">
-        <p style="font-size:0.85rem;letter-spacing:0.35em;color:#c9a466;margin-bottom:18px">WE'RE GETTING MARRIED</p>
+        <p style="font-size:0.85rem;letter-spacing:0.35em;color:#c9a466;margin-bottom:18px;position:relative;z-index:10">WE'RE GETTING MARRIED</p>
         <div class="name-container">
             <div class="english-names">
                 <span>Jay</span><span class="amp">&</span><span>Michelle</span>
@@ -98,7 +112,7 @@ iframe { width: 100%; height: 100%; border: 0; }
                 <span>陳旻瑄</span>
             </div>
         </div>
-        <p>2026·06·20</p>
+        <p style="position:relative;z-index:10">2026·06·20</p>
     </div>
 
     <section>
@@ -116,9 +130,9 @@ iframe { width: 100%; height: 100%; border: 0; }
     <section>
         <h2>婚宴地點</h2>
         <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.638531122177!2d120.70366437591642!3d24.166848272993077!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346919cc26284f6b%3A0xf60787e9140409a4!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710400000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.117466826622!2d120.7013837760777!3d24.167664472600213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691763102796e9%3A0x6b72a088913364f7!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1711200000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
         </div>
-        <a href="https://maps.app.goo.gl/3A7V7n69vF4w6fN18" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
+        <a href="https://maps.app.goo.gl/uX3f5f5f5f5f" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
     </section>
 
     <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#c9a466">See You Soon</footer>
@@ -142,7 +156,7 @@ function dropPhoto(el) {
             document.getElementById('intro-overlay').style.opacity = '0';
             document.getElementById('main-wrapper').style.opacity = '1';
             document.body.style.overflow = 'auto'; 
-            setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 2000);
+            setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 2500); // 💎 對應變慢的淡入時間
         }, 1200);
     }
 }
