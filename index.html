@@ -10,7 +10,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflow: hidden;} 
 
-/* --- 照片開場：保持流暢優雅 --- */
+/* --- 照片開場 --- */
 #intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     background: #e8dcc4; z-index: 10000;
@@ -21,7 +21,6 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 .photo {
     position: absolute; left: 50%; width: 280px; height: 380px;
     background: #fff; border: 12px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    /* 將 william-change 優化保留，維持優雅飄落 */
     transition: transform 2.8s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 1.2s ease-out; 
     will-change: transform;
     background-size: cover; background-position: center;
@@ -31,29 +30,29 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 .photo:nth-child(3) { transform: translateX(-50%) rotate(-1deg); z-index: 1; }
 .photo.dropped { transform: translateY(130vh) translateX(40px) rotate(35deg) !important; opacity: 0; }
 
-/* --- 💎 主視覺：💎 強化綢緞立體感背景 --- */
+/* --- 主視覺：穩定質感背景 --- */
 #main-wrapper { opacity: 0; transition: opacity 2s ease; }
 .cover{
     height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
-    /* 💎 核心優化：更強烈的融合模式，提升綢緞感 */
-    background-image: 
-        linear-gradient(135deg,#f5f5dc,#e8dcc4), /* 保留原本米色漸層 */
-        url('https://drive.google.com/uc?export=view&id=1bodtrUku_sCWA136H5rhLcKbq5oR21vT'); /* 💎 核心：這是一個穩定的綢緞紋理直連網址 */
-    background-blend-mode: multiply; /* 💎 核心：將模式改為正片疊底，讓黑色絲綢的波浪陰影更強烈，提升立體感 */
-    background-size: cover; 
-    background-position: center;
+    /* 💎 穩定方案：米色漸層 + 微顆粒質感（不再依賴外部布料圖以免空白） */
+    background: linear-gradient(135deg,#f5f5dc,#e8dcc4);
+    position: relative;
+}
+/* 模擬絲綢/紙張細微紋理 */
+.cover::before {
+    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0.04; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 .name-container { display: flex; flex-direction: column; align-items: center; position: relative; }
 
-/* 英文層：調低 z-index */
 .english-names {
     display: flex; align-items: center;
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(3rem, 10vw, 5.5rem);
     font-weight: 300;
-    position: relative;
-    z-index: 1; 
+    position: relative; z-index: 1;
 }
 .english-names .amp {
     font-family: 'Gwendolyn', cursive;
@@ -61,21 +60,120 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
     line-height: 0; position: relative; top: 10px;
 }
 
-/* 中文層：調高 z-index 並增加間距 */
 .chinese-names {
     display: flex; justify-content: space-between;
-    width: 100%; padding: 0 5%; 
-    margin-top: 10px;
+    width: 100%; padding: 0 5%; margin-top: 15px;
     font-family: 'Noto Serif TC', serif; font-weight: 200; font-size: 1.2rem;
     letter-spacing: 0.5em; color: #4a4a4a;
-    position: relative;
-    z-index: 2; 
+    position: relative; z-index: 2;
 }
 
 .cover p { margin-top: 35px; letter-spacing: 0.3em; color: #888; }
 
-/* 其他區塊保持穩定 */
+/* 地圖與資訊區 */
 section{padding: 80px 24px; max-width: 700px; margin: 0 auto; text-align: center;}
 h2{font-family:'Cormorant Garamond',serif; font-size: 2rem; font-weight: 300; color: #c9a96e; margin-bottom: 20px;}
 .info{background: #fff; padding: 30px; margin: 20px 0; border: 1px solid #e0d9d0;}
-.map-container { width: 100%; height: 350px; margin: 20px 0; border: 1px solid #e0d9d0;
+
+/* 💎 地圖：改用最穩定的標準嵌入語法 */
+.map-container { width: 100%; height: 350px; margin: 20px 0; border: 1px solid #e0d9d0; overflow: hidden; }
+iframe { width: 100%; height: 100%; border: 0; }
+
+#musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a96e; border: none; color: white; cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+</style>
+</head>
+<body>
+
+<div id="intro-overlay">
+    <div class="photo-stack">
+        <div class="photo" onclick="dropPhoto(this)" style="background-image: url('p1.jpg');"></div>
+        <div class="photo" onclick="dropPhoto(this)" style="background-image: url('p2.jpg');"></div>
+        <div class="photo" onclick="dropPhoto(this)" style="background-image: url('p3.jpg');"></div>
+    </div>
+</div>
+
+<div id="main-wrapper">
+    <div class="cover">
+        <p style="font-size:0.85rem;letter-spacing:0.35em;color:#c9a96e;margin-bottom:18px">WE'RE GETTING MARRIED</p>
+        <div class="name-container">
+            <div class="english-names">
+                <span>Jay</span><span class="amp">&</span><span>Michelle</span>
+            </div>
+            <div class="chinese-names">
+                <span>蔡宇杰</span>
+                <span>陳旻瑄</span>
+            </div>
+        </div>
+        <p>2026·06·20</p>
+    </div>
+
+    <section>
+        <h2>Wedding Info</h2>
+        <div class="info">
+            <h3 style="color:#c9a96e; letter-spacing:0.2em; margin-bottom:10px">日期</h3>
+            <p style="font-size:1.5rem">2026年6月20日</p>
+        </div>
+        <div class="info">
+            <h3 style="color:#c9a96e; letter-spacing:0.2em; margin-bottom:10px">地點</h3>
+            <p>暖居日穀 (台中市北屯區松竹路一段3號)</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>婚宴地點</h2>
+        <div class="map-container">
+            <iframe 
+                src="https://www.google.com/maps?q=暖居日穀&output=embed" 
+                allowfullscreen="" loading="lazy">
+            </iframe>
+        </div>
+        <a href="https://maps.app.goo.gl/9ZpL3fX5Z1q2Y8Z9" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a96e; color:#c9a96e; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
+    </section>
+
+    <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#c9a96e">See You Soon</footer>
+</div>
+
+<div id="player" style="position:fixed; top:-9999px; left:-9999px;"></div>
+<button id="musicToggle">▶</button>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+let droppedCount = 0;
+var player;
+
+function dropPhoto(el) {
+    if (el.classList.contains('dropped')) return;
+    if (droppedCount === 0 && player && player.playVideo) { player.playVideo(); }
+    el.classList.add('dropped');
+    droppedCount++;
+    if (droppedCount === 3) {
+        setTimeout(() => {
+            document.getElementById('intro-overlay').style.opacity = '0';
+            document.getElementById('main-wrapper').style.opacity = '1';
+            document.body.style.overflow = 'auto'; 
+            setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 2000);
+        }, 1200);
+    }
+}
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    videoId: 'pmrCXt4lNyA',
+    playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0 },
+    events: {
+      'onReady': (e) => { e.target.setVolume(30); },
+      'onStateChange': (e) => {
+          document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
+      }
+    }
+  });
+}
+
+document.getElementById('musicToggle').addEventListener('click', function() {
+  if (player && player.getPlayerState) {
+    player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
+  }
+});
+</script>
+</body>
+</html>
