@@ -31,15 +31,15 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 .photo:nth-child(3) { transform: translateX(-50%) rotate(-1deg); z-index: 1; }
 .photo.dropped { transform: translateY(130vh) translateX(40px) rotate(35deg) !important; opacity: 0; }
 
-/* --- 💎 主視覺：米色絲綢紋理背景 --- */
+/* --- 💎 主視覺：💎 強化綢緞立體感背景 --- */
 #main-wrapper { opacity: 0; transition: opacity 2s ease; }
 .cover{
     height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
-    /* 💎 核心優化：疊加絲綢紋理 */
+    /* 💎 核心優化：更強烈的融合模式，提升綢緞感 */
     background-image: 
         linear-gradient(135deg,#f5f5dc,#e8dcc4), /* 保留原本米色漸層 */
-        url('https://drive.google.com/uc?export=view&id=1X1y3D-f3-d08910d6556111002'); /* 導入黑色絲綢紋理圖，請使用正確的 GitHub 直連網址 */
-    background-blend-mode: overlay; /* 💎 核心：融合模式，將布紋疊加在米色上，產生高級質感 */
+        url('https://drive.google.com/uc?export=view&id=1bodtrUku_sCWA136H5rhLcKbq5oR21vT'); /* 💎 核心：這是一個穩定的綢緞紋理直連網址 */
+    background-blend-mode: multiply; /* 💎 核心：將模式改為正片疊底，讓黑色絲綢的波浪陰影更強烈，提升立體感 */
     background-size: cover; 
     background-position: center;
 }
@@ -78,100 +78,4 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 section{padding: 80px 24px; max-width: 700px; margin: 0 auto; text-align: center;}
 h2{font-family:'Cormorant Garamond',serif; font-size: 2rem; font-weight: 300; color: #c9a96e; margin-bottom: 20px;}
 .info{background: #fff; padding: 30px; margin: 20px 0; border: 1px solid #e0d9d0;}
-.map-container { width: 100%; height: 350px; margin: 20px 0; border: 1px solid #e0d9d0; overflow: hidden; }
-iframe { width: 100%; height: 100%; border: 0; }
-#musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a96e; border: none; color: white; cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-</style>
-</head>
-<body>
-
-<div id="intro-overlay">
-    <div class="photo-stack">
-        <div class="photo" onclick="dropPhoto(this)" style="background-image: url('p1.jpg');"></div>
-        <div class="photo" onclick="dropPhoto(this)" style="background-image: url('p2.jpg');"></div>
-        <div class="photo" onclick="dropPhoto(this)" style="background-image: url('p3.jpg');"></div>
-    </div>
-</div>
-
-<div id="main-wrapper">
-    <div class="cover">
-        <p style="font-size:0.85rem;letter-spacing:0.35em;color:#c9a96e;margin-bottom:18px">WE'RE GETTING MARRIED</p>
-        <div class="name-container">
-            <div class="english-names">
-                <span>Jay</span><span class="amp">&</span><span>Michelle</span>
-            </div>
-            <div class="chinese-names">
-                <span>蔡宇杰</span>
-                <span>陳旻瑄</span>
-            </div>
-        </div>
-        <p>2026·06·20</p>
-    </div>
-
-    <section>
-        <h2>Wedding Info</h2>
-        <div class="info">
-            <h3 style="color:#c9a96e; letter-spacing:0.2em; margin-bottom:10px">日期</h3>
-            <p style="font-size:1.5rem">2026年6月20日</p>
-        </div>
-        <div class="info">
-            <h3 style="color:#c9a96e; letter-spacing:0.2em; margin-bottom:10px">地點</h3>
-            <p>暖居日穀 (台中市北屯區松竹路一段3號)</p>
-        </div>
-    </section>
-
-    <section>
-        <h2>婚宴地點</h2>
-        <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.1600742512613!2d120.7078336762031!3d24.183111078434057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbedb35%3A0x9a019e28fe9eee0e!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1709876543210!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <a href="https://maps.app.goo.gl/3A6F6vC7JvH8Jt3L8" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a96e; color:#c9a96e; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
-    </section>
-
-    <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#c9a96e">See You Soon</footer>
-</div>
-
-<div id="player" style="position:fixed; top:-9999px; left:-9999px;"></div>
-<button id="musicToggle">▶</button>
-
-<script src="https://www.youtube.com/iframe_api"></script>
-<script>
-let droppedCount = 0;
-var player;
-
-function dropPhoto(el) {
-    if (el.classList.contains('dropped')) return;
-    if (droppedCount === 0 && player && player.playVideo) { player.playVideo(); }
-    el.classList.add('dropped');
-    droppedCount++;
-    if (droppedCount === 3) {
-        setTimeout(() => {
-            document.getElementById('intro-overlay').style.opacity = '0';
-            document.getElementById('main-wrapper').style.opacity = '1';
-            document.body.style.overflow = 'auto'; 
-            setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 2000);
-        }, 1200);
-    }
-}
-
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('player', {
-    videoId: 'pmrCXt4lNyA',
-    playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0 },
-    events: {
-      'onReady': (e) => { e.target.setVolume(30); },
-      'onStateChange': (e) => {
-          document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
-      }
-    }
-  });
-}
-
-document.getElementById('musicToggle').addEventListener('click', function() {
-  if (player && player.getPlayerState) {
-    player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
-  }
-});
-</script>
-</body>
-</html>
+.map-container { width: 100%; height: 350px; margin: 20px 0; border: 1px solid #e0d9d0;
