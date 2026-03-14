@@ -6,7 +6,6 @@
 <title>Jay & Michelle Wedding</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400&family=Gwendolyn:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
-/* 核心樣式 */
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflow-x: hidden;} 
 
@@ -15,7 +14,7 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     background: #e8dcc4; z-index: 10000;
     display: flex; align-items: center; justify-content: center;
-    transition: opacity 2.5s ease-in-out; 
+    transition: opacity 2.5s ease-in-out; /* 💎 進入主視覺的淡入時間延長，讓過程更慢更優雅 */
 }
 .photo-stack { position: relative; width: 300px; height: 400px; cursor: pointer; }
 .photo {
@@ -30,59 +29,30 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 .photo:nth-child(3) { transform: translateX(-50%) rotate(-1deg); z-index: 1; }
 .photo.dropped { transform: translateY(130vh) translateX(40px) rotate(35deg) !important; opacity: 0; }
 
-/* --- 💎 主視覺：💎 強化極緩慢光澤流動背景 --- */
-#main-wrapper { opacity: 0; transition: opacity 3.5s ease; }
+/* --- 💎 主視覺：絲綢背景與緩慢浮動特效 --- */
+#main-wrapper { opacity: 0; transition: opacity 3.5s ease; } /* 💎 內容呈現的速度也調慢 */
 .cover {
     height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
     position: relative; overflow: hidden;
     background-color: #f5f5dc; 
 }
 
-/* 💎 背景：獨立的綢緞紋理層 */
+/* 💎 背景浮動動畫：讓絲綢像在流動 */
 .cover::before {
     content: "";
     position: absolute;
-    /* 💎 核心：導入您的檔案 bg_silk.jpg.png */
-    top: 0; left: 0; width: 100%; height: 100%;
+    top: -10%; left: -10%; width: 120%; height: 120%;
+    /* 💎 使用您的特定檔名 bg_silk.jpg.png */
     background-image: url('bg_silk.jpg.png'); 
     background-size: cover;
     background-position: center;
+    animation: silkFloat 25s infinite alternate ease-in-out; /* 極緩慢的呼吸感浮動 */
     z-index: 1;
 }
 
-/* 💎 核心優化：獨立的光澤流動層 (mix-blend-mode) */
-.cover::after {
-    content: "";
-    position: absolute;
-    /* 加大範圍防止位移時空白 */
-    top: -100%; left: -100%; width: 300%; height: 300%;
-    
-    /* 💎 核心：半透明的線性漸層，模擬香檳金綢緞的流光波紋 */
-    background: repeating-linear-gradient(
-        135deg,
-        rgba(255,255,255,0) 0%,
-        rgba(255,255,255,0) 10%,
-        rgba(255,255,255,0.08) 20%, /* 💎 核心：淡淡的高光波峰 */
-        rgba(0,0,0,0.03) 30%,       /* 💎 核心：淡淡的陰影波谷 */
-        rgba(255,255,255,0) 40%,
-        rgba(255,255,255,0) 50%
-    );
-    background-size: 200px 200px; /* 控制流光波紋的頻率 */
-    
-    /* 💎 核心：luminosity 混合模式，完全保留絲綢原色，只抓取光影湧動感 */
-    mix-blend-mode: luminosity; 
-    opacity: 0.9;
-    
-    /* 💎 核心：極度緩慢的位移動畫 (35秒為一個週期，若有似無) */
-    animation: silkWaveMove 35s infinite linear; 
-    z-index: 2;
-    pointer-events: none;
-    will-change: background-position; /* 硬體加速優化 */
-}
-
-@keyframes silkWaveMove {
-    from { background-position: 0 0; }
-    to { background-position: -200px 200px; } /* 💎 向西南方向移動 */
+@keyframes silkFloat {
+    0% { transform: scale(1) translate(0, 0); }
+    100% { transform: scale(1.08) translate(-2%, -2%); }
 }
 
 .name-container { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
@@ -113,7 +83,7 @@ section{padding: 80px 24px; max-width: 700px; margin: 0 auto; text-align: center
 h2{font-family:'Cormorant Garamond',serif; font-size: 2rem; font-weight: 300; color: #c9a466; margin-bottom: 20px;}
 .info{background: #fff; padding: 30px; margin: 20px 0; border: 1px solid #e0d9d0;}
 
-/* 地圖修正 */
+/* 地圖區 */
 .map-container { width: 100%; height: 400px; margin: 20px 0; border: 1px solid #e0d9d0; overflow: hidden; }
 iframe { width: 100%; height: 100%; border: 0; }
 
@@ -160,12 +130,12 @@ iframe { width: 100%; height: 100%; border: 0; }
     <section>
         <h2>婚宴地點</h2>
         <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.1600742512613!2d120.7078336762031!3d24.183111078434057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbedb35%3A0x9a019e28fe9eee0e!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1709876543210!5m2!1szh-TW!2stw5" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.117466826622!2d120.7013837760777!3d24.167664472600213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691763102796e9%3A0x6b72a088913364f7!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1711200000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
         </div>
-        <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.1600742512613!2d120.7078336762031!3d24.183111078434057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbedb35%3A0x9a019e28fe9eee0e!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1709876543210!5m2!1szh-TW!2stw6" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a96e; color:#c9a96e; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
+        <a href="https://maps.app.goo.gl/uX3f5f5f5f5f" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
     </section>
 
-    <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#c9a96e">See You Soon</footer>
+    <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#c9a466">See You Soon</footer>
 </div>
 
 <div id="player" style="position:fixed; top:-9999px; left:-9999px;"></div>
@@ -186,7 +156,7 @@ function dropPhoto(el) {
             document.getElementById('intro-overlay').style.opacity = '0';
             document.getElementById('main-wrapper').style.opacity = '1';
             document.body.style.overflow = 'auto'; 
-            setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 2500); 
+            setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 2500); // 💎 對應變慢的淡入時間
         }, 1200);
     }
 }
