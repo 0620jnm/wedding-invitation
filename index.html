@@ -8,10 +8,10 @@
 <style>
 /* 基礎設定 */
 *{margin:0;padding:0;box-sizing:border-box}
-html, body { width: 100%; overflow-x: hidden; background: #faf8f5;}
+html, body { width: 100%; overflow-x: hidden; background: #faf8f5; -webkit-text-size-adjust: 100%;}
 body{font-family:'Noto Serif TC',serif; color:#2c2c2c;} 
 
-/* --- 💎 開場：拍立得 (精確恢復版) --- */
+/* --- 💎 開場：拍立得 (影像淡出版) --- */
 #intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     background: #e8dcc4; z-index: 10000;
@@ -28,10 +28,10 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c;}
     position: absolute; left: 0; top: 0; width: 100%; height: 100%;
     background: #fff; border: 8px solid #fff; border-bottom: 30px solid #fff;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease-out; 
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.5s ease-out; 
     background-size: cover; background-position: center; opacity: 0;
 }
-/* 💎 優化動畫節奏：更快速俐落，且只跑一次 (forwards) */
+
 .photo:nth-child(1) { animation: printOut 1.5s forwards 0.3s; z-index: 3; --rot: -5deg; --slide: 30px; }
 .photo:nth-child(2) { animation: printOut 1.5s forwards 0.6s; z-index: 2; --rot: 3deg; --slide: 15px; }
 .photo:nth-child(3) { animation: printOut 1.5s forwards 0.9s; z-index: 1; --rot: 0deg; --slide: 0px; }
@@ -40,8 +40,13 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c;}
     from { opacity: 0; transform: translateY(-80px) rotate(0deg); } 
     to { opacity: 1; transform: translateY(var(--slide)) rotate(var(--rot)); } 
 }
-/* 💎 點擊後的滑出特效 */
-.photo.dropped { transform: translateY(130vh) rotate(45deg) !important; opacity: 0; pointer-events: none; }
+
+/* 💎 點擊後的「影像慢慢淡出」特效 */
+.photo.dropped { 
+    transform: translateY(50px) scale(0.9) !important; 
+    opacity: 0 !important; 
+    pointer-events: none; 
+}
 
 /* --- 💎 主視覺 --- */
 #main-wrapper { opacity: 0; visibility: hidden; transition: opacity 3s ease; }
@@ -58,20 +63,18 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c;}
 }
 @keyframes silkFloat { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
 
-/* 💎 找回以前的 WE'RE GETTING MARRIED */
 .getting-married-text { color:#c9a466; margin-bottom:12px; letter-spacing:0.4em; font-size: 0.9rem; z-index: 10; }
 
 .name-container { position: relative; z-index: 10; width: 100%; }
 .english-names { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 300; }
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(4rem, 12vw, 6rem); color: #c9a466; margin: 0 10px; vertical-align: middle; }
 
-/* 💎 中文名字修正：Zen Old Mincho + 兩倍大 */
 .chinese-names { 
     display: flex; justify-content: space-around; width: 80%; max-width: 500px; margin: 30px auto 0; 
     font-family: 'Zen Old Mincho', serif; font-size: 2.2rem; letter-spacing: 0.3em; color: #4a4a4a; 
 }
 
-/* --- 交錯區塊樣式 --- */
+/* --- 內容區 --- */
 .content-section { padding: 60px 20px; max-width: 1000px; margin: 0 auto; }
 .grid-row { display: flex; flex-wrap: wrap; gap: 40px; align-items: center; margin-bottom: 80px; }
 .grid-row.reverse { flex-direction: row-reverse; }
@@ -79,14 +82,10 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c;}
 .grid-img { flex: 1; height: 300px; background-size: cover; background-position: center; border: 8px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
 .grid-text { flex: 1; min-width: 300px; }
 .grid-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: #c9a466; margin-bottom: 15px; }
-.grid-text p { line-height: 1.8; color: #666; font-size: 0.95rem; }
 
-/* 婚禮資訊 & 留言板 */
 .info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
 .info-card { background: #fff; padding: 40px; max-width: 700px; margin: 20px auto; border: 1px solid #e0d9d0; }
 .map-container { width: 100%; height: 350px; margin: 25px 0; border: 1px solid #e0d9d0; }
-.guestbook-section { padding: 80px 20px; text-align: center; max-width: 800px; margin: 0 auto; }
-.guestbook-box { border: 2px dashed #c9a466; padding: 50px; color: #c9a466; font-style: italic; background: rgba(201, 164, 102, 0.05); }
 
 #musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a466; border: none; color: white; cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; }
 </style>
@@ -118,11 +117,7 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c;}
             <div class="grid-images"><div class="grid-img" style="background-image: url('story1a.jpg');"></div><div class="grid-img" style="background-image: url('story1b.jpg');"></div></div>
             <div class="grid-text"><h3>Our Story</h3><p>在此輸入內容...</p></div>
         </div>
-        <div class="grid-row reverse">
-            <div class="grid-images"><div class="grid-img" style="background-image: url('story2a.jpg');"></div><div class="grid-img" style="background-image: url('story2b.jpg');"></div></div>
-            <div class="grid-text"><h3>The Journey</h3><p>在此輸入內容...</p></div>
-        </div>
-        </section>
+    </section>
 
     <section class="info-section">
         <h2 style="font-family:'Cormorant Garamond',serif; color:#c9a466; font-size:2.5rem;">Wedding Info</h2>
@@ -134,15 +129,10 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c;}
             <h3>地點與地圖</h3>
             <p>暖居日穀 (台中市北屯區松竹路一段3號)</p>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.0185958043694!2d120.70617327610052!3d24.171064172462612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3469177f9859f77f%3A0x6b801a2f6a73c09b!2z5pqq5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710400000000!5m2!1szh-TW!2stw" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.1234!2d120.7061732!3d24.1695421!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e765509935%3A0xc3199182372d887a!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
-            <a href="https://maps.app.goo.gl/uP4V223xNisHic11A" target="_blank" style="display:inline-block; padding:12px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none;">開啟 Google 地圖導航</a>
+            <a href="https://maps.app.goo.gl/uXpDaq89oUu3X8L37" target="_blank" style="display:inline-block; padding:12px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none;">開啟 Google 地圖導航</a>
         </div>
-    </section>
-
-    <section class="guestbook-section">
-        <h2 style="font-family:'Cormorant Garamond',serif; color:#c9a466; margin-bottom:20px;">Guestbook</h2>
-        <div class="guestbook-box">留言板空間預留</div>
     </section>
 
     <footer style="text-align:center; padding:80px 0; color:#c9a466; font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-style:italic;">See You Soon</footer>
@@ -158,7 +148,11 @@ var player;
 
 function dropPhoto(el) {
     if (el.classList.contains('dropped')) return;
-    if (droppedCount === 0 && player && typeof player.playVideo === 'function') { player.playVideo(); }
+    
+    // 💎 手機端修正：必須由使用者點擊動作觸發音樂
+    if (droppedCount === 0 && player) {
+        try { player.playVideo(); } catch(e) {}
+    }
     
     el.classList.add('dropped');
     droppedCount++;
@@ -170,7 +164,7 @@ function dropPhoto(el) {
             setTimeout(() => {
                 document.body.style.overflow = 'auto';
                 document.getElementById('intro-overlay').style.display = 'none';
-            }, 2000); 
+            }, 1500); 
         }, 800);
     }
 }
@@ -178,10 +172,18 @@ function dropPhoto(el) {
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
     videoId: 'pmrCXt4lNyA',
-    playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0 },
+    playerVars: { 
+        'autoplay': 1, 
+        'loop': 1, 
+        'playlist': 'pmrCXt4lNyA', 
+        'controls': 0,
+        'playsinline': 1 // 💎 關鍵：讓影片在手機網頁內播放，而不跳出 App
+    },
     events: {
       'onReady': (e) => { e.target.setVolume(30); },
-      'onStateChange': (e) => { document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶'; }
+      'onStateChange': (e) => {
+          document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
+      }
     }
   });
 }
