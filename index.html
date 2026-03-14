@@ -30,7 +30,7 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
 .photo:nth-child(3) { transform: translateX(-50%) rotate(-1deg); z-index: 1; }
 .photo.dropped { transform: translateY(130vh) translateX(40px) rotate(35deg) !important; opacity: 0; }
 
-/* --- 💎 主視覺：💎 強化厚重綢緞波光背景 --- */
+/* --- 💎 主視覺：💎 強化極緩慢光澤流動背景 --- */
 #main-wrapper { opacity: 0; transition: opacity 3.5s ease; }
 .cover {
     height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
@@ -38,7 +38,7 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
     background-color: #f5f5dc; 
 }
 
-/* 💎 背景：獨立的綢緞紋理與光影混合層 */
+/* 💎 背景：獨立的綢緞紋理層 */
 .cover::before {
     content: "";
     position: absolute;
@@ -50,33 +50,34 @@ body{font-family:'Noto Serif TC',serif;background:#faf8f5;color:#2c2c2c; overflo
     z-index: 1;
 }
 
-/* 💎 核心優化：東北向西南垂墜波動特效 */
+/* 💎 核心優化：獨立的光澤流動層 (mix-blend-mode) */
 .cover::after {
     content: "";
     position: absolute;
     /* 加大範圍防止位移時空白 */
     top: -100%; left: -100%; width: 300%; height: 300%;
     
-    /* 💎 核心：東北向西南（135度）的线性漸層，模擬厚重絲綢的波紋陰影 */
+    /* 💎 核心：半透明的線性漸層，模擬香檳金綢緞的流光波紋 */
     background: repeating-linear-gradient(
         135deg,
-        rgba(0,0,0,0) 0%,
-        rgba(0,0,0,0) 10%,
-        rgba(255,255,255,0.2) 20%, /* 💎 模擬波峰光澤 */
-        rgba(0,0,0,0.1) 30%,     /* 💎 模擬波谷陰影 */
-        rgba(0,0,0,0) 40%,
-        rgba(0,0,0,0) 50%
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0) 10%,
+        rgba(255,255,255,0.08) 20%, /* 💎 核心：淡淡的高光波峰 */
+        rgba(0,0,0,0.03) 30%,       /* 💎 核心：淡淡的陰影波谷 */
+        rgba(255,255,255,0) 40%,
+        rgba(255,255,255,0) 50%
     );
-    background-size: 200px 200px; /* 控制波紋寬度 */
+    background-size: 200px 200px; /* 控制流光波紋的頻率 */
     
-    /* 💎 核心：使用 luminosity 模式只抓取光影，保留絲綢原色 */
+    /* 💎 核心：luminosity 混合模式，完全保留絲綢原色，只抓取光影湧動感 */
     mix-blend-mode: luminosity; 
-    opacity: 0.8;
+    opacity: 0.9;
     
-    /* 💎 核心動畫：極緩慢的東北向西南（135度）位移 */
-    animation: silkWaveMove 20s infinite linear; 
+    /* 💎 核心：極度緩慢的位移動畫 (35秒為一個週期，若有似無) */
+    animation: silkWaveMove 35s infinite linear; 
     z-index: 2;
     pointer-events: none;
+    will-change: background-position; /* 硬體加速優化 */
 }
 
 @keyframes silkWaveMove {
@@ -164,7 +165,7 @@ iframe { width: 100%; height: 100%; border: 0; }
         <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.1600742512613!2d120.7078336762031!3d24.183111078434057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbedb35%3A0x9a019e28fe9eee0e!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1709876543210!5m2!1szh-TW!2stw6" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 25px; border:1px solid #c9a96e; color:#c9a96e; text-decoration:none; letter-spacing:0.1em">開啟 Google 地圖導航</a>
     </section>
 
-    <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#c9a466">See You Soon</footer>
+    <footer style="text-align:center; padding:60px 24px; font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-style:italic; color:#c9a96e">See You Soon</footer>
 </div>
 
 <div id="player" style="position:fixed; top:-9999px; left:-9999px;"></div>
