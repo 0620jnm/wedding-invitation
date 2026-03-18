@@ -29,7 +29,6 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
     position: absolute; left: 0; top: 0; width: 100%; height: 100%;
     background: #fff; border: 6px solid #fff; border-bottom: 25px solid #fff;
     box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-    /* 💎 確保過場動畫的順暢性 (掉落、透明、模糊) */
     transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s ease-out, filter 1s ease-out; 
     background-size: cover; background-position: center; opacity: 0;
     cursor: pointer;
@@ -43,11 +42,11 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
     to { opacity: 1; transform: translateY(var(--slide)) rotate(var(--rot)); } 
 }
 
-/* 💎 點擊後：往下掉落、透明度歸零、並增加模糊效果 (加上 !important 確保覆蓋初始狀態) */
+/* 點擊後：往下掉落、透明度歸零、並增加模糊效果 */
 .photo.dropped { 
-    transform: translateY(80px) scale(1.05) rotate(5deg) !important; /* 往下掉 80px */
+    transform: translateY(80px) scale(1.05) rotate(5deg) !important; 
     opacity: 0 !important; 
-    filter: blur(15px) !important; /* 模糊感 */
+    filter: blur(15px) !important; 
     pointer-events: none; 
 }
 
@@ -109,7 +108,6 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
 
 <div id="intro-overlay">
     <div class="camera-container">
-        <!-- 只有單張照片 -->
         <div class="photo-stack">
             <div class="photo" onclick="dropPhoto(this)" style="background-image: url('p3.jpg');"></div>
         </div>
@@ -149,7 +147,8 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
     </section>
 
     <section class="rsvp-section">
-        <h2 style="font-family:'Cormorant Garamond',serif; color:#c9a466; margin-bottom: 30px; font-size: 2rem;">R.S.V.P</h2>
+        <!-- 💎 更改標題並換成中文字體 -->
+        <h2 style="font-family:'Noto Serif TC',serif; color:#c9a466; margin-bottom: 30px; font-size: 1.8rem; letter-spacing: 0.1em;">參加回覆表單</h2>
         <div class="rsvp-card">
             <form action="#" method="POST" onsubmit="alert('感謝您的回覆！'); return false;">
                 
@@ -205,20 +204,16 @@ function dropPhoto(el) {
         console.warn("自動播放音樂發生錯誤，但不影響畫面進入：", error);
     }
     
-    // 觸發照片掉落、模糊與透明消失的 CSS 動畫
     el.classList.add('dropped');
     droppedCount++;
     
     if (droppedCount === 1) {
-        // 💎 延遲 1 秒，讓照片的「掉落模糊動畫」有足夠時間跑完，再淡出黃色背景
         setTimeout(() => {
             const overlay = document.getElementById('intro-overlay');
             const wrapper = document.getElementById('main-wrapper');
             overlay.style.opacity = '0';
             wrapper.classList.add('is-visible');
             document.body.style.overflow = 'auto';
-            
-            // 等待黃色背景淡出結束後再隱藏節點
             setTimeout(() => { overlay.style.display = 'none'; }, 1500); 
         }, 1000); 
     }
