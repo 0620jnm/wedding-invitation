@@ -72,21 +72,31 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
 .submit-btn:hover { background: #b8955a; }
 .guestbook-section { background: #fbf9f7; }
 
-/* 💎 便利貼留言牆樣式 */
+/* 💎 便利貼留言牆樣式 (多色升級版) */
 .sticky-wall { 
     display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
     gap: 20px; padding: 30px 10px; max-width: 800px; margin: 0 auto; 
 }
+
 .sticky-note {
-    background-color: #fdf5c9; /* 便利貼黃色 */
     padding: 20px; box-shadow: 3px 4px 10px rgba(0,0,0,0.1);
     position: relative; font-family: 'Noto Serif TC', serif; text-align: left;
-    transform: rotate(-2deg); transition: transform 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
-.sticky-note:nth-child(even) { transform: rotate(3deg); background-color: #f5eedc; }
-.sticky-note:hover { transform: scale(1.05); z-index: 5; box-shadow: 5px 6px 15px rgba(0,0,0,0.15); }
+
+/* 6種馬卡龍色系輪播，並帶有不同的微傾斜角度 */
+.sticky-note:nth-child(6n+1) { background-color: #fdf5c9; transform: rotate(-2deg); } /* 淡黃 */
+.sticky-note:nth-child(6n+2) { background-color: #fce4ec; transform: rotate(3deg); }  /* 櫻花粉 */
+.sticky-note:nth-child(6n+3) { background-color: #e3f2fd; transform: rotate(-1deg); } /* 寶寶藍 */
+.sticky-note:nth-child(6n+4) { background-color: #e8f5e9; transform: rotate(2deg); }  /* 薄荷綠 */
+.sticky-note:nth-child(6n+5) { background-color: #fff3e0; transform: rotate(-3deg); } /* 蜜桃橘 */
+.sticky-note:nth-child(6n+6) { background-color: #f3e5f5; transform: rotate(1deg); }  /* 薰衣草紫 */
+
+/* 滑鼠移上去時稍微放大 */
+.sticky-note:hover { transform: scale(1.05) !important; z-index: 5; box-shadow: 5px 6px 15px rgba(0,0,0,0.15); }
+
 .note-text { font-size: 1rem; color: #333; line-height: 1.5; margin-bottom: 15px; word-wrap: break-word; }
-.note-author { font-size: 0.9rem; color: #7a6a4b; text-align: right; font-weight: bold; border-top: 1px dashed #d4c8a5; padding-top: 8px; }
+.note-author { font-size: 0.9rem; color: rgba(0,0,0,0.6); text-align: right; font-weight: bold; border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 8px; }
 
 #musicToggle { position: fixed; bottom: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: #c9a466; border: none; color: white; cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; }
 </style>
@@ -111,7 +121,6 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
         <p style="margin-top:20px; color:#888; letter-spacing:0.2em; font-size: 0.9rem; z-index: 10; position: relative;">2026·06·20</p>
     </div>
 
-    <!-- 中間區塊省略，與之前相同 -->
     <section class="content-section">
         <div class="grid-row">
             <div class="grid-images">
@@ -151,11 +160,9 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
         </div>
     </section>
 
-    <!-- 💎 留言板表單與便利貼展示區 -->
     <section class="form-section guestbook-section">
         <h2 style="font-family:'Noto Serif TC',serif; color:#c9a466; margin-bottom: 30px; font-size: 1.8rem; letter-spacing: 0.1em;">留言祝福</h2>
         
-        <!-- 留言表單 -->
         <div class="form-card" style="margin-bottom: 40px;">
             <form id="wish-form">
                 <div class="form-group">
@@ -170,9 +177,7 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
             </form>
         </div>
 
-        <!-- 便利貼牆 (由 JS 動態生成內容) -->
         <div class="sticky-wall" id="sticky-wall">
-            <!-- 示範用預設便利貼，Firebase 讀取後會被覆蓋 -->
             <div class="sticky-note">
                 <div class="note-text">載入祝福中...</div>
                 <div class="note-author">System</div>
@@ -186,31 +191,27 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
 <div id="player" style="position:fixed; top:-9999px;"></div>
 <button id="musicToggle">▶</button>
 
-<!-- YouTube API -->
 <script src="https://www.youtube.com/iframe_api"></script>
 
-<!-- 💎 Firebase SDK (V9 模組化寫法) -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
   import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-  // 🚨🚨🚨 請在此處填入您專屬的 Firebase 設定 🚨🚨🚨
- const firebaseConfig = {
-  apiKey: "AIzaSyAUFF7GdX7fAtK_wK5-YAffirtap52UgCg",
-  authDomain: "wedding-e6351.firebaseapp.com",
-  databaseURL: "https://wedding-e6351-default-rtdb.firebaseio.com",
-  projectId: "wedding-e6351",
-  storageBucket: "wedding-e6351.firebasestorage.app",
-  messagingSenderId: "382633819825",
-  appId: "1:382633819825:web:b3352f4f4e67423878ec90",
-  measurementId: "G-SFKMYKEY29"
-};
-  // 初始化 Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyAUFF7GdX7fAtK_wK5-YAffirtap52UgCg",
+    authDomain: "wedding-e6351.firebaseapp.com",
+    databaseURL: "https://wedding-e6351-default-rtdb.firebaseio.com",
+    projectId: "wedding-e6351",
+    storageBucket: "wedding-e6351.firebasestorage.app",
+    messagingSenderId: "382633819825",
+    appId: "1:382633819825:web:b3352f4f4e67423878ec90",
+    measurementId: "G-SFKMYKEY29"
+  };
+
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
   const wishesRef = ref(db, 'wishes');
 
-  // 表單送出事件：寫入 Firebase
   document.getElementById('wish-form').addEventListener('submit', (e) => {
       e.preventDefault();
       const nameVal = document.getElementById('wish-name').value;
@@ -229,19 +230,16 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
       });
   });
 
-  // 監聽 Firebase 資料：渲染便利貼牆
   onValue(wishesRef, (snapshot) => {
       const wall = document.getElementById('sticky-wall');
-      wall.innerHTML = ''; // 清空預設畫面
+      wall.innerHTML = ''; 
 
       const data = snapshot.val();
       if (data) {
-          // 將物件轉為陣列並反轉，讓最新留言在最前面
-          const messages = Object.values(data).reverse();
+          const messages = Object.values(data).reverse(); 
           messages.forEach(item => {
               const note = document.createElement('div');
               note.className = 'sticky-note';
-              // 防止 XSS 攻擊的簡單過濾
               const safeMsg = item.message.replace(/</g, "&lt;").replace(/>/g, "&gt;");
               const safeName = item.name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
               
@@ -257,7 +255,6 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
   });
 </script>
 
-<!-- 原有的動畫與音樂邏輯 -->
 <script>
 let droppedCount = 0;
 var player;
