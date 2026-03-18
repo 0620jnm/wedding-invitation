@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Jay & Michelle</title>
-//fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400&family=Gwendolyn:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&family=Zen+Old+Mincho:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400&family=Gwendolyn:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&family=Zen+Old+Mincho:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* 基礎修正：解決手機版高度與捲動問題 */
 *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
@@ -72,7 +72,7 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
 .english-names { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 7vw, 4rem); font-weight: 300; }
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 
-/* 中文姓名：使用 Noto Serif TC */
+/* 中文姓名：統一使用思源宋體，解決「瑄」缺字問題 */
 .chinese-names { 
     display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 25px auto 0; 
     font-family: 'Noto Serif TC', serif; font-size: 2rem; letter-spacing: 0.2em; color: #4a4a4a; 
@@ -144,6 +144,7 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
             <p>2026年6月20日 (六)</p>
             <p style="margin-top:10px;">暖居日穀 (台中市北屯區松竹路一段3號)</p>
             <div class="map-container">
+                <!-- 💎 地圖精準定位 -->
                 <iframe src="https://maps.google.com/maps?q=%E6%9A%96%E5%B1%85%E6%97%A5%E7%A9%80%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E5%8C%97%E5%B1%AF%E5%8D%80%E6%9D%BE%E7%AB%B9%E8%B7%AF%E4%B8%80%E6%AE%B53%E8%99%9F&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
             <a href="https://maps.app.goo.gl/9ZpYxX9H2T2rB7vF8" target="_blank" style="display:inline-block; padding:10px 20px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; font-size: 0.9rem;">開啟地圖導航</a>
@@ -154,8 +155,106 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
     <section class="rsvp-section">
         <h2 style="font-family:'Cormorant Garamond',serif; color:#c9a466; margin-bottom: 30px; font-size: 2rem;">R.S.V.P</h2>
         <div class="rsvp-card">
-            <!-- 未來若要串接 Google 表單，可以將 form action 換成 Google 表單的提交網址 -->
             <form action="#" method="POST" onsubmit="alert('感謝您的回覆！'); return false;">
                 
                 <div class="rsvp-form-group">
-                    abel for="g
+                    <label for="guest-name">您的姓名</label>
+                    <input type="text" id="guest-name" name="guest-name" placeholder="請輸入姓名" required>
+                </div>
+
+                <div class="rsvp-form-group">
+                    <label>是否參加婚禮？</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="attendance" value="yes" required>
+                            <span>是的，我會參加</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="attendance" value="no" required>
+                            <span>抱歉，無法出席</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">送出回覆</button>
+            </form>
+        </div>
+    </section>
+
+    <footer style="text-align:center; padding:50px 0; color:#c9a466; font-family:'Cormorant Garamond',serif; font-style:italic;">See You Soon</footer>
+</div>
+
+<div id="player" style="position:fixed; top:-9999px;"></div>
+<button id="musicToggle">▶</button>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+let droppedCount = 0;
+var player;
+
+function checkImages() {
+    console.log("頁面已載入，等待點擊照片...");
+}
+
+function dropPhoto(el) {
+    if (el.classList.contains('dropped')) return;
+    
+    // 💎 加入 try-catch 保護機制，避免因音樂 API 無法載入而卡死動畫
+    try {
+        if (droppedCount === 0 && typeof player !== 'undefined' && player && typeof player.playVideo === 'function') {
+            if (typeof player.getPlayerState === 'function') {
+                player.playVideo();
+            }
+        }
+    } catch (error) {
+        console.warn("自動播放音樂被阻擋或發生錯誤，但不影響畫面進入：", error);
+    }
+    
+    // 確保照片動畫與計數器不受影響
+    el.classList.add('dropped');
+    droppedCount++;
+    
+    if (droppedCount === 3) {
+        setTimeout(() => {
+            const overlay = document.getElementById('intro-overlay');
+            const wrapper = document.getElementById('main-wrapper');
+            overlay.style.opacity = '0';
+            wrapper.classList.add('is-visible');
+            document.body.style.overflow = 'auto';
+            setTimeout(() => { overlay.style.display = 'none'; }, 1500); 
+        }, 800);
+    }
+}
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    videoId: 'pmrCXt4lNyA',
+    playerVars: { 
+        'autoplay': 1, 
+        'loop': 1, 
+        'playlist': 'pmrCXt4lNyA', 
+        'controls': 0,
+        'playsinline': 1,
+        'mute': 0 
+    },
+    events: {
+      'onReady': (e) => { e.target.setVolume(30); },
+      'onStateChange': (e) => {
+          document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
+      }
+    }
+  });
+}
+
+document.getElementById('musicToggle').onclick = function() {
+  if (player && typeof player.getPlayerState === 'function') {
+    player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
+  }
+};
+
+document.getElementById('intro-overlay').addEventListener('touchmove', function(e) {
+    e.preventDefault();
+}, { passive: false });
+</script>
+</body>
+</html>
