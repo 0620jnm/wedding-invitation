@@ -6,7 +6,7 @@
 <title>Jay & Michelle</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400&family=Gwendolyn:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&family=Zen+Old+Mincho:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* 基礎修正：解決手機版高度與捲動問題 */
+/* 基礎修正 */
 *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
 html, body { width: 100%; height: 100%; height: -webkit-fill-available; overflow-x: hidden; background: #faf8f5;}
 body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;} 
@@ -29,12 +29,13 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
     position: absolute; left: 0; top: 0; width: 100%; height: 100%;
     background: #fff; border: 6px solid #fff; border-bottom: 25px solid #fff;
     box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.2s ease-out, filter 1.2s; 
+    /* 💎 確保過場動畫的順暢性 (掉落、透明、模糊) */
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s ease-out, filter 1s ease-out; 
     background-size: cover; background-position: center; opacity: 0;
     cursor: pointer;
 }
 
-/* 💎 單張照片動態滑出設定 */
+/* 單張照片動態滑出 */
 .photo:nth-child(1) { animation: printOut 1.2s forwards 0.3s; z-index: 1; --rot: 0deg; --slide: 0px; }
 
 @keyframes printOut { 
@@ -42,11 +43,11 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
     to { opacity: 1; transform: translateY(var(--slide)) rotate(var(--rot)); } 
 }
 
-/* 點擊後：影像慢慢淡出特效 */
+/* 💎 點擊後：往下掉落、透明度歸零、並增加模糊效果 (加上 !important 確保覆蓋初始狀態) */
 .photo.dropped { 
-    transform: translateY(-20px) scale(1.1) rotate(5deg) !important; 
+    transform: translateY(80px) scale(1.05) rotate(5deg) !important; /* 往下掉 80px */
     opacity: 0 !important; 
-    filter: blur(10px); 
+    filter: blur(15px) !important; /* 模糊感 */
     pointer-events: none; 
 }
 
@@ -108,7 +109,7 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
 
 <div id="intro-overlay">
     <div class="camera-container">
-        <!-- 💎 移除了原本的三張，只保留最上層的一張 -->
+        <!-- 只有單張照片 -->
         <div class="photo-stack">
             <div class="photo" onclick="dropPhoto(this)" style="background-image: url('p3.jpg');"></div>
         </div>
@@ -204,19 +205,22 @@ function dropPhoto(el) {
         console.warn("自動播放音樂發生錯誤，但不影響畫面進入：", error);
     }
     
+    // 觸發照片掉落、模糊與透明消失的 CSS 動畫
     el.classList.add('dropped');
     droppedCount++;
     
-    // 💎 條件從 3 更改為 1，點擊第一張即可進入
     if (droppedCount === 1) {
+        // 💎 延遲 1 秒，讓照片的「掉落模糊動畫」有足夠時間跑完，再淡出黃色背景
         setTimeout(() => {
             const overlay = document.getElementById('intro-overlay');
             const wrapper = document.getElementById('main-wrapper');
             overlay.style.opacity = '0';
             wrapper.classList.add('is-visible');
             document.body.style.overflow = 'auto';
+            
+            // 等待黃色背景淡出結束後再隱藏節點
             setTimeout(() => { overlay.style.display = 'none'; }, 1500); 
-        }, 800);
+        }, 1000); 
     }
 }
 
