@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Jay & Michelle</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400&family=Gwendolyn:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&family=Zen+Old+Mincho:wght@400;500&display=swap" rel="stylesheet">
+//fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400&family=Gwendolyn:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&family=Zen+Old+Mincho:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* 基礎修正：解決手機版高度與捲動問題 */
 *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
@@ -72,7 +72,7 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
 .english-names { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 7vw, 4rem); font-weight: 300; }
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 
-/* 💎 已更新為 Noto Serif TC，解決缺字問題 */
+/* 中文姓名：使用 Noto Serif TC */
 .chinese-names { 
     display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 25px auto 0; 
     font-family: 'Noto Serif TC', serif; font-size: 2rem; letter-spacing: 0.2em; color: #4a4a4a; 
@@ -89,6 +89,19 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
 .info-section { padding: 60px 20px; background: #fbf9f7; text-align: center; }
 .info-card { background: #fff; padding: 30px; margin: 20px auto; border: 1px solid #e0d9d0; }
 .map-container { width: 100%; height: 300px; margin: 20px 0; border: 1px solid #e0d9d0; }
+
+/* --- 💎 RSVP 表單樣式 --- */
+.rsvp-section { padding: 60px 20px; text-align: center; }
+.rsvp-card { max-width: 500px; background: #fff; padding: 40px 30px; margin: 0 auto; border: 1px solid #e0d9d0; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+.rsvp-form-group { margin-bottom: 25px; text-align: left; }
+.rsvp-form-group label { display: block; font-size: 1rem; color: #4a4a4a; margin-bottom: 8px; font-weight: 500; }
+.rsvp-form-group input[type="text"] { width: 100%; padding: 12px; border: 1px solid #dcdcdc; border-radius: 4px; font-family: 'Noto Serif TC', serif; font-size: 1rem; background: #faf8f5; transition: border-color 0.3s; }
+.rsvp-form-group input[type="text"]:focus { outline: none; border-color: #c9a466; }
+.radio-group { display: flex; gap: 20px; margin-top: 10px; }
+.radio-label { display: flex; align-items: center; gap: 8px; font-size: 1rem; color: #4a4a4a; cursor: pointer; }
+.radio-label input[type="radio"] { accent-color: #c9a466; width: 18px; height: 18px; cursor: pointer; }
+.submit-btn { width: 100%; padding: 15px; background: #c9a466; color: #fff; border: none; font-family: 'Noto Serif TC', serif; font-size: 1.1rem; letter-spacing: 0.1em; cursor: pointer; border-radius: 4px; transition: background 0.3s; margin-top: 10px; }
+.submit-btn:hover { background: #b8955a; }
 
 #musicToggle { position: fixed; bottom: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: #c9a466; border: none; color: white; cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; }
 </style>
@@ -137,75 +150,12 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
         </div>
     </section>
 
-    <footer style="text-align:center; padding:50px 0; color:#c9a466; font-family:'Cormorant Garamond',serif; font-style:italic;">See You Soon</footer>
-</div>
-
-<div id="player" style="position:fixed; top:-9999px;"></div>
-<button id="musicToggle">▶</button>
-
-<script src="https://www.youtube.com/iframe_api"></script>
-<script>
-let droppedCount = 0;
-var player;
-
-// 檢查圖片是否載入成功 (調試用)
-function checkImages() {
-    console.log("頁面已載入，等待點擊照片...");
-}
-
-function dropPhoto(el) {
-    if (el.classList.contains('dropped')) return;
-    
-    // 💎 強制：手機端必須在第一次點擊時啟動音訊上下文
-    if (droppedCount === 0 && player && typeof player.playVideo === 'function') {
-        player.playVideo();
-    }
-    
-    el.classList.add('dropped');
-    droppedCount++;
-    
-    if (droppedCount === 3) {
-        setTimeout(() => {
-            const overlay = document.getElementById('intro-overlay');
-            const wrapper = document.getElementById('main-wrapper');
-            overlay.style.opacity = '0';
-            wrapper.classList.add('is-visible');
-            document.body.style.overflow = 'auto';
-            setTimeout(() => { overlay.style.display = 'none'; }, 1500); 
-        }, 800);
-    }
-}
-
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('player', {
-    videoId: 'pmrCXt4lNyA',
-    playerVars: { 
-        'autoplay': 1, 
-        'loop': 1, 
-        'playlist': 'pmrCXt4lNyA', 
-        'controls': 0,
-        'playsinline': 1, // 💎 關鍵：手機內聯播放
-        'mute': 0 
-    },
-    events: {
-      'onReady': (e) => { e.target.setVolume(30); },
-      'onStateChange': (e) => {
-          document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
-      }
-    }
-  });
-}
-
-document.getElementById('musicToggle').onclick = function() {
-  if (player && typeof player.getPlayerState === 'function') {
-    player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
-  }
-};
-
-// 阻止手機瀏覽器預設滑動行為
-document.getElementById('intro-overlay').addEventListener('touchmove', function(e) {
-    e.preventDefault();
-}, { passive: false });
-</script>
-</body>
-</html>
+    <!-- 💎 RSVP 表單區塊 -->
+    <section class="rsvp-section">
+        <h2 style="font-family:'Cormorant Garamond',serif; color:#c9a466; margin-bottom: 30px; font-size: 2rem;">R.S.V.P</h2>
+        <div class="rsvp-card">
+            <!-- 未來若要串接 Google 表單，可以將 form action 換成 Google 表單的提交網址 -->
+            <form action="#" method="POST" onsubmit="alert('感謝您的回覆！'); return false;">
+                
+                <div class="rsvp-form-group">
+                    abel for="g
