@@ -34,6 +34,28 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
     cursor: pointer;
 }
 
+/* 💎 照片左上角的紙膠帶設計 */
+.photo::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -15px;
+    width: 90px;
+    height: 25px;
+    background-color: rgba(224, 203, 160, 0.85); /* 半透明牛皮紙色 */
+    transform: rotate(-12deg); /* 微微傾斜 */
+    box-shadow: 1px 2px 4px rgba(0,0,0,0.08);
+    z-index: 10;
+    /* 製作邊緣不規則的撕裂感 */
+    clip-path: polygon(
+        2% 5%, 8% 0%, 92% 5%, 98% 0%, 
+        100% 50%, 97% 95%, 90% 100%, 10% 95%, 
+        0% 100%, 3% 50%
+    );
+    /* 增加一點紙張紋理感 */
+    background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+}
+
 /* 單張照片動態滑出 */
 .photo:nth-child(1) { animation: printOut 1.2s forwards 0.3s; z-index: 1; --rot: 0deg; --slide: 0px; }
 
@@ -147,7 +169,6 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
     </section>
 
     <section class="rsvp-section">
-        <!-- 💎 更改標題並換成中文字體 -->
         <h2 style="font-family:'Noto Serif TC',serif; color:#c9a466; margin-bottom: 30px; font-size: 1.8rem; letter-spacing: 0.1em;">參加回覆表單</h2>
         <div class="rsvp-card">
             <form action="#" method="POST" onsubmit="alert('感謝您的回覆！'); return false;">
