@@ -57,17 +57,18 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
 .info-card { background: #fff; padding: 40px 20px; margin: 20px auto; border: 1px solid #e0d9d0; }
 .map-container { width: 100%; height: 300px; margin: 20px 0; border: 1px solid #e0d9d0; }
 
-/* 💎 升級版金色月曆樣式設計 */
-.big-date { font-family: 'Cormorant Garamond', serif; font-size: 4rem; color: #c9a466; letter-spacing: 0.05em; margin-bottom: 25px; line-height: 1; }
-.big-date span { font-size: 2.5rem; opacity: 0.8; margin: 0 5px; }
+/* 💎 精緻版金色月曆樣式設計 */
+.big-date { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; color: #c9a466; letter-spacing: 0.08em; margin-bottom: 25px; line-height: 1; font-weight: 300; }
+.big-date span { font-size: 2.5rem; font-weight: 200; margin: 0 5px; opacity: 0.7;}
 
-.calendar-wrapper { max-width: 320px; margin: 0 auto 30px auto; position: relative; padding: 10px 0 0 0; }
-.calendar-header { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; color: #c9a466; margin-bottom: 20px; font-size: 0.95rem; font-weight: 500; }
-.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; gap: 15px 0; font-size: 1.15rem; position: relative; z-index: 2; font-family: 'Playfair Display', serif; color: #c9a466; }
-.calendar-bg-year { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); font-size: 7.5rem; color: rgba(201, 164, 102, 0.1); font-weight: bold; z-index: 1; pointer-events: none; font-family: 'Playfair Display', serif; letter-spacing: -0.05em; }
+.calendar-wrapper { max-width: 280px; margin: 0 auto 30px auto; position: relative; padding: 15px 0 0 0; }
+.calendar-inner-box { border: 1px solid rgba(201, 164, 102, 0.4); padding: 25px 15px 15px 15px; border-radius: 4px; position: relative; background: #fff; }
+.calendar-header { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; color: #c9a466; margin-bottom: 15px; font-size: 0.85rem; font-weight: 400; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; gap: 12px 0; font-size: 1.05rem; position: relative; z-index: 2; font-family: 'Playfair Display', serif; color: #c9a466; }
+.calendar-bg-year { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 6.5rem; color: rgba(201, 164, 102, 0.08); font-weight: bold; z-index: 1; pointer-events: none; font-family: 'Playfair Display', serif; letter-spacing: -0.05em; width: 100%; text-align: center;}
 .cal-day { display: flex; align-items: center; justify-content: center; }
-.cal-day .highlight { background-color: #c9a466; color: white; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(201,164,102,0.4); font-weight: bold; }
-.calendar-footer { margin-top: 30px; border-top: 1px solid #e0d9d0; padding-top: 20px; font-size: 1.15rem; color: #c9a466; line-height: 1.8; font-weight: 500; font-family: 'Noto Serif TC', serif; letter-spacing: 0.1em; }
+.cal-day .highlight { background-color: #c9a466; color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(201,164,102,0.4); font-weight: bold; }
+.calendar-footer { margin-top: 25px; border-top: 1px solid rgba(201, 164, 102, 0.3); padding-top: 15px; font-size: 1rem; color: #c9a466; line-height: 1.8; font-weight: 400; font-family: 'Noto Serif TC', serif; letter-spacing: 0.1em; }
 
 /* --- RSVP 與留言表單 --- */
 .form-section { padding: 60px 20px; text-align: center; }
@@ -130,7 +131,7 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
         </div>
     </section>
 
-    <!-- 💎 全金色的婚禮資訊與月曆區塊 -->
+    <!-- 💎 帶有細邊框的精緻版月曆區塊 -->
     <section class="info-section">
         <h2 style="font-family:'Cormorant Garamond',serif; color:#c9a466; font-size: 2.2rem; margin-bottom: 20px;">Wedding Info</h2>
         <div class="info-card">
@@ -141,16 +142,18 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
             </div>
 
             <div class="calendar-wrapper">
-                <div class="calendar-bg-year">2026</div>
-                <div class="calendar-header">
-                    <div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>日</div>
-                </div>
-                <div class="calendar-grid">
-                    <div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day">3</div><div class="cal-day">4</div><div class="cal-day">5</div><div class="cal-day">6</div><div class="cal-day">7</div>
-                    <div class="cal-day">8</div><div class="cal-day">9</div><div class="cal-day">10</div><div class="cal-day">11</div><div class="cal-day">12</div><div class="cal-day">13</div><div class="cal-day">14</div>
-                    <div class="cal-day">15</div><div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div><div class="cal-day">19</div><div class="cal-day"><div class="highlight">20</div></div><div class="cal-day">21</div>
-                    <div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div><div class="cal-day">25</div><div class="cal-day">26</div><div class="cal-day">27</div><div class="cal-day">28</div>
-                    <div class="cal-day">29</div><div class="cal-day">30</div><div></div><div></div><div></div><div></div><div></div>
+                <div class="calendar-inner-box">
+                    <div class="calendar-bg-year">2026</div>
+                    <div class="calendar-header">
+                        <div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>日</div>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day">3</div><div class="cal-day">4</div><div class="cal-day">5</div><div class="cal-day">6</div><div class="cal-day">7</div>
+                        <div class="cal-day">8</div><div class="cal-day">9</div><div class="cal-day">10</div><div class="cal-day">11</div><div class="cal-day">12</div><div class="cal-day">13</div><div class="cal-day">14</div>
+                        <div class="cal-day">15</div><div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div><div class="cal-day">19</div><div class="cal-day"><div class="highlight">20</div></div><div class="cal-day">21</div>
+                        <div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div><div class="cal-day">25</div><div class="cal-day">26</div><div class="cal-day">27</div><div class="cal-day">28</div>
+                        <div class="cal-day">29</div><div class="cal-day">30</div><div></div><div></div><div></div><div></div><div></div>
+                    </div>
                 </div>
                 <div class="calendar-footer">
                     2026年6月20日 星期六<br>
