@@ -54,17 +54,20 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
 
 /* 婚禮資訊 */
 .info-section { padding: 60px 20px; background: #fbf9f7; text-align: center; }
-.info-card { background: #fff; padding: 40px 30px; margin: 20px auto; border: 1px solid #e0d9d0; }
+.info-card { background: #fff; padding: 40px 20px; margin: 20px auto; border: 1px solid #e0d9d0; }
 .map-container { width: 100%; height: 300px; margin: 20px 0; border: 1px solid #e0d9d0; }
 
-/* 💎 月曆樣式設計 */
-.calendar-wrapper { max-width: 320px; margin: 0 auto 30px auto; position: relative; padding: 20px 0 0 0; }
-.calendar-header { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; color: #7a3a3a; margin-bottom: 20px; font-size: 0.95rem; font-weight: 500; }
-.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; gap: 15px 0; font-size: 1.15rem; position: relative; z-index: 2; font-family: 'Playfair Display', serif; color: #555; }
-.calendar-bg-year { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); font-size: 7.5rem; color: rgba(224, 217, 208, 0.4); font-weight: bold; z-index: 1; pointer-events: none; font-family: 'Playfair Display', serif; letter-spacing: -0.05em; }
+/* 💎 升級版金色月曆樣式設計 */
+.big-date { font-family: 'Cormorant Garamond', serif; font-size: 4rem; color: #c9a466; letter-spacing: 0.05em; margin-bottom: 25px; line-height: 1; }
+.big-date span { font-size: 2.5rem; opacity: 0.8; margin: 0 5px; }
+
+.calendar-wrapper { max-width: 320px; margin: 0 auto 30px auto; position: relative; padding: 10px 0 0 0; }
+.calendar-header { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; color: #c9a466; margin-bottom: 20px; font-size: 0.95rem; font-weight: 500; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; gap: 15px 0; font-size: 1.15rem; position: relative; z-index: 2; font-family: 'Playfair Display', serif; color: #c9a466; }
+.calendar-bg-year { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); font-size: 7.5rem; color: rgba(201, 164, 102, 0.1); font-weight: bold; z-index: 1; pointer-events: none; font-family: 'Playfair Display', serif; letter-spacing: -0.05em; }
 .cal-day { display: flex; align-items: center; justify-content: center; }
-.cal-day .highlight { background-color: #631b1c; color: white; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(99,27,28,0.3); font-weight: bold; }
-.calendar-footer { margin-top: 30px; border-top: 1px solid #e0d9d0; padding-top: 20px; font-size: 1.15rem; color: #631b1c; line-height: 1.8; font-weight: 600; font-family: 'Noto Serif TC', serif; letter-spacing: 0.1em; }
+.cal-day .highlight { background-color: #c9a466; color: white; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(201,164,102,0.4); font-weight: bold; }
+.calendar-footer { margin-top: 30px; border-top: 1px solid #e0d9d0; padding-top: 20px; font-size: 1.15rem; color: #c9a466; line-height: 1.8; font-weight: 500; font-family: 'Noto Serif TC', serif; letter-spacing: 0.1em; }
 
 /* --- RSVP 與留言表單 --- */
 .form-section { padding: 60px 20px; text-align: center; }
@@ -127,11 +130,16 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
         </div>
     </section>
 
-    <!-- 💎 更新後的婚禮資訊區塊 (月曆設計) -->
+    <!-- 💎 全金色的婚禮資訊與月曆區塊 -->
     <section class="info-section">
-        <h2 style="font-family:'Cormorant Garamond',serif; color:#c9a466; font-size: 2.2rem; margin-bottom: 10px;">Wedding Info</h2>
+        <h2 style="font-family:'Cormorant Garamond',serif; color:#c9a466; font-size: 2.2rem; margin-bottom: 20px;">Wedding Info</h2>
         <div class="info-card">
             
+            <!-- 大大的日期顯示 -->
+            <div class="big-date">
+                06<span>/</span>20
+            </div>
+
             <div class="calendar-wrapper">
                 <div class="calendar-bg-year">2026</div>
                 <div class="calendar-header">
@@ -150,7 +158,7 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
                 </div>
             </div>
 
-            <p style="margin-top:10px; color: #4a4a4a; font-weight: 500;">暖居日穀 (台中市北屯區松竹路一段3號)</p>
+            <p style="margin-top:20px; color: #4a4a4a; font-weight: 500;">暖居日穀 (台中市北屯區松竹路一段3號)</p>
             <div class="map-container">
                 <iframe src="https://maps.google.com/maps?q=%E6%9A%96%E5%B1%85%E6%97%A5%E7%A9%80%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E5%8C%97%E5%B1%AF%E5%8D%80%E6%9D%BE%E7%AB%B9%E8%B7%AF%E4%B8%80%E6%AE%B53%E8%99%9F&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
