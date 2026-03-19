@@ -146,17 +146,49 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
     <section class="form-section">
         <h2 style="font-family:'Noto Serif TC',serif; color:#c9a466; margin-bottom: 30px; font-size: 1.8rem; letter-spacing: 0.1em;">參加回覆表單</h2>
         <div class="form-card">
-            <form action="#" method="POST" onsubmit="alert('感謝您的回覆！'); return false;">
-                <div class="form-group"><label for="guest-name">您的姓名</label><input type="text" id="guest-name" name="guest-name" placeholder="請輸入姓名" required></div>
-                <div class="form-group">
-                    <label>是否參加婚禮？</label>
-                    <div class="radio-group">
-                        <label class="radio-label"><input type="radio" name="attendance" value="yes" required><span>是的，我會參加</span></label>
-                        <label class="radio-label"><input type="radio" name="attendance" value="no" required><span>抱歉，無法出席</span></label>
-                    </div>
-                </div>
-                <button type="submit" class="submit-btn">送出回覆</button>
-            </form>
+            <form id="rsvp-form">
+    <div class="form-group"><label for="guest-name">您的姓名</label><input type="text" id="guest-name" name="guest-name" placeholder="請輸入姓名" required></div>
+    <div class="form-group">
+        <label>是否參加婚禮？</label>
+        <div class="radio-group">
+            <label class="radio-label"><input type="radio" name="attendance" value="yes" required><span>是的，我會參加</span></label>
+            <label class="radio-label"><input type="radio" name="attendance" value="no" required><span>抱歉，無法出席</span></label>
+        </div>
+    </div>
+    <button type="submit" class="submit-btn" id="rsvp-submit-btn">送出回覆</button>
+</form>
+
+<script>
+    // 取得表單元素
+    const rsvpForm = document.getElementById('rsvp-form');
+    const submitBtn = document.getElementById('rsvp-submit-btn');
+
+    // 🚨 這裡貼上你剛剛從 Google Apps Script 複製的網址 🚨
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbz2N6On1QHoE5q06e4NQsOYVkJJQ8PMl8kSIqx4MSbpJZgI2Qe3DbnM4HJWv2Mp594iPw/exec';
+
+    rsvpForm.addEventListener('submit', e => {
+        e.preventDefault(); // 防止頁面跳轉
+        
+        // 改變按鈕狀態讓使用者知道正在傳送
+        submitBtn.innerText = '傳送中...';
+        submitBtn.disabled = true;
+
+        fetch(scriptURL, { method: 'POST', body: new FormData(rsvpForm)})
+            .then(response => {
+                alert('感謝您的回覆！我們收到囉！');
+                rsvpForm.reset(); // 清空表單
+                submitBtn.innerText = '送出回覆';
+                submitBtn.disabled = false;
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert('傳送發生錯誤，請稍後再試一次。');
+                submitBtn.innerText = '送出回覆';
+                submitBtn.disabled = false;
+            });
+    });
+</script>
+
         </div>
     </section>
 
