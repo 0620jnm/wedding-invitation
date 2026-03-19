@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Jay & Michelle</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400&family=Gwendolyn:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&family=Zen+Old+Mincho:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Gwendolyn:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Zen+Old+Mincho:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* 基礎修正 */
 *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
@@ -54,8 +54,17 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
 
 /* 婚禮資訊 */
 .info-section { padding: 60px 20px; background: #fbf9f7; text-align: center; }
-.info-card { background: #fff; padding: 30px; margin: 20px auto; border: 1px solid #e0d9d0; }
+.info-card { background: #fff; padding: 40px 30px; margin: 20px auto; border: 1px solid #e0d9d0; }
 .map-container { width: 100%; height: 300px; margin: 20px 0; border: 1px solid #e0d9d0; }
+
+/* 💎 月曆樣式設計 */
+.calendar-wrapper { max-width: 320px; margin: 0 auto 30px auto; position: relative; padding: 20px 0 0 0; }
+.calendar-header { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; color: #7a3a3a; margin-bottom: 20px; font-size: 0.95rem; font-weight: 500; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; gap: 15px 0; font-size: 1.15rem; position: relative; z-index: 2; font-family: 'Playfair Display', serif; color: #555; }
+.calendar-bg-year { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); font-size: 7.5rem; color: rgba(224, 217, 208, 0.4); font-weight: bold; z-index: 1; pointer-events: none; font-family: 'Playfair Display', serif; letter-spacing: -0.05em; }
+.cal-day { display: flex; align-items: center; justify-content: center; }
+.cal-day .highlight { background-color: #631b1c; color: white; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(99,27,28,0.3); font-weight: bold; }
+.calendar-footer { margin-top: 30px; border-top: 1px solid #e0d9d0; padding-top: 20px; font-size: 1.15rem; color: #631b1c; line-height: 1.8; font-weight: 600; font-family: 'Noto Serif TC', serif; letter-spacing: 0.1em; }
 
 /* --- RSVP 與留言表單 --- */
 .form-section { padding: 60px 20px; text-align: center; }
@@ -72,27 +81,16 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
 .submit-btn:hover { background: #b8955a; }
 .guestbook-section { background: #fbf9f7; }
 
-/* 💎 便利貼留言牆樣式 (多色升級版) */
-.sticky-wall { 
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
-    gap: 20px; padding: 30px 10px; max-width: 800px; margin: 0 auto; 
-}
-
-.sticky-note {
-    padding: 20px; box-shadow: 3px 4px 10px rgba(0,0,0,0.1);
-    position: relative; font-family: 'Noto Serif TC', serif; text-align: left;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
+/* 便利貼留言牆樣式 */
+.sticky-wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 30px 10px; max-width: 800px; margin: 0 auto; }
+.sticky-note { padding: 20px; box-shadow: 3px 4px 10px rgba(0,0,0,0.1); position: relative; font-family: 'Noto Serif TC', serif; text-align: left; transition: transform 0.3s, box-shadow 0.3s; }
 .sticky-note:nth-child(6n+1) { background-color: #fdf5c9; transform: rotate(-2deg); }
 .sticky-note:nth-child(6n+2) { background-color: #fce4ec; transform: rotate(3deg); }
 .sticky-note:nth-child(6n+3) { background-color: #e3f2fd; transform: rotate(-1deg); }
 .sticky-note:nth-child(6n+4) { background-color: #e8f5e9; transform: rotate(2deg); }
 .sticky-note:nth-child(6n+5) { background-color: #fff3e0; transform: rotate(-3deg); }
 .sticky-note:nth-child(6n+6) { background-color: #f3e5f5; transform: rotate(1deg); }
-
 .sticky-note:hover { transform: scale(1.05) !important; z-index: 5; box-shadow: 5px 6px 15px rgba(0,0,0,0.15); }
-
 .note-text { font-size: 1rem; color: #333; line-height: 1.5; margin-bottom: 15px; word-wrap: break-word; }
 .note-author { font-size: 0.9rem; color: rgba(0,0,0,0.6); text-align: right; font-weight: bold; border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 8px; }
 
@@ -129,11 +127,30 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
         </div>
     </section>
 
+    <!-- 💎 更新後的婚禮資訊區塊 (月曆設計) -->
     <section class="info-section">
-        <h2 style="font-family:'Cormorant Garamond',serif; color:#c9a466;">Wedding Info</h2>
+        <h2 style="font-family:'Cormorant Garamond',serif; color:#c9a466; font-size: 2.2rem; margin-bottom: 10px;">Wedding Info</h2>
         <div class="info-card">
-            <p>2026年6月20日 (六)</p>
-            <p style="margin-top:10px;">暖居日穀 (台中市北屯區松竹路一段3號)</p>
+            
+            <div class="calendar-wrapper">
+                <div class="calendar-bg-year">2026</div>
+                <div class="calendar-header">
+                    <div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>日</div>
+                </div>
+                <div class="calendar-grid">
+                    <div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day">3</div><div class="cal-day">4</div><div class="cal-day">5</div><div class="cal-day">6</div><div class="cal-day">7</div>
+                    <div class="cal-day">8</div><div class="cal-day">9</div><div class="cal-day">10</div><div class="cal-day">11</div><div class="cal-day">12</div><div class="cal-day">13</div><div class="cal-day">14</div>
+                    <div class="cal-day">15</div><div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div><div class="cal-day">19</div><div class="cal-day"><div class="highlight">20</div></div><div class="cal-day">21</div>
+                    <div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div><div class="cal-day">25</div><div class="cal-day">26</div><div class="cal-day">27</div><div class="cal-day">28</div>
+                    <div class="cal-day">29</div><div class="cal-day">30</div><div></div><div></div><div></div><div></div><div></div>
+                </div>
+                <div class="calendar-footer">
+                    2026年6月20日 星期六<br>
+                    農曆五月初六 12:00
+                </div>
+            </div>
+
+            <p style="margin-top:10px; color: #4a4a4a; font-weight: 500;">暖居日穀 (台中市北屯區松竹路一段3號)</p>
             <div class="map-container">
                 <iframe src="https://maps.google.com/maps?q=%E6%9A%96%E5%B1%85%E6%97%A5%E7%A9%80%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E5%8C%97%E5%B1%AF%E5%8D%80%E6%9D%BE%E7%AB%B9%E8%B7%AF%E4%B8%80%E6%AE%B53%E8%99%9F&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
@@ -141,7 +158,7 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
         </div>
     </section>
 
-    <!-- 💎 參加回覆表單 (與 Apps Script 連接) -->
+    <!-- 參加回覆表單 -->
     <section class="form-section">
         <h2 style="font-family:'Noto Serif TC',serif; color:#c9a466; margin-bottom: 30px; font-size: 1.8rem; letter-spacing: 0.1em;">參加回覆表單</h2>
         <div class="form-card">
@@ -163,52 +180,47 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
             </form>
 
             <script>
-                // 取得表單與按鈕元素
                 const rsvpForm = document.getElementById('rsvp-form');
                 const submitBtn = document.getElementById('rsvp-submit-btn');
-
-                // 🚨 您的 Apps Script 網址
                 const scriptURL = 'https://script.google.com/macros/s/AKfycbz2N6On1QHoE5q06e4NQsOYVkJJQ8PMl8kSIqx4MSbpJZgI2Qe3DbnM4HJWv2Mp594iPw/exec';
+
+                window.jsonpCallback = function(response) {
+                    if(response.result === 'success') {
+                        alert('感謝您的回覆！我們收到囉！');
+                        rsvpForm.reset();
+                    } else {
+                        alert('發生錯誤：' + response.error);
+                    }
+                    submitBtn.innerText = '送出回覆';
+                    submitBtn.disabled = false;
+                };
 
                 rsvpForm.addEventListener('submit', e => {
                     e.preventDefault(); 
-                    
                     submitBtn.innerText = '傳送中...';
                     submitBtn.disabled = true;
 
-                    // 💎 將 FormData 轉換為 Google 能讀懂的 URLSearchParams 格式
-                    const data = new URLSearchParams();
-                    for (const pair of new FormData(rsvpForm)) {
-                        data.append(pair[0], pair[1]);
-                    }
+                    const guestName = document.getElementById('guest-name').value;
+                    const attendance = document.querySelector('input[name="attendance"]:checked').value;
 
-                    fetch(scriptURL, { 
-                        method: 'POST',
-                        body: data, 
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        }
-                    })
-                    .then(response => {
-                        alert('感謝您的回覆！我們收到囉！');
-                        rsvpForm.reset(); 
-                        submitBtn.innerText = '送出回覆';
-                        submitBtn.disabled = false;
-                    })
-                    .catch(error => {
-                        // 即使被 CORS 擋住，以 x-www-form-urlencoded 送出的資料還是會成功進入 Google Sheet
-                        console.log('CORS blocked the response, but data was sent.');
-                        alert('感謝您的回覆！我們收到囉！');
-                        rsvpForm.reset(); 
-                        submitBtn.innerText = '送出回覆';
-                        submitBtn.disabled = false;
-                    });
+                    const requestUrl = scriptURL 
+                        + '?guest-name=' + encodeURIComponent(guestName) 
+                        + '&attendance=' + encodeURIComponent(attendance)
+                        + '&callback=jsonpCallback';
+
+                    const script = document.createElement('script');
+                    script.src = requestUrl;
+                    document.body.appendChild(script);
+                    
+                    script.onload = function() {
+                        document.body.removeChild(script);
+                    };
                 });
             </script>
         </div>
     </section>
 
-    <!-- 留言板祝福區塊 (與 Firebase 連接) -->
+    <!-- 留言板祝福區塊 -->
     <section class="form-section guestbook-section">
         <h2 style="font-family:'Noto Serif TC',serif; color:#c9a466; margin-bottom: 30px; font-size: 1.8rem; letter-spacing: 0.1em;">留言祝福</h2>
         
