@@ -57,16 +57,45 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
 .info-card { background: #fff; padding: 40px 20px; margin: 20px auto; border: 1px solid #e0d9d0; }
 .map-container { width: 100%; height: 300px; margin: 20px 0; border: 1px solid #e0d9d0; }
 
-/* 💎 日期一體化框線月曆樣式 */
-.calendar-wrapper { max-width: 290px; margin: 0 auto 30px auto; position: relative; }
-.calendar-inner-box { border: 1px solid rgba(201, 164, 102, 0.4); padding: 35px 20px 20px 20px; border-radius: 4px; position: relative; background: #fff; }
+/* 💎 日曆小卡設計 (把 06/20 包含進框框內) */
+.calendar-wrapper { max-width: 300px; margin: 0 auto 30px auto; position: relative; padding: 15px 0 0 0; }
 
-.big-date { font-family: 'Cormorant Garamond', serif; font-size: 3.8rem; color: #c9a466; letter-spacing: 0.08em; margin-bottom: 30px; line-height: 1; font-weight: 300; }
-.big-date span { font-size: 2.8rem; font-weight: 200; margin: 0 5px; opacity: 0.6; }
+.calendar-inner-box { 
+    border: 1px solid rgba(201, 164, 102, 0.4); 
+    padding: 30px 20px 20px 20px; 
+    border-radius: 6px; 
+    position: relative; 
+    background: #fff; 
+}
+
+.big-date { 
+    font-family: 'Cormorant Garamond', serif; 
+    font-size: 3.8rem; 
+    color: #c9a466; 
+    letter-spacing: 0.08em; 
+    margin-bottom: 30px; /* 拉大跟月曆的間距 */
+    line-height: 1; 
+    font-weight: 300; 
+}
+.big-date span { font-size: 2.5rem; font-weight: 200; margin: 0 5px; opacity: 0.7;}
 
 .calendar-header { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; color: #c9a466; margin-bottom: 15px; font-size: 0.85rem; font-weight: 400; }
 .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; gap: 12px 0; font-size: 1.05rem; position: relative; z-index: 2; font-family: 'Playfair Display', serif; color: #c9a466; }
-.calendar-bg-year { position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); font-size: 6.5rem; color: rgba(201, 164, 102, 0.08); font-weight: bold; z-index: 1; pointer-events: none; font-family: 'Playfair Display', serif; letter-spacing: -0.05em; width: 100%; text-align: center;}
+.calendar-bg-year { 
+    position: absolute; 
+    top: 60%; /* 往下調一點，因為上面有大日期 */
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    font-size: 6.5rem; 
+    color: rgba(201, 164, 102, 0.08); 
+    font-weight: bold; 
+    z-index: 1; 
+    pointer-events: none; 
+    font-family: 'Playfair Display', serif; 
+    letter-spacing: -0.05em; 
+    width: 100%; 
+    text-align: center;
+}
 .cal-day { display: flex; align-items: center; justify-content: center; }
 .cal-day .highlight { background-color: #c9a466; color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(201,164,102,0.4); font-weight: bold; }
 
@@ -129,4 +158,31 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
                 <div class="grid-img" style="background-image: url('story1a.jpg');"></div>
                 <div class="grid-img" style="background-image: url('story1b.jpg');"></div>
             </div>
-            <div class="grid-text"><h3>Our Story</h3
+            <div class="grid-text"><h3>Our Story</h3><p>在此輸入內容...</p></div>
+        </div>
+    </section>
+
+    <!-- 💎 更新後的月曆區塊：把大日期包進框框裡 -->
+    <section class="info-section">
+        <h2 style="font-family:'Cormorant Garamond',serif; color:#c9a466; font-size: 2.2rem; margin-bottom: 20px;">Wedding Info</h2>
+        <div class="info-card">
+            
+            <div class="calendar-wrapper">
+                <!-- 這個框框現在包住了 06/20 和月曆 -->
+                <div class="calendar-inner-box">
+                    
+                    <!-- 移進框框的大大日期顯示 -->
+                    <div class="big-date">
+                        06<span>/</span>20
+                    </div>
+
+                    <div class="calendar-bg-year">2026</div>
+                    <div class="calendar-header">
+                        <div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>日</div>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day">3</div><div class="cal-day">4</div><div class="cal-day">5</div><div class="cal-day">6</div><div class="cal-day">7</div>
+                        <div class="cal-day">8</div><div class="cal-day">9</div><div class="cal-day">10</div><div class="cal-day">11</div><div class="cal-day">12</div><div class="cal-day">13</div><div class="cal-day">14</div>
+                        <div class="cal-day">15</div><div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div><div class="cal-day">19</div><div class="cal-day"><div class="highlight">20</div></div><div class="cal-day">21</div>
+                        <div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div><div class="cal-day">25</div><div class="cal-day">26</div><div class="cal-day">27</div><div class="cal-day">28</div>
+                        <div class="cal-day">29</div><div
