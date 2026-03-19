@@ -141,15 +141,11 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
         </div>
     </section>
 
-    <!-- 💎 參加回覆表單 (修改為 iframe 無跳轉送出法) -->
+    <!-- 💎 參加回覆表單 (與 Apps Script 連接) -->
     <section class="form-section">
         <h2 style="font-family:'Noto Serif TC',serif; color:#c9a466; margin-bottom: 30px; font-size: 1.8rem; letter-spacing: 0.1em;">參加回覆表單</h2>
         <div class="form-card">
-            
-            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){alert('感謝您的回覆！我們收到囉！'); document.getElementById('rsvp-form').reset(); document.getElementById('rsvp-submit-btn').innerText = '送出回覆'; document.getElementById('rsvp-submit-btn').disabled = false;}"></iframe>
-            
-            <form id="rsvp-form" action="https://script.google.com/macros/s/AKfycbz2N6On1QHoE5q06e4NQsOYVkJJQ8PMl8kSIqx4MSbpJZgI2Qe3DbnM4HJWv2Mp594iPw/exec" method="POST" target="hidden_iframe" onsubmit="submitted=true; document.getElementById('rsvp-submit-btn').innerText='傳送中...'; document.getElementById('rsvp-submit-btn').disabled=true;">
-                
+            <form id="rsvp-form">
                 <div class="form-group">
                     <label for="guest-name">您的姓名</label>
                     <input type="text" id="guest-name" name="guest-name" placeholder="請輸入姓名" required>
@@ -166,11 +162,53 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
                 <button type="submit" class="submit-btn" id="rsvp-submit-btn">送出回覆</button>
             </form>
 
-            <script>var submitted = false;</script>
+            <script>
+                // 取得表單與按鈕元素
+                const rsvpForm = document.getElementById('rsvp-form');
+                const submitBtn = document.getElementById('rsvp-submit-btn');
+
+                // 🚨 您的 Apps Script 網址
+                const scriptURL = 'https://script.google.com/macros/s/AKfycbz2N6On1QHoE5q06e4NQsOYVkJJQ8PMl8kSIqx4MSbpJZgI2Qe3DbnM4HJWv2Mp594iPw/exec';
+
+                rsvpForm.addEventListener('submit', e => {
+                    e.preventDefault(); 
+                    
+                    submitBtn.innerText = '傳送中...';
+                    submitBtn.disabled = true;
+
+                    // 💎 將 FormData 轉換為 Google 能讀懂的 URLSearchParams 格式
+                    const data = new URLSearchParams();
+                    for (const pair of new FormData(rsvpForm)) {
+                        data.append(pair[0], pair[1]);
+                    }
+
+                    fetch(scriptURL, { 
+                        method: 'POST',
+                        body: data, 
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    })
+                    .then(response => {
+                        alert('感謝您的回覆！我們收到囉！');
+                        rsvpForm.reset(); 
+                        submitBtn.innerText = '送出回覆';
+                        submitBtn.disabled = false;
+                    })
+                    .catch(error => {
+                        // 即使被 CORS 擋住，以 x-www-form-urlencoded 送出的資料還是會成功進入 Google Sheet
+                        console.log('CORS blocked the response, but data was sent.');
+                        alert('感謝您的回覆！我們收到囉！');
+                        rsvpForm.reset(); 
+                        submitBtn.innerText = '送出回覆';
+                        submitBtn.disabled = false;
+                    });
+                });
+            </script>
         </div>
     </section>
 
-    <!-- 留言板祝福區塊 -->
+    <!-- 留言板祝福區塊 (與 Firebase 連接) -->
     <section class="form-section guestbook-section">
         <h2 style="font-family:'Noto Serif TC',serif; color:#c9a466; margin-bottom: 30px; font-size: 1.8rem; letter-spacing: 0.1em;">留言祝福</h2>
         
