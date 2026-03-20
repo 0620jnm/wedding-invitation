@@ -214,21 +214,10 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
                 <button type="submit" class="submit-btn" id="rsvp-submit-btn">送出回覆</button>
             </form>
 
-            <script>
+                       <script>
                 const rsvpForm = document.getElementById('rsvp-form');
                 const submitBtn = document.getElementById('rsvp-submit-btn');
                 const scriptURL = 'https://script.google.com/macros/s/AKfycbz2N6On1QHoE5q06e4NQsOYVkJJQ8PMl8kSIqx4MSbpJZgI2Qe3DbnM4HJWv2Mp594iPw/exec';
-
-                window.jsonpCallback = function(response) {
-                    if(response.result === 'success') {
-                        alert('感謝您的回覆！我們收到囉！');
-                        rsvpForm.reset();
-                    } else {
-                        alert('發生錯誤：' + response.error);
-                    }
-                    submitBtn.innerText = '送出回覆';
-                    submitBtn.disabled = false;
-                };
 
                 rsvpForm.addEventListener('submit', e => {
                     e.preventDefault(); 
@@ -238,20 +227,29 @@ body{font-family:'Noto Serif TC',serif; color:#2c2c2c; position: relative;}
                     const guestName = document.getElementById('guest-name').value;
                     const attendance = document.querySelector('input[name="attendance"]:checked').value;
 
+                    // 使用 GET 參數帶入資料
                     const requestUrl = scriptURL 
                         + '?guest-name=' + encodeURIComponent(guestName) 
-                        + '&attendance=' + encodeURIComponent(attendance)
-                        + '&callback=jsonpCallback';
+                        + '&attendance=' + encodeURIComponent(attendance);
 
-                    const script = document.createElement('script');
-                    script.src = requestUrl;
-                    document.body.appendChild(script);
-                    
-                    script.onload = function() {
-                        document.body.removeChild(script);
-                    };
+                    // 使用 fetch 發送請求 (no-cors 模式不要求 Google 回傳特定格式)
+                    fetch(requestUrl, { method: 'GET', mode: 'no-cors' })
+                        .then(() => {
+                            // 因為 no-cors 無法讀取回傳內容，只要 fetch 沒報錯就當作成功
+                            alert('感謝您的回覆！我們收到囉！');
+                            rsvpForm.reset();
+                            submitBtn.innerText = '送出回覆';
+                            submitBtn.disabled = false;
+                        })
+                        .catch(error => {
+                            console.error('Error!', error.message);
+                            alert('發生錯誤，請稍後再試，或直接聯絡我們！');
+                            submitBtn.innerText = '送出回覆';
+                            submitBtn.disabled = false;
+                        });
                 });
             </script>
+
         </div>
     </section>
 
