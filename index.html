@@ -6,10 +6,9 @@
 <title>Jay & Michelle</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Gwendolyn:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Zen+Old+Mincho:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* 💎 1. 定義您的自定義字體 (已修正檔名為 my font.ttf) */
+/* 💎 1. 字體定義 */
 @font-face {
     font-family: 'my font';
-    /* 檔名含空格時，務必使用引號包含路徑 */
     src: url('my%20font.ttf') format('truetype'); 
     font-display: swap; 
 }
@@ -17,32 +16,13 @@
 /* 基礎修正 */
 *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
 html, body { width: 100%; height: 100%; height: -webkit-fill-available; overflow-x: hidden; background: #faf8f5;}
-
-/* 💎 2. 全域套用自定義字體：確保所有中文字都使用它 */
-body {
-    font-family: 'my font', 'Noto Serif TC', serif; 
-    color: #2c2c2c; 
-    position: relative;
-} 
+body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; position: relative; } 
 
 /* --- 開場：拍立得 --- */
-#intro-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e8dcc4; z-index: 10000;
-    display: flex; align-items: center; justify-content: center; transition: opacity 1.5s ease-in-out; touch-action: none; 
-}
+#intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e8dcc4; z-index: 10000; display: flex; align-items: center; justify-content: center; transition: opacity 1.5s ease-in-out; touch-action: none; }
 .camera-container { position: relative; width: 280px; height: 340px; background-image: url('camera.png'); background-size: contain; background-position: center; background-repeat: no-repeat; z-index: 10001; }
 .photo-stack { position: absolute; top: 40px; left: 50%; transform: translateX(-50%); width: 220px; height: 260px; z-index: 10000; }
-.photo {
-    position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: #fff; border: 6px solid #fff; border-bottom: 25px solid #fff;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15); transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.2s ease-out, filter 1.5s ease-out; 
-    background-size: cover; background-position: center; opacity: 0; cursor: pointer;
-}
-.photo::after {
-    content: ""; position: absolute; top: -10px; left: -15px; width: 90px; height: 25px;
-    background-color: rgba(224, 203, 160, 0.85); transform: rotate(-12deg);
-    box-shadow: 1px 2px 4px rgba(0,0,0,0.08); z-index: 10;
-    clip-path: polygon( 2% 5%, 8% 0%, 92% 5%, 98% 0%, 100% 50%, 97% 95%, 90% 100%, 10% 95%, 0% 100%, 3% 50% );
-}
+.photo { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: #fff; border: 6px solid #fff; border-bottom: 25px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.15); transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.2s ease-out, filter 1.5s ease-out; background-size: cover; background-position: center; opacity: 0; cursor: pointer; }
 .photo:nth-child(1) { animation: printOut 1.2s forwards 0.3s; z-index: 1; --rot: 0deg; --slide: 0px; }
 @keyframes printOut { from { opacity: 0; transform: translateY(-50px) rotate(0deg); } to { opacity: 1; transform: translateY(var(--slide)) rotate(var(--rot)); } }
 .photo.dropped { transform: scale(1.1) translateY(-20px) !important; opacity: 0 !important; filter: blur(20px) !important; pointer-events: none; }
@@ -52,102 +32,67 @@ body {
 #main-wrapper.is-visible { opacity: 1; visibility: visible; }
 .cover { height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; background-color: #f5f5dc; }
 .cover::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('bg_silk.jpg.png'); background-size: cover; background-position: center; z-index: 1; }
-
-.getting-married-text { color:#c9a466; margin-bottom:12px; letter-spacing:0.4em; font-size: 0.85rem; z-index: 10; position: relative;}
-.name-container { position: relative; z-index: 10; width: 100%; }
+.chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 25px auto 0; font-family: 'my font', serif; font-size: 2.5rem; letter-spacing: 0.2em; color: #4a4a4a; }
 .english-names { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 7vw, 4rem); font-weight: 300; }
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 
-/* 💎 中文姓名：已套用 my font */
-.chinese-names { 
-    display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 25px auto 0; 
-    font-family: 'my font', serif; 
-    font-size: 2.5rem; letter-spacing: 0.2em; color: #4a4a4a; 
-}
-
-/* 內容區 */
-.content-section { padding: 50px 20px; max-width: 1000px; margin: 0 auto; }
-.grid-row { display: flex; flex-direction: column; gap: 30px; margin-bottom: 60px; }
-.grid-images { display: flex; gap: 10px; width: 100%; }
-.grid-img { flex: 1; height: 250px; background-size: cover; background-position: center; border: 5px solid #fff; box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
-
-/* 標題與內文自動繼承 my font */
-.grid-text h3 { font-family: 'Cormorant Garamond', 'my font', serif; font-size: 1.8rem; color: #c9a466; margin-bottom: 10px; }
-
-/* 婚禮資訊 */
-.info-section { padding: 60px 20px; background: #fbf9f7; text-align: center; }
-.info-card { background: #fff; padding: 40px 20px; margin: 20px auto; border: 1px solid #e0d9d0; }
-.map-container { width: 100%; height: 300px; margin: 20px 0; border: 1px solid #e0d9d0; }
-
 /* 倒數計時 */
 .countdown-container { display: flex; justify-content: center; gap: 10px; margin: 25px 0; }
-.countdown-box { background: #c9a466; color: #fff; padding: 10px; border-radius: 8px; min-width: 60px; }
-.countdown-number { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: bold; }
+.countdown-box { background: #c9a466; color: #fff; padding: 10px; border-radius: 8px; min-width: 65px; }
+.countdown-number { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: bold; }
 
-/* 表單與留言板 */
-.form-card { max-width: 500px; background: #fff; padding: 30px; margin: 0 auto; border: 1px solid #e0d9d0; }
-.submit-btn { width: 100%; padding: 12px; background: #c9a466; color: #fff; border: none; cursor: pointer; font-family: 'my font', serif; font-size: 1.2rem;}
+/* 💎 留言板專用樣式 */
+.sticky-wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; padding: 20px; max-width: 900px; margin: 0 auto; }
+.sticky-note { padding: 15px; box-shadow: 2px 3px 10px rgba(0,0,0,0.1); font-family: 'my font', serif; text-align: left; transition: transform 0.3s; }
+.sticky-note:nth-child(even) { background-color: #fdf5c9; transform: rotate(-2deg); }
+.sticky-note:nth-child(odd) { background-color: #fce4ec; transform: rotate(2deg); }
+.note-text { font-size: 1.1rem; color: #333; margin-bottom: 10px; min-height: 50px; }
+.note-author { font-size: 0.9rem; color: #888; text-align: right; border-top: 1px dashed #ddd; padding-top: 5px; }
 
-#musicToggle { position: fixed; bottom: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: #c9a466; border: none; color: white; cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; }
+.form-card { max-width: 500px; background: #fff; padding: 30px; margin: 20px auto; border: 1px solid #e0d9d0; }
+.submit-btn { width: 100%; padding: 12px; background: #c9a466; color: #fff; border: none; cursor: pointer; font-family: 'my font', serif; font-size: 1.2rem; }
+
+#musicToggle { position: fixed; bottom: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: #c9a466; border: none; color: white; z-index: 9999; display: flex; align-items: center; justify-content: center; }
 </style>
 </head>
 <body>
 
 <div id="intro-overlay">
-    <div class="camera-container">
-        <div class="photo-stack">
-            <div class="photo" onclick="dropPhoto(this)" style="background-image: url('P3.jpg');"></div>
-        </div>
-    </div>
+    <div class="camera-container"><div class="photo-stack"><div class="photo" onclick="dropPhoto(this)" style="background-image: url('P3.jpg');"></div></div></div>
 </div>
 
 <div id="main-wrapper">
     <div class="cover">
-        <p class="getting-married-text">WE'RE GETTING MARRIED</p>
-        <div class="name-container">
+        <p style="color:#c9a466; letter-spacing:0.4em; font-size: 0.85rem; z-index: 10; position: relative;">WE'RE GETTING MARRIED</p>
+        <div class="name-container" style="z-index: 10;">
             <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
             <div class="chinese-names"><span>蔡宇杰</span><span>陳旻瑄</span></div>
         </div>
-        <p style="margin-top:20px; color:#888; letter-spacing:0.2em; font-size: 0.9rem; z-index: 10; position: relative;">2026·06·20</p>
+        <p style="margin-top:20px; color:#888; font-size: 0.9rem; z-index: 10; position: relative;">2026·06·20</p>
     </div>
 
-    <section class="content-section">
-        <div class="grid-row">
-            <div class="grid-images">
-                <div class="grid-img" style="background-image: url('story1a.jpg');"></div>
-                <div class="grid-img" style="background-image: url('story1b.jpg');"></div>
-            </div>
-            <div class="grid-text"><h3>Our Story</h3><p>在此輸入您的愛情故事...</p></div>
-        </div>
-    </section>
-
-    <section class="info-section">
-        <h2 style="font-family:'Cormorant Garamond', 'my font', serif; color:#c9a466; font-size: 2.2rem; margin-bottom: 20px;">Wedding Info</h2>
-        <p>2026年6月20日 星期六</p>
-        
+    <section style="padding: 60px 20px; text-align: center; background: #fbf9f7;">
+        <h2 style="color:#c9a466; font-size: 2rem; margin-bottom: 20px;">Wedding Info</h2>
         <div class="countdown-container">
-            <div class="countdown-box"><div class="countdown-number" id="cd-days">00</div><div class="countdown-label">天</div></div>
-            <div class="countdown-box"><div class="countdown-number" id="cd-hours">00</div><div class="countdown-label">時</div></div>
-            <div class="countdown-box"><div class="countdown-number" id="cd-minutes">00</div><div class="countdown-label">分</div></div>
-            <div class="countdown-box"><div class="countdown-number" id="cd-seconds">00</div><div class="countdown-label">秒</div></div>
+            <div class="countdown-box"><div class="countdown-number" id="cd-days">00</div><div style="font-size:0.7rem;">天</div></div>
+            <div class="countdown-box"><div class="countdown-number" id="cd-hours">00</div><div style="font-size:0.7rem;">時</div></div>
+            <div class="countdown-box"><div class="countdown-number" id="cd-minutes">00</div><div style="font-size:0.7rem;">分</div></div>
+            <div class="countdown-box"><div class="countdown-number" id="cd-seconds">00</div><div style="font-size:0.7rem;">秒</div></div>
         </div>
-
-        <div class="info-card">
-            <p>暖居日穀 (台中市北屯區松竹路一段3號)</p>
-            <div class="map-container">
-                <iframe src="https://maps.google.com/maps?q=%E6%9A%96%E5%B1%85%E6%97%A5%E7%A9%80%20%E5%8F%B0%E4%B8%AD%E5%B8%82%E5%8C%97%E5%B1%AF%E5%8D%80%E6%9D%BE%E7%AB%B9%E8%B7%AF%E4%B8%80%E6%AE%B53%E8%99%9F&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
-            <a href="https://maps.app.goo.gl/9ZpYxX9H2T2rB7vF8" target="_blank" style="display:inline-block; padding:10px 20px; border:1px solid #c9a466; color:#c9a466; text-decoration:none;">查看導航</a>
-        </div>
+        <p>暖居日穀 (台中市北屯區松竹路一段3號)</p>
     </section>
 
-    <section class="form-section" style="padding: 50px 20px; text-align: center;">
+    <section style="padding: 60px 20px; text-align: center;">
+        <h2 style="color:#c9a466; font-size: 1.8rem; margin-bottom: 30px;">留言祝福</h2>
         <div class="form-card">
-            <h3 style="margin-bottom: 15px;">RSVP 參加回覆</h3>
-            <form id="rsvp-form">
-                <input type="text" id="guest-name" placeholder="請輸入姓名" style="width:100%; padding:10px; margin-bottom:15px;" required>
-                <button type="submit" class="submit-btn">送出回覆</button>
+            <form id="wish-form">
+                <input type="text" id="wish-name" placeholder="您的姓名" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid #ddd;" required>
+                <textarea id="wish-message" placeholder="寫下對我們的祝福..." style="width:100%; padding:10px; margin-bottom:15px; border:1px solid #ddd; min-height:100px;" required></textarea>
+                <button type="submit" class="submit-btn">送出祝福</button>
             </form>
+        </div>
+        <div class="sticky-wall" id="sticky-wall">
+            <div style="grid-column: 1 / -1; color:#888;">正在載入親友的祝福...</div>
         </div>
     </section>
 
@@ -157,51 +102,81 @@ body {
 <div id="player" style="position:fixed; top:-9999px;"></div>
 <button id="musicToggle">▶</button>
 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAUFF7GdX7fAtK_wK5-YAffirtap52UgCg",
+    authDomain: "wedding-e6351.firebaseapp.com",
+    databaseURL: "https://wedding-e6351-default-rtdb.firebaseio.com",
+    projectId: "wedding-e6351",
+    storageBucket: "wedding-e6351.firebasestorage.app",
+    messagingSenderId: "382633819825",
+    appId: "1:382633819825:web:b3352f4f4e67423878ec90"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const wishesRef = ref(db, 'wishes');
+
+  // 送出祝福
+  document.getElementById('wish-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('wish-name').value;
+      const message = document.getElementById('wish-message').value;
+      push(wishesRef, { name, message, timestamp: serverTimestamp() })
+          .then(() => { alert('送出成功！'); document.getElementById('wish-form').reset(); });
+  });
+
+  // 即時讀取留言
+  onValue(wishesRef, (snapshot) => {
+      const wall = document.getElementById('sticky-wall');
+      wall.innerHTML = '';
+      const data = snapshot.val();
+      if (data) {
+          Object.values(data).reverse().forEach(item => {
+              const note = document.createElement('div');
+              note.className = 'sticky-note';
+              note.innerHTML = `<div class="note-text">${item.message}</div><div class="note-author">From: ${item.name}</div>`;
+              wall.appendChild(note);
+          });
+      } else { wall.innerHTML = '還沒有留言喔，快來留言吧！'; }
+  });
+</script>
+
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-let droppedCount = 0;
-var player;
-
+let droppedCount = 0; var player;
 function dropPhoto(el) {
     if (el.classList.contains('dropped')) return;
     if (droppedCount === 0 && player && typeof player.playVideo === 'function') { player.playVideo(); }
-    el.classList.add('dropped');
-    droppedCount++;
-    
+    el.classList.add('dropped'); droppedCount++;
     if (droppedCount === 1) {
         setTimeout(() => {
             document.getElementById('intro-overlay').style.opacity = '0';
             document.getElementById('main-wrapper').classList.add('is-visible');
-            document.body.style.overflow = 'auto';
             setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1500); 
         }, 1000); 
     }
 }
-
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
     videoId: 'pmrCXt4lNyA',
     playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0, 'playsinline': 1 },
-    events: {
-      'onReady': (e) => { e.target.setVolume(30); },
-      'onStateChange': (e) => { document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶'; }
-    }
+    events: { 'onReady': (e) => { e.target.setVolume(30); }, 'onStateChange': (e) => { document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶'; } }
   });
 }
-
 function updateCountdown() {
     const weddingDate = new Date("June 20, 2026 12:00:00").getTime();
-    const now = new Date().getTime();
-    const distance = weddingDate - now;
+    const distance = weddingDate - new Date().getTime();
     if (distance < 0) return;
     document.getElementById("cd-days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
     document.getElementById("cd-hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
     document.getElementById("cd-minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
     document.getElementById("cd-seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
 }
-setInterval(updateCountdown, 1000);
-updateCountdown();
-
+setInterval(updateCountdown, 1000); updateCountdown();
 document.getElementById('musicToggle').onclick = function() {
   if (player && typeof player.getPlayerState === 'function') {
     player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
