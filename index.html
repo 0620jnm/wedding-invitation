@@ -38,21 +38,22 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; }
 .cover { height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; background-color: #f5f5dc; }
 .cover::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('bg_silk.jpg.png'); background-size: cover; background-position: center; z-index: 1; }
 
-/* 💎 調整邀請文字：改為 2 倍大 */
+/* 💎 再次放大邀請文字：目前的兩倍大 (3.4rem) */
 .getting-married-text { 
     color:#c9a466; 
-    margin-bottom: 20px; 
-    letter-spacing: 0.3em; 
-    font-size: 1.7rem; /* 從 0.85rem 調升至 1.7rem */
+    margin-bottom: 10px; 
+    letter-spacing: 0.1em; 
+    font-size: 3.4rem; /* 從 1.7rem 調升至 3.4rem */
     z-index: 10; 
     position: relative; 
     font-family: 'my font', serif;
+    line-height: 1.1;
 }
 
 .name-container { position: relative; z-index: 10; width: 100%; }
 .english-names { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 7vw, 4rem); font-weight: 300; }
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
-.chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 25px auto 0; font-family: 'my font'; font-size: 2rem; letter-spacing: 0.2em; color: #4a4a4a; }
+.chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 15px auto 0; font-family: 'my font'; font-size: 2rem; letter-spacing: 0.2em; color: #4a4a4a; }
 
 /* --- 資訊與地圖 --- */
 .info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
@@ -134,9 +135,9 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; }
             <p style="font-family: 'my font'; font-size: 1.2rem; color: #444;">暖居日穀</p>
             <p style="font-size: 0.9rem; color: #888; margin-top: 5px;">台中市北屯區松竹路一段3號</p>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.1654484920436!2d120.706312!3d24.1661661!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917f920800001%3A0x6a2c27076046e7f8!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710400000000!5m2!1szh-TW!2stw" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="http://googleusercontent.com/maps.google.com/8" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
-            <a href="https://maps.app.goo.gl/9R6V6X8Yw2rY7qQp7" target="_blank" style="display:inline-block; padding:12px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; font-family: 'my font'; font-size: 1rem; background:#fff;">開啟地圖導航</a>
+            <a href="http://googleusercontent.com/maps.google.com/9" target="_blank" style="display:inline-block; padding:12px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; font-family: 'my font'; font-size: 1rem; background:#fff;">開啟地圖導航</a>
         </div>
     </section>
 
@@ -185,92 +186,23 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; }
 <button id="musicToggle">▶</button>
 
 <script src="https://www.youtube.com/iframe_api"></script>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyAUFF7GdX7fAtK_wK5-YAffirtap52UgCg",
-    authDomain: "wedding-e6351.firebaseapp.com",
-    databaseURL: "https://wedding-e6351-default-rtdb.firebaseio.com",
-    projectId: "wedding-e6351",
-    storageBucket: "wedding-e6351.firebasestorage.app",
-    messagingSenderId: "382633819825",
-    appId: "1:382633819825:web:b3352f4f4e67423878ec90"
-};
-
+const firebaseConfig = { apiKey: "AIzaSyAUFF7GdX7fAtK_wK5-YAffirtap52UgCg", authDomain: "wedding-e6351.firebaseapp.com", databaseURL: "https://wedding-e6351-default-rtdb.firebaseio.com", projectId: "wedding-e6351", storageBucket: "wedding-e6351.firebasestorage.app", messagingSenderId: "382633819825", appId: "1:382633819825:web:b3352f4f4e67423878ec90" };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const wishesRef = ref(db, 'wishes');
-
-document.getElementById('wish-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.getElementById('wish-name').value;
-    const message = document.getElementById('wish-message').value;
-    push(wishesRef, { name, message, timestamp: serverTimestamp() }).then(() => {
-        document.getElementById('wish-form').reset();
-    });
-});
-
-onValue(wishesRef, (snapshot) => {
-    const wall = document.getElementById('sticky-wall');
-    wall.innerHTML = '';
-    const data = snapshot.val();
-    if (data) {
-        const messages = Object.values(data).reverse();
-        messages.forEach((item, index) => {
-            const note = document.createElement('div');
-            note.className = 'sticky-note';
-            const rot = (Math.random() - 0.5) * 12; 
-            const x = (index % 2 === 0 ? -1 : 1) * (Math.random() * 20);
-            const y = (Math.random() - 0.5) * 15;
-            note.style.setProperty('--note-rot', `${rot}deg`);
-            note.style.setProperty('--note-x', `${x}px`);
-            note.style.setProperty('--note-y', `${y}px`);
-            if(index === 0) note.classList.add('new-note');
-            note.innerHTML = `<div class="note-text">${item.message}</div><div class="note-author">From: ${item.name}</div>`;
-            wall.appendChild(note);
-        });
-    }
-});
+document.getElementById('wish-form').addEventListener('submit', (e) => { e.preventDefault(); const name = document.getElementById('wish-name').value; const message = document.getElementById('wish-message').value; push(wishesRef, { name, message, timestamp: serverTimestamp() }).then(() => { document.getElementById('wish-form').reset(); }); });
+onValue(wishesRef, (snapshot) => { const wall = document.getElementById('sticky-wall'); wall.innerHTML = ''; const data = snapshot.val(); if (data) { const messages = Object.values(data).reverse(); messages.forEach((item, index) => { const note = document.createElement('div'); note.className = 'sticky-note'; const rot = (Math.random() - 0.5) * 12; const x = (index % 2 === 0 ? -1 : 1) * (Math.random() * 20); const y = (Math.random() - 0.5) * 15; note.style.setProperty('--note-rot', `${rot}deg`); note.style.setProperty('--note-x', `${x}px`); note.style.setProperty('--note-y', `${y}px`); if(index === 0) note.classList.add('new-note'); note.innerHTML = `<div class="note-text">${item.message}</div><div class="note-author">From: ${item.name}</div>`; wall.appendChild(note); }); } });
 </script>
-
 <script>
 let droppedCount = 0; var player;
-function dropPhoto(el) {
-    if (el.classList.contains('dropped')) return;
-    if (droppedCount === 0 && player && typeof player.playVideo === 'function') { player.playVideo(); }
-    el.classList.add('dropped'); droppedCount++;
-    setTimeout(() => {
-        document.getElementById('intro-overlay').style.opacity = '0';
-        document.getElementById('main-wrapper').classList.add('is-visible');
-        setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1500);
-    }, 1200);
-}
-
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        videoId: 'pmrCXt4lNyA',
-        playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0, 'playsinline': 1 },
-        events: { 'onStateChange': (e) => { document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶'; } }
-    });
-}
-
-function updateCountdown() {
-    const weddingDate = new Date("June 20, 2026 12:00:00").getTime();
-    const distance = weddingDate - new Date().getTime();
-    if (distance < 0) return;
-    document.getElementById("cd-days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-    document.getElementById("cd-hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-    document.getElementById("cd-minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-    document.getElementById("cd-seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
-}
+function dropPhoto(el) { if (el.classList.contains('dropped')) return; if (droppedCount === 0 && player && typeof player.playVideo === 'function') { player.playVideo(); } el.classList.add('dropped'); droppedCount++; setTimeout(() => { document.getElementById('intro-overlay').style.opacity = '0'; document.getElementById('main-wrapper').classList.add('is-visible'); setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1200); }, 1200); }
+function onYouTubeIframeAPIReady() { player = new YT.Player('player', { videoId: 'pmrCXt4lNyA', playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0, 'playsinline': 1 }, events: { 'onStateChange': (e) => { document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶'; } } }); }
+function updateCountdown() { const weddingDate = new Date("June 20, 2026 12:00:00").getTime(); const distance = weddingDate - new Date().getTime(); if (distance < 0) return; document.getElementById("cd-days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0'); document.getElementById("cd-hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0'); document.getElementById("cd-minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0'); document.getElementById("cd-seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0'); }
 setInterval(updateCountdown, 1000); updateCountdown();
-
-document.getElementById('musicToggle').onclick = function() {
-    player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
-};
+document.getElementById('musicToggle').onclick = function() { player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo(); };
 </script>
 </body>
 </html>
