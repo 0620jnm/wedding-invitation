@@ -3,162 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Jay & Michelle</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Gwendolyn:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Zen+Old+Mincho:wght@400;500&display=swap" rel="stylesheet">
+<title>Jay & Michelle Wedding</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Gwendolyn:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-/* 💎 1. 字體與基礎定義 */
+/* 💎 1. 字體與基礎設定 */
 @font-face {
     font-family: 'my font';
     src: url('my%20font.ttf') format('truetype'); 
     font-display: swap; 
 }
-*{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
-html, body { width: 100%; height: 100%; overflow-x: hidden; background: #faf8f5;}
-body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; }
 
-/* --- 封面標題樣式 --- */
-.cover { height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; background-color: #f5f5dc; }
+*{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+html, body { width: 100%; height: 100vh; height: -webkit-fill-available; overflow-x: hidden; background: #faf8f5;}
+body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; } 
+
+/* --- 💎 開場：拍立得強制置中 --- */
+#intro-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    background: #e8dcc4; z-index: 10000;
+    /* 💎 強制：使用 Flexbox 讓內容永遠置中 */
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 2s ease-in-out; 
+    touch-action: none; /* 防止滑動擋住點擊 */
+}
+.camera-container {
+    position: relative; width: 320px; height: 380px;
+    background-image: url('camera.png'); background-size: contain; background-position: center; background-repeat: no-repeat;
+    cursor: pointer; z-index: 10001;
+}
+.photo-stack { position: absolute; top: 50px; left: 50%; transform: translateX(-50%); width: 250px; height: 300px; z-index: 10000; }
+.photo {
+    position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+    background: #fff; border: 8px solid #fff; border-bottom: 30px solid #fff;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s ease-out, filter 1s ease-out; 
+    background-size: cover; background-position: center; opacity: 0;
+    background-image: url('P3.jpg'); 
+}
+.photo:nth-child(1) { animation: printOut 1.5s forwards 0.3s; z-index: 3; --rot: -5deg; --slide: 30px; }
+.photo:nth-child(2) { animation: printOut 1.5s forwards 0.6s; z-index: 2; --rot: 3deg; --slide: 15px; }
+.photo:nth-child(3) { animation: printOut 1.5s forwards 0.9s; z-index: 1; --rot: 0deg; --slide: 0px; }
+
+@keyframes printOut { 
+    from { opacity: 0; transform: translateY(-80px) rotate(0deg); } 
+    to { opacity: 1; transform: translateY(var(--slide)) rotate(var(--rot)); } 
+}
+
+/* 💎 修正點擊後掉落動畫：移除特定位移，改用 scale 模糊淡出 */
+.photo.dropped { 
+    transform: scale(1.15) translateY(-20px) !important; /* 保留典雅的輕微放大 */
+    opacity: 0 !important; 
+    filter: blur(15px); /* 模糊讓淡出更柔和 */
+    pointer-events: none; 
+}
+
+/* --- 主視覺：優雅淡入 --- */
+#main-wrapper { 
+    opacity: 0; 
+    transition: opacity 3s ease; 
+}
+#main-wrapper.is-visible {
+    opacity: 1;
+}
+
+.cover { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; background-color: #f5f5dc; }
 .cover::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('bg_silk.jpg.png'); background-size: cover; background-position: center; z-index: 1; }
 
-.getting-married-text { 
-    color:#c9a466; 
-    margin-bottom: 10px; 
-    letter-spacing: 0.1em; 
-    font-size: 3.4rem; 
-    z-index: 10; 
-    position: relative; 
-    font-family: 'my font', serif;
-}
+.getting-married-text { color:#c9a466; margin-bottom:12px; letter-spacing:0.4em; font-size: 0.9rem; z-index: 10; font-weight: 300; font-family: 'my font', serif;}
 
-.name-container { position: relative; z-index: 10; width: 100%; }
-.english-names { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 7vw, 4rem); font-weight: 300; }
+.name-container { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
+.english-names { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 6vw, 3.2rem); color: #2c2c2c; letter-spacing: 0.05em; }
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 
-/* 💎 中文姓名放大兩倍 (2rem -> 4rem) */
-.chinese-names { display: flex; justify-content: space-around; width: 90%; max-width: 600px; margin: 20px auto 0; font-family: 'my font'; font-size: 4rem; letter-spacing: 0.2em; color: #4a4a4a; }
-
-/* --- 資訊區塊中文放大 --- */
-.info-section h2 { font-size: 2.5rem; }
-.info-card p:first-child { font-size: 2.4rem !important; } /* 餐廳名放大 */
-.info-card p:nth-child(2) { font-size: 1.8rem !important; } /* 地址放大 */
-.nav-btn { display:inline-block; padding:15px 30px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; font-family: 'my font'; font-size: 2rem !important; background:#fff; }
-
-/* --- 表單中文放大 --- */
-.form-section h2 { font-size: 4.4rem !important; } /* 標題放大 */
-.form-group label { font-size: 2.2rem !important; } /* Label 放大 */
-.form-group input, .form-group textarea { font-size: 2rem !important; }
-.attendance-label { font-size: 2rem !important; font-family: 'Noto Serif TC'; }
-.submit-btn { font-size: 2.4rem !important; padding: 20px; }
-
-/* --- 留言板中文放大 --- */
-.note-text { font-size: 2.2rem !important; line-height: 1.4; }
-.note-author { font-size: 1.9rem !important; }
-
-/* 其餘原本樣式保持不變... */
-#intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e8dcc4; z-index: 10000; display: flex; align-items: center; justify-content: center; transition: opacity 1.5s ease-in-out; }
-.camera-container { position: relative; width: 280px; height: 340px; background-image: url('camera.png'); background-size: contain; background-repeat: no-repeat; }
-.photo { position: absolute; left: 50%; top: 40px; transform: translateX(-50%); width: 220px; height: 260px; background: #fff; border: 6px solid #fff; border-bottom: 25px solid #fff; cursor: pointer; background-image: url('P3.jpg'); background-size: cover; }
-.photo.dropped { transform: translateY(80px) scale(1.05) rotate(5deg) translateX(-50%) !important; opacity: 0 !important; filter: blur(15px); pointer-events: none; }
-#main-wrapper { opacity: 0; visibility: hidden; transition: opacity 2s ease; }
-#main-wrapper.is-visible { opacity: 1; visibility: visible; }
-.info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
-.map-container { width: 100%; height: 350px; margin: 25px 0; border: 1px solid #e0d9d0; border-radius: 8px; overflow: hidden; }
-.sticky-wall { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; padding: 40px 10px; }
-.sticky-note { width: 280px; min-height: 250px; padding: 45px 25px 25px; box-shadow: 3px 6px 15px rgba(0,0,0,0.1); position: relative; transform: rotate(var(--note-rot)); }
-.sticky-note::before { content: ""; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 24px; height: 24px; background-color: #a82424; border-radius: 50%; z-index: 2; }
-.sticky-note:nth-child(5n+1) { background-color: #C9A466; }
-.sticky-note:nth-child(5n+2) { background-color: #EBDDB5; }
-.sticky-note:nth-child(5n+3) { background-color: #F7F6ED; }
-.sticky-note:nth-child(5n+4) { background-color: #DDE7A9; }
-.sticky-note:nth-child(5n+5) { background-color: #A6A35D; }
-#musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a466; color: white; z-index: 9999; }
-</style>
-</head>
-<body>
-
-<div id="intro-overlay">
-    <div class="camera-container"><div class="photo" onclick="dropPhoto(this)"></div></div>
-</div>
-
-<div id="main-wrapper">
-    <div class="cover">
-        <p class="getting-married-text">The Wedding of</p>
-        <div class="name-container">
-            <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
-            <div class="chinese-names"><span>蔡宇杰</span><span>陳旻瑄</span></div>
-        </div>
-        <p style="margin-top:35px; color:#c9a466; font-size: 2rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
-    </div>
-
-    <section class="info-section">
-        <h2 style="font-family:'Cormorant Garamond'; color:#c9a466; margin-bottom: 20px;">Wedding Info</h2>
-        <div class="info-card" style="max-width: 800px; margin: 0 auto; background:#fff; padding: 40px; border: 1px solid #eee;">
-            <p style="font-family: 'my font'; color: #444;">暖居日穀</p>
-            <p style="color: #888; margin-top: 10px;">台中市北屯區松竹路一段3號</p>
-            <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.123456789!2d120.7!3d24.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346917e6513361bb%3A0xc3f8b09332573752!2z5pqW5bGF5pel56穀!5e0!3m2!1szh-TW!2stw!4v1710000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
-            <a href="https://maps.app.goo.gl/YourLink" target="_blank" class="nav-btn">開啟地圖導航</a>
-        </div>
-    </section>
-
-    <section class="form-section" style="padding: 100px 20px; text-align: center;">
-        <h2 style="font-family:'my font'; color:#c9a466; margin-bottom: 40px;">參加回覆表單</h2>
-        <div style="max-width: 650px; margin: 0 auto; background:#fff; padding: 50px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
-            <form id="rsvp-form">
-                <div class="form-group">
-                    <label>您的姓名</label>
-                    <input type="text" id="guest-name" required placeholder="請輸入姓名">
-                </div>
-                <div class="form-group">
-                    <label>是否參加婚禮？</label>
-                    <div style="display:flex; gap: 40px; margin-top:15px;">
-                        <label class="attendance-label"><input type="radio" name="attendance" value="yes" required> 是的，會參加</label>
-                        <label class="attendance-label"><input type="radio" name="attendance" value="no" required> 抱歉，無法出席</label>
-                    </div>
-                </div>
-                <button type="submit" class="submit-btn" id="rsvp-submit-btn" style="width:100%; cursor:pointer; background:#c9a466; color:#fff; border:none; border-radius: 8px;">送出回覆</button>
-            </form>
-        </div>
-    </section>
-
-    <section class="form-section" style="background: #fbf9f7;">
-        <h2 style="font-family:'my font'; color:#c9a466; margin-bottom: 40px;">留言祝福</h2>
-        <div style="max-width: 650px; margin: 0 auto; background:#fff; padding: 50px; border-radius: 12px; margin-bottom: 60px;">
-            <form id="wish-form">
-                <div class="form-group">
-                    <label>您的姓名</label>
-                    <input type="text" id="wish-name" required placeholder="請輸入姓名">
-                </div>
-                <div class="form-group">
-                    <label>祝福的話</label>
-                    <textarea id="wish-message" required placeholder="寫些話給我們吧..." style="height: 150px;"></textarea>
-                </div>
-                <button type="submit" class="submit-btn" style="width:100%; cursor:pointer; background:#c9a466; color:#fff; border:none; border-radius: 8px;">釘上祝福便條</button>
-            </form>
-        </div>
-        <div class="sticky-wall" id="sticky-wall"></div>
-    </section>
-
-    <footer style="text-align:center; padding:100px 0; color:#c9a466; font-family:'Cormorant Garamond'; font-style:italic; font-size: 2.5rem;">See You Soon</footer>
-</div>
-
-<div id="player" style="position:fixed; top:-9999px;"></div>
-<button id="musicToggle">▶</button>
-
-<script src="https://www.youtube.com/iframe_api"></script>
-<script type="module">
-/* Firebase 邏輯... */
-</script>
-<script>
-/* 倒數計時、YouTube、開場動畫邏輯... */
-function dropPhoto(el) {
-    el.classList.add('dropped');
-    setTimeout(() => {
-        document.getElementById('intro-overlay').style.opacity = '0';
-        document.getElementById('main-wrapper').classList.add('is-visible');
-    }, 1200);
+/* 💎 中文姓名：套用您的 my font.ttf */
+.chinese-names { 
+    display: flex; justify-content: space-between; 
+    width: 100%; padding: 0 10%; margin-top: 25px; 
+    font-family: 'my font', serif; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; 
 }
-</script>
-</body>
-</html>
+
+/* 婚禮資訊 & 倒數 */
+.info-section { padding: 60px 20px; background: #fbf9f7; text-align: center; }
+.countdown-container { display: flex; justify-content: center; gap: 12px; margin: 25px 0; }
+.countdown-box { background: #c9a466; color: #fff; width: 65px; height: 80px; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.countdown-number { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: bold; }
+.calendar-wrapper { max-width: 320px; margin: 0 auto 30px auto; padding: 25px; background: rgba(255, 255, 255, 0.8); border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px 0; font-family: 'Playfair Display', serif; }
+.highlight { background-color: #a82424; color: white; border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 4px 10px rgba(168,36,36,0.3); }
+
+/* 表單樣式 */
+.form-card { max-width: 500px; background: #fff; padding: 30px; margin: 0 auto; border: 1px solid #e0d9d0; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+.submit-btn { width: 100%; padding: 15px; background: #c9a466; color: #fff; border: none; cursor: pointer; font-family: 'my font', serif; font-size: 1.2rem; }
+
+/* 💎 留言祝福區牆 (Firebase 連動版) */
+.sticky-wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; padding: 20px; max-width: 900px; margin: 0 auto; }
+.sticky-note { 
+    padding: 18px; box-shadow: 2px 3px 10px rgba(0,0,0,0.1); 
+    font-family: 'my font', serif; text-align: left; 
+    transition: transform 0.3s; position: relative; 
+    /* 預設旋轉與位移 (左右交錯邏輯在 JS 中) */
+    transform: rotate(var(--note-rot)) translate(var(--note-x), var(--note-y));
+}
+/* 💎 圖釘樣式 */
+.sticky-note::before {
+    content: ""; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    width: 24px; height: 24px; background-color: #a82424; border-radius: 50%;
+    box-shadow: 1px 2px 4px rgba(0,0,0,0.2), inset -2px -2px 4px rgba(0,0,0,0.3); z-index: 2;
+}
+.sticky-note::after {
+    content: ""; position: absolute; top: -5px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 14px; background: #ccc; z-index: 1;
+}
+/* 指定五色系 */
+.sticky-note:nth-child(5n+1) { background-color: #C9A466; }
+.sticky-note
