@@ -34,20 +34,29 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     background-position: center;
     background-repeat: no-repeat;
 }
-.print-photo {
+
+/* 出片口：只負責裁切，讓照片從機器「裡面」滑出來 */
+.print-slot {
     position: absolute;
     left: 50%;
+    bottom: 18%;               /* 對準出片口高度，可微調 */
     transform: translateX(-50%);
     width: 62%;
+    height: 0;                 /* 初始沒有高度，點擊後展開 */
+    overflow: hidden;
+}
+
+/* 外框 */
+.print-photo {
+    width: 100%;
     aspect-ratio: 3 / 4;
-    bottom: 18%;           /* 對準出片口位置，可自行微調 */
     background: #fff;
     border-radius: 4px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.25);
-    overflow: hidden;
     opacity: 0;
-    pointer-events: none;
+    transform: translateY(-100%); /* 一開始藏在 slot 上方（機器裡面） */
 }
+
 /* 內層實際照片 */
 .print-photo-inner {
     width: 100%;
@@ -55,28 +64,37 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     background-image: url('P3.jpg'); /* 要顯示的婚紗照 */
     background-size: cover;
     background-position: center;
-    filter: brightness(0.3) saturate(0.3);
-    transition: filter 2s ease;
+    filter: brightness(0.1) saturate(0.1);
 }
 
-/* 初始：相片藏在相機裡 */
-.print-photo {
-    transform: translate(-50%, 60%) translateY(80%);
+/* 點擊後：slot 先打開，再把照片往下吐出 */
+.print-slot.is-open {
+    animation: slotOpen 0.4s forwards;
+}
+@keyframes slotOpen {
+    from { height: 0; }
+    to   { height: 78%; }      /* 控制露出的長度，可調整 */
 }
 
-/* 列印動畫：往下吐出來 + 淡入 */
+/* 列印：照片從上往下滑出、同時淡入 */
 .print-photo.is-printing {
-    animation: photoPrint 2.2s forwards;
+    animation: photoPrint 2.3s forwards;
 }
 @keyframes photoPrint {
-    0%   { opacity: 0; transform: translate(-50%, 60%) translateY(80%); }
-    20%  { opacity: 1; transform: translate(-50%, 60%) translateY(40%); }
-    100% { opacity: 1; transform: translate(-50%, 60%) translateY(0%); }
+    0%   { opacity: 0; transform: translateY(-100%); }
+    20%  { opacity: 1; transform: translateY(-80%); }
+    100% { opacity: 1; transform: translateY(0%); }
 }
 
-/* 沖洗完成：照片變亮 */
+/* 沖洗：拉長到 4 秒慢慢變亮、變飽和 */
 .print-photo.is-developed .print-photo-inner {
-    filter: brightness(1) saturate(1);
+    animation: developFade 4s forwards;
+}
+@keyframes developFade {
+    0%   { filter: brightness(0.1) saturate(0.1); }
+    40%  { filter: brightness(0.4) saturate(0.4); }
+    70%  { filter: brightness(0.8) saturate(0.9); }
+    100% { filter: brightness(1)   saturate(1); }
 }
 
 /* 點擊提示文字 */
@@ -98,7 +116,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     50%     { opacity: 0.4; }
 }
 
-/* --- 主視覺 --- */
+/* --- 主視覺（以下內容與你前一版相同，略註解） --- */
 #main-wrapper { opacity: 0; visibility: hidden; transition: opacity 2s ease; width: 100%; }
 #main-wrapper.is-visible { opacity: 1; visibility: visible; }
 
@@ -116,7 +134,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     background-size: cover; background-position: center;
     z-index: 1;
 }
-
 .getting-married-text { 
     color:#c9a466; margin-bottom: 12px; letter-spacing: 0.4em;
     font-size: 0.9rem; z-index: 10; font-weight: 300;
@@ -127,7 +144,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 25px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
 
-/* --- 倒數月曆（前面已調好的版本，原封保留） --- */
+/* 倒數月曆 / 資訊 / 表單 / 留言板 CSS 保持你上一版設定，不再贅述 */
 .countdown-section {
     padding: 70px 20px 50px;
     background: #fbf9f7;
@@ -219,12 +236,10 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     color: #777;
 }
 
-/* --- 資訊與地圖 --- */
 .info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
 .info-card { max-width: 600px; background: #fff; padding: 40px 20px; margin: 30px auto; border: 1px solid #e0d9d0; }
 .map-container { width: 100%; height: 350px; margin: 25px 0; border: 1px solid #e0d9d0; border-radius: 8px; overflow: hidden; }
 
-/* --- 表單 --- */
 .form-section { padding: 80px 20px; text-align: center; }
 .form-card { max-width: 550px; background: #fff; padding: 40px 30px; margin: 0 auto; border: 1px solid #e0d9d0; border-radius: 12px; }
 .form-group { margin-bottom: 30px; text-align: left; }
@@ -237,7 +252,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 .submit-btn { width: 100%; padding: 16px; background: #c9a466; color: #fff; border: none; font-family: 'my font'; font-size: 1.2rem; cursor: pointer; border-radius: 8px; }
 
-/* --- 留言板 --- */
 .sticky-wall { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 40px 10px; max-width: 950px; margin: 0 auto; }
 .sticky-note { 
     width: 210px; min-height: 190px; padding: 35px 20px 20px; box-shadow: 3px 6px 15px rgba(0,0,0,0.1); 
@@ -254,15 +268,16 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .sticky-note:nth-child(5n+5) { background-color: #A6A35D; }
 
 #musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a466; border: none; color: white; z-index: 9999; cursor: pointer; }
-
 </style>
 </head>
 <body>
 
 <div id="intro-overlay">
     <div class="camera-container" id="camera">
-        <div class="print-photo" id="printPhoto">
-            <div class="print-photo-inner"></div>
+        <div class="print-slot" id="printSlot">
+            <div class="print-photo" id="printPhoto">
+                <div class="print-photo-inner"></div>
+            </div>
         </div>
         <div class="print-hint" id="printHint">點擊以列印相片</div>
     </div>
@@ -396,10 +411,9 @@ onValue(wishesRef, (snapshot) => {
 });
 </script>
 <script>
-let droppedCount = 0; 
 var player;
 
-function dropPhotoIntroEnd() {
+function endIntro() {
     document.getElementById('intro-overlay').style.opacity = '0';
     document.getElementById('main-wrapper').classList.add('is-visible');
     document.body.style.overflow = "auto";
@@ -423,27 +437,36 @@ document.getElementById('musicToggle').onclick = function() {
     player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
 };
 
-/* Polaroid 點擊列印 + 之後顯示主畫面 */
+/* Polaroid 點擊 → slot 打開 → 照片滑出 + 慢慢變亮 → 進入主畫面 */
 (function(){
     const camera = document.getElementById('camera');
-    const photo = document.getElementById('printPhoto');
-    const hint  = document.getElementById('printHint');
+    const slot   = document.getElementById('printSlot');
+    const photo  = document.getElementById('printPhoto');
+    const hint   = document.getElementById('printHint');
 
-    if (!camera || !photo || !hint) return;
+    if (!camera || !slot || !photo || !hint) return;
 
     camera.addEventListener('click', () => {
-        if (photo.classList.contains('is-printing')) return;
+        if (slot.classList.contains('is-open')) return;
+
         hint.style.display = 'none';
         if (player && typeof player.playVideo === 'function') {
             player.playVideo();
         }
-        photo.classList.add('is-printing');
+
+        slot.classList.add('is-open');
+
+        setTimeout(() => {
+            photo.classList.add('is-printing');
+        }, 300);
+
         setTimeout(() => {
             photo.classList.add('is-developed');
-        }, 2000);
+        }, 2300); // 列印完之後開始 4 秒沖洗動畫
+
         setTimeout(() => {
-            dropPhotoIntroEnd();
-        }, 3800);
+            endIntro();
+        }, 2300 + 4000 + 300); // 列印 + 沖洗完再進入主畫面
     });
 })();
 
