@@ -23,15 +23,17 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     display: flex; align-items: center; justify-content: center;
     transition: opacity 1.5s ease-in-out;
     touch-action: none;
+    cursor: pointer; /* 讓整個背景都有手指游標 */
 }
 .camera-container {
     position: relative;
     width: min(340px, 80vw);
     aspect-ratio: 3 / 2;
-    background-image: url('polaroid.png');   /* 這裡改成 .jpg */
+    background-image: url('polaroid.jpg');   /* 確認此圖檔在同一個資料夾下 */
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+    pointer-events: none; /* 讓點擊事件穿透到背景的 intro-overlay */
 }
 
 /* 出片口 */
@@ -56,11 +58,13 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .print-photo-inner {
     width: 100%;
     height: 100%;
-    background-image: url('P3.jpg');
+    background-image: url('P3.jpg'); /* 你的婚紗照 */
     background-size: cover;
     background-position: center;
     filter: brightness(0.1) saturate(0.1);
 }
+
+/* 動畫設定 */
 .print-slot.is-open {
     animation: slotOpen 0.4s forwards;
 }
@@ -85,6 +89,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     70%  { filter: brightness(0.8) saturate(0.9); }
     100% { filter: brightness(1)   saturate(1); }
 }
+
 .print-hint {
     position: absolute;
     bottom: -40px;
@@ -94,7 +99,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     font-size: 1rem;
     letter-spacing: 0.2em;
     color: #8a7448;
-    cursor: pointer;
     white-space: nowrap;
     animation: hintBlink 1.4s infinite;
 }
@@ -223,7 +227,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     color: #777;
 }
 
-/* Info / Form / Notes 同前一版，略 */
+/* Info / Form / Notes */
 .info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
 .info-card { max-width: 600px; background: #fff; padding: 40px 20px; margin: 30px auto; border: 1px solid #e0d9d0; }
 .map-container { width: 100%; height: 350px; margin: 25px 0; border: 1px solid #e0d9d0; border-radius: 8px; overflow: hidden; }
@@ -259,7 +263,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 <body>
 
 <div id="intro-overlay">
-    <div class="camera-container" id="camera">
+    <div class="camera-container">
         <div class="print-slot" id="printSlot">
             <div class="print-photo" id="printPhoto">
                 <div class="print-photo-inner"></div>
@@ -270,11 +274,255 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 </div>
 
 <div id="main-wrapper">
-    <!-- 下面維持不變，略 -->
-    ...
+    <div class="cover">
+        <p class="getting-married-text">The Wedding of</p>
+        <div class="name-container">
+            <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
+            <div class="chinese-names"><span>蔡宇杰</span><span>陳旻瑄</span></div>
+        </div>
+        <p style="margin-top:25px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
+    </div>
+
+    <!-- 倒數月曆 -->
+    <section class="countdown-section">
+        <p class="countdown-title" id="cd-title">倒數 00 天</p>
+        <div class="countdown-grid">
+            <div class="countdown-header">
+                <span class="countdown-month">2026 · 06</span>
+            </div>
+            <div class="countdown-days-row">
+                <div class="countdown-day-label">日</div>
+                <div class="countdown-day-label">一</div>
+                <div class="countdown-day-label">二</div>
+                <div class="countdown-day-label">三</div>
+                <div class="countdown-day-label">四</div>
+                <div class="countdown-day-label">五</div>
+                <div class="countdown-day-label">六</div>
+            </div>
+            <div id="cd-calendar-body"></div>
+            <div class="countdown-footer">
+                期待與你一起見證這一天
+            </div>
+        </div>
+    </section>
+
+    <section class="info-section">
+        <h2 style="font-family:'Cormorant Garamond'; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">Wedding Info</h2>
+        <div class="info-card">
+            <p style="font-family: 'my font'; font-size: 1.2rem; color: #444;">暖居日穀</p>
+            <p style="font-size: 0.9rem; color: #888; margin-top: 5px;">台中市北屯區松竹路一段3號</p>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.123!2d120.704!3d24.178!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDEwJzQwLjgiTiAxMjDCsDQyJzE0LjQiRQ!5e0!3m2!1szh-TW!2stw!4v1711000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <a href="https://maps.app.goo.gl/..." target="_blank" style="display:inline-block; padding:12px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; font-family: 'my font'; font-size: 1rem; background:#fff;">開啟地圖導航</a>
+        </div>
+    </section>
+
+    <section class="form-section">
+        <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">參加回覆表單</h2>
+        <div class="form-card">
+            <form id="rsvp-form">
+                <div class="form-group">
+                    <label>您的姓名</label>
+                    <input type="text" id="guest-name" placeholder="請輸入姓名" required>
+                </div>
+                <div class="form-group">
+                    <label>是否參加婚禮？</label>
+                    <div class="radio-stack">
+                        <label><input type="radio" name="attendance" value="yes" required> 是的，會參加</label>
+                        <label><input type="radio" name="attendance" value="no" required> 抱歉，無法出席</label>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">送出回覆</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="form-section" style="background: #fbf9f7;">
+        <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">留言祝福</h2>
+        <div class="form-card" style="margin-bottom: 50px;">
+            <form id="wish-form">
+                <div class="form-group">
+                    <label>您的姓名</label>
+                    <input type="text" id="wish-name" required placeholder="請輸入姓名">
+                </div>
+                <div class="form-group">
+                    <label>祝福的話</label>
+                    <textarea id="wish-message" required placeholder="寫些話給我們吧..." style="height: 100px;"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">釘上祝福便條</button>
+            </form>
+        </div>
+        <div class="sticky-wall" id="sticky-wall"></div>
+    </section>
+
+    <footer style="text-align:center; padding:80px 0; color:#c9a466; font-family:'Cormorant Garamond'; font-style:italic; font-size: 1.5rem;">See You Soon</footer>
 </div>
 
-<!-- 底下 JS 不變，沿用上一版 -->
+<button id="musicToggle">▶</button>
+<div id="player" style="position:fixed; top:-9999px;"></div>
 
+<script src="https://www.youtube.com/iframe_api"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+const firebaseConfig = { apiKey: "AIzaSyAUFF7GdX7fAtK_wK5-YAffirtap52UgCg", authDomain: "wedding-e6351.firebaseapp.com", databaseURL: "https://wedding-e6351-default-rtdb.firebaseio.com", projectId: "wedding-e6351", storageBucket: "wedding-e6351.firebasestorage.app", messagingSenderId: "382633819825", appId: "1:382633819825:web:b3352f4f4e67423878ec90" };
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const wishesRef = ref(db, 'wishes');
+
+document.getElementById('wish-form').addEventListener('submit', (e) => { 
+    e.preventDefault(); 
+    const name = document.getElementById('wish-name').value; 
+    const message = document.getElementById('wish-message').value; 
+    push(wishesRef, { name, message, timestamp: serverTimestamp() }).then(() => { 
+        document.getElementById('wish-form').reset(); 
+    }); 
+});
+
+onValue(wishesRef, (snapshot) => { 
+    const wall = document.getElementById('sticky-wall'); wall.innerHTML = ''; 
+    const data = snapshot.val(); 
+    if (data) { 
+        const messages = Object.values(data).reverse(); 
+        messages.forEach((item, index) => { 
+            const note = document.createElement('div'); 
+            note.className = 'sticky-note'; 
+            const rot = (Math.random() - 0.5) * 12; 
+            const x = (index % 2 === 0 ? -1 : 1) * (Math.random() * 20); 
+            const y = (Math.random() - 0.5) * 15; 
+            note.style.setProperty('--note-rot', `${rot}deg`); 
+            note.style.setProperty('--note-x', `${x}px`); 
+            note.style.setProperty('--note-y', `${y}px`); 
+            note.innerHTML = `<div class="note-text">${item.message}</div><div class="note-author">From: ${item.name}</div>`; 
+            wall.appendChild(note); 
+        }); 
+    } 
+});
+</script>
+<script>
+var player;
+var isPrinting = false; // 防止重複點擊
+
+function endIntro() {
+    document.getElementById('intro-overlay').style.opacity = '0';
+    document.getElementById('main-wrapper').classList.add('is-visible');
+    document.body.style.overflow = "auto";
+    document.documentElement.style.overflow = "auto";
+    setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1500);
+}
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        videoId: 'pmrCXt4lNyA',
+        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0, 'playsinline': 1 },
+        events: {
+            'onStateChange': (e) => {
+                document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
+            }
+        }
+    });
+}
+
+document.getElementById('musicToggle').onclick = function() {
+    if (!player || typeof player.getPlayerState !== 'function') return;
+    player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
+};
+
+/* 點擊整個開場背景來觸發列印 */
+document.getElementById('intro-overlay').addEventListener('click', function() {
+    if (isPrinting) return; // 已經在印了就不要重複觸發
+    isPrinting = true;
+
+    const slot   = document.getElementById('printSlot');
+    const photo  = document.getElementById('printPhoto');
+    const hint   = document.getElementById('printHint');
+
+    if (!slot || !photo || !hint) return;
+
+    // 隱藏提示文字
+    hint.style.display = 'none';
+
+    // 嘗試播放音樂 (若 YouTube 載入失敗也不會卡住)
+    if (player && typeof player.playVideo === 'function') {
+        try { player.playVideo(); } catch(e) { console.log('Video play error:', e); }
+    }
+
+    // 1. 打開出片口
+    slot.classList.add('is-open');
+
+    // 2. 0.3秒後照片滑出
+    setTimeout(() => {
+        photo.classList.add('is-printing');
+    }, 300);
+
+    // 3. 2.3秒後照片開始沖洗(淡入變亮)
+    setTimeout(() => {
+        photo.classList.add('is-developed');
+    }, 2300);
+
+    // 4. 沖洗4秒後，進入主畫面
+    setTimeout(() => {
+        endIntro();
+    }, 2300 + 4000 + 300);
+});
+
+/* 倒數月曆 */
+(function(){
+    const year = 2026;
+    const monthIndex = 5;
+    const weddingDay = 20;
+    const weddingDate = new Date(year, monthIndex, weddingDay, 11, 0, 0);
+
+    const firstDay = new Date(year, monthIndex, 1);
+    const firstWeekDay = firstDay.getDay();
+    const nextMonthFirst = new Date(year, monthIndex + 1, 1);
+    const lastDate = new Date(nextMonthFirst - 1).getDate();
+
+    const today = new Date();
+    const todayIsThisMonth = (today.getFullYear() === year && today.getMonth() === monthIndex);
+
+    const bodyEl = document.getElementById('cd-calendar-body');
+    const titleEl = document.getElementById('cd-title');
+    if (!bodyEl || !titleEl) return;
+
+    let html = '<div class="countdown-days-row">';
+    let cellCount = 0;
+
+    for (let i = 0; i < firstWeekDay; i++) {
+        html += '<div class="countdown-day-cell cd-empty"></div>';
+        cellCount++;
+    }
+
+    for (let d = 1; d <= lastDate; d++) {
+        if (cellCount > 0 && cellCount % 7 === 0) {
+            html += '</div><div class="countdown-days-row">';
+        }
+        let cls = 'cd-normal';
+        if (todayIsThisMonth && d === today.getDate()) cls = 'cd-today';
+        if (d === weddingDay) cls = 'cd-wedding';
+        html += `<div class="countdown-day-cell ${cls}">${d}</div>`;
+        cellCount++;
+    }
+
+    while (cellCount % 7 !== 0) {
+        html += '<div class="countdown-day-cell cd-empty"></div>';
+        cellCount++;
+    }
+    html += '</div>';
+    bodyEl.innerHTML = html;
+
+    const diffMs = weddingDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffDays > 0) {
+        titleEl.textContent = `倒數 ${diffDays} 天`;
+    } else if (diffDays === 0) {
+        titleEl.textContent = '今天就是這一天';
+    } else {
+        titleEl.textContent = '婚禮已順利完成';
+    }
+})();
+</script>
 </body>
 </html>
