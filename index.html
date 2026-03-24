@@ -49,6 +49,99 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 25px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
 
+/* --- 倒數月曆 --- */
+.countdown-section {
+    padding: 60px 20px 40px;
+    background: #fbf9f7;
+    text-align: center;
+}
+.countdown-title {
+    font-family: 'my font';
+    color: #c9a466;
+    letter-spacing: 0.3em;
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+}
+.countdown-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: #777;
+    font-size: 1rem;
+    margin-bottom: 30px;
+}
+.countdown-grid {
+    max-width: 340px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #e0d9d0;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    padding: 20px 15px 18px;
+}
+.countdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-family: 'my font';
+    color: #555;
+    font-size: 0.95rem;
+}
+.countdown-month {
+    letter-spacing: 0.3em;
+}
+.countdown-days-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 6px;
+}
+.countdown-day-label,
+.countdown-day-cell {
+    width: 100%;
+    padding: 4px 0;
+    text-align: center;
+    font-family: 'my font';
+    font-size: 0.7rem;
+}
+.countdown-day-label {
+    color: #999;
+}
+.countdown-day-cell {
+    border-radius: 6px;
+    color: #444;
+}
+.cd-empty {
+    background: transparent;
+}
+.cd-normal {
+    background: #f7f6f0;
+}
+.cd-today {
+    background: #c9a466;
+    color: #fff;
+    font-weight: 500;
+}
+.cd-wedding {
+    background: #4a4a4a;
+    color: #fff;
+    font-weight: 500;
+    position: relative;
+}
+.cd-wedding::after {
+    content: "♥";
+    position: absolute;
+    bottom: 3px;
+    right: 4px;
+    font-size: 0.55rem;
+}
+.countdown-footer {
+    margin-top: 12px;
+    font-family: 'my font';
+    font-size: 0.85rem;
+    color: #777;
+}
+
 /* --- 資訊與地圖 --- */
 .info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
 .info-card { max-width: 600px; background: #fff; padding: 40px 20px; margin: 30px auto; border: 1px solid #e0d9d0; }
@@ -104,6 +197,31 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         </div>
         <p style="margin-top:25px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
     </div>
+
+    <!-- 倒數月曆：加在餐廳資訊的上方 -->
+    <section class="countdown-section">
+        <p class="countdown-title">倒數我們的重要日子</p>
+        <p class="countdown-subtitle">Counting down to June 20, 2026</p>
+        <div class="countdown-grid">
+            <div class="countdown-header">
+                <span class="countdown-month">2026 · 06</span>
+                <span id="cd-remaining-text">還剩 00 天</span>
+            </div>
+            <div class="countdown-days-row">
+                <div class="countdown-day-label">日</div>
+                <div class="countdown-day-label">一</div>
+                <div class="countdown-day-label">二</div>
+                <div class="countdown-day-label">三</div>
+                <div class="countdown-day-label">四</div>
+                <div class="countdown-day-label">五</div>
+                <div class="countdown-day-label">六</div>
+            </div>
+            <div id="cd-calendar-body"></div>
+            <div class="countdown-footer">
+                期待與你一起見證這一天
+            </div>
+        </div>
+    </section>
 
     <section class="info-section">
         <h2 style="font-family:'Cormorant Garamond'; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">Wedding Info</h2>
@@ -216,6 +334,66 @@ function dropPhoto(el) {
 }
 function onYouTubeIframeAPIReady() { player = new YT.Player('player', { videoId: 'pmrCXt4lNyA', playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0, 'playsinline': 1 }, events: { 'onStateChange': (e) => { document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶'; } } }); }
 document.getElementById('musicToggle').onclick = function() { player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo(); };
+
+/* 產生 2026-06 的月曆並標記婚禮日期、今天、剩餘天數 */
+(function(){
+    const year = 2026;
+    const monthIndex = 5; // 0-based, 5 = June
+    const weddingDay = 20;
+    const weddingDate = new Date(year, monthIndex, weddingDay, 11, 0, 0); // 預設 11:00
+
+    const firstDay = new Date(year, monthIndex, 1);
+    const firstWeekDay = firstDay.getDay(); // 0=Sun
+    const nextMonthFirst = new Date(year, monthIndex + 1, 1);
+    const lastDate = new Date(nextMonthFirst - 1).getDate();
+
+    const today = new Date();
+    const todayIsThisMonth = (today.getFullYear() === year && today.getMonth() === monthIndex);
+
+    const bodyEl = document.getElementById('cd-calendar-body');
+    const remainEl = document.getElementById('cd-remaining-text');
+    if (!bodyEl || !remainEl) return;
+
+    let html = '<div class="countdown-days-row">';
+    let cellCount = 0;
+
+    // 前面空白
+    for (let i = 0; i < firstWeekDay; i++) {
+        html += '<div class="countdown-day-cell cd-empty"></div>';
+        cellCount++;
+    }
+
+    // 日期
+    for (let d = 1; d <= lastDate; d++) {
+        if (cellCount > 0 && cellCount % 7 === 0) {
+            html += '</div><div class="countdown-days-row">';
+        }
+        let cls = 'cd-normal';
+        if (todayIsThisMonth && d === today.getDate()) cls = 'cd-today';
+        if (d === weddingDay) cls = 'cd-wedding';
+        html += `<div class="countdown-day-cell ${cls}">${d}</div>`;
+        cellCount++;
+    }
+
+    // 後面補空格
+    while (cellCount % 7 !== 0) {
+        html += '<div class="countdown-day-cell cd-empty"></div>';
+        cellCount++;
+    }
+    html += '</div>';
+    bodyEl.innerHTML = html;
+
+    // 計算剩餘天數
+    const diffMs = weddingDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+    if (diffDays > 0) {
+        remainEl.textContent = `還剩 ${diffDays} 天`;
+    } else if (diffDays === 0) {
+        remainEl.textContent = '今天就是這一天';
+    } else {
+        remainEl.textContent = '婚禮已順利完成';
+    }
+})();
 </script>
 </body>
 </html>
