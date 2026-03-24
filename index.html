@@ -59,17 +59,11 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     font-family: 'my font';
     color: #c9a466;
     letter-spacing: 0.3em;
-    font-size: 2.2rem;      /* 跟其他大標一樣大小 */
-    font-weight: 700;       /* 粗體 */
-    margin-bottom: 15px;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
 }
-.countdown-subtitle {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    color: #777;
-    font-size: 1rem;
-    margin-bottom: 30px;
-}
+/* 已移除英文副標，所以不再需要 subtitle，可保留或刪掉 */
 .countdown-grid {
     max-width: 640px;
     margin: 0 auto;
@@ -81,7 +75,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 .countdown-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;   /* 中間對齊 */
     align-items: baseline;
     margin-bottom: 18px;
     font-family: 'my font';
@@ -89,12 +83,11 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 .countdown-month {
     letter-spacing: 0.35em;
-    font-size: 1.1rem;
-}
-.countdown-remaining {
-    font-size: 1.2rem;
+    font-size: 2.2rem;         /* 放大一倍 */
     font-weight: 600;
 }
+/* 已移除右邊「還剩 XX 天」，所以 .countdown-remaining 不再使用 */
+
 .countdown-days-row {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -107,7 +100,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     padding: 10px 0;
     text-align: center;
     font-family: 'my font';
-    font-size: 1.4rem;   /* 原本約 0.7，放大兩倍以上 */
+    font-size: 1.4rem;
 }
 .countdown-day-label {
     color: #b79b6b;
@@ -128,32 +121,35 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     font-weight: 600;
 }
 
-/* 婚禮日期 + 愛心特效（放大 + 呼吸動畫 + 光暈） */
+/* 婚禮日期：改成小黑心貼在日期旁邊，大小固定，整格微微跳動 */
 .cd-wedding {
-    background: #5a3a20;
-    color: #fff;
+    background: #f2e3cf;
+    color: #2c2c2c;
     font-weight: 700;
     position: relative;
-    box-shadow: 0 0 0 0 rgba(201,164,102,0.7);
+    box-shadow: 0 0 0 0 rgba(201,164,102,0.5);
     animation: weddingPulse 1.8s infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
 }
 .cd-wedding::after {
     content: "♥";
-    position: absolute;
-    bottom: 5px;
-    right: 8px;
-    font-size: 1rem;
+    position: static;          /* 不用絕對定位，跟日期排一起 */
+    font-size: 0.9rem;         /* 小顆，黑色 */
+    color: #000;
 }
 
-/* 心跳 / 光暈效果 */
+/* 心跳 / 光暈效果（稍微溫和一點） */
 @keyframes weddingPulse {
     0% {
         transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(201,164,102,0.7);
+        box-shadow: 0 0 0 0 rgba(201,164,102,0.4);
     }
     50% {
-        transform: scale(1.12);
-        box-shadow: 0 0 0 12px rgba(201,164,102,0);
+        transform: scale(1.06);
+        box-shadow: 0 0 0 10px rgba(201,164,102,0);
     }
     100% {
         transform: scale(1);
@@ -227,11 +223,9 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     <!-- 倒數月曆：加在餐廳資訊的上方 -->
     <section class="countdown-section">
         <p class="countdown-title" id="cd-title">倒數 00 天</p>
-        <p class="countdown-subtitle">Counting down to June 20, 2026</p>
         <div class="countdown-grid">
             <div class="countdown-header">
                 <span class="countdown-month">2026 · 06</span>
-                <span class="countdown-remaining" id="cd-remaining-text">還剩 00 天</span>
             </div>
             <div class="countdown-days-row">
                 <div class="countdown-day-label">日</div>
@@ -366,10 +360,10 @@ document.getElementById('musicToggle').onclick = function() { player.getPlayerSt
     const year = 2026;
     const monthIndex = 5; // 0-based, 5 = June
     const weddingDay = 20;
-    const weddingDate = new Date(year, monthIndex, weddingDay, 11, 0, 0); // 預設 11:00
+    const weddingDate = new Date(year, monthIndex, weddingDay, 11, 0, 0);
 
     const firstDay = new Date(year, monthIndex, 1);
-    const firstWeekDay = firstDay.getDay(); // 0=Sun
+    const firstWeekDay = firstDay.getDay();
     const nextMonthFirst = new Date(year, monthIndex + 1, 1);
     const lastDate = new Date(nextMonthFirst - 1).getDate();
 
@@ -377,20 +371,17 @@ document.getElementById('musicToggle').onclick = function() { player.getPlayerSt
     const todayIsThisMonth = (today.getFullYear() === year && today.getMonth() === monthIndex);
 
     const bodyEl = document.getElementById('cd-calendar-body');
-    const remainEl = document.getElementById('cd-remaining-text');
     const titleEl = document.getElementById('cd-title');
-    if (!bodyEl || !remainEl || !titleEl) return;
+    if (!bodyEl || !titleEl) return;
 
     let html = '<div class="countdown-days-row">';
     let cellCount = 0;
 
-    // 前面空白
     for (let i = 0; i < firstWeekDay; i++) {
         html += '<div class="countdown-day-cell cd-empty"></div>';
         cellCount++;
     }
 
-    // 日期
     for (let d = 1; d <= lastDate; d++) {
         if (cellCount > 0 && cellCount % 7 === 0) {
             html += '</div><div class="countdown-days-row">';
@@ -402,7 +393,6 @@ document.getElementById('musicToggle').onclick = function() { player.getPlayerSt
         cellCount++;
     }
 
-    // 後面補空格
     while (cellCount % 7 !== 0) {
         html += '<div class="countdown-day-cell cd-empty"></div>';
         cellCount++;
@@ -410,18 +400,14 @@ document.getElementById('musicToggle').onclick = function() { player.getPlayerSt
     html += '</div>';
     bodyEl.innerHTML = html;
 
-    // 計算剩餘天數
     const diffMs = weddingDate.getTime() - today.getTime();
     const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
 
     if (diffDays > 0) {
-        remainEl.textContent = `還剩 ${diffDays} 天`;
         titleEl.textContent = `倒數 ${diffDays} 天`;
     } else if (diffDays === 0) {
-        remainEl.textContent = '今天就是這一天';
         titleEl.textContent = '今天就是這一天';
     } else {
-        remainEl.textContent = '婚禮已順利完成';
         titleEl.textContent = '婚禮已順利完成';
     }
 })();
