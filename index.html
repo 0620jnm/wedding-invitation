@@ -16,21 +16,84 @@
 html, body { width: 100%; min-height: 100%; background: #faf8f5;}
 body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-x: hidden; }
 
-/* --- 開場：拍立得 --- */
+/* --- 開場：Polaroid 拍立得列印動畫 --- */
 #intro-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e8dcc4; z-index: 10000;
-    display: flex; align-items: center; justify-content: center; transition: opacity 1.5s ease-in-out; touch-action: none;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e8dcc4;
+    z-index: 10000; display: flex; align-items: center; justify-content: center;
+    transition: opacity 1.5s ease-in-out; touch-action: none;
 }
-.camera-container { position: relative; width: 280px; height: 340px; background-image: url('camera.png'); background-size: contain; background-position: center; background-repeat: no-repeat; z-index: 10001; display: flex; align-items: center; justify-content: center; }
-.photo-stack { position: absolute; top: 40px; left: 50%; transform: translateX(-50%); width: 220px; height: 260px; z-index: 10000; }
-.photo {
-    position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: #fff; border: 6px solid #fff; border-bottom: 25px solid #fff;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15); transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s ease-out;
-    background-size: cover; background-position: center; opacity: 0; cursor: pointer; background-image: url('P3.jpg'); 
+.camera-container {
+    position: relative;
+    width: 280px; max-width: 70vw;
+    aspect-ratio: 4 / 3;
+    display: flex; align-items: center; justify-content: center;
 }
-.photo:nth-child(1) { animation: printOut 1.2s forwards 0.3s; }
-@keyframes printOut { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
-.photo.dropped { transform: translateY(100px) scale(0.8) rotate(10deg) !important; opacity: 0 !important; filter: blur(15px); pointer-events: none; }
+.camera-body {
+    width: 100%; height: 100%;
+    background: url('polaroid-camera.png') center/contain no-repeat;
+    position: relative;
+    z-index: 2;
+}
+
+/* 列印出的拍立得相片 */
+.printed-photo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    max-width: 210px;
+    aspect-ratio: 3 / 4;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    overflow: hidden;
+    z-index: 1;
+    /* 一開始藏在相機裡面 */
+    bottom: 20%;
+    opacity: 0;
+}
+
+/* 相片內部留白＋照片本體 */
+.printed-photo-inner {
+    position: absolute;
+    inset: 8px 8px 22px 8px;
+    background: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.printed-photo-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0);      /* 一開始是黑的 */
+    opacity: 0;
+}
+
+/* 列印「吐出來」動畫 */
+.photo-printing {
+    animation: photoPrint 2.4s ease-out forwards;
+}
+
+/* 照片慢慢顯影動畫 */
+.photo-fadein {
+    animation: photoDevelop 4s ease-in forwards;
+    animation-delay: 1.2s;
+}
+
+/* 相片從相機裡滑出來 */
+@keyframes photoPrint {
+    0%   { bottom: 20%; opacity: 0; }
+    10%  { bottom: 20%; opacity: 1; }
+    100% { bottom: -5%; opacity: 1; }
+}
+
+/* 顯影：由黑到彩色，由淡到清楚 */
+@keyframes photoDevelop {
+    0%   { opacity: 0; filter: brightness(0) contrast(150%); }
+    40%  { opacity: 0.6; filter: brightness(0.5) contrast(120%); }
+    100% { opacity: 1; filter: brightness(1) contrast(100%); }
+}
 
 /* --- 主視覺 --- */
 #main-wrapper { opacity: 0; visibility: hidden; transition: opacity 2s ease; width: 100%; }
@@ -43,13 +106,12 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     color:#c9a466; margin-bottom: 12px; letter-spacing: 0.4em; font-size: 0.9rem; z-index: 10; 
     font-weight: 300; position: relative; font-family: 'my font', serif;
 }
-
 .name-container { position: relative; z-index: 10; width: 100%; }
 .english-names { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 6vw, 3.2rem); color: #2c2c2c; letter-spacing: 0.05em; }
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 25px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
 
-/* --- 倒數月曆（放大、粗體標題、婚禮日特效） --- */
+/* --- 倒數月曆（沿用你上一版設定） --- */
 .countdown-section {
     padding: 70px 20px 50px;
     background: #fbf9f7;
@@ -63,7 +125,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     font-weight: 700;
     margin-bottom: 10px;
 }
-/* 已移除英文副標，所以不再需要 subtitle，可保留或刪掉 */
 .countdown-grid {
     max-width: 640px;
     margin: 0 auto;
@@ -75,7 +136,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 .countdown-header {
     display: flex;
-    justify-content: center;   /* 中間對齊 */
+    justify-content: center;
     align-items: baseline;
     margin-bottom: 18px;
     font-family: 'my font';
@@ -83,11 +144,9 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 .countdown-month {
     letter-spacing: 0.35em;
-    font-size: 2.2rem;         /* 放大一倍 */
+    font-size: 2.2rem;
     font-weight: 600;
 }
-/* 已移除右邊「還剩 XX 天」，所以 .countdown-remaining 不再使用 */
-
 .countdown-days-row {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -109,19 +168,15 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     border-radius: 12px;
     color: #5a4a34;
 }
-.cd-empty {
-    background: transparent;
-}
-.cd-normal {
-    background: #f5eee3;
-}
+.cd-empty { background: transparent; }
+.cd-normal { background: #f5eee3; }
 .cd-today {
     background: #c9a466;
     color: #fff;
     font-weight: 600;
 }
 
-/* 婚禮日期：改成小黑心貼在日期旁邊，大小固定，整格微微跳動 */
+/* 婚禮日期：小黑心＋微跳動 */
 .cd-wedding {
     background: #f2e3cf;
     color: #2c2c2c;
@@ -136,27 +191,15 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 .cd-wedding::after {
     content: "♥";
-    position: static;          /* 不用絕對定位，跟日期排一起 */
-    font-size: 0.9rem;         /* 小顆，黑色 */
+    position: static;
+    font-size: 0.9rem;
     color: #000;
 }
-
-/* 心跳 / 光暈效果（稍微溫和一點） */
 @keyframes weddingPulse {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(201,164,102,0.4);
-    }
-    50% {
-        transform: scale(1.06);
-        box-shadow: 0 0 0 10px rgba(201,164,102,0);
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(201,164,102,0);
-    }
+    0%   { transform: scale(1);   box-shadow: 0 0 0 0 rgba(201,164,102,0.4); }
+    50%  { transform: scale(1.06);box-shadow: 0 0 0 10px rgba(201,164,102,0); }
+    100% { transform: scale(1);   box-shadow: 0 0 0 0 rgba(201,164,102,0); }
 }
-
 .countdown-footer {
     margin-top: 16px;
     font-family: 'my font';
@@ -207,7 +250,15 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 <body>
 
 <div id="intro-overlay">
-    <div class="camera-container"><div class="photo-stack"><div class="photo" onclick="dropPhoto(this)"></div></div></div>
+    <div class="camera-container">
+        <div class="camera-body"></div>
+        <!-- 列印出來的拍立得照片，背景照可以換成你們的合照 -->
+        <div class="printed-photo" id="printed-photo">
+            <div class="printed-photo-inner">
+                <img src="P3.jpg" alt="Jay & Michelle" id="printed-photo-img">
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="main-wrapper">
@@ -220,7 +271,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <p style="margin-top:25px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
     </div>
 
-    <!-- 倒數月曆：加在餐廳資訊的上方 -->
+    <!-- 倒數月曆區（保留你現在的設計） -->
     <section class="countdown-section">
         <p class="countdown-title" id="cd-title">倒數 00 天</p>
         <div class="countdown-grid">
@@ -338,27 +389,61 @@ onValue(wishesRef, (snapshot) => {
 });
 </script>
 <script>
-let droppedCount = 0; var player;
-function dropPhoto(el) { 
-    if (el.classList.contains('dropped')) return; 
-    if (droppedCount === 0 && player && typeof player.playVideo === 'function') { player.playVideo(); } 
-    el.classList.add('dropped'); 
-    droppedCount++; 
-    setTimeout(() => { 
-        document.getElementById('intro-overlay').style.opacity = '0'; 
-        document.getElementById('main-wrapper').classList.add('is-visible'); 
+let droppedCount = 0; 
+var player;
+
+function dropPhoto() {
+    // 不再需要點擊拍立得才進入，改成載入就自動播放影片＋動畫
+}
+
+/* YouTube */
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        videoId: 'pmrCXt4lNyA',
+        playerVars: {
+            'autoplay': 1,
+            'loop': 1,
+            'playlist': 'pmrCXt4lNyA',
+            'controls': 0,
+            'playsinline': 1
+        },
+        events: {
+            'onStateChange': (e) => {
+                document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
+            }
+        }
+    });
+}
+document.getElementById('musicToggle').onclick = function() {
+    if (!player) return;
+    player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
+};
+
+/* 開場：自動播放相機列印動畫，完畢後淡出進主畫面 */
+window.addEventListener('load', () => {
+    const photo = document.getElementById('printed-photo');
+    const img = document.getElementById('printed-photo-img');
+
+    // 套用列印動畫
+    photo.classList.add('photo-printing');
+    img.classList.add('photo-fadein');
+
+    // 動畫結束後淡出開場、顯示主畫面
+    setTimeout(() => {
+        document.getElementById('intro-overlay').style.opacity = '0';
+        document.getElementById('main-wrapper').classList.add('is-visible');
         document.body.style.overflow = "auto";
         document.documentElement.style.overflow = "auto";
-        setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1500); 
-    }, 1200); 
-}
-function onYouTubeIframeAPIReady() { player = new YT.Player('player', { videoId: 'pmrCXt4lNyA', playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0, 'playsinline': 1 }, events: { 'onStateChange': (e) => { document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶'; } } }); }
-document.getElementById('musicToggle').onclick = function() { player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo(); };
+        setTimeout(() => {
+            document.getElementById('intro-overlay').style.display = 'none';
+        }, 1500);
+    }, 3500); // 約列印＋顯影一輪後進入主畫面
+});
 
-/* 產生 2026-06 的月曆、標記婚禮日期，並更新「倒數 XX 天」 */
+/* 倒數月曆 */
 (function(){
     const year = 2026;
-    const monthIndex = 5; // 0-based, 5 = June
+    const monthIndex = 5; // June
     const weddingDay = 20;
     const weddingDate = new Date(year, monthIndex, weddingDay, 11, 0, 0);
 
