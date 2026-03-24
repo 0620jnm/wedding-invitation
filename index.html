@@ -29,32 +29,48 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     position: relative;
     width: min(340px, 80vw);
     aspect-ratio: 3 / 2;
-    background-image: url('polaroid.png');   /* 確認此圖檔在同一個資料夾下 */
+    background-image: url('polaroid.jpg');   /* 確認此圖檔在同一個資料夾下 */
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     pointer-events: none; /* 讓點擊事件穿透到背景的 intro-overlay */
 }
 
-/* 出片口 */
+/* 1. 出片口：定位在相機底部的黑色縫隙處 */
 .print-slot {
     position: absolute;
     left: 50%;
-    bottom: 13%;
+    /* 這裡的 bottom 用來對齊你圖檔實際的縫隙高度，如果還是不對，微調這個數字，例如 12% 或 16% */
+    bottom: 14%;
     transform: translateX(-50%);
-    width: 64%;
-    height: 0;
-    overflow: hidden;
+    width: 62%;
+    height: 0;                /* 初始高度為0，用來隱藏照片 */
+    overflow: hidden;         /* 重要：超出這個範圍的照片會被切掉（藏起來） */
+    z-index: 2;
 }
+
+/* 2. 點擊後，出片口展開往下長，讓相片可以露出來 */
+.print-slot.is-open {
+    animation: slotOpen 0.1s forwards; /* 瞬間打開即可 */
+}
+@keyframes slotOpen {
+    from { height: 0; }
+    to   { height: 90vh; }    /* 高度要足夠讓照片完全顯示 */
+}
+
+/* 3. 外框：完整照片的大小 */
 .print-photo {
     width: 100%;
     aspect-ratio: 3 / 4;
     background: #fff;
-    border-radius: 6px;
+    border-radius: 4px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.25);
     opacity: 0;
-    transform: translateY(-100%);
+    /* 初始狀態：把照片「往上推」藏在相機裡面（因為 slot 的 overflow: hidden 會把它遮住） */
+    transform: translateY(-100%); 
 }
+
+/* 4. 內層實際照片 */
 .print-photo-inner {
     width: 100%;
     height: 100%;
@@ -64,22 +80,17 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     filter: brightness(0.1) saturate(0.1);
 }
 
-/* 動畫設定 */
-.print-slot.is-open {
-    animation: slotOpen 0.4s forwards;
-}
-@keyframes slotOpen {
-    from { height: 0; }
-    to   { height: 90%; }
-}
+/* 5. 列印動畫：從上面（-100%）往下滑到正常位置（0%） */
 .print-photo.is-printing {
     animation: photoPrint 2.3s forwards;
 }
 @keyframes photoPrint {
     0%   { opacity: 0; transform: translateY(-100%); }
     20%  { opacity: 1; transform: translateY(-80%); }
-    100% { opacity: 1; transform: translateY(0%); }
+    100% { opacity: 1; transform: translateY(0%); } /* 0% 代表原本的位置，也就是往下吐出來了 */
 }
+
+/* 6. 沖洗效果 */
 .print-photo.is-developed .print-photo-inner {
     animation: developFade 4s forwards;
 }
@@ -448,10 +459,10 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         try { player.playVideo(); } catch(e) { console.log('Video play error:', e); }
     }
 
-    // 1. 打開出片口
+    // 1. 打開出片口遮罩
     slot.classList.add('is-open');
 
-    // 2. 0.3秒後照片滑出
+    // 2. 0.3秒後照片往下滑出
     setTimeout(() => {
         photo.classList.add('is-printing');
     }, 300);
