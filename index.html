@@ -49,7 +49,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 25px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
 
-/* --- 倒數月曆（放大一倍、褐色系） --- */
+/* --- 倒數月曆（放大、粗體標題、婚禮日特效） --- */
 .countdown-section {
     padding: 70px 20px 50px;
     background: #fbf9f7;
@@ -59,7 +59,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     font-family: 'my font';
     color: #c9a466;
     letter-spacing: 0.3em;
-    font-size: 1.3rem;
+    font-size: 2.2rem;      /* 跟其他大標一樣大小 */
+    font-weight: 700;       /* 粗體 */
     margin-bottom: 15px;
 }
 .countdown-subtitle {
@@ -70,7 +71,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     margin-bottom: 30px;
 }
 .countdown-grid {
-    max-width: 640px;           /* 原本約 320px，放大一倍 */
+    max-width: 640px;
     margin: 0 auto;
     background: #fff;
     border-radius: 24px;
@@ -88,30 +89,31 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 .countdown-month {
     letter-spacing: 0.35em;
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
 .countdown-remaining {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 .countdown-days-row {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
-    margin-bottom: 8px;
+    gap: 8px;
+    margin-bottom: 10px;
 }
 .countdown-day-label,
 .countdown-day-cell {
     width: 100%;
-    padding: 8px 0;
+    padding: 10px 0;
     text-align: center;
     font-family: 'my font';
-    font-size: 0.9rem;
+    font-size: 1.4rem;   /* 原本約 0.7，放大兩倍以上 */
 }
 .countdown-day-label {
     color: #b79b6b;
 }
 .countdown-day-cell {
-    border-radius: 10px;
+    border-radius: 12px;
     color: #5a4a34;
 }
 .cd-empty {
@@ -123,21 +125,42 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .cd-today {
     background: #c9a466;
     color: #fff;
-    font-weight: 500;
-}
-.cd-wedding {
-    background: #5a4a34;
-    color: #fff;
     font-weight: 600;
+}
+
+/* 婚禮日期 + 愛心特效（放大 + 呼吸動畫 + 光暈） */
+.cd-wedding {
+    background: #5a3a20;
+    color: #fff;
+    font-weight: 700;
     position: relative;
+    box-shadow: 0 0 0 0 rgba(201,164,102,0.7);
+    animation: weddingPulse 1.8s infinite;
 }
 .cd-wedding::after {
     content: "♥";
     position: absolute;
-    bottom: 4px;
-    right: 6px;
-    font-size: 0.8rem;
+    bottom: 5px;
+    right: 8px;
+    font-size: 1rem;
 }
+
+/* 心跳 / 光暈效果 */
+@keyframes weddingPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(201,164,102,0.7);
+    }
+    50% {
+        transform: scale(1.12);
+        box-shadow: 0 0 0 12px rgba(201,164,102,0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(201,164,102,0);
+    }
+}
+
 .countdown-footer {
     margin-top: 16px;
     font-family: 'my font';
