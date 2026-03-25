@@ -12,7 +12,6 @@
     font-display: swap; 
 }
 *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
-/* 加上 overscroll-behavior 避免瀏覽器自動記住上次滾動位置 */
 html, body { width: 100%; min-height: 100%; background: #faf8f5; overscroll-behavior: none;}
 body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-x: hidden; }
 
@@ -27,11 +26,9 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     cursor: pointer;
 }
 
-/* 總容器增加過場動畫，準備拿來做運鏡效果 */
 .polaroid-wrapper {
     position: relative;
     width: min(340px, 80vw);
-    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .camera-img {
@@ -41,39 +38,32 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     position: relative;
     z-index: 10;
     pointer-events: none;
-    /* 讓相機可以緩慢淡出 */
-    transition: opacity 2.5s ease, transform 3s ease;
+    /* 相機原地淡出的動畫設定 */
+    transition: opacity 2.5s ease;
 }
 
 .print-photo-container {
     position: absolute;
-    /* 再稍微縮小一點，讓相紙完美配合出片口寬度 */
+    /* 完美卡進出片口的尺寸 */
     left: 26.5%;
     right: 26.5%;
-    /* 高度微調對準黑色出片口 */
     top: 68.3%; 
     z-index: 20;
     clip-path: inset(0 -50px -200% -50px);
-    /* 讓照片容器可以移動與放大 */
-    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    transform-origin: center center;
+    /* 照片自然落下的動畫設定（不放大） */
+    transition: transform 3s cubic-bezier(0.25, 1, 0.5, 1);
+    transform-origin: top center;
 }
 
 /* ★ 運鏡特效：當套用 .focus-mode 時觸發 ★ */
-#intro-overlay.focus-mode .polaroid-wrapper {
-    /* 整個區塊往上移，把原本在下半部的相紙拉到螢幕正中央 */
-    transform: translateY(-12vh);
-}
-
 #intro-overlay.focus-mode .camera-img {
-    /* 相機慢慢變透明，並輕微往上飄走 */
+    /* 相機原地慢慢變透明 */
     opacity: 0;
-    transform: translateY(-30px);
 }
 
 #intro-overlay.focus-mode .print-photo-container {
-    /* 照片脫離相機往下掉，並放大成為視覺焦點 */
-    transform: translateY(8vh) scale(1.35);
+    /* 相片不再受到相機的束縛，自然往下掉落，並帶有一點點微傾斜，看起來更真實 */
+    transform: translateY(15vh) rotate(-3deg);
 }
 
 .print-photo {
@@ -124,7 +114,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     color: #8a7448;
     white-space: nowrap;
     animation: hintBlink 1.4s infinite;
-    /* 點擊後文字會立刻消失，所以不用加過場 */
     z-index: 30;
 }
 @keyframes hintBlink {
@@ -462,13 +451,11 @@ onValue(wishesRef, (snapshot) => {
 });
 </script>
 <script>
-// 強制讓瀏覽器在重新載入時回到頁面最頂端
 if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
 window.scrollTo(0, 0);
 
-// 確保在所有資源載入完畢後也強制置頂一次
 window.onload = function() {
     window.scrollTo(0, 0);
 };
@@ -503,7 +490,6 @@ document.getElementById('musicToggle').onclick = function() {
     player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
 };
 
-/* 點擊列印 */
 document.getElementById('intro-overlay').addEventListener('click', function() {
     if (isPrinting) return;
     isPrinting = true;
@@ -519,22 +505,18 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         try { player.playVideo(); } catch(e) {}
     }
 
-    // 1. 照片開始從縫隙吐出 (2.5秒)
     photo.classList.add('is-printing');
     
-    // 2. 2.5秒後，照片完全吐出。開始啟動「運鏡效果」與「沖洗變亮」
     setTimeout(() => { 
         photo.classList.add('is-developed'); 
-        overlay.classList.add('focus-mode'); // 觸發相機淡出與照片居中放大
+        overlay.classList.add('focus-mode'); // 觸發相機淡出、照片落下與微傾斜
     }, 2500);
 
-    // 3. 讓使用者欣賞一下變大並沖洗好的相片，總共 7.2 秒後再進入主網頁
     setTimeout(() => { 
         endIntro(); 
     }, 7200);
 });
 
-/* 倒數月曆與日期計算 */
 (function(){
     const year = 2026;
     const monthIndex = 5;
@@ -582,7 +564,6 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     targetDays = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
 })();
 
-/* 數字翻牌動畫邏輯 */
 function animateFlipClock(targetNumber) {
     if(targetNumber <= 0) return; 
 
