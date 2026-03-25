@@ -12,7 +12,6 @@
     font-display: swap; 
 }
 *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
-/* 阻止瀏覽器記住上次滾動位置 */
 html, body { width: 100%; min-height: 100%; background: #faf8f5; overscroll-behavior: none;}
 body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-x: hidden; }
 
@@ -30,6 +29,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .polaroid-wrapper {
     position: relative;
     width: min(340px, 80vw);
+    /* 這裡加上平滑的過場，用來做相機抽離的運鏡 */
+    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .camera-img {
@@ -39,39 +40,38 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     position: relative;
     z-index: 10;
     pointer-events: none;
-    opacity: 1;
+    /* 相機平滑淡出 */
+    transition: opacity 3.5s ease;
 }
 
 .print-photo-container {
     position: absolute;
-    /* 照片寬度完美卡進出片口 */
     left: 26.5%;
     right: 26.5%;
     top: 68.3%; 
     z-index: 20;
     clip-path: inset(0 -50px -200% -50px);
     transform-origin: top center;
-    will-change: transform, opacity;
+    /* 照片的微旋轉與上移 */
+    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    will-change: transform;
 }
 
-/* ★ 運鏡特效：相機原地淡出，不飄移 ★ */
-.camera-img.is-fading {
-    animation: cameraFadeOut 2.2s ease forwards;
-}
-@keyframes cameraFadeOut {
-    0%   { opacity: 1; }
-    100% { opacity: 0; }
+/* ★ 運鏡特效：相片置中、相機上抽與淡出 ★ */
+.polaroid-wrapper.is-focusing {
+    /* 整個區塊往上移，讓出空間給下面的相片，製造聚焦感 */
+    transform: translateY(-15vh);
 }
 
-/* ★ 運鏡特效：相紙單獨自然落下，不放大，可微歪 ★ */
-.print-photo-container.is-dropping {
-    animation: photoDrop 3.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+.polaroid-wrapper.is-focusing .camera-img {
+    /* 相機淡出消失 */
+    opacity: 0;
 }
-@keyframes photoDrop {
-    0%   { transform: translateY(0) rotate(0deg); }
-    35%  { transform: translateY(5vh) rotate(-1deg); }
-    70%  { transform: translateY(11vh) rotate(-2.2deg); }
-    100% { transform: translateY(16vh) rotate(-3.2deg); }
+
+.polaroid-wrapper.is-focusing .print-photo-container {
+    /* 相片跟著區塊上移的同時，再稍微往下補償一點距離並傾斜，
+       抵銷掉整體的上移，讓相片視覺上停留在螢幕正中央（不放大） */
+    transform: translateY(12vh) rotate(-3deg);
 }
 
 .print-photo {
@@ -94,9 +94,9 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* 照片吐出來的動畫 */
 .print-photo.is-printing {
     opacity: 1; 
+    /* 相片順滑地印出來 */
     animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
 @keyframes photoPrint {
@@ -104,7 +104,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     100% { transform: translateY(0%); }
 }
 
-/* 沖洗變亮的動畫 */
 .print-photo.is-developed .print-photo-inner {
     animation: developFade 4s forwards;
 }
@@ -314,7 +313,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 <body>
 
 <div id="intro-overlay">
-    <div class="polaroid-wrapper">
+    <div class="polaroid-wrapper" id="polaroid-wrapper">
         <img src="polaroid.png" alt="camera" class="camera-img">
         <div class="print-photo-container">
             <div class="print-photo" id="printPhoto">
@@ -461,7 +460,6 @@ onValue(wishesRef, (snapshot) => {
 });
 </script>
 <script>
-// 強制讓瀏覽器在重新載入時回到頁面最頂端，雙重保險
 if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
@@ -502,17 +500,15 @@ document.getElementById('musicToggle').onclick = function() {
     player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
 };
 
-/* 點擊列印與過場效果 */
 document.getElementById('intro-overlay').addEventListener('click', function() {
     if (isPrinting) return;
     isPrinting = true;
 
-    const photo = document.getElementById('printPhoto');
-    const hint = document.getElementById('printHint');
-    const camera = document.querySelector('.camera-img');
-    const photoContainer = document.querySelector('.print-photo-container');
-
-    if (!photo || !hint || !camera || !photoContainer) return;
+    const photo  = document.getElementById('printPhoto');
+    const hint   = document.getElementById('printHint');
+    const wrapper = document.getElementById('polaroid-wrapper');
+    
+    if (!photo || !hint || !wrapper) return;
     
     hint.style.display = 'none';
 
@@ -520,23 +516,22 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         try { player.playVideo(); } catch(e) {}
     }
 
-    // 1. 相紙先從出片口印出
+    // 1. 照片從縫隙滑出 (2.5秒)
     photo.classList.add('is-printing');
     
-    // 2. 印完後開始顯影 + 相機原地淡出 + 相紙單獨落下微傾斜
+    // 2. 2.5秒後，照片滑完。
+    // 同時啟動顯影、相機往上拉/淡出、照片置中微歪的順滑運鏡 (單一transition處理，不走走停停)
     setTimeout(() => { 
         photo.classList.add('is-developed'); 
-        camera.classList.add('is-fading');
-        photoContainer.classList.add('is-dropping');
+        wrapper.classList.add('is-focusing'); 
     }, 2500);
 
-    // 3. 留點時間看相紙落下，再進入主網頁
+    // 3. 欣賞停留，7.5秒後關閉前導動畫進入主頁面
     setTimeout(() => { 
         endIntro(); 
-    }, 7800);
+    }, 7500);
 });
 
-/* 倒數月曆與日期計算 */
 (function(){
     const year = 2026;
     const monthIndex = 5;
@@ -584,7 +579,6 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     targetDays = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
 })();
 
-/* 數字翻牌動畫邏輯 */
 function animateFlipClock(targetNumber) {
     if(targetNumber <= 0) return; 
 
