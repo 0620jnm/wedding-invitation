@@ -38,7 +38,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     width: 100%;
     height: auto;
     position: relative;
-    /* 相機層級設為 10 */
     z-index: 10;
     pointer-events: none;
 }
@@ -46,15 +45,14 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 /* 照片容器 */
 .print-photo-container {
     position: absolute;
-    /* 讓相紙寬度比相機稍微窄一點，符合出片口寬度 */
-    left: 14%;
-    right: 14%;
-    /* 起點對準黑色出片口 (如果還是有點落差，微調這個數字，例如 70% 或 72%) */
-    top: 71%; 
-    /* 照片層級設為 20，比相機(10)高，這樣才不會被相機底部擋住 */
+    /* 縮小照片寬度：加大 left/right 可以讓照片變窄，對齊出片口寬度 */
+    left: 20%;
+    right: 20%;
+    /* 起點對準黑色出片口 (如果有點落差可微調此數字，例如 68% 或 69%) */
+    top: 69%; 
+    /* 層級比相機高，才不會被相機底部擋住 */
     z-index: 20;
-    /* 神奇裁切術：把照片在出片口「上方」的部分隱形掉，只顯示出片口「下方」的部分。
-       這讓照片看起來像是從那條縫裡長出來的，即使它的層級在相機之上。 */
+    /* 裁切掉出片口「上方」的照片，讓它看起來是從機器裡面滑出來的 */
     clip-path: inset(0 -50px -200% -50px);
 }
 
@@ -68,12 +66,12 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     /* 拍立得特色白邊：上、右、左邊框窄，下面寬 */
     padding: 6% 6% 22% 6%; 
     
-    /* 初始狀態把相紙往上推，藏在相機裡面（因為 clip-path 上方隱形了，所以看不見） */
+    /* 初始狀態把相紙往上推，藏在相機裡面 */
     transform: translateY(-95%);
     opacity: 0; 
 }
 
-/* 照片內層影像（你的婚紗照） */
+/* 照片內層影像 */
 .print-photo-inner {
     width: 100%;
     height: 100%;
