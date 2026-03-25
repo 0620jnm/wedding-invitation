@@ -4,13 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Jay & Michelle</title>
+
+<!-- 強制優先載入字體，確保打開網頁最快速度擁有正確字體 -->
+<link rel="preload" href="my%20font.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+<!-- 優先連接 Google Fonts 以加速載入 -->
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
 <style>
 @font-face {
     font-family: 'my font';
     src: url('my%20font.ttf') format('truetype'); 
-    font-display: swap; 
+    /* 改用 block：在字體下載好之前隱藏文字，下載好後直接顯示正確字體，避免看到預設醜字體切換 */
+    font-display: block; 
 }
+
 *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
 html, body { width: 100%; min-height: 100%; background: #faf8f5; overscroll-behavior: none;}
 body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-x: hidden; }
@@ -30,12 +40,11 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 #flash-effect {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background: #fff;
-    z-index: 20000; /* 比 overlay 更高，蓋住全畫面 */
+    z-index: 20000;
     opacity: 0;
-    pointer-events: none; /* 不影響點擊 */
+    pointer-events: none; 
 }
 #flash-effect.is-flashing {
-    /* 閃光瞬間亮起，然後快速變暗 */
     animation: flashBang 0.8s ease-out forwards;
 }
 @keyframes flashBang {
@@ -530,21 +539,21 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         try { player.playVideo(); } catch(e) {}
     }
 
-    // 1. 觸發閃光燈特效 (瞬間)
+    // 觸發閃光燈特效
     flash.classList.add('is-flashing');
 
-    // 2. 閃光燈亮起的同時 (稍微延遲 0.2 秒讓閃光先亮)，照片開始從縫隙滑出
+    // 稍微延遲讓閃光先亮，照片再開始滑出
     setTimeout(() => {
         photo.classList.add('is-printing');
     }, 200);
     
-    // 3. 2.7秒後(200ms+2.5s)，照片滑完。啟動顯影、相機往上拉/淡出、照片置中微歪的運鏡
+    // 2.7秒後(200ms+2.5s)照片滑完。啟動顯影與運鏡
     setTimeout(() => { 
         photo.classList.add('is-developed'); 
         wrapper.classList.add('is-focusing'); 
     }, 2700);
 
-    // 4. 欣賞停留，總共 7.7 秒後關閉前導動畫進入主頁面
+    // 欣賞停留，總共 7.7 秒後進入主頁面
     setTimeout(() => { 
         endIntro(); 
     }, 7700);
