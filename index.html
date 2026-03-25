@@ -26,10 +26,27 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     cursor: pointer;
 }
 
+/* ★ 閃光燈特效 ★ */
+#flash-effect {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #fff;
+    z-index: 20000; /* 比 overlay 更高，蓋住全畫面 */
+    opacity: 0;
+    pointer-events: none; /* 不影響點擊 */
+}
+#flash-effect.is-flashing {
+    /* 閃光瞬間亮起，然後快速變暗 */
+    animation: flashBang 0.8s ease-out forwards;
+}
+@keyframes flashBang {
+    0%   { opacity: 0; }
+    10%  { opacity: 1; }
+    100% { opacity: 0; }
+}
+
 .polaroid-wrapper {
     position: relative;
     width: min(340px, 80vw);
-    /* 這裡加上平滑的過場，用來做相機抽離的運鏡 */
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -40,7 +57,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     position: relative;
     z-index: 10;
     pointer-events: none;
-    /* 相機平滑淡出 */
     transition: opacity 3.5s ease;
 }
 
@@ -52,25 +68,20 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     z-index: 20;
     clip-path: inset(0 -50px -200% -50px);
     transform-origin: top center;
-    /* 照片的微旋轉與上移 */
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     will-change: transform;
 }
 
-/* ★ 運鏡特效：相片置中、相機上抽與淡出 ★ */
+/* 運鏡特效：相片置中、相機上抽與淡出 */
 .polaroid-wrapper.is-focusing {
-    /* 整個區塊往上移，讓出空間給下面的相片，製造聚焦感 */
     transform: translateY(-15vh);
 }
 
 .polaroid-wrapper.is-focusing .camera-img {
-    /* 相機淡出消失 */
     opacity: 0;
 }
 
 .polaroid-wrapper.is-focusing .print-photo-container {
-    /* 相片跟著區塊上移的同時，再稍微往下補償一點距離並傾斜，
-       抵銷掉整體的上移，讓相片視覺上停留在螢幕正中央（不放大） */
     transform: translateY(12vh) rotate(-3deg);
 }
 
@@ -96,7 +107,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 .print-photo.is-printing {
     opacity: 1; 
-    /* 相片順滑地印出來 */
     animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
 @keyframes photoPrint {
@@ -312,6 +322,9 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 </head>
 <body>
 
+<!-- 閃光特效層 -->
+<div id="flash-effect"></div>
+
 <div id="intro-overlay">
     <div class="polaroid-wrapper" id="polaroid-wrapper">
         <img src="polaroid.png" alt="camera" class="camera-img">
@@ -504,11 +517,12 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     if (isPrinting) return;
     isPrinting = true;
 
-    const photo  = document.getElementById('printPhoto');
-    const hint   = document.getElementById('printHint');
+    const photo   = document.getElementById('printPhoto');
+    const hint    = document.getElementById('printHint');
     const wrapper = document.getElementById('polaroid-wrapper');
+    const flash   = document.getElementById('flash-effect');
     
-    if (!photo || !hint || !wrapper) return;
+    if (!photo || !hint || !wrapper || !flash) return;
     
     hint.style.display = 'none';
 
@@ -516,20 +530,24 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         try { player.playVideo(); } catch(e) {}
     }
 
-    // 1. 照片從縫隙滑出 (2.5秒)
-    photo.classList.add('is-printing');
+    // 1. 觸發閃光燈特效 (瞬間)
+    flash.classList.add('is-flashing');
+
+    // 2. 閃光燈亮起的同時 (稍微延遲 0.2 秒讓閃光先亮)，照片開始從縫隙滑出
+    setTimeout(() => {
+        photo.classList.add('is-printing');
+    }, 200);
     
-    // 2. 2.5秒後，照片滑完。
-    // 同時啟動顯影、相機往上拉/淡出、照片置中微歪的順滑運鏡 (單一transition處理，不走走停停)
+    // 3. 2.7秒後(200ms+2.5s)，照片滑完。啟動顯影、相機往上拉/淡出、照片置中微歪的運鏡
     setTimeout(() => { 
         photo.classList.add('is-developed'); 
         wrapper.classList.add('is-focusing'); 
-    }, 2500);
+    }, 2700);
 
-    // 3. 欣賞停留，7.5秒後關閉前導動畫進入主頁面
+    // 4. 欣賞停留，總共 7.7 秒後關閉前導動畫進入主頁面
     setTimeout(() => { 
         endIntro(); 
-    }, 7500);
+    }, 7700);
 });
 
 (function(){
