@@ -32,59 +32,68 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     width: min(340px, 80vw);
 }
 
-/* 相機圖片（在最上層） */
+/* 相機圖片 */
 .camera-img {
     display: block;
     width: 100%;
     height: auto;
     position: relative;
+    /* 相機層級設為 10 */
     z-index: 10;
     pointer-events: none;
 }
 
-/* 照片容器（在相機下層） */
+/* 照片容器 */
 .print-photo-container {
     position: absolute;
-    /* 調整照片的寬度與左右位置 */
-    left: 17%;
-    right: 17%;
-    /* 對準相機的黑色出片口 */
-    top: 68%; 
-    z-index: 1;
-    /* 裁切掉出片口「上方」的照片，讓它看起來是從機器裡面滑出來的 */
+    /* 讓相紙寬度比相機稍微窄一點，符合出片口寬度 */
+    left: 14%;
+    right: 14%;
+    /* 起點對準黑色出片口 (如果還是有點落差，微調這個數字，例如 70% 或 72%) */
+    top: 71%; 
+    /* 照片層級設為 20，比相機(10)高，這樣才不會被相機底部擋住 */
+    z-index: 20;
+    /* 神奇裁切術：把照片在出片口「上方」的部分隱形掉，只顯示出片口「下方」的部分。
+       這讓照片看起來像是從那條縫裡長出來的，即使它的層級在相機之上。 */
     clip-path: inset(0 -50px -200% -50px);
 }
 
-/* 照片外框 */
+/* 拍立得相紙外框 */
 .print-photo {
     width: 100%;
-    aspect-ratio: 3 / 4;
-    background: #fff;
-    border-radius: 4px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
-    /* 確保初始狀態完全藏在裁切線(出片口)上方 */
-    transform: translateY(-90%);
+    /* 拍立得相紙典型的比例 */
+    aspect-ratio: 4 / 5;
+    background: #fdfdfd;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    /* 拍立得特色白邊：上、右、左邊框窄，下面寬 */
+    padding: 6% 6% 22% 6%; 
+    
+    /* 初始狀態把相紙往上推，藏在相機裡面（因為 clip-path 上方隱形了，所以看不見） */
+    transform: translateY(-95%);
     opacity: 0; 
 }
 
-/* 照片內層影像 */
+/* 照片內層影像（你的婚紗照） */
 .print-photo-inner {
     width: 100%;
     height: 100%;
     background-image: url('P3.jpg');
     background-size: cover;
     background-position: center;
+    /* 剛印出來暗暗的 */
     filter: brightness(0.1) saturate(0.1);
+    /* 給內層照片一點點內陰影，更像真實照片 */
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
 /* 點擊列印動畫 */
 .print-photo.is-printing {
     opacity: 1; 
-    /* 照片往下滑出，0% 代表完全吐出來 */
+    /* 往下滑出來 */
     animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
 @keyframes photoPrint {
-    0%   { transform: translateY(-90%); }
+    0%   { transform: translateY(-95%); }
     100% { transform: translateY(0%); }
 }
 
@@ -108,7 +117,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     color: #8a7448;
     white-space: nowrap;
     animation: hintBlink 1.4s infinite;
-    z-index: 20;
+    z-index: 30;
 }
 @keyframes hintBlink {
     0%,100% { opacity: 1; }
