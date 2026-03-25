@@ -26,13 +26,11 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     cursor: pointer;
 }
 
-/* 相機與照片的總容器 */
 .polaroid-wrapper {
     position: relative;
     width: min(340px, 80vw);
 }
 
-/* 相機圖片 */
 .camera-img {
     display: block;
     width: 100%;
@@ -42,52 +40,39 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     pointer-events: none;
 }
 
-/* 照片容器 */
 .print-photo-container {
     position: absolute;
-    /* 縮小照片寬度：加大 left/right 可以讓照片變窄，對齊出片口寬度 */
-    left: 20%;
-    right: 20%;
-    /* 起點對準黑色出片口 (如果有點落差可微調此數字，例如 68% 或 69%) */
-    top: 69%; 
-    /* 層級比相機高，才不會被相機底部擋住 */
+    /* 這裡數值越大，照片越窄。調成24%讓它完美契合出片口 */
+    left: 24%;
+    right: 24%;
+    /* 高度對準出片口 */
+    top: 68.5%; 
     z-index: 20;
-    /* 裁切掉出片口「上方」的照片，讓它看起來是從機器裡面滑出來的 */
     clip-path: inset(0 -50px -200% -50px);
 }
 
-/* 拍立得相紙外框 */
 .print-photo {
     width: 100%;
-    /* 拍立得相紙典型的比例 */
     aspect-ratio: 4 / 5;
     background: #fdfdfd;
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    /* 拍立得特色白邊：上、右、左邊框窄，下面寬 */
     padding: 6% 6% 22% 6%; 
-    
-    /* 初始狀態把相紙往上推，藏在相機裡面 */
     transform: translateY(-95%);
     opacity: 0; 
 }
 
-/* 照片內層影像 */
 .print-photo-inner {
     width: 100%;
     height: 100%;
     background-image: url('P3.jpg');
     background-size: cover;
     background-position: center;
-    /* 剛印出來暗暗的 */
     filter: brightness(0.1) saturate(0.1);
-    /* 給內層照片一點點內陰影，更像真實照片 */
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* 點擊列印動畫 */
 .print-photo.is-printing {
     opacity: 1; 
-    /* 往下滑出來 */
     animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
 @keyframes photoPrint {
@@ -95,7 +80,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     100% { transform: translateY(0%); }
 }
 
-/* 沖洗變亮動畫 */
 .print-photo.is-developed .print-photo-inner {
     animation: developFade 4s forwards;
 }
@@ -150,20 +134,49 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 25px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
 
-/* 倒數月曆 */
+/* --- 倒數月曆與翻牌設計 --- */
 .countdown-section {
     padding: 70px 20px 50px;
     background: #fbf9f7;
     text-align: center;
 }
-.countdown-title {
+
+/* 翻牌數字外框 */
+.flip-countdown-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
     font-family: 'my font';
     color: #c9a466;
-    letter-spacing: 0.3em;
     font-size: 2.2rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    letter-spacing: 0.1em;
 }
+
+.flip-box {
+    display: flex;
+    gap: 4px;
+}
+
+.flip-digit {
+    background: #fff;
+    border: 1px solid #e0d9d0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    padding: 4px 10px;
+    min-width: 45px;
+    text-align: center;
+    position: relative;
+    /* 讓數字有跳動放大的感覺 */
+    transition: transform 0.1s ease-in-out; 
+}
+.flip-digit.flipping {
+    transform: scale(1.1) translateY(-2px);
+    color: #a88448;
+}
+
 .countdown-grid {
     max-width: 640px;
     margin: 0 auto;
@@ -280,14 +293,11 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 <div id="intro-overlay">
     <div class="polaroid-wrapper">
         <img src="polaroid.png" alt="camera" class="camera-img">
-        
-        <!-- 照片容器，定位在相機下方出片口位置 -->
         <div class="print-photo-container">
             <div class="print-photo" id="printPhoto">
                 <div class="print-photo-inner"></div>
             </div>
         </div>
-        
         <div class="print-hint" id="printHint">點擊以列印相片</div>
     </div>
 </div>
@@ -303,8 +313,18 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     </div>
 
     <!-- 倒數月曆 -->
-    <section class="countdown-section">
-        <p class="countdown-title" id="cd-title">倒數 00 天</p>
+    <section class="countdown-section" id="countdown-section">
+        <!-- 翻牌倒數區 -->
+        <div class="flip-countdown-wrapper">
+            <span>倒數</span>
+            <div class="flip-box">
+                <!-- 數字拆開來，方便做翻牌動畫 -->
+                <div class="flip-digit" id="digit-tens">0</div>
+                <div class="flip-digit" id="digit-ones">0</div>
+            </div>
+            <span>天</span>
+        </div>
+        
         <div class="countdown-grid">
             <div class="countdown-header">
                 <span class="countdown-month">2026 · 06</span>
@@ -422,6 +442,8 @@ onValue(wishesRef, (snapshot) => {
 <script>
 var player;
 var isPrinting = false;
+var targetDays = 0; // 存放最終倒數天數
+var hasAnimated = false; // 確保動畫只播一次
 
 function endIntro() {
     document.getElementById('intro-overlay').style.opacity = '0';
@@ -455,30 +477,19 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
 
     const photo  = document.getElementById('printPhoto');
     const hint   = document.getElementById('printHint');
-
     if (!photo || !hint) return;
-
     hint.style.display = 'none';
 
     if (player && typeof player.playVideo === 'function') {
         try { player.playVideo(); } catch(e) {}
     }
 
-    // 觸發滑出
     photo.classList.add('is-printing');
-
-    // 2.5秒後沖洗
-    setTimeout(() => {
-        photo.classList.add('is-developed');
-    }, 2500);
-
-    // 進入主畫面
-    setTimeout(() => {
-        endIntro();
-    }, 2500 + 4000 + 300);
+    setTimeout(() => { photo.classList.add('is-developed'); }, 2500);
+    setTimeout(() => { endIntro(); }, 2500 + 4000 + 300);
 });
 
-/* 倒數月曆 */
+/* 倒數月曆與日期計算 */
 (function(){
     const year = 2026;
     const monthIndex = 5;
@@ -494,8 +505,7 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     const todayIsThisMonth = (today.getFullYear() === year && today.getMonth() === monthIndex);
 
     const bodyEl = document.getElementById('cd-calendar-body');
-    const titleEl = document.getElementById('cd-title');
-    if (!bodyEl || !titleEl) return;
+    if (!bodyEl) return;
 
     let html = '<div class="countdown-days-row">';
     let cellCount = 0;
@@ -523,17 +533,61 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     html += '</div>';
     bodyEl.innerHTML = html;
 
+    // 計算倒數天數
     const diffMs = weddingDate.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-
-    if (diffDays > 0) {
-        titleEl.textContent = `倒數 ${diffDays} 天`;
-    } else if (diffDays === 0) {
-        titleEl.textContent = '今天就是這一天';
-    } else {
-        titleEl.textContent = '婚禮已順利完成';
-    }
+    targetDays = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
 })();
+
+/* 數字翻牌動畫邏輯 (當使用者滾動到倒數區域時才觸發) */
+function animateFlipClock(targetNumber) {
+    if(targetNumber <= 0) return; // 如果已經結婚了就不播動畫
+
+    let current = 0;
+    const tensEl = document.getElementById('digit-tens');
+    const onesEl = document.getElementById('digit-ones');
+    
+    // 快速跳動的計時器
+    const interval = setInterval(() => {
+        current += Math.ceil(targetNumber / 20); // 決定跳動的速度
+        if(current >= targetNumber) {
+            current = targetNumber;
+            clearInterval(interval);
+        }
+
+        // 把數字拆成十位數跟個位數
+        let tens = Math.floor(current / 10);
+        let ones = current % 10;
+        
+        // 如果跟目前畫面上的數字不一樣，就加上翻轉特效class
+        if (tensEl.innerText != tens) {
+            tensEl.innerText = tens;
+            tensEl.classList.add('flipping');
+            setTimeout(()=> tensEl.classList.remove('flipping'), 50);
+        }
+        if (onesEl.innerText != ones) {
+            onesEl.innerText = ones;
+            onesEl.classList.add('flipping');
+            setTimeout(()=> onesEl.classList.remove('flipping'), 50);
+        }
+
+    }, 60);
+}
+
+// 監聽滾動，看到倒數區域時觸發動畫
+window.addEventListener('scroll', () => {
+    const section = document.getElementById('countdown-section');
+    if (!section || hasAnimated) return;
+
+    const rect = section.getBoundingClientRect();
+    // 當區塊進入視窗時
+    if (rect.top < window.innerHeight && rect.bottom >= 0) {
+        hasAnimated = true;
+        // 延遲一點點播放比較有感覺
+        setTimeout(() => {
+            animateFlipClock(targetDays);
+        }, 500); 
+    }
+});
 </script>
 </body>
 </html>
