@@ -4,10 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Jay & Michelle</title>
-<!-- 補回 Google Fonts 連結，解決字體跑掉的問題 -->
-//fonts.googleapis.com">
-//fonts.gstatic.com" crossorigin>
-//fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<!-- 修正字體連結，避免頂部出現奇怪的文字 -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 @font-face {
     font-family: 'my font';
@@ -29,30 +27,34 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     cursor: pointer;
 }
 
-/* 相機容器 */
-.camera-container {
+/* 相機與照片的總容器 */
+.polaroid-wrapper {
     position: relative;
     width: min(340px, 80vw);
-    aspect-ratio: 3 / 2; /* 讓相機保持比例 */
-    background-image: url('polaroid.png');
-    background-size: contain;
-    background-position: center top;
-    background-repeat: no-repeat;
-    pointer-events: none;
-    z-index: 10;
+    /* 高度讓它自動被相機撐開 */
 }
 
-/* 出片口遮罩：對準相機縫隙 */
-.print-slot {
+/* 相機圖片（在最上層） */
+.camera-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* 照片容器（在相機下層） */
+.print-photo-container {
     position: absolute;
-    left: 50%;
-    /* 這裡設定距離相機頂部的百分比，86.5% 剛好在黑色縫隙處 */
-    top: 86.5%; 
-    transform: translateX(-50%);
-    width: 63%; /* 配合出片口寬度 */
-    height: 120vh; /* 往下無限延伸，讓照片有空間跑出來 */
-    overflow: hidden; /* 藏在縫隙上方的照片會被裁切掉 */
-    z-index: 1; /* 藏在相機圖層後面 */
+    /* 定位在相機的正中央 */
+    left: 18%;
+    right: 18%;
+    /* 設定起點在相機底部稍高一點的地方（也就是出片口的位置） */
+    top: 75%; 
+    z-index: 1;
+    /* 裁切掉出片口「上方」的照片，讓它看起來是從機器裡面滑出來的 */
+    clip-path: inset(0 -50px -200% -50px);
 }
 
 /* 照片外框 */
@@ -62,7 +64,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     background: #fff;
     border-radius: 4px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.25);
-    /* 預設藏在上面，-100% 剛好整張照片都在縫隙上面（被 hidden 遮住） */
+    /* 預設藏在上面（相機肚子裡） */
     transform: translateY(-100%);
     opacity: 0; 
 }
@@ -80,7 +82,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 /* 點擊列印動畫 */
 .print-photo.is-printing {
     opacity: 1; 
-    /* 照片往下滑出，0% 代表停在縫隙正下方 */
+    /* 照片往下滑出，0% 代表完全吐出來 */
     animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
 @keyframes photoPrint {
@@ -271,13 +273,17 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 <body>
 
 <div id="intro-overlay">
-    <div class="camera-container">
-        <!-- 照片遮罩層，對準出片口 -->
-        <div class="print-slot">
+    <div class="polaroid-wrapper">
+        <!-- 直接用 <img> 標籤放相機，這樣容器高度絕對不會錯 -->
+        <img src="polaroid.jpg" alt="camera" class="camera-img">
+        
+        <!-- 照片容器，定位在相機下方出片口位置 -->
+        <div class="print-photo-container">
             <div class="print-photo" id="printPhoto">
                 <div class="print-photo-inner"></div>
             </div>
         </div>
+        
         <div class="print-hint" id="printHint">點擊以列印相片</div>
     </div>
 </div>
@@ -316,7 +322,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     </section>
 
     <section class="info-section">
-        <!-- 補回 Cormorant Garamond -->
+        <!-- 確保 Wedding Info 使用 Cormorant Garamond -->
         <h2 style="font-family:'Cormorant Garamond', serif; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">Wedding Info</h2>
         <div class="info-card">
             <p style="font-family: 'my font'; font-size: 1.2rem; color: #444;">暖居日穀</p>
@@ -333,14 +339,14 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <div class="form-card">
             <form id="rsvp-form">
                 <div class="form-group">
-                    abel>您的姓名</label>
+                    <label>您的姓名</label>
                     <input type="text" id="guest-name" placeholder="請輸入姓名" required>
                 </div>
                 <div class="form-group">
-                    abel>是否參加婚禮？</label>
+                    <label>是否參加婚禮？</label>
                     <div class="radio-stack">
-                        abel><input type="radio" name="attendance" value="yes" required> 是的，會參加</label>
-                        abel><input type="radio" name="attendance" value="no" required> 抱歉，無法出席</label>
+                        <label><input type="radio" name="attendance" value="yes" required> 是的，會參加</label>
+                        <label><input type="radio" name="attendance" value="no" required> 抱歉，無法出席</label>
                     </div>
                 </div>
                 <button type="submit" class="submit-btn">送出回覆</button>
@@ -353,11 +359,11 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <div class="form-card" style="margin-bottom: 50px;">
             <form id="wish-form">
                 <div class="form-group">
-                    abel>您的姓名</label>
+                    <label>您的姓名</label>
                     <input type="text" id="wish-name" required placeholder="請輸入姓名">
                 </div>
                 <div class="form-group">
-                    abel>祝福的話</label>
+                    <label>祝福的話</label>
                     <textarea id="wish-message" required placeholder="寫些話給我們吧..." style="height: 100px;"></textarea>
                 </div>
                 <button type="submit" class="submit-btn">釘上祝福便條</button>
