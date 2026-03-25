@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Jay & Michelle</title>
-<!-- 修正字體連結，避免頂部出現奇怪的文字 -->
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 @font-face {
@@ -31,7 +30,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .polaroid-wrapper {
     position: relative;
     width: min(340px, 80vw);
-    /* 高度讓它自動被相機撐開 */
 }
 
 /* 相機圖片（在最上層） */
@@ -274,8 +272,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 <div id="intro-overlay">
     <div class="polaroid-wrapper">
-        <!-- 直接用 <img> 標籤放相機，這樣容器高度絕對不會錯 -->
-        <img src="polaroid.jpg" alt="camera" class="camera-img">
+        <!-- 修正檔名為 polaroid.png -->
+        <img src="polaroid.png" alt="camera" class="camera-img">
         
         <!-- 照片容器，定位在相機下方出片口位置 -->
         <div class="print-photo-container">
@@ -322,7 +320,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     </section>
 
     <section class="info-section">
-        <!-- 確保 Wedding Info 使用 Cormorant Garamond -->
         <h2 style="font-family:'Cormorant Garamond', serif; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">Wedding Info</h2>
         <div class="info-card">
             <p style="font-family: 'my font'; font-size: 1.2rem; color: #444;">暖居日穀</p>
