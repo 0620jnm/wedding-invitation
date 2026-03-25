@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Jay & Michelle</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Gwendolyn:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Zen+Old+Mincho:wght@400;500&display=swap" rel="stylesheet">
+//fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Gwendolyn:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Zen+Old+Mincho:wght@400;500&display=swap" rel="stylesheet">
 <style>
 @font-face {
     font-family: 'my font';
@@ -23,71 +23,65 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     display: flex; align-items: center; justify-content: center;
     transition: opacity 1.5s ease-in-out;
     touch-action: none;
-    cursor: pointer; /* 讓整個背景都有手指游標 */
+    cursor: pointer;
 }
+
+/* 1. 相機圖層要在最上面，才能蓋住還沒吐出來的照片 */
 .camera-container {
     position: relative;
     width: min(340px, 80vw);
     aspect-ratio: 3 / 2;
-    background-image: url('polaroid.png');   /* 確認此圖檔在同一個資料夾下 */
+    background-image: url('polaroid.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    pointer-events: none; /* 讓點擊事件穿透到背景的 intro-overlay */
+    pointer-events: none;
+    z-index: 10; /* 相機在最上層 */
 }
 
-/* 1. 出片口：定位在相機底部的黑色縫隙處 */
+/* 2. 出片口遮罩：這是一個固定在相機下方的隱形框框，用來限制照片顯示的範圍 */
 .print-slot {
     position: absolute;
     left: 50%;
-    /* 這裡的 bottom 用來對齊你圖檔實際的縫隙高度，如果還是不對，微調這個數字，例如 12% 或 16% */
-    bottom: 14%;
+    top: 86%; /* 對準相機底部的出片縫隙 (可微調: 84%~88%) */
     transform: translateX(-50%);
     width: 62%;
-    height: 0;                /* 初始高度為0，用來隱藏照片 */
-    overflow: hidden;         /* 重要：超出這個範圍的照片會被切掉（藏起來） */
-    z-index: 2;
+    /* 給它一個足夠高的高度讓照片滑出來 */
+    height: 120vh;
+    overflow: hidden; /* 藏在縫隙上方的照片會被切掉 */
+    z-index: 1; /* 照片在相機後面 */
 }
 
-/* 2. 點擊後，出片口展開往下長，讓相片可以露出來 */
-.print-slot.is-open {
-    animation: slotOpen 0.1s forwards; /* 瞬間打開即可 */
-}
-@keyframes slotOpen {
-    from { height: 0; }
-    to   { height: 90vh; }    /* 高度要足夠讓照片完全顯示 */
-}
-
-/* 3. 外框：完整照片的大小 */
+/* 3. 照片本身 */
 .print-photo {
     width: 100%;
     aspect-ratio: 3 / 4;
     background: #fff;
     border-radius: 4px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.25);
-    opacity: 0;
-    /* 初始狀態：把照片「往上推」藏在相機裡面（因為 slot 的 overflow: hidden 會把它遮住） */
-    transform: translateY(-100%); 
+    /* 初始狀態：把照片「往上推」藏到相機背後，因為 overflow:hidden，所以超出 slot 頂部的地方看不見 */
+    transform: translateY(-100%);
+    opacity: 0; /* 一開始全透明，避免載入時閃爍 */
 }
 
 /* 4. 內層實際照片 */
 .print-photo-inner {
     width: 100%;
     height: 100%;
-    background-image: url('P3.jpg'); /* 你的婚紗照 */
+    background-image: url('P3.jpg');
     background-size: cover;
     background-position: center;
     filter: brightness(0.1) saturate(0.1);
 }
 
-/* 5. 列印動畫：從上面（-100%）往下滑到正常位置（0%） */
+/* 5. 點擊後開始列印動畫：從上面（-100%）滑下來（0%） */
 .print-photo.is-printing {
-    animation: photoPrint 2.3s forwards;
+    opacity: 1; /* 開始印的瞬間就顯示出來 */
+    animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
 @keyframes photoPrint {
-    0%   { opacity: 0; transform: translateY(-100%); }
-    20%  { opacity: 1; transform: translateY(-80%); }
-    100% { opacity: 1; transform: translateY(0%); } /* 0% 代表原本的位置，也就是往下吐出來了 */
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(0%); }
 }
 
 /* 6. 沖洗效果 */
@@ -96,14 +90,13 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 @keyframes developFade {
     0%   { filter: brightness(0.1) saturate(0.1); }
-    40%  { filter: brightness(0.4) saturate(0.4); }
-    70%  { filter: brightness(0.8) saturate(0.9); }
     100% { filter: brightness(1)   saturate(1); }
 }
 
+/* 提示文字 */
 .print-hint {
     position: absolute;
-    bottom: -40px;
+    bottom: -60px;
     left: 50%;
     transform: translateX(-50%);
     font-family: 'my font';
@@ -112,6 +105,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     color: #8a7448;
     white-space: nowrap;
     animation: hintBlink 1.4s infinite;
+    z-index: 20;
 }
 @keyframes hintBlink {
     0%,100% { opacity: 1; }
@@ -275,7 +269,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 <div id="intro-overlay">
     <div class="camera-container">
-        <div class="print-slot" id="printSlot">
+        <!-- 照片現在直接放在這裡，跟相機是兄弟關係，用 top 和 z-index 控制 -->
+        <div class="print-slot">
             <div class="print-photo" id="printPhoto">
                 <div class="print-photo-inner"></div>
             </div>
@@ -334,14 +329,14 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <div class="form-card">
             <form id="rsvp-form">
                 <div class="form-group">
-                    <label>您的姓名</label>
+                    abel>您的姓名</label>
                     <input type="text" id="guest-name" placeholder="請輸入姓名" required>
                 </div>
                 <div class="form-group">
-                    <label>是否參加婚禮？</label>
+                    abel>是否參加婚禮？</label>
                     <div class="radio-stack">
-                        <label><input type="radio" name="attendance" value="yes" required> 是的，會參加</label>
-                        <label><input type="radio" name="attendance" value="no" required> 抱歉，無法出席</label>
+                        abel><input type="radio" name="attendance" value="yes" required> 是的，會參加</label>
+                        abel><input type="radio" name="attendance" value="no" required> 抱歉，無法出席</label>
                     </div>
                 </div>
                 <button type="submit" class="submit-btn">送出回覆</button>
@@ -354,11 +349,11 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <div class="form-card" style="margin-bottom: 50px;">
             <form id="wish-form">
                 <div class="form-group">
-                    <label>您的姓名</label>
+                    abel>您的姓名</label>
                     <input type="text" id="wish-name" required placeholder="請輸入姓名">
                 </div>
                 <div class="form-group">
-                    <label>祝福的話</label>
+                    abel>祝福的話</label>
                     <textarea id="wish-message" required placeholder="寫些話給我們吧..." style="height: 100px;"></textarea>
                 </div>
                 <button type="submit" class="submit-btn">釘上祝福便條</button>
@@ -445,37 +440,31 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     if (isPrinting) return; // 已經在印了就不要重複觸發
     isPrinting = true;
 
-    const slot   = document.getElementById('printSlot');
     const photo  = document.getElementById('printPhoto');
     const hint   = document.getElementById('printHint');
 
-    if (!slot || !photo || !hint) return;
+    if (!photo || !hint) return;
 
     // 隱藏提示文字
     hint.style.display = 'none';
 
-    // 嘗試播放音樂 (若 YouTube 載入失敗也不會卡住)
+    // 嘗試播放音樂
     if (player && typeof player.playVideo === 'function') {
         try { player.playVideo(); } catch(e) { console.log('Video play error:', e); }
     }
 
-    // 1. 打開出片口遮罩
-    slot.classList.add('is-open');
+    // 直接觸發照片往下滑出的動畫
+    photo.classList.add('is-printing');
 
-    // 2. 0.3秒後照片往下滑出
-    setTimeout(() => {
-        photo.classList.add('is-printing');
-    }, 300);
-
-    // 3. 2.3秒後照片開始沖洗(淡入變亮)
+    // 2.5秒(剛好滑完)後照片開始沖洗(淡入變亮)
     setTimeout(() => {
         photo.classList.add('is-developed');
-    }, 2300);
+    }, 2500);
 
-    // 4. 沖洗4秒後，進入主畫面
+    // 沖洗4秒後，進入主畫面
     setTimeout(() => {
         endIntro();
-    }, 2300 + 4000 + 300);
+    }, 2500 + 4000 + 300);
 });
 
 /* 倒數月曆 */
