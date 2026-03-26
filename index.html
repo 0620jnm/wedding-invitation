@@ -14,7 +14,8 @@
 <!-- 優先連接 Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<!-- 新增 Nanum Pen Script 字體 -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
 @font-face {
@@ -130,7 +131,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* ★ P2 第二張照片（安靜待在右下方）的容器 ★ */
+/* ★ P2 第二張照片（本來就安靜待在右下方）的容器 ★ */
 .static-photo-container {
     position: absolute;
     width: 47%;
@@ -139,14 +140,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     top: 130%; 
     z-index: 5; 
     transform: rotate(8deg);
-    /* 一開始完全透明，等待鏡頭移過來後再淡入 */
-    opacity: 0; 
-    transition: opacity 1.5s ease;
-}
-
-/* 當鏡頭移好後，觸發此 class 讓照片浮現 */
-.static-photo-container.is-visible {
-    opacity: 1;
+    /* 一開始就是 100% 可見，完全沒有淡入動畫 */
+    opacity: 1; 
 }
 
 .static-photo-inner {
@@ -161,17 +156,19 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 /* P2 照片底部的空白處手寫字 */
 .photo-date {
     position: absolute;
-    /* 寫在拍立得下方的空白區域內，絕對不超出照片 */
-    bottom: 4%;
-    left: 0;
+    /* 定位在下方空白處的正中央 */
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
     width: 100%;
     text-align: center;
-    font-family: 'Gwendolyn', cursive;
-    /* 依據相框大小自適應字體，避免過大 */
-    font-size: clamp(1.2rem, 5.5vw, 2rem); 
+    /* 改用 Nanum Pen Script 字體 */
+    font-family: 'Nanum Pen Script', cursive;
+    /* 縮小字體尺寸 */
+    font-size: clamp(1rem, 4.5vw, 1.6rem); 
     color: #3b3b3b; /* 簽字筆的深灰墨色 */
-    opacity: 0.8; /* 稍微透底模擬墨水印在相紙上的感覺 */
-    letter-spacing: 0.05em;
+    opacity: 0.85; /* 稍微透底模擬墨水印在相紙上的感覺 */
+    letter-spacing: 0.1em;
     pointer-events: none;
     z-index: 2;
 }
@@ -328,7 +325,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
                 </div>
             </div>
             
-            <!-- P2：第二張照片。初期隱形，等鏡頭移好後再淡入 -->
+            <!-- P2：第二張照片。一開始就 100% 可見，安靜待在右下方 -->
             <div class="static-photo-container" id="staticPhoto">
                 <div class="photo-frame">
                     <div class="static-photo-inner"></div>
@@ -514,9 +511,8 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     const wrapper        = document.getElementById('polaroid-wrapper');
     const flash          = document.getElementById('flash-effect');
     const sceneContainer = document.getElementById('scene-container');
-    const staticPhoto    = document.getElementById('staticPhoto');
     
-    if (!photo || !hint || !wrapper || !flash || !sceneContainer || !staticPhoto) return;
+    if (!photo || !hint || !wrapper || !flash || !sceneContainer) return;
     
     hint.classList.remove('ready');
     hint.style.opacity = '0';
@@ -533,7 +529,7 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         photo.classList.add('is-printing');
     }, 200);
     
-    // 3. P3 顯影 + 鏡位往下平移，把下面空間帶進來
+    // 3. P3 顯影 + 鏡位往下平移，把下面空間（原本就在那裡的P2）帶進畫面
     setTimeout(() => { 
         photo.classList.add('is-developed'); 
         wrapper.classList.add('is-focusing'); 
@@ -542,15 +538,10 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         sceneContainer.classList.add('is-panning');
     }, 2700);
 
-    // 4. 等鏡位平移得差不多後（平移抓 3.5 秒），P2 才會淡入出現
-    setTimeout(() => {
-        staticPhoto.classList.add('is-visible');
-    }, 5500);
-
-    // 5. 兩張照片展示完畢後進主畫面
+    // 4. 兩張照片展示完畢後進主畫面
     setTimeout(() => { 
         endIntro(); 
-    }, 10000); 
+    }, 9500); 
 });
 
 (function(){
