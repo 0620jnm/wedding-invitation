@@ -55,10 +55,28 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     100% { opacity: 0; }
 }
 
-/* 相機 wrapper */
+/* ★ 整個場景容器（負責鏡頭平移） ★ */
+#scene-container {
+    position: relative;
+    /* 預設維持原位 */
+    transform: translateY(0);
+    /* 鏡位平移的動畫時間與曲線 */
+    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* 鏡頭往下轉移（Pan Down），這會讓畫面中下方的東西（P2）跑到視線內 */
+#scene-container.is-panning {
+    transform: translateY(-25vh); 
+}
+
+/* 相機與第一張照片（P3）的主體 wrapper */
 .polaroid-wrapper {
     position: relative;
-    /* 整個相機的寬度基準 */
     width: min(340px, 80vw);
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 10;
@@ -76,6 +94,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 /* 兩張照片共通的「拍立得白色邊框」設定 */
 .photo-frame {
+    position: relative;
     width: 100%;
     aspect-ratio: 4 / 5;
     background: #fdfdfd;
@@ -83,7 +102,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     padding: 6% 6% 22% 6%; 
 }
 
-/* P3：第一張動態印出的照片 */
+/* P3 第一張照片（動態印出）的容器 */
 .print-photo-container {
     position: absolute;
     width: 47%;
@@ -111,30 +130,17 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* ★ P2：第二張照片。初始狀態藏在下方 ★ */
+/* ★ P2 第二張照片（一開始就安靜待在右下方）的容器 ★ */
 .static-photo-container {
     position: absolute;
     width: 47%;
-    /* 最終水平位置在右側 */
-    left: 105%;
-    /* 初始垂直位置：藏在很下面 */
-    top: 150%; 
-    z-index: 6; /* 放在相機底下 */
-    /* 初始狀態：往下平移、透明 */
-    transform: translateY(50vh) rotate(7deg);
-    opacity: 0;
-    /* 過渡效果：往上滑動並淡入 */
-    transition: 
-        transform 2.5s cubic-bezier(0.25, 0.8, 0.25, 1), 
-        opacity 2s ease;
-    pointer-events: none;
-}
-
-/* P3 落下後，P2 觸發往上進入畫面 */
-.static-photo-container.is-visible {
-    opacity: 1;
-    /* 回到預定高度並保持傾斜 */
-    transform: translateY(-90%) rotate(7deg);
+    /* 設定在相機的右側 */
+    left: 95%;
+    /* 設定在相機的下方，由於場景平移前視線在上面，所以它在畫面外或邊緣 */
+    top: 130%; 
+    z-index: 5; 
+    transform: rotate(8deg);
+    opacity: 1; /* 一直都是完全可見的，只是靠鏡頭移動才進入中央 */
 }
 
 .static-photo-inner {
@@ -146,9 +152,25 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* 運鏡特效：相機上抽與淡出，P3 往下飄落 */
+/* P2 照片下方的簽字筆手寫日期 */
+.photo-date {
+    position: absolute;
+    bottom: 5%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: 'Gwendolyn', cursive;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    color: #2b2b2b; /* 簽字筆的深灰色 */
+    opacity: 0.85; /* 微微的墨水透底感 */
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* 運鏡特效：相機上抽與淡出，P3 稍微往左下擺 */
 .polaroid-wrapper.is-focusing {
-    transform: translateY(-15vh);
+    transform: translateY(-10vh);
 }
 
 .polaroid-wrapper.is-focusing .camera-img {
@@ -156,8 +178,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 
 .polaroid-wrapper.is-focusing .print-photo-container {
-    /* P3 往下飄落並稍微傾斜 */
-    transform: translate(-10%, 15vh) rotate(-6deg);
+    /* P3 印出後稍微往左飄落一點 */
+    transform: translate(-15%, 15vh) rotate(-6deg);
 }
 
 /* 印出動畫 */
@@ -181,7 +203,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 /* 點擊文字提示 */
 .print-hint {
     position: absolute;
-    bottom: -65px;
+    bottom: -80px;
     left: 50%;
     transform: translateX(-50%);
     font-family: 'my font';
@@ -284,25 +306,31 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 <div id="flash-effect"></div>
 
 <div id="intro-overlay">
-    <div class="polaroid-wrapper" id="polaroid-wrapper">
+    <!-- 包住所有東西的場景容器，負責整體的上下平移（鏡頭轉移） -->
+    <div id="scene-container">
         
-        <!-- P2：第二張照片 -->
-        <div class="static-photo-container" id="staticPhoto">
-            <div class="photo-frame">
-                <div class="static-photo-inner"></div>
+        <div class="polaroid-wrapper" id="polaroid-wrapper">
+            
+            <img src="polaroid.png" alt="camera" class="camera-img">
+            
+            <!-- P3：第一張動態印出的照片 -->
+            <div class="print-photo-container">
+                <div class="photo-frame print-photo" id="printPhoto">
+                    <div class="print-photo-inner"></div>
+                </div>
             </div>
+            
+            <!-- P2：第二張照片（靜靜待在右下方），裡面加上手寫日期 -->
+            <div class="static-photo-container" id="staticPhoto">
+                <div class="photo-frame">
+                    <div class="static-photo-inner"></div>
+                    <div class="photo-date">2017.12.23</div>
+                </div>
+            </div>
+
+            <div class="print-hint" id="printHint">載入中...</div>
         </div>
 
-        <img src="polaroid.png" alt="camera" class="camera-img">
-        
-        <!-- P3：第一張動態印出的照片 -->
-        <div class="print-photo-container">
-            <div class="photo-frame print-photo" id="printPhoto">
-                <div class="print-photo-inner"></div>
-            </div>
-        </div>
-        
-        <div class="print-hint" id="printHint">載入中...</div>
     </div>
 </div>
 
@@ -439,7 +467,7 @@ document.fonts.ready.then(function() {
 });
 
 var player;
-var isPrinting = false; // 紀錄動畫狀態
+var isPrinting = false; 
 var targetDays = 0;
 var hasAnimated = false;
 
@@ -469,19 +497,17 @@ document.getElementById('musicToggle').onclick = function() {
 };
 
 document.getElementById('intro-overlay').addEventListener('click', function() {
-    // 若字體尚未載入完畢 或 動畫已經開始，不可點擊
     if (!fontsLoaded || isPrinting) return;
     isPrinting = true; 
 
-    const photo       = document.getElementById('printPhoto');
-    const hint        = document.getElementById('printHint');
-    const wrapper     = document.getElementById('polaroid-wrapper');
-    const flash       = document.getElementById('flash-effect');
-    const staticPhoto = document.getElementById('staticPhoto');
+    const photo          = document.getElementById('printPhoto');
+    const hint           = document.getElementById('printHint');
+    const wrapper        = document.getElementById('polaroid-wrapper');
+    const flash          = document.getElementById('flash-effect');
+    const sceneContainer = document.getElementById('scene-container');
     
-    if (!photo || !hint || !wrapper || !flash || !staticPhoto) return;
+    if (!photo || !hint || !wrapper || !flash || !sceneContainer) return;
     
-    // 1. 點擊後立刻停止文字閃爍並隱藏
     hint.classList.remove('ready');
     hint.style.opacity = '0';
 
@@ -489,30 +515,24 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         try { player.playVideo(); } catch(e) {}
     }
 
-    // 2. 觸發閃光
     flash.classList.add('is-flashing');
 
-    // 3. 延遲讓閃光先亮，P3 開始滑出
     setTimeout(() => {
         photo.classList.add('is-printing');
     }, 200);
     
-    // 4. 第一張滑完後，啟動顯影與運鏡（相機上拉，P3 往下飄落定位）
     setTimeout(() => { 
         photo.classList.add('is-developed'); 
         wrapper.classList.add('is-focusing'); 
+        
+        // 【關鍵】等 P3 飄落的同時，驅動整個場景往上平移（鏡頭往下看），
+        // 這樣原本在下方的 P2 就會自然出現在畫面中，且 P2 本身並沒有移動。
+        sceneContainer.classList.add('is-panning');
     }, 2700);
 
-    // 5. 等 P3 飄落定位後，觸發 P2 往上進入畫面
-    // P3 飄落的 CSS 動畫約 3.5 秒，所以加在 2700 + 3500 左右
-    setTimeout(() => {
-        staticPhoto.classList.add('is-visible');
-    }, 6200);
-
-    // 6. 讓畫面多停一陣子欣賞兩張照片，然後自動進入主頁
     setTimeout(() => { 
         endIntro(); 
-    }, 10500); 
+    }, 8500); 
 });
 
 (function(){
