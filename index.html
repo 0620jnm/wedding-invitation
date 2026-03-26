@@ -5,8 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Jay & Michelle</title>
 
-<!-- 強制優先載入字體，確保打開網頁最快速度擁有正確字體 -->
+<!-- 強制優先載入字體與圖片，避免手機版因為載入慢導致破圖或錯位 -->
 <link rel="preload" href="my%20font.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+<link rel="preload" href="polaroid.png" as="image">
+<link rel="preload" href="P3.jpg" as="image">
 
 <!-- 優先連接 Google Fonts 以加速載入 -->
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -17,13 +19,10 @@
 @font-face {
     font-family: 'my font';
     src: url('my%20font.ttf') format('truetype'); 
-    /* 改用 block：在字體下載好之前隱藏文字，下載好後直接顯示正確字體，避免看到預設醜字體切換 */
     font-display: block; 
 }
 
 *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
-
-/* 移除 overscroll-behavior，避免干擾捲動，並預設一開始不讓使用者滑動 (overflow: hidden) */
 html, body { width: 100%; min-height: 100%; background: #faf8f5; overflow: hidden; }
 body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-x: hidden; }
 
@@ -38,7 +37,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     cursor: pointer;
 }
 
-/* ★ 閃光燈特效 ★ */
+/* 閃光燈特效 */
 #flash-effect {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background: #fff;
@@ -57,7 +56,9 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 .polaroid-wrapper {
     position: relative;
-    width: min(340px, 80vw);
+    /* 改用具體的 max-width 確保在手機上比例正確 */
+    width: 80vw;
+    max-width: 340px;
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -133,6 +134,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     100% { filter: brightness(1)   saturate(1); }
 }
 
+/* 點擊文字提示 */
 .print-hint {
     position: absolute;
     bottom: -60px;
@@ -145,6 +147,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     white-space: nowrap;
     animation: hintBlink 1.4s infinite;
     z-index: 30;
+    transition: opacity 0.5s ease;
 }
 @keyframes hintBlink {
     0%,100% { opacity: 1; }
@@ -179,124 +182,26 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 25px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
 
-/* --- 倒數月曆與翻牌設計 --- */
-.countdown-section {
-    padding: 70px 20px 50px;
-    background: #fbf9f7;
-    text-align: center;
-}
-
-.flip-countdown-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 20px;
-    font-family: 'my font';
-    color: #c9a466;
-    font-size: 2.2rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-}
-
-.flip-box {
-    display: flex;
-    gap: 4px;
-}
-
-.flip-digit {
-    background: #fff;
-    border: 1px solid #e0d9d0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    border-radius: 8px;
-    padding: 4px 10px;
-    min-width: 45px;
-    text-align: center;
-    position: relative;
-    transition: transform 0.1s ease-in-out; 
-}
-.flip-digit.flipping {
-    transform: scale(1.1) translateY(-2px);
-    color: #a88448;
-}
-
-.countdown-grid {
-    max-width: 640px;
-    margin: 0 auto;
-    background: #fff;
-    border-radius: 24px;
-    border: 1px solid #e0d9d0;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
-    padding: 28px 24px 24px;
-}
-.countdown-header {
-    display: flex;
-    justify-content: center;
-    align-items: baseline;
-    margin-bottom: 18px;
-    font-family: 'my font';
-    color: #c9a466;
-}
-.countdown-month {
-    letter-spacing: 0.35em;
-    font-size: 2.2rem;
-    font-weight: 600;
-}
-.countdown-days-row {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
-    margin-bottom: 10px;
-}
-.countdown-day-label,
-.countdown-day-cell {
-    width: 100%;
-    padding: 10px 0;
-    text-align: center;
-    font-family: 'my font';
-    font-size: 1.4rem;
-}
+/* --- 倒數月曆 --- */
+.countdown-section { padding: 70px 20px 50px; background: #fbf9f7; text-align: center; }
+.flip-countdown-wrapper { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 20px; font-family: 'my font'; color: #c9a466; font-size: 2.2rem; font-weight: 700; letter-spacing: 0.1em; }
+.flip-box { display: flex; gap: 4px; }
+.flip-digit { background: #fff; border: 1px solid #e0d9d0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-radius: 8px; padding: 4px 10px; min-width: 45px; text-align: center; position: relative; transition: transform 0.1s ease-in-out; }
+.flip-digit.flipping { transform: scale(1.1) translateY(-2px); color: #a88448; }
+.countdown-grid { max-width: 640px; margin: 0 auto; background: #fff; border-radius: 24px; border: 1px solid #e0d9d0; box-shadow: 0 12px 28px rgba(0,0,0,0.08); padding: 28px 24px 24px; }
+.countdown-header { display: flex; justify-content: center; align-items: baseline; margin-bottom: 18px; font-family: 'my font'; color: #c9a466; }
+.countdown-month { letter-spacing: 0.35em; font-size: 2.2rem; font-weight: 600; }
+.countdown-days-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 10px; }
+.countdown-day-label, .countdown-day-cell { width: 100%; padding: 10px 0; text-align: center; font-family: 'my font'; font-size: 1.4rem; }
 .countdown-day-label { color: #b79b6b; }
-.countdown-day-cell {
-    border-radius: 12px;
-    color: #5a4a34;
-}
+.countdown-day-cell { border-radius: 12px; color: #5a4a34; }
 .cd-empty { background: transparent; }
 .cd-normal { background: #f5eee3; }
-.cd-today {
-    background: #c9a466;
-    color: #fff;
-    font-weight: 600;
-}
-.cd-wedding {
-    background: #f2e3cf;
-    color: #2c2c2c;
-    font-weight: 700;
-    position: relative;
-    box-shadow: 0 0 0 0 rgba(201,164,102,0.5);
-    animation: weddingPulse 1.8s infinite;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-}
-.cd-wedding::after {
-    content: "♥";
-    position: static;
-    font-size: 0.9rem;
-    color: #000;
-}
-@keyframes weddingPulse {
-    0%   { transform: scale(1);   box-shadow: 0 0 0 0 rgba(201,164,102,0.4); }
-    50%  { transform: scale(1.06);box-shadow: 0 0 0 10px rgba(201,164,102,0); }
-    100% { transform: scale(1);   box-shadow: 0 0 0 0 rgba(201,164,102,0); }
-}
-.countdown-footer {
-    margin-top: 16px;
-    font-family: 'my font';
-    font-size: 0.95rem;
-    color: #777;
-}
+.cd-today { background: #c9a466; color: #fff; font-weight: 600; }
+.cd-wedding { background: #f2e3cf; color: #2c2c2c; font-weight: 700; position: relative; box-shadow: 0 0 0 0 rgba(201,164,102,0.5); animation: weddingPulse 1.8s infinite; display: flex; align-items: center; justify-content: center; gap: 4px; }
+.cd-wedding::after { content: "♥"; position: static; font-size: 0.9rem; color: #000; }
+@keyframes weddingPulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0.4); } 50% { transform: scale(1.06);box-shadow: 0 0 0 10px rgba(201,164,102,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0); } }
+.countdown-footer { margin-top: 16px; font-family: 'my font'; font-size: 0.95rem; color: #777; }
 
 /* Info / Form / Notes */
 .info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
@@ -314,11 +219,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .submit-btn { width: 100%; padding: 16px; background: #c9a466; color: #fff; border: none; font-family: 'my font'; font-size: 1.2rem; cursor: pointer; border-radius: 8px; }
 
 .sticky-wall { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 40px 10px; max-width: 950px; margin: 0 auto; }
-.sticky-note { 
-    width: 210px; min-height: 190px; padding: 35px 20px 20px; box-shadow: 3px 6px 15px rgba(0,0,0,0.1); 
-    position: relative; font-family: 'my font'; text-align: left; transition: 0.3s;
-    transform: rotate(var(--note-rot)) translate(var(--note-x), var(--note-y));
-}
+.sticky-note { width: 210px; min-height: 190px; padding: 35px 20px 20px; box-shadow: 3px 6px 15px rgba(0,0,0,0.1); position: relative; font-family: 'my font'; text-align: left; transition: 0.3s; transform: rotate(var(--note-rot)) translate(var(--note-x), var(--note-y)); }
 .note-text { font-size: 1.1rem; line-height: 1.5; margin-bottom: 15px; color: #333; word-break: break-all; }
 .note-author { font-size: 0.95rem; text-align: right; border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 10px; }
 .sticky-note::before { content: ""; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 24px; height: 24px; background-color: #a82424; border-radius: 50%; z-index: 2; }
@@ -333,7 +234,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 </head>
 <body>
 
-<!-- 閃光特效層 -->
 <div id="flash-effect"></div>
 
 <div id="intro-overlay">
@@ -358,7 +258,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <p style="margin-top:25px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
     </div>
 
-    <!-- 倒數月曆 -->
     <section class="countdown-section" id="countdown-section">
         <div class="flip-countdown-wrapper">
             <span>倒數</span>
@@ -368,24 +267,16 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
             </div>
             <span>天</span>
         </div>
-        
         <div class="countdown-grid">
-            <div class="countdown-header">
-                <span class="countdown-month">2026 · 06</span>
-            </div>
+            <div class="countdown-header"><span class="countdown-month">2026 · 06</span></div>
             <div class="countdown-days-row">
-                <div class="countdown-day-label">日</div>
-                <div class="countdown-day-label">一</div>
-                <div class="countdown-day-label">二</div>
-                <div class="countdown-day-label">三</div>
-                <div class="countdown-day-label">四</div>
-                <div class="countdown-day-label">五</div>
+                <div class="countdown-day-label">日</div><div class="countdown-day-label">一</div>
+                <div class="countdown-day-label">二</div><div class="countdown-day-label">三</div>
+                <div class="countdown-day-label">四</div><div class="countdown-day-label">五</div>
                 <div class="countdown-day-label">六</div>
             </div>
             <div id="cd-calendar-body"></div>
-            <div class="countdown-footer">
-                期待與你一起見證這一天
-            </div>
+            <div class="countdown-footer">期待與你一起見證這一天</div>
         </div>
     </section>
 
@@ -405,10 +296,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">參加回覆表單</h2>
         <div class="form-card">
             <form id="rsvp-form">
-                <div class="form-group">
-                    <label>您的姓名</label>
-                    <input type="text" id="guest-name" placeholder="請輸入姓名" required>
-                </div>
+                <div class="form-group"><label>您的姓名</label><input type="text" id="guest-name" placeholder="請輸入姓名" required></div>
                 <div class="form-group">
                     <label>是否參加婚禮？</label>
                     <div class="radio-stack">
@@ -425,14 +313,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">留言祝福</h2>
         <div class="form-card" style="margin-bottom: 50px;">
             <form id="wish-form">
-                <div class="form-group">
-                    <label>您的姓名</label>
-                    <input type="text" id="wish-name" required placeholder="請輸入姓名">
-                </div>
-                <div class="form-group">
-                    <label>祝福的話</label>
-                    <textarea id="wish-message" required placeholder="寫些話給我們吧..." style="height: 100px;"></textarea>
-                </div>
+                <div class="form-group"><label>您的姓名</label><input type="text" id="wish-name" required placeholder="請輸入姓名"></div>
+                <div class="form-group"><label>祝福的話</label><textarea id="wish-message" required placeholder="寫些話給我們吧..." style="height: 100px;"></textarea></div>
                 <button type="submit" class="submit-btn">釘上祝福便條</button>
             </form>
         </div>
@@ -484,25 +366,19 @@ onValue(wishesRef, (snapshot) => {
 });
 </script>
 <script>
-if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-}
-window.addEventListener('beforeunload', function () {
-    window.scrollTo(0, 0);
-});
-window.addEventListener('load', function () {
-    window.scrollTo(0, 0);
-});
+if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+window.addEventListener('beforeunload', function () { window.scrollTo(0, 0); });
+window.addEventListener('load', function () { window.scrollTo(0, 0); });
 
 var player;
-var isPrinting = false;
+// 記錄當前動畫狀態：0=未開始, 1=印製中/顯影中, 2=動畫結束等待點擊
+var introState = 0; 
 var targetDays = 0;
 var hasAnimated = false;
 
 function endIntro() {
     document.getElementById('intro-overlay').style.opacity = '0';
     document.getElementById('main-wrapper').classList.add('is-visible');
-    // 解除捲動限制，讓使用者可以滑動網頁
     document.body.style.overflow = "auto";
     document.documentElement.style.overflow = "auto";
     setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1500);
@@ -526,8 +402,17 @@ document.getElementById('musicToggle').onclick = function() {
 };
 
 document.getElementById('intro-overlay').addEventListener('click', function() {
-    if (isPrinting) return;
-    isPrinting = true;
+    // 狀態2：代表動畫已經跑完，這時候點擊就會進入主頁
+    if (introState === 2) {
+        endIntro();
+        return;
+    }
+    
+    // 狀態1：代表動畫正在跑，點擊無效，避免重複觸發
+    if (introState === 1) return;
+    
+    // 狀態0：首次點擊，開始動畫
+    introState = 1; 
 
     const photo   = document.getElementById('printPhoto');
     const hint    = document.getElementById('printHint');
@@ -536,7 +421,8 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     
     if (!photo || !hint || !wrapper || !flash) return;
     
-    hint.style.display = 'none';
+    // 點擊後文字提示改為隱藏，準備等一下顯示「點擊進入」
+    hint.style.opacity = '0';
 
     if (player && typeof player.playVideo === 'function') {
         try { player.playVideo(); } catch(e) {}
@@ -545,21 +431,23 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     // 觸發閃光燈特效
     flash.classList.add('is-flashing');
 
-    // 稍微延遲讓閃光先亮，照片再開始滑出
+    // 延遲讓閃光先亮，照片再開始滑出
     setTimeout(() => {
         photo.classList.add('is-printing');
     }, 200);
     
-    // 2.7秒後(200ms+2.5s)照片滑完。啟動顯影與運鏡
+    // 照片滑完後啟動顯影與運鏡
     setTimeout(() => { 
         photo.classList.add('is-developed'); 
         wrapper.classList.add('is-focusing'); 
     }, 2700);
 
-    // 欣賞停留，總共 7.7 秒後進入主頁面
+    // 運鏡和顯影完全結束後，顯示「點擊進入邀請函」提示，並允許點擊進入主頁
     setTimeout(() => { 
-        endIntro(); 
-    }, 7700);
+        hint.innerHTML = "點擊進入邀請函";
+        hint.style.opacity = '1';
+        introState = 2; // 更新狀態，允許下次點擊關閉 overlay
+    }, 6500); 
 });
 
 (function(){
