@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Jay & Michelle</title>
 
-<!-- 強制優先載入圖片，避免手機版因為載入慢導致破圖或錯位 -->
+<!-- 強制優先載入字體與圖片，包含第二張照片 -->
 <link rel="preload" href="my%20font.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 <link rel="preload" href="polaroid.png" as="image">
 <link rel="preload" href="P3.jpg" as="image">
+<link rel="preload" href="P2.jpg" as="image">
 
 <!-- 優先連接 Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -54,11 +55,43 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     100% { opacity: 0; }
 }
 
+/* ★ 新增：預先放在桌上的第二張靜態照片 ★ */
+.static-photo {
+    position: absolute;
+    /* 位置稍微偏右下一點 */
+    top: 55%; 
+    left: 50%;
+    /* 確保寬度、比例與第一張照片完全一致 */
+    width: calc(min(340px, 80vw) * 0.47);
+    aspect-ratio: 4 / 5;
+    background: #fdfdfd;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    padding: 6% 6% 22% 6%;
+    /* -50% 置中後，再往右平移自身寬度的 35%，並微傾斜 */
+    transform: translate(calc(-50% + 35%), -50%) rotate(6deg);
+    opacity: 0;
+    z-index: 5; /* 放在相機底下 */
+    transition: opacity 2s ease 0.5s; /* 當相機淡出時，慢慢浮現 */
+}
+.static-photo.is-visible {
+    opacity: 1;
+}
+.static-photo-inner {
+    width: 100%;
+    height: 100%;
+    /* 第二張照片的檔名 */
+    background-image: url('P2.png'); 
+    background-size: cover;
+    background-position: center;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
 .polaroid-wrapper {
     position: relative;
     width: 80vw;
     max-width: 340px;
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 10;
 }
 
 .camera-img {
@@ -83,7 +116,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     will-change: transform;
 }
 
-/* 運鏡特效：相片置中、相機上抽與淡出 */
+/* 運鏡特效：相紙往左下掉落、相機上抽與淡出 */
 .polaroid-wrapper.is-focusing {
     transform: translateY(-15vh);
 }
@@ -93,7 +126,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 
 .polaroid-wrapper.is-focusing .print-photo-container {
-    transform: translateY(12vh) rotate(-3deg);
+    /* 這裡改成稍微往左移，配上剛剛往右放的第二張照片，呈現並排感 */
+    transform: translate(-25%, 12vh) rotate(-5deg);
 }
 
 .print-photo {
@@ -109,7 +143,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .print-photo-inner {
     width: 100%;
     height: 100%;
-    background-image: url('P3.jpg');
+    background-image: url('P3.jpg'); /* 第一張照片 */
     background-size: cover;
     background-position: center;
     filter: brightness(0.1) saturate(0.1);
@@ -133,7 +167,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     100% { filter: brightness(1)   saturate(1); }
 }
 
-/* 點擊文字提示，預設透明等待字體載入 */
+/* 點擊文字提示 */
 .print-hint {
     position: absolute;
     bottom: -60px;
@@ -144,7 +178,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     letter-spacing: 0.2em;
     color: #8a7448;
     white-space: nowrap;
-    opacity: 0; /* 預設為0 */
+    opacity: 0; 
     transition: opacity 0.3s ease;
     z-index: 30;
 }
@@ -239,6 +273,13 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 <div id="flash-effect"></div>
 
 <div id="intro-overlay">
+    
+    <!-- 預先放在桌上的第二張靜態照片 -->
+    <div class="static-photo" id="staticPhoto">
+        <div class="static-photo-inner"></div>
+    </div>
+
+    <!-- 相機與新印出的照片 -->
     <div class="polaroid-wrapper" id="polaroid-wrapper">
         <img src="polaroid.png" alt="camera" class="camera-img">
         <div class="print-photo-container">
@@ -379,12 +420,12 @@ document.fonts.ready.then(function() {
     const hint = document.getElementById('printHint');
     if (hint) {
         hint.innerHTML = "點擊以列印相片";
-        hint.classList.add('ready'); // 加上閃爍動畫
+        hint.classList.add('ready'); 
     }
 });
 
 var player;
-var isPrinting = false; // 改回用布林值判斷是否在播放動畫中
+var isPrinting = false; // 紀錄動畫狀態
 var targetDays = 0;
 var hasAnimated = false;
 
@@ -418,14 +459,15 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     if (!fontsLoaded || isPrinting) return;
     isPrinting = true; 
 
-    const photo   = document.getElementById('printPhoto');
-    const hint    = document.getElementById('printHint');
-    const wrapper = document.getElementById('polaroid-wrapper');
-    const flash   = document.getElementById('flash-effect');
+    const photo       = document.getElementById('printPhoto');
+    const hint        = document.getElementById('printHint');
+    const wrapper     = document.getElementById('polaroid-wrapper');
+    const flash       = document.getElementById('flash-effect');
+    const staticPhoto = document.getElementById('staticPhoto');
     
-    if (!photo || !hint || !wrapper || !flash) return;
+    if (!photo || !hint || !wrapper || !flash || !staticPhoto) return;
     
-    // 點擊後立刻停止文字閃爍並隱藏（自動消失）
+    // 1. 點擊後立刻停止文字閃爍並隱藏（自動消失）
     hint.classList.remove('ready');
     hint.style.opacity = '0';
 
@@ -433,21 +475,25 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         try { player.playVideo(); } catch(e) {}
     }
 
+    // 2. 觸發閃光
     flash.classList.add('is-flashing');
 
+    // 3. 延遲讓閃光先亮，第一張照片開始滑出
     setTimeout(() => {
         photo.classList.add('is-printing');
     }, 200);
     
+    // 4. 第一張滑完後，啟動顯影與運鏡，並讓隱藏在桌上的第二張照片浮現
     setTimeout(() => { 
         photo.classList.add('is-developed'); 
         wrapper.classList.add('is-focusing'); 
+        staticPhoto.classList.add('is-visible'); 
     }, 2700);
 
-    // 恢復：時間到了自動跳頁
+    // 5. 恢復：讓使用者欣賞排在一起的兩張照片，總共 8.5 秒後自動跳頁
     setTimeout(() => { 
         endIntro(); 
-    }, 7500); 
+    }, 8500); 
 });
 
 (function(){
