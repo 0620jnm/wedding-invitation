@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Jay & Michelle</title>
 
-<!-- 強制優先載入字體與圖片，避免手機版因為載入慢導致破圖或錯位 -->
+<!-- 強制優先載入圖片，避免手機版因為載入慢導致破圖或錯位 -->
 <link rel="preload" href="my%20font.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 <link rel="preload" href="polaroid.png" as="image">
 <link rel="preload" href="P3.jpg" as="image">
 
-<!-- 優先連接 Google Fonts 以加速載入 -->
+<!-- 優先連接 Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -19,7 +19,8 @@
 @font-face {
     font-family: 'my font';
     src: url('my%20font.ttf') format('truetype'); 
-    font-display: block; 
+    /* 換回 swap 搭配 JS 偵測，這是手機上最穩定的解法 */
+    font-display: swap; 
 }
 
 *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
@@ -56,7 +57,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 .polaroid-wrapper {
     position: relative;
-    /* 改用具體的 max-width 確保在手機上比例正確 */
     width: 80vw;
     max-width: 340px;
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -134,7 +134,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     100% { filter: brightness(1)   saturate(1); }
 }
 
-/* 點擊文字提示 */
+/* 點擊文字提示，預設透明等待字體載入 */
 .print-hint {
     position: absolute;
     bottom: -60px;
@@ -145,9 +145,12 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     letter-spacing: 0.2em;
     color: #8a7448;
     white-space: nowrap;
-    animation: hintBlink 1.4s infinite;
-    z-index: 30;
+    opacity: 0; /* 預設為0 */
     transition: opacity 0.5s ease;
+    z-index: 30;
+}
+.print-hint.ready {
+    animation: hintBlink 1.4s infinite;
 }
 @keyframes hintBlink {
     0%,100% { opacity: 1; }
@@ -244,7 +247,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
                 <div class="print-photo-inner"></div>
             </div>
         </div>
-        <div class="print-hint" id="printHint">點擊以列印相片</div>
+        <div class="print-hint" id="printHint">載入中...</div>
     </div>
 </div>
 
@@ -370,176 +373,7 @@ if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
 window.addEventListener('beforeunload', function () { window.scrollTo(0, 0); });
 window.addEventListener('load', function () { window.scrollTo(0, 0); });
 
-var player;
-// 記錄當前動畫狀態：0=未開始, 1=印製中/顯影中, 2=動畫結束等待點擊
-var introState = 0; 
-var targetDays = 0;
-var hasAnimated = false;
-
-function endIntro() {
-    document.getElementById('intro-overlay').style.opacity = '0';
-    document.getElementById('main-wrapper').classList.add('is-visible');
-    document.body.style.overflow = "auto";
-    document.documentElement.style.overflow = "auto";
-    setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1500);
-}
-
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        videoId: 'pmrCXt4lNyA',
-        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0, 'playsinline': 1 },
-        events: {
-            'onStateChange': (e) => {
-                document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
-            }
-        }
-    });
-}
-
-document.getElementById('musicToggle').onclick = function() {
-    if (!player || typeof player.getPlayerState !== 'function') return;
-    player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
-};
-
-document.getElementById('intro-overlay').addEventListener('click', function() {
-    // 狀態2：代表動畫已經跑完，這時候點擊就會進入主頁
-    if (introState === 2) {
-        endIntro();
-        return;
-    }
-    
-    // 狀態1：代表動畫正在跑，點擊無效，避免重複觸發
-    if (introState === 1) return;
-    
-    // 狀態0：首次點擊，開始動畫
-    introState = 1; 
-
-    const photo   = document.getElementById('printPhoto');
-    const hint    = document.getElementById('printHint');
-    const wrapper = document.getElementById('polaroid-wrapper');
-    const flash   = document.getElementById('flash-effect');
-    
-    if (!photo || !hint || !wrapper || !flash) return;
-    
-    // 點擊後文字提示改為隱藏，準備等一下顯示「點擊進入」
-    hint.style.opacity = '0';
-
-    if (player && typeof player.playVideo === 'function') {
-        try { player.playVideo(); } catch(e) {}
-    }
-
-    // 觸發閃光燈特效
-    flash.classList.add('is-flashing');
-
-    // 延遲讓閃光先亮，照片再開始滑出
-    setTimeout(() => {
-        photo.classList.add('is-printing');
-    }, 200);
-    
-    // 照片滑完後啟動顯影與運鏡
-    setTimeout(() => { 
-        photo.classList.add('is-developed'); 
-        wrapper.classList.add('is-focusing'); 
-    }, 2700);
-
-    // 運鏡和顯影完全結束後，顯示「點擊進入邀請函」提示，並允許點擊進入主頁
-    setTimeout(() => { 
-        hint.innerHTML = "點擊進入邀請函";
-        hint.style.opacity = '1';
-        introState = 2; // 更新狀態，允許下次點擊關閉 overlay
-    }, 6500); 
-});
-
-(function(){
-    const year = 2026;
-    const monthIndex = 5;
-    const weddingDay = 20;
-    const weddingDate = new Date(year, monthIndex, weddingDay, 11, 0, 0);
-
-    const firstDay = new Date(year, monthIndex, 1);
-    const firstWeekDay = firstDay.getDay();
-    const nextMonthFirst = new Date(year, monthIndex + 1, 1);
-    const lastDate = new Date(nextMonthFirst - 1).getDate();
-
-    const today = new Date();
-    const todayIsThisMonth = (today.getFullYear() === year && today.getMonth() === monthIndex);
-
-    const bodyEl = document.getElementById('cd-calendar-body');
-    if (!bodyEl) return;
-
-    let html = '<div class="countdown-days-row">';
-    let cellCount = 0;
-
-    for (let i = 0; i < firstWeekDay; i++) {
-        html += '<div class="countdown-day-cell cd-empty"></div>';
-        cellCount++;
-    }
-
-    for (let d = 1; d <= lastDate; d++) {
-        if (cellCount > 0 && cellCount % 7 === 0) {
-            html += '</div><div class="countdown-days-row">';
-        }
-        let cls = 'cd-normal';
-        if (todayIsThisMonth && d === today.getDate()) cls = 'cd-today';
-        if (d === weddingDay) cls = 'cd-wedding';
-        html += `<div class="countdown-day-cell ${cls}">${d}</div>`;
-        cellCount++;
-    }
-
-    while (cellCount % 7 !== 0) {
-        html += '<div class="countdown-day-cell cd-empty"></div>';
-        cellCount++;
-    }
-    html += '</div>';
-    bodyEl.innerHTML = html;
-
-    const diffMs = weddingDate.getTime() - today.getTime();
-    targetDays = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
-})();
-
-function animateFlipClock(targetNumber) {
-    if(targetNumber <= 0) return; 
-
-    let current = 0;
-    const tensEl = document.getElementById('digit-tens');
-    const onesEl = document.getElementById('digit-ones');
-    
-    const interval = setInterval(() => {
-        current += Math.ceil(targetNumber / 20); 
-        if(current >= targetNumber) {
-            current = targetNumber;
-            clearInterval(interval);
-        }
-
-        let tens = Math.floor(current / 10);
-        let ones = current % 10;
-        
-        if (tensEl.innerText != tens) {
-            tensEl.innerText = tens;
-            tensEl.classList.add('flipping');
-            setTimeout(()=> tensEl.classList.remove('flipping'), 50);
-        }
-        if (onesEl.innerText != ones) {
-            onesEl.innerText = ones;
-            onesEl.classList.add('flipping');
-            setTimeout(()=> onesEl.classList.remove('flipping'), 50);
-        }
-
-    }, 60);
-}
-
-window.addEventListener('scroll', () => {
-    const section = document.getElementById('countdown-section');
-    if (!section || hasAnimated) return;
-
-    const rect = section.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom >= 0) {
-        hasAnimated = true;
-        setTimeout(() => {
-            animateFlipClock(targetDays);
-        }, 500); 
-    }
-});
-</script>
-</body>
-</html>
+// ===== 等待字體全部載入後，再顯示點擊提示 =====
+var fontsLoaded = false;
+document.fonts.ready.then(function() {
+    fontsLoaded =
