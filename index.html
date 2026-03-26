@@ -22,7 +22,9 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
-html, body { width: 100%; min-height: 100%; background: #faf8f5; overscroll-behavior: none;}
+
+/* 移除 overscroll-behavior，避免干擾捲動，並預設一開始不讓使用者滑動 (overflow: hidden) */
+html, body { width: 100%; min-height: 100%; background: #faf8f5; overflow: hidden; }
 body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-x: hidden; }
 
 /* --- 開場：Polaroid 列印動畫 --- */
@@ -500,6 +502,7 @@ var hasAnimated = false;
 function endIntro() {
     document.getElementById('intro-overlay').style.opacity = '0';
     document.getElementById('main-wrapper').classList.add('is-visible');
+    // 解除捲動限制，讓使用者可以滑動網頁
     document.body.style.overflow = "auto";
     document.documentElement.style.overflow = "auto";
     setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1500);
