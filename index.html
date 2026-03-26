@@ -82,7 +82,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     padding: 6% 6% 22% 6%; 
 }
 
-/* 第一張照片（動態印出）的容器 */
+/* P3 第一張照片（動態印出）的容器 */
 .print-photo-container {
     position: absolute;
     width: 47%;
@@ -110,57 +110,29 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* ★ 第二張照片（等焦點轉移才出現）的容器 ★ */
+/* ★ P2 第二張照片（等焦點轉移才進場）的容器 ★ */
 .static-photo-container {
     position: absolute;
     width: 47%;
-    left: 45%;
-    top: 85%;
+    /* 初始位置：稍微偏右上 */
+    left: 65%;
+    top: 65%;
     z-index: 6; /* 放在相機底下 */
-    /* 預設先稍微縮小一點點，準備等下彈出 */
-    transform: rotate(8deg) scale(0.88);
+    /* 初始狀態：較小、稍微傾斜、完全透明 */
+    transform: rotate(15deg) scale(0.9);
     opacity: 0;
+    /* 加入平滑的淡入與位移動畫 */
     transition:
-        opacity 1.2s ease,
-        transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+        opacity 1.5s ease,
+        transform 1.8s cubic-bezier(0.22, 1, 0.36, 1);
     pointer-events: none;
 }
 
 /* 鏡位焦點轉移後觸發進場 */
 .static-photo-container.is-revealed {
+    /* 進場後：完全不透明、移到右下方、回復原始大小、稍微轉正 */
     opacity: 1;
-    transform: rotate(8deg) scale(1);
-}
-
-/* 褐色紙膠帶 */
-.static-tape {
-    position: absolute;
-    top: -7%;
-    left: 50%;
-    width: 42%;
-    height: 12%;
-    transform: translateX(-50%) rotate(-6deg);
-    /* 與主視覺一致的褐色漸層 */
-    background: linear-gradient(
-        180deg,
-        rgba(201,164,102,0.92) 0%,
-        rgba(191,150,87,0.88) 100%
-    );
-    box-shadow:
-        0 2px 6px rgba(0,0,0,0.08),
-        inset 0 1px 0 rgba(255,255,255,0.25);
-    /* 模擬手撕紙膠帶的不規則邊緣 */
-    clip-path: polygon(
-        2% 18%, 8% 6%, 16% 14%, 25% 4%, 34% 12%, 46% 3%, 57% 14%, 68% 5%, 79% 13%, 90% 7%, 97% 18%,
-        98% 82%, 91% 95%, 82% 86%, 73% 97%, 61% 88%, 50% 98%, 40% 87%, 29% 96%, 18% 85%, 9% 94%, 3% 82%
-    );
-    z-index: 3;
-    opacity: 0.95;
-}
-
-/* 照片出現後紙膠帶稍微變淡一點融合畫面 */
-.static-photo-container.is-revealed .static-tape {
-    opacity: 0.9;
+    transform: translate(-10%, 25vh) rotate(6deg) scale(1);
 }
 
 .static-photo-inner {
@@ -172,7 +144,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* 運鏡特效：相機上抽與淡出，照片移位 */
+/* 運鏡特效：相機上抽與淡出，P3 移位 */
 .polaroid-wrapper.is-focusing {
     transform: translateY(-15vh);
 }
@@ -182,8 +154,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 
 .polaroid-wrapper.is-focusing .print-photo-container {
-    /* 第一張相片往左下方偏移更多，讓出右邊的空間給 P2 */
-    transform: translate(-38%, 13vh) rotate(-7deg);
+    /* P3 往左下方偏移更多，完全讓出右邊的空間給 P2 */
+    transform: translate(-65%, 15vh) rotate(-8deg);
 }
 
 /* 印出動畫 */
@@ -312,11 +284,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 <div id="intro-overlay">
     <div class="polaroid-wrapper" id="polaroid-wrapper">
         
-        <!-- P2：第二張照片與紙膠帶 -->
+        <!-- P2：第二張照片 -->
         <div class="static-photo-container" id="staticPhoto">
-            <!-- 紙膠帶效果 -->
-            <div class="static-tape"></div>
-            <!-- 照片本體與相框 -->
             <div class="photo-frame">
                 <div class="static-photo-inner"></div>
             </div>
@@ -527,18 +496,18 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         photo.classList.add('is-printing');
     }, 200);
     
-    // 4. 第一張滑完後，啟動顯影與運鏡（往左下角移出空間）
+    // 4. 第一張滑完後，啟動顯影與運鏡（P3 往左下方移）
     setTimeout(() => { 
         photo.classList.add('is-developed'); 
         wrapper.classList.add('is-focusing'); 
     }, 2700);
 
-    // 5. 等 P3 飄落定位、焦點轉移後，P2 才帶著紙膠帶從右下角慢慢顯現
+    // 5. 等 P3 飄落定位、焦點轉移後，P2 才從原本透明的右上角滑動並淡入至右下角
     setTimeout(() => {
         staticPhoto.classList.add('is-revealed');
     }, 4300);
 
-    // 6. 讓畫面多停一陣子欣賞兩張照片，然後自動進入主頁
+    // 6. 讓畫面多停一陣子欣賞兩張照片並排（一左一右），然後自動進入主頁
     setTimeout(() => { 
         endIntro(); 
     }, 9800); 
