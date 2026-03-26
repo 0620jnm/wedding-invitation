@@ -19,7 +19,6 @@
 @font-face {
     font-family: 'my font';
     src: url('my%20font.ttf') format('truetype'); 
-    /* 換回 swap 搭配 JS 偵測，這是手機上最穩定的解法 */
     font-display: swap; 
 }
 
@@ -146,7 +145,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     color: #8a7448;
     white-space: nowrap;
     opacity: 0; /* 預設為0 */
-    transition: opacity 0.5s ease;
+    transition: opacity 0.3s ease;
     z-index: 30;
 }
 .print-hint.ready {
@@ -376,4 +375,171 @@ window.addEventListener('load', function () { window.scrollTo(0, 0); });
 // ===== 等待字體全部載入後，再顯示點擊提示 =====
 var fontsLoaded = false;
 document.fonts.ready.then(function() {
-    fontsLoaded =
+    fontsLoaded = true;
+    const hint = document.getElementById('printHint');
+    if (hint) {
+        hint.innerHTML = "點擊以列印相片";
+        hint.classList.add('ready'); // 加上閃爍動畫
+    }
+});
+
+var player;
+var isPrinting = false; // 改回用布林值判斷是否在播放動畫中
+var targetDays = 0;
+var hasAnimated = false;
+
+function endIntro() {
+    document.getElementById('intro-overlay').style.opacity = '0';
+    document.getElementById('main-wrapper').classList.add('is-visible');
+    document.body.style.overflow = "auto";
+    document.documentElement.style.overflow = "auto";
+    setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1500);
+}
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        videoId: 'pmrCXt4lNyA',
+        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0, 'playsinline': 1 },
+        events: {
+            'onStateChange': (e) => {
+                document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
+            }
+        }
+    });
+}
+
+document.getElementById('musicToggle').onclick = function() {
+    if (!player || typeof player.getPlayerState !== 'function') return;
+    player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
+};
+
+document.getElementById('intro-overlay').addEventListener('click', function() {
+    // 若字體尚未載入完畢 或 動畫已經開始，不可點擊
+    if (!fontsLoaded || isPrinting) return;
+    isPrinting = true; 
+
+    const photo   = document.getElementById('printPhoto');
+    const hint    = document.getElementById('printHint');
+    const wrapper = document.getElementById('polaroid-wrapper');
+    const flash   = document.getElementById('flash-effect');
+    
+    if (!photo || !hint || !wrapper || !flash) return;
+    
+    // 點擊後立刻停止文字閃爍並隱藏（自動消失）
+    hint.classList.remove('ready');
+    hint.style.opacity = '0';
+
+    if (player && typeof player.playVideo === 'function') {
+        try { player.playVideo(); } catch(e) {}
+    }
+
+    flash.classList.add('is-flashing');
+
+    setTimeout(() => {
+        photo.classList.add('is-printing');
+    }, 200);
+    
+    setTimeout(() => { 
+        photo.classList.add('is-developed'); 
+        wrapper.classList.add('is-focusing'); 
+    }, 2700);
+
+    // 恢復：時間到了自動跳頁
+    setTimeout(() => { 
+        endIntro(); 
+    }, 7500); 
+});
+
+(function(){
+    const year = 2026;
+    const monthIndex = 5;
+    const weddingDay = 20;
+    const weddingDate = new Date(year, monthIndex, weddingDay, 11, 0, 0);
+
+    const firstDay = new Date(year, monthIndex, 1);
+    const firstWeekDay = firstDay.getDay();
+    const nextMonthFirst = new Date(year, monthIndex + 1, 1);
+    const lastDate = new Date(nextMonthFirst - 1).getDate();
+
+    const today = new Date();
+    const todayIsThisMonth = (today.getFullYear() === year && today.getMonth() === monthIndex);
+
+    const bodyEl = document.getElementById('cd-calendar-body');
+    if (!bodyEl) return;
+
+    let html = '<div class="countdown-days-row">';
+    let cellCount = 0;
+
+    for (let i = 0; i < firstWeekDay; i++) {
+        html += '<div class="countdown-day-cell cd-empty"></div>';
+        cellCount++;
+    }
+
+    for (let d = 1; d <= lastDate; d++) {
+        if (cellCount > 0 && cellCount % 7 === 0) {
+            html += '</div><div class="countdown-days-row">';
+        }
+        let cls = 'cd-normal';
+        if (todayIsThisMonth && d === today.getDate()) cls = 'cd-today';
+        if (d === weddingDay) cls = 'cd-wedding';
+        html += `<div class="countdown-day-cell ${cls}">${d}</div>`;
+        cellCount++;
+    }
+
+    while (cellCount % 7 !== 0) {
+        html += '<div class="countdown-day-cell cd-empty"></div>';
+        cellCount++;
+    }
+    html += '</div>';
+    bodyEl.innerHTML = html;
+
+    const diffMs = weddingDate.getTime() - today.getTime();
+    targetDays = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+})();
+
+function animateFlipClock(targetNumber) {
+    if(targetNumber <= 0) return; 
+
+    let current = 0;
+    const tensEl = document.getElementById('digit-tens');
+    const onesEl = document.getElementById('digit-ones');
+    
+    const interval = setInterval(() => {
+        current += Math.ceil(targetNumber / 20); 
+        if(current >= targetNumber) {
+            current = targetNumber;
+            clearInterval(interval);
+        }
+
+        let tens = Math.floor(current / 10);
+        let ones = current % 10;
+        
+        if (tensEl.innerText != tens) {
+            tensEl.innerText = tens;
+            tensEl.classList.add('flipping');
+            setTimeout(()=> tensEl.classList.remove('flipping'), 50);
+        }
+        if (onesEl.innerText != ones) {
+            onesEl.innerText = ones;
+            onesEl.classList.add('flipping');
+            setTimeout(()=> onesEl.classList.remove('flipping'), 50);
+        }
+
+    }, 60);
+}
+
+window.addEventListener('scroll', () => {
+    const section = document.getElementById('countdown-section');
+    if (!section || hasAnimated) return;
+
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom >= 0) {
+        hasAnimated = true;
+        setTimeout(() => {
+            animateFlipClock(targetDays);
+        }, 500); 
+    }
+});
+</script>
+</body>
+</html>
