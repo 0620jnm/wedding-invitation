@@ -58,7 +58,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 /* ★ 整個場景容器（負責鏡頭平移） ★ */
 #scene-container {
     position: relative;
-    /* 預設維持原位 */
     transform: translateY(0);
     /* 鏡位平移的動畫時間與曲線 */
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -69,7 +68,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     height: 100%;
 }
 
-/* 鏡頭往下轉移（Pan Down），這會讓畫面中下方的東西（P2）跑到視線內 */
+/* 鏡頭往下轉移（Pan Down），看向下方 */
 #scene-container.is-panning {
     transform: translateY(-25vh); 
 }
@@ -99,6 +98,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     aspect-ratio: 4 / 5;
     background: #fdfdfd;
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    /* 拍立得邊框比例：上方與左右留窄邊，下方留大面積空白 */
     padding: 6% 6% 22% 6%; 
 }
 
@@ -130,17 +130,23 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* ★ P2 第二張照片（一開始就安靜待在右下方）的容器 ★ */
+/* ★ P2 第二張照片（安靜待在右下方）的容器 ★ */
 .static-photo-container {
     position: absolute;
     width: 47%;
-    /* 設定在相機的右側 */
+    /* 位置固定在相機的右側下方 */
     left: 95%;
-    /* 設定在相機的下方，由於場景平移前視線在上面，所以它在畫面外或邊緣 */
     top: 130%; 
     z-index: 5; 
     transform: rotate(8deg);
-    opacity: 1; /* 一直都是完全可見的，只是靠鏡頭移動才進入中央 */
+    /* 一開始完全透明，等待鏡頭移過來後再淡入 */
+    opacity: 0; 
+    transition: opacity 1.5s ease;
+}
+
+/* 當鏡頭移好後，觸發此 class 讓照片浮現 */
+.static-photo-container.is-visible {
+    opacity: 1;
 }
 
 .static-photo-inner {
@@ -152,17 +158,19 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* P2 照片下方的簽字筆手寫日期 */
+/* P2 照片底部的空白處手寫字 */
 .photo-date {
     position: absolute;
-    bottom: 5%;
+    /* 寫在拍立得下方的空白區域內，絕對不超出照片 */
+    bottom: 4%;
     left: 0;
     width: 100%;
     text-align: center;
     font-family: 'Gwendolyn', cursive;
-    font-size: clamp(1.2rem, 4vw, 1.8rem);
-    color: #2b2b2b; /* 簽字筆的深灰色 */
-    opacity: 0.85; /* 微微的墨水透底感 */
+    /* 依據相框大小自適應字體，避免過大 */
+    font-size: clamp(1.2rem, 5.5vw, 2rem); 
+    color: #3b3b3b; /* 簽字筆的深灰墨色 */
+    opacity: 0.8; /* 稍微透底模擬墨水印在相紙上的感覺 */
     letter-spacing: 0.05em;
     pointer-events: none;
     z-index: 2;
@@ -320,10 +328,11 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
                 </div>
             </div>
             
-            <!-- P2：第二張照片（靜靜待在右下方），裡面加上手寫日期 -->
+            <!-- P2：第二張照片。初期隱形，等鏡頭移好後再淡入 -->
             <div class="static-photo-container" id="staticPhoto">
                 <div class="photo-frame">
                     <div class="static-photo-inner"></div>
+                    <!-- 寫在照片下緣空白處的手寫日期 -->
                     <div class="photo-date">2017.12.23</div>
                 </div>
             </div>
@@ -505,8 +514,9 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     const wrapper        = document.getElementById('polaroid-wrapper');
     const flash          = document.getElementById('flash-effect');
     const sceneContainer = document.getElementById('scene-container');
+    const staticPhoto    = document.getElementById('staticPhoto');
     
-    if (!photo || !hint || !wrapper || !flash || !sceneContainer) return;
+    if (!photo || !hint || !wrapper || !flash || !sceneContainer || !staticPhoto) return;
     
     hint.classList.remove('ready');
     hint.style.opacity = '0';
@@ -515,24 +525,32 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         try { player.playVideo(); } catch(e) {}
     }
 
+    // 1. 閃光
     flash.classList.add('is-flashing');
 
+    // 2. P3 開始印出
     setTimeout(() => {
         photo.classList.add('is-printing');
     }, 200);
     
+    // 3. P3 顯影 + 鏡位往下平移，把下面空間帶進來
     setTimeout(() => { 
         photo.classList.add('is-developed'); 
         wrapper.classList.add('is-focusing'); 
         
-        // 【關鍵】等 P3 飄落的同時，驅動整個場景往上平移（鏡頭往下看），
-        // 這樣原本在下方的 P2 就會自然出現在畫面中，且 P2 本身並沒有移動。
+        // 鏡頭往下平移
         sceneContainer.classList.add('is-panning');
     }, 2700);
 
+    // 4. 等鏡位平移得差不多後（平移抓 3.5 秒），P2 才會淡入出現
+    setTimeout(() => {
+        staticPhoto.classList.add('is-visible');
+    }, 5500);
+
+    // 5. 兩張照片展示完畢後進主畫面
     setTimeout(() => { 
         endIntro(); 
-    }, 8500); 
+    }, 10000); 
 });
 
 (function(){
