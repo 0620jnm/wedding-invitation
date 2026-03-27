@@ -69,7 +69,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     height: 100%;
 }
 
-/* 鏡頭往下轉移，幅度加大，才能把藏得很深的 P2 帶進來 */
+/* 鏡頭往下轉移，幅度加大，才能把 P2 帶進來 */
 #scene-container.is-panning {
     transform: translateY(-40vh); 
 }
@@ -131,17 +131,17 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* ★ P2 第二張照片（一開始藏在很下方，不透明）的容器 ★ */
+/* ★ P2 第二張照片（一開始藏在下方，不透明）的容器 ★ */
 .static-photo-container {
     position: absolute;
     width: 47%;
     /* 位置固定在相機的右側 */
     left: 95%;
-    /* 設定在更下方的地方，確保動畫開始前絕對看不到 */
-    top: 180%; 
+    /* 調整：從 180% 改為 145%，讓鏡頭往下移 -40vh 時，剛好整張完整出現 */
+    top: 145%; 
     z-index: 5; 
     transform: rotate(8deg);
-    /* 一開始就是 100% 可見，沒有淡入動畫，純粹靠鏡頭往下平移才會出現 */
+    /* 一開始就是 100% 可見，純粹靠鏡頭往下平移才會出現 */
     opacity: 1; 
 }
 
@@ -163,7 +163,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     transform: translateX(-50%);
     width: 100%;
     text-align: center;
-    /* 改用 Nanum Pen Script 字體 */
+    /* 採用 Nanum Pen Script 字體 */
     font-family: 'Nanum Pen Script', cursive;
     /* 縮小字體尺寸 */
     font-size: clamp(1rem, 4.5vw, 1.6rem); 
@@ -530,7 +530,7 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         photo.classList.add('is-printing');
     }, 200);
     
-    // 3. P3 顯影 + 鏡位往下平移，把藏在更下方的 P2 帶進畫面
+    // 3. P3 顯影 + 鏡位往下平移，把藏在下方的 P2 帶進畫面
     setTimeout(() => { 
         photo.classList.add('is-developed'); 
         wrapper.classList.add('is-focusing'); 
@@ -539,10 +539,11 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         sceneContainer.classList.add('is-panning');
     }, 2700);
 
-    // 4. 兩張照片展示完畢後進主畫面
+    // 4. 兩張照片展示完畢後，多停留一陣子再進主畫面
+    // 原本 9500 -> 延長為 13000 (多停留 3.5 秒)
     setTimeout(() => { 
         endIntro(); 
-    }, 9500); 
+    }, 13000); 
 });
 
 (function(){
