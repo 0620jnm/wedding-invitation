@@ -137,8 +137,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     width: 47%;
     /* 位置固定在相機的右側 */
     left: 95%;
-    /* 調整：從 180% 改為 145%，讓鏡頭往下移 -40vh 時，剛好整張完整出現 */
-    top: 145%; 
+    /* 將位置調深，讓它一開始藏到底部畫面之外，等往下平移才出現 */
+    top: 175%; 
     z-index: 5; 
     transform: rotate(8deg);
     /* 一開始就是 100% 可見，純粹靠鏡頭往下平移才會出現 */
@@ -540,7 +540,6 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     }, 2700);
 
     // 4. 兩張照片展示完畢後，多停留一陣子再進主畫面
-    // 原本 9500 -> 延長為 13000 (多停留 3.5 秒)
     setTimeout(() => { 
         endIntro(); 
     }, 13000); 
