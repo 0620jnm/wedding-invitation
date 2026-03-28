@@ -69,9 +69,9 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     height: 100%;
 }
 
-/* 鏡頭往下轉移，幅度加大，才能把 P2 帶進來 */
+/* 鏡頭往下轉移，幅度進一步加大，以確保能看到藏得更深的 P2 */
 #scene-container.is-panning {
-    transform: translateY(-40vh); 
+    transform: translateY(-60vh); 
 }
 
 /* 相機與第一張照片（P3）的主體 wrapper */
@@ -137,8 +137,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     width: 47%;
     /* 位置固定在相機的右側 */
     left: 95%;
-    /* 調整：從 180% 改為 145%，讓鏡頭往下移 -40vh 時，剛好整張完整出現 */
-    top: 145%; 
+    /* 位置再調得更深，確保一開始絕對看不到任何邊角 */
+    top: 220%; 
     z-index: 5; 
     transform: rotate(8deg);
     /* 一開始就是 100% 可見，純粹靠鏡頭往下平移才會出現 */
@@ -530,7 +530,7 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         photo.classList.add('is-printing');
     }, 200);
     
-    // 3. P3 顯影 + 鏡位往下平移，把藏在下方的 P2 帶進畫面
+    // 3. P3 顯影 + 鏡位往下平移，把藏在深處的 P2 帶進畫面
     setTimeout(() => { 
         photo.classList.add('is-developed'); 
         wrapper.classList.add('is-focusing'); 
@@ -540,7 +540,6 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     }, 2700);
 
     // 4. 兩張照片展示完畢後，多停留一陣子再進主畫面
-    // 原本 9500 -> 延長為 13000 (多停留 3.5 秒)
     setTimeout(() => { 
         endIntro(); 
     }, 13000); 
