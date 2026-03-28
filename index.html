@@ -24,6 +24,13 @@
     font-display: swap; 
 }
 
+/* 載入辰宇落雁體 (沉魚落雁體) */
+@font-face {
+    font-family: 'ChenYuluoyan';
+    src: url('https://cdn.jsdelivr.net/gh/Chenyu-otf/chenyuluoyan_thin@main/ChenYuluoyan-Thin.ttf') format('truetype');
+    font-display: swap;
+}
+
 *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
 html, body { width: 100%; min-height: 100%; background: #faf8f5; overflow: hidden; }
 body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-x: hidden; }
@@ -157,7 +164,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 /* P2 照片底部的空白處手寫字 */
 .photo-date {
     position: absolute;
-    /* 調整對齊：原本是 bottom: 5%，現在調整為利用整個底部留白高度置中 */
+    /* 調整對齊：利用整個底部留白高度置中 */
     /* 留白大約佔整體的 22%，所以 11% 是這塊留白的中心高度 */
     bottom: 11%;
     left: 50%;
@@ -248,14 +255,24 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     z-index: 1;
 }
 .getting-married-text { 
-    color:#c9a466; margin-bottom: 12px; letter-spacing: 0.4em;
-    font-size: 0.9rem; z-index: 10; font-weight: 300;
+    color:#c9a466; margin-bottom: 15px; letter-spacing: 0.3em;
+    /* 稍微把字體放大 */
+    font-size: clamp(1.2rem, 4vw, 1.6rem); z-index: 10; font-weight: 300;
     position: relative; font-family: 'my font', serif;
 }
 .name-container { position: relative; z-index: 10; width: 100%; }
 .english-names { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 6vw, 3.2rem); color: #2c2c2c; letter-spacing: 0.05em; }
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
-.chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 25px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
+.chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 20px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
+
+/* 宣告結婚的文字 */
+.wedding-announce {
+    font-family: 'ChenYuluoyan', 'my font', cursive; /* 這裡套用辰宇落雁體 */
+    font-size: 2.2rem; /* 字體大小 */
+    color: #5a4a34;
+    margin-top: 25px; /* 與上方姓名的距離 */
+    letter-spacing: 0.15em;
+}
 
 /* --- 倒數月曆 --- */
 .countdown-section { padding: 70px 20px 50px; background: #fbf9f7; text-align: center; }
@@ -347,8 +364,10 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <div class="name-container">
             <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
             <div class="chinese-names"><span>蔡宇杰</span><span>陳旻瑄</span></div>
+            <!-- 新增：我們要結婚了！ -->
+            <div class="wedding-announce">我們要結婚了！</div>
         </div>
-        <p style="margin-top:25px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
+        <p style="margin-top:35px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
     </div>
 
     <section class="countdown-section" id="countdown-section">
