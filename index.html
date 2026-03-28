@@ -275,25 +275,145 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 
 /* --- 倒數月曆 --- */
-.countdown-section { padding: 70px 20px 50px; background: #fbf9f7; text-align: center; }
-.flip-countdown-wrapper { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 20px; font-family: 'my font'; color: #c9a466; font-size: 2.2rem; font-weight: 700; letter-spacing: 0.1em; }
-.flip-box { display: flex; gap: 4px; }
-.flip-digit { background: #fff; border: 1px solid #e0d9d0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-radius: 8px; padding: 4px 10px; min-width: 45px; text-align: center; position: relative; transition: transform 0.1s ease-in-out; }
-.flip-digit.flipping { transform: scale(1.1) translateY(-2px); color: #a88448; }
-.countdown-grid { max-width: 640px; margin: 0 auto; background: #fff; border-radius: 24px; border: 1px solid #e0d9d0; box-shadow: 0 12px 28px rgba(0,0,0,0.08); padding: 28px 24px 24px; }
-.countdown-header { display: flex; justify-content: center; align-items: baseline; margin-bottom: 18px; font-family: 'my font'; color: #c9a466; }
-.countdown-month { letter-spacing: 0.35em; font-size: 2.2rem; font-weight: 600; }
-.countdown-days-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 10px; }
-.countdown-day-label, .countdown-day-cell { width: 100%; padding: 10px 0; text-align: center; font-family: 'my font'; font-size: 1.4rem; }
-.countdown-day-label { color: #b79b6b; }
-.countdown-day-cell { border-radius: 12px; color: #5a4a34; }
-.cd-empty { background: transparent; }
-.cd-normal { background: #f5eee3; }
-.cd-today { background: #c9a466; color: #fff; font-weight: 600; }
-.cd-wedding { background: #f2e3cf; color: #2c2c2c; font-weight: 700; position: relative; box-shadow: 0 0 0 0 rgba(201,164,102,0.5); animation: weddingPulse 1.8s infinite; display: flex; align-items: center; justify-content: center; gap: 4px; }
-.cd-wedding::after { content: "♥"; position: static; font-size: 0.9rem; color: #000; }
-@keyframes weddingPulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0.4); } 50% { transform: scale(1.06);box-shadow: 0 0 0 10px rgba(201,164,102,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0); } }
-.countdown-footer { margin-top: 16px; font-family: 'my font'; font-size: 0.95rem; color: #777; }
+.countdown-section {
+    padding: 70px 20px 50px;
+    background: #fbf9f7;
+    text-align: center;
+}
+.flip-countdown-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    font-family: 'my font';
+    color: #c9a466;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+.flip-box {
+    display: flex;
+    gap: 4px;
+}
+.flip-digit {
+    background: #fff;
+    border: 1px solid #e0d9d0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    padding: 4px 10px;
+    min-width: 45px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.1s ease-in-out;
+}
+.flip-digit.flipping {
+    transform: scale(1.1) translateY(-2px);
+    color: #a88448;
+}
+.countdown-grid {
+    max-width: 640px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 24px;
+    border: 1px solid #e0d9d0;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+    padding: 28px 24px 24px;
+}
+.countdown-header {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    margin-bottom: 18px;
+    font-family: 'my font';
+    color: #c9a466;
+}
+.countdown-month {
+    letter-spacing: 0.35em;
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+.countdown-days-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 10px;
+}
+.countdown-day-label,
+.countdown-day-cell {
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+    font-family: 'my font';
+    font-size: 1.4rem;
+}
+.countdown-day-label {
+    color: #b79b6b;
+}
+.countdown-day-cell {
+    border-radius: 12px;
+    color: #5a4a34;
+}
+.cd-empty {
+    background: transparent;
+}
+.cd-normal {
+    background: #f5eee3;
+}
+.cd-today {
+    background: #c9a466;
+    color: #fff;
+    font-weight: 600;
+}
+.cd-wedding {
+    background: #f2e3cf;
+    color: #2c2c2c;
+    font-weight: 700;
+    position: relative;
+    box-shadow: 0 0 0 0 rgba(201,164,102,0.5);
+    animation: weddingPulse 1.8s infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.cd-wedding span {
+    position: relative;
+    z-index: 2;
+}
+.cd-wedding::after {
+    content: "♥";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.7rem;
+    color: rgba(201, 164, 102, 0.32);
+    z-index: 1;
+    line-height: 1;
+}
+
+@keyframes weddingPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(201,164,102,0.4);
+    }
+    50% {
+        transform: scale(1.06);
+        box-shadow: 0 0 0 10px rgba(201,164,102,0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(201,164,102,0);
+    }
+}
+
+.countdown-footer {
+    margin-top: 16px;
+    font-family: 'my font';
+    font-size: 0.95rem;
+    color: #777;
+}
 
 /* Info / Form / Notes */
 .info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
@@ -596,7 +716,7 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         let cls = 'cd-normal';
         if (todayIsThisMonth && d === today.getDate()) cls = 'cd-today';
         if (d === weddingDay) cls = 'cd-wedding';
-        html += `<div class="countdown-day-cell ${cls}">${d}</div>`;
+        html += `<div class="countdown-day-cell ${cls}"><span>${d}</span></div>`;
         cellCount++;
     }
 
