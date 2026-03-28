@@ -69,7 +69,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     height: 100%;
 }
 
-/* 鏡頭往下轉移，幅度進一步加大，以確保能看到藏得更深的 P2 */
+/* 鏡頭往下轉移的幅度維持在 -60vh，讓下方的照片群置中 */
 #scene-container.is-panning {
     transform: translateY(-60vh); 
 }
@@ -137,7 +137,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     width: 47%;
     /* 位置固定在相機的右側 */
     left: 95%;
-    /* 位置再調得更深，確保一開始絕對看不到任何邊角 */
+    /* 藏在很下方的地方 */
     top: 220%; 
     z-index: 5; 
     transform: rotate(8deg);
@@ -174,7 +174,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     z-index: 2;
 }
 
-/* 運鏡特效：相機上抽與淡出，P3 稍微往左下擺 */
+/* 運鏡特效：相機上抽與淡出，P3 的飄落位置調整 */
 .polaroid-wrapper.is-focusing {
     transform: translateY(-10vh);
 }
@@ -184,8 +184,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 
 .polaroid-wrapper.is-focusing .print-photo-container {
-    /* P3 印出後稍微往左飄落一點 */
-    transform: translate(-15%, 15vh) rotate(-6deg);
+    /* 【關鍵調整】把 P3 的垂直降落幅度從 15vh 加大到 60vh，讓它跟 P2 差不多低 */
+    transform: translate(-15%, 60vh) rotate(-6deg);
 }
 
 /* 印出動畫 */
