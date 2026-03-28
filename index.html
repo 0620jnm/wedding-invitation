@@ -99,7 +99,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     aspect-ratio: 4 / 5;
     background: #fdfdfd;
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    /* 拍立得邊框比例：上方與左右留窄邊，下方留大面積空白 */
+    /* 拍立得邊框比例：上方與左右留窄邊，下方留大面積空白 (22%) */
     padding: 6% 6% 22% 6%; 
 }
 
@@ -157,24 +157,24 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 /* P2 照片底部的空白處手寫字 */
 .photo-date {
     position: absolute;
-    /* 定位在下方空白處的正中央 */
-    bottom: 5%;
+    /* 調整對齊：原本是 bottom: 5%，現在調整為利用整個底部留白高度置中 */
+    /* 留白大約佔整體的 22%，所以 11% 是這塊留白的中心高度 */
+    bottom: 11%;
     left: 50%;
-    transform: translateX(-50%);
+    /* translateY(50%) 確保字體的中心點對齊那條線 */
+    transform: translate(-50%, 50%);
     width: 100%;
     text-align: center;
-    /* 採用 Nanum Pen Script 字體 */
     font-family: 'Nanum Pen Script', cursive;
-    /* 縮小字體尺寸 */
-    font-size: clamp(1rem, 4.5vw, 1.6rem); 
-    color: #3b3b3b; /* 簽字筆的深灰墨色 */
-    opacity: 0.85; /* 稍微透底模擬墨水印在相紙上的感覺 */
+    font-size: clamp(1.2rem, 4.5vw, 1.8rem); 
+    color: #3b3b3b; 
+    opacity: 0.85; 
     letter-spacing: 0.1em;
     pointer-events: none;
     z-index: 2;
 }
 
-/* 運鏡特效：相機上抽與淡出，P3 的飄落位置調整 */
+/* 運鏡特效：相機上抽與淡出，P3 稍微往左下擺 */
 .polaroid-wrapper.is-focusing {
     transform: translateY(-10vh);
 }
@@ -184,7 +184,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 
 .polaroid-wrapper.is-focusing .print-photo-container {
-    /* 【關鍵調整】把 P3 的垂直降落幅度從 15vh 加大到 60vh，讓它跟 P2 差不多低 */
+    /* P3 印出後往下飄落，跟 P2 差不多低 */
     transform: translate(-15%, 60vh) rotate(-6deg);
 }
 
