@@ -141,9 +141,9 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 /* ★ P2 第二張照片（一開始藏在下方，不透明）的容器 ★ */
 .static-photo-container {
     position: absolute;
-    width: 20%;
+    width: 45%;
     /* 位置固定在相機的右側 */
-    left: 95%;
+    left: 75%;
     /* 藏在很下方的地方 */
     top: 220%; 
     z-index: 5; 
@@ -183,7 +183,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 /* 運鏡特效：相機上抽與淡出，P3 稍微往左下擺 */
 .polaroid-wrapper.is-focusing {
-    transform: translateY(-5vh);
+    transform: translateY(-20vh);
 }
 
 .polaroid-wrapper.is-focusing .camera-img {
@@ -192,7 +192,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 .polaroid-wrapper.is-focusing .print-photo-container {
     /* P3 印出後往下飄落，跟 P2 差不多低 */
-    transform: translate(-15%, 60vh) rotate(-6deg);
+    transform: translate(-40%, 60vh) rotate(-6deg);
 }
 
 /* 印出動畫 */
