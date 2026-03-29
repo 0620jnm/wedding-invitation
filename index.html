@@ -112,18 +112,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     transition: opacity 3.5s ease;
 }
 
-/* 兩張照片共通的「拍立得白色邊框」設定 */
-.photo-frame {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    background: #fdfdfd;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    /* 拍立得邊框比例：上方與左右留窄邊，下方留大面積空白 (22%) */
-    padding: 6% 6% 22% 6%; 
-}
-
-/* P3 第一張照片（動態印出）的容器 */
+/* ★ P3 第一張照片（動態印出）的容器 ★ */
 .print-photo-container {
     position: absolute;
     width: 47%;
@@ -147,10 +136,12 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .print-photo-card {
     position: relative;
     width: 100%;
-    height: 100%;
+    /* 設定相片比例 (4:5 加上底部白邊的視覺比例，大致是拍立得外框) */
+    aspect-ratio: 4 / 5;
     transform-style: preserve-3d;
     -webkit-transform-style: preserve-3d;
-    transition: transform 0.75s cubic-bezier(0.2, 0.8, 0.2, 1);
+    /* 翻轉與放大的過場時間 */
+    transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .print-photo-card.is-flipped {
@@ -165,10 +156,14 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     overflow: hidden;
+    /* 取消原本在 container 上的陰影與背景，改放在正反面上各自設定 */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
 
+/* 拍立得正面：有白邊框與照片 */
 .photo-front {
-    background: transparent;
+    background: #fdfdfd;
+    padding: 6% 6% 22% 6%; 
 }
 
 .photo-front-image {
@@ -181,20 +176,19 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* 照片背面設計 */
+/* 拍立得背面：整片空白沒有邊框（純白底），直式 */
 .photo-back {
-    background: #fcfcfc;
+    background: #fff;
     transform: rotateY(180deg);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.04);
-    border: 1px solid rgba(0,0,0,0.05);
 }
 
 .back-message {
     font-family: 'ChenYuluoyan', 'my font', cursive;
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    /* 因為照片會放大，字體適度設定即可 */
+    font-size: clamp(2rem, 6vw, 3.5rem);
     color: #111;
     letter-spacing: 0.12em;
     text-align: center;
@@ -233,50 +227,12 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     transform: translate(-55%, 60vh) rotate(-6deg);
 }
 
-/* P3 翻面後變成橫式 */
-.print-photo-container.fast-flip {
-    transition: transform 0.9s cubic-bezier(0.2, 0.85, 0.2, 1);
-}
-
-.polaroid-wrapper.is-focusing .print-photo-container.is-back-landscape {
-    transform: translate(-28%, 57vh) rotate(90deg) scale(0.94);
-    z-index: 45;
-}
-
-/* 手伸進來翻照片 */
-.hand-swipe {
-    position: absolute;
-    width: min(180px, 38vw);
-    height: min(88px, 18vw);
-    right: -32%;
-    top: 154%;
-    z-index: 60;
-    opacity: 0;
-    transform: translateX(180px) rotate(-10deg);
-    pointer-events: none;
-    filter: drop-shadow(0 10px 18px rgba(0,0,0,0.18));
-}
-.hand-swipe::before {
-    content: ""; position: absolute; inset: 0;
-    background: linear-gradient(135deg, #f6d2b8 0%, #efc3a4 100%);
-    border-radius: 46px 28px 28px 42px;
-    box-shadow: inset -10px -8px 0 rgba(197, 138, 102, 0.18);
-}
-.hand-swipe::after {
-    content: ""; position: absolute; width: 42px; height: 64px; left: 16px; top: 38px;
-    background: linear-gradient(135deg, #f6d2b8 0%, #efc3a4 100%);
-    border-radius: 26px; transform: rotate(42deg);
-    box-shadow: inset -6px -6px 0 rgba(197, 138, 102, 0.16);
-}
-.hand-swipe.is-active {
-    animation: handGrab 1.15s cubic-bezier(0.2, 0.85, 0.2, 1) forwards;
-}
-@keyframes handGrab {
-    0%   { opacity: 0; transform: translateX(180px) rotate(-10deg); }
-    12%  { opacity: 1; }
-    48%  { opacity: 1; transform: translateX(8px) translateY(-4px) rotate(-6deg); }
-    72%  { opacity: 1; transform: translateX(-34px) translateY(-8px) rotate(-2deg); }
-    100% { opacity: 0; transform: translateX(150px) translateY(-10px) rotate(5deg); }
+/* ★ P3 翻面前，湊近鏡頭放大且置中，遮住後面的P2 ★ */
+.polaroid-wrapper.is-focusing .print-photo-container.fast-flip {
+    /* 調整 translate 和 scale，讓它移到畫面中央並放大 */
+    transform: translate(25%, 55vh) rotate(0deg) scale(2.2);
+    z-index: 45; /* 確保在 P2 之上 */
+    transition: transform 1.2s cubic-bezier(0.2, 0.85, 0.2, 1);
 }
 
 /* ★ P2 第二張照片（一開始藏在下方，不透明）的容器 ★ */
@@ -285,6 +241,17 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     left: 52%; top: 220%; z-index: 5; 
     transform: rotate(8deg); opacity: 1; 
 }
+
+/* P2 保留原本的白框設計 */
+.static-photo-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: #fdfdfd;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    padding: 6% 6% 22% 6%; 
+}
+
 .static-photo-inner {
     width: 100%; height: 100%;
     background-image: url('P2.png'); background-size: cover; background-position: center;
@@ -394,28 +361,27 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <div class="polaroid-wrapper" id="polaroid-wrapper">
             <img src="polaroid.png" alt="camera" class="camera-img">
             
-            <!-- P3：第一張動態印出且會翻面的照片 -->
+            <!-- P3：第一張動態印出且會放大翻面的照片 -->
             <div class="print-photo-container" id="printPhotoContainer">
-                <div class="photo-frame print-photo" id="printPhoto">
+                <!-- 拿掉原本這層的 .photo-frame，把陰影和留白設定放到正面 -->
+                <div class="print-photo" id="printPhoto">
                     <div class="print-photo-card" id="printPhotoCard">
-                        <!-- 正面 -->
+                        <!-- 正面：有白邊框、相片 -->
                         <div class="photo-face photo-front">
                             <div class="photo-front-image"></div>
                         </div>
-                        <!-- 背面 (橫式文字) -->
+                        <!-- 背面：無邊框 (純白底)，直式文字 -->
                         <div class="photo-face photo-back">
                             <div class="back-message">我們要結婚了！</div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- 手部滑動動畫元素 -->
-            <div class="hand-swipe" id="handSwipe"></div>
 
             <!-- P2：第二張照片 -->
             <div class="static-photo-container" id="staticPhoto">
-                <div class="photo-frame">
+                <!-- 保留 P2 原本的邊框與留白 -->
+                <div class="static-photo-frame">
                     <div class="static-photo-inner"></div>
                     <div class="photo-date">2017.12.23</div>
                 </div>
@@ -576,7 +542,7 @@ function beginMainTransition() {
     // 白畫面淡入
     transitionOverlay.classList.add('is-visible');
 
-    // 稍微等待白畫面完全蓋住後，再替換底部內容並重新開啟捲動
+    // 等待白畫面完全蓋住後，替換底部內容並重新開啟捲動
     setTimeout(() => {
         introOverlay.style.opacity = '0';
         mainWrapper.classList.add('is-visible');
@@ -584,7 +550,7 @@ function beginMainTransition() {
         document.documentElement.style.overflow = "auto";
     }, 1600);
 
-    // 把前面開場層隱藏，然後把白畫面淡出
+    // 把前面開場層隱藏，然後白畫面淡出
     setTimeout(() => {
         introOverlay.style.display = 'none';
         transitionOverlay.classList.remove('is-visible');
@@ -624,9 +590,8 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     const wrapper = document.getElementById('polaroid-wrapper');
     const flash = document.getElementById('flash-effect');
     const sceneContainer = document.getElementById('scene-container');
-    const handSwipe = document.getElementById('handSwipe');
 
-    if (!photo || !photoCard || !photoContainer || !hint || !wrapper || !flash || !sceneContainer || !handSwipe) return;
+    if (!photo || !photoCard || !photoContainer || !hint || !wrapper || !flash || !sceneContainer) return;
 
     hint.classList.remove('ready');
     hint.style.opacity = '0';
@@ -650,19 +615,14 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         sceneContainer.classList.add('is-panning');
     }, 2700);
 
-    /* 4. 飄落完成後停留三秒 (2700 + 動畫3500 + 停留3000 = 9200)，再讓手伸進來 */
-    setTimeout(() => {
-        handSwipe.classList.add('is-active');
-    }, 9200);
-
-    /* 5. 手碰到照片時，快速翻到背面並轉成橫式 */
+    /* 4. 飄落完成後停留三秒 (2700 + 動畫3500 + 停留3000 = 9200) */
+    /* 照片湊近鏡頭變大，同時翻面 */
     setTimeout(() => {
         photoContainer.classList.add('fast-flip');
-        photoContainer.classList.add('is-back-landscape');
         photoCard.classList.add('is-flipped');
-    }, 9500);
+    }, 9200);
 
-    /* 6. 稍停一下讓大家看清文字，白色淡出轉場，再淡入主視覺 */
+    /* 5. 看完背面文字後，白色淡出轉場，再淡入主視覺 */
     setTimeout(() => {
         beginMainTransition();
     }, 12500);
