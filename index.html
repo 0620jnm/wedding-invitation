@@ -154,14 +154,19 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     justify-content: center;
 }
 
-/* 內層相框：負責動畫 */
+/* 直向照片維持經典拍立得比例（下方留白多） */
 .scroll-photo-container .photo-frame {
     width: 100%;
     background: #fff;
-    padding: 4% 4% 4% 4%; 
+    padding: 4% 4% 15% 4%; /* 直向下方留 15% */
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     opacity: 0;
     transition: all 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 橫向照片專屬設定：減少下方留白 */
+.scroll-photo-container .photo-frame.landscape {
+    padding: 4% 4% 8% 4%; /* 橫向下方留少一點，例如 8% 即可 */
 }
 
 .scroll-photo-container .photo-frame img {
@@ -324,19 +329,19 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         </div>
         <!-- 第 2 張：從右邊滑入 -->
         <div class="scroll-photo-container container-right">
-            <div class="photo-frame">
-                <img src="W2.jpg" alt="Wedding Photo 2">
+             <div class="photo-frame landscape">
+                <img src="W3.jpg" alt="Wedding Photo 2">
             </div>
         </div>
         <!-- 第 3 張：從左邊滑入 -->
         <div class="scroll-photo-container container-left">
             <div class="photo-frame">
-                <img src="W3.jpg" alt="Wedding Photo 3">
+                <img src="W2.jpg" alt="Wedding Photo 3">
             </div>
         </div>
         <!-- 第 4 張：從右邊滑入 -->
         <div class="scroll-photo-container container-right">
-            <div class="photo-frame">
+            <div class="photo-frame landscape">
                 <img src="W4.jpg" alt="Wedding Photo 4">
             </div>
         </div>
