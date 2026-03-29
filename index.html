@@ -14,7 +14,6 @@
 <!-- 優先連接 Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- 包含 Nanum Pen Script 字體 -->
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
@@ -49,85 +48,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     text-align: center;
 }
 
-.loader-polaroids {
-    position: relative;
-    width: 220px;
-    height: 150px;
-    margin: 0 auto 30px;
-}
-
-/* 載入畫面的兩張真實照片設定 */
-/* 載入畫面的兩張拍立得照片設定 */
-.load-photo {
-    position: absolute;
-    width: 100px;
-    aspect-ratio: 4 / 5; /* 拍立得比例 */
-    background: #fdfdfd;
-    padding: 6px 6px 24px 6px; /* 拍立得經典邊框：下方留白多 */
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    border-radius: 2px;
-    
-    /* 初始為黑白 (100% 灰階) */
-    filter: grayscale(100%);
-    /* 配合進度條的時間，設定 3 秒內平滑變成彩色 */
-    animation: colorizePhoto 3s ease forwards;
-}
-
-.load-photo-inner {
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    box-shadow: inset 0 0 4px rgba(0,0,0,0.1);
-}
-
-.load-photo-left {
-    left: 15px;
-    top: 5px;
-    transform: rotate(-8deg);
-}
-.load-photo-left .load-photo-inner { background-image: url('P3.jpg'); }
-
-.load-photo-right {
-    right: 15px;
-    top: 20px;
-    transform: rotate(8deg);
-}
-.load-photo-right .load-photo-inner { background-image: url('P2.png'); }
-
-@keyframes colorizePhoto {
-    0%   { filter: grayscale(100%); }
-    100% { filter: grayscale(0%); }
-}
-
-.loader-heart {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -30%);
-    font-size: 2rem;
-    color: #c9a466;
-    animation: heartBeat 1.2s ease-in-out infinite;
-    text-shadow: 0 4px 10px rgba(201,164,102,0.3);
-    z-index: 10;
-}
-
-/* 載入文字換成沉魚落雁體 */
-<!-- 進站 Loading 動畫 -->
-<!-- 進站 Loading 動畫 -->
-<div id="site-loader">
-    <div class="loader-inner">
-        
-        <!-- 只留下「請記得打開聲音」與進度條 -->
-        <div class="loader-subtitle" style="margin-bottom: 30px;">請記得打開聲音 🔊</div>
-
-        <div class="loader-progress-track">
-            <div id="loader-progress-fill"></div>
-        </div>
-        <div id="loader-progress-text">0%</div>
-    </div>
-</div>
-
 .loader-subtitle {
     font-family: 'ChenYuluoyan', 'my font', cursive;
     font-size: 1.6rem;
@@ -161,19 +81,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     color: #8a7448;
     letter-spacing: 0.1em;
 }
-
-@keyframes colorizePhoto {
-    0%   { filter: grayscale(1); }
-    100% { filter: grayscale(0); }
-}
-
-@keyframes heartBeat {
-    0%, 100% { transform: translate(-50%, -30%) scale(1); }
-    25% { transform: translate(-50%, -30%) scale(1.12); }
-    50% { transform: translate(-50%, -30%) scale(0.96); }
-    75% { transform: translate(-50%, -30%) scale(1.08); }
-}
-
 
 /* =========================================
    開場：Polaroid 列印動畫
@@ -314,21 +221,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 <!-- 進站 Loading 動畫 -->
 <div id="site-loader">
     <div class="loader-inner">
-        
-        <div class="loader-polaroids">
-            <!-- 直接使用真實照片，設定動畫由黑白轉彩色 -->
-            <div class="load-photo load-photo-left">
-                <div class="load-photo-inner"></div>
-            </div>
-            <div class="load-photo load-photo-right">
-                <div class="load-photo-inner"></div>
-            </div>
-            <div class="loader-heart">♥</div>
-        </div>
-
-        <div class="loader-title">頁面載入中，請稍後</div>
-        <div class="loader-subtitle">請記得打開聲音 🔊</div>
-
+        <!-- 只留下「請記得打開聲音」與進度條 -->
+        <div class="loader-subtitle" style="margin-bottom: 30px;">請記得打開聲音 🔊</div>
         <div class="loader-progress-track">
             <div id="loader-progress-fill"></div>
         </div>
@@ -376,7 +270,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
             <div class="wedding-info-detail">2026 年 6 月 20 日 星期六</div>
             <div class="wedding-info-time">10:30 開始入場</div>
 
-            <!-- 加入行事曆：套用 action-btn -->
+            <!-- 加入行事曆 -->
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20260620T023000Z%2F20260620T070000Z&details=Jay%20%26%20Michelle%20%E7%9A%84%E5%A9%9A%E7%A6%AE%EF%BC%81%E6%9C%9F%E5%BE%85%E6%82%A8%E7%9A%84%E5%88%B0%E4%BE%86%E3%80%82&location=%E6%9A%96%E5%B1%85%E6%97%A5%E7%A9%80&text=Jay%20%26%20Michelle%20%E5%A9%9A%E7%A6%AE" 
                target="_blank" 
                class="action-btn" 
@@ -413,7 +307,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
             <p style="font-family: 'my font'; font-size: 1.8rem; color: #444;">暖居日穀</p>
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 5px;">
                 <p class="location-text">台中市北屯區松竹路一段3號</p>
-                <!-- 複製地址：套用 action-btn -->
+                <!-- 複製地址 -->
                 <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');" 
                         class="action-btn">
                     複製地址
@@ -424,7 +318,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width=100% height=100% style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             
-            <!-- 開啟地圖導航：套用 action-btn -->
+            <!-- 開啟地圖導航 -->
             <a href="https://maps.app.goo.gl/er8YRwgUM7B6pAR4A" 
                target="_blank" 
                class="action-btn" 
@@ -536,7 +430,7 @@ function setLoaderProgress(value) {
     if (loaderText) loaderText.textContent = Math.floor(safeValue) + '%';
 }
 
-// 拖慢進度條：每 250 毫秒 (原本 150) 才增加 1~3% (原本 0~6%)
+// 拖慢進度條：每 250 毫秒增加 1~3%
 var loaderTimer = setInterval(() => {
     if (fakeProgress < 95) {
         fakeProgress += Math.random() * 2 + 1; 
@@ -545,11 +439,12 @@ var loaderTimer = setInterval(() => {
     }
 }, 250);
 
+// 當整個網頁載入完畢，進度條推到 100% 並隱藏 loader
 window.addEventListener('load', function () {
     clearInterval(loaderTimer);
     setLoaderProgress(100);
 
-    // 載入達 100% 後，多停留 1.5 秒讓大家看清楚字 (原本是 0.4 秒)
+    // 載入達 100% 後，多停留 1.5 秒讓大家看清楚字
     setTimeout(() => {
         if (siteLoader) siteLoader.classList.add('is-hidden');
     }, 1500);
@@ -558,20 +453,6 @@ window.addEventListener('load', function () {
     setTimeout(() => {
         if (siteLoader) siteLoader.remove();
     }, 2500);
-});
-
-// 當整個網頁載入完畢，進度條推到 100% 並隱藏 loader
-window.addEventListener('load', function () {
-    clearInterval(loaderTimer);
-    setLoaderProgress(100);
-
-    setTimeout(() => {
-        if (siteLoader) siteLoader.classList.add('is-hidden');
-    }, 400);
-
-    setTimeout(() => {
-        if (siteLoader) siteLoader.remove();
-    }, 1200);
 });
 
 function endIntro() {
