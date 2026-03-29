@@ -304,4 +304,459 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     font-family: 'my font'; font-size: 1.5rem; letter-spacing: 0.2em; color: #8a7448;
     white-space: nowrap; opacity: 0; transition: opacity 0.3s ease; z-index: 30;
 }
-.print-hint.ready { animation: hintBlink 
+.print-hint.ready { animation: hintBlink 1.4s infinite; }
+@keyframes hintBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* --- 主視覺 --- */
+#main-wrapper { opacity: 0; visibility: hidden; transition: opacity 2s ease; width: 100%; }
+#main-wrapper.is-visible { opacity: 1; visibility: visible; }
+
+.cover {
+    height: 100vh; width: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; position: relative; overflow: hidden; background-color: #f5f5dc;
+}
+.cover::before {
+    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('bg_silk.jpg.png'); background-size: cover; background-position: center; z-index: 1;
+}
+.getting-married-text { 
+    color:#c9a466; margin-bottom: 15px; letter-spacing: 0.3em;
+    font-size: clamp(1.2rem, 4vw, 1.6rem); z-index: 10; font-weight: 300;
+    position: relative; font-family: 'my font', serif;
+}
+.name-container { position: relative; z-index: 10; width: 100%; }
+.english-names { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 6vw, 3.2rem); color: #2c2c2c; letter-spacing: 0.05em; }
+.english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
+.chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 20px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
+
+/* --- 倒數月曆 --- */
+.countdown-section { padding: 70px 20px 50px; background: #fbf9f7; text-align: center; }
+.flip-countdown-wrapper { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 20px; font-family: 'my font'; color: #c9a466; font-size: 2.2rem; font-weight: 700; letter-spacing: 0.1em; }
+.flip-box { display: flex; gap: 4px; }
+.flip-digit { background: #fff; border: 1px solid #e0d9d0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-radius: 8px; padding: 4px 10px; min-width: 45px; text-align: center; position: relative; transition: transform 0.1s ease-in-out; }
+.flip-digit.flipping { transform: scale(1.1) translateY(-2px); color: #a88448; }
+.countdown-grid { max-width: 640px; margin: 0 auto; background: #fff; border-radius: 24px; border: 1px solid #e0d9d0; box-shadow: 0 12px 28px rgba(0,0,0,0.08); padding: 28px 24px 24px; }
+.countdown-header { display: flex; justify-content: center; align-items: baseline; margin-bottom: 18px; font-family: 'my font'; color: #c9a466; }
+.countdown-month { letter-spacing: 0.35em; font-size: 2.2rem; font-weight: 600; }
+.countdown-days-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 10px; }
+.countdown-day-label, .countdown-day-cell { width: 100%; padding: 10px 0; text-align: center; font-family: 'my font'; font-size: 1.4rem; }
+.countdown-day-label { color: #b79b6b; }
+.countdown-day-cell { border-radius: 12px; color: #5a4a34; }
+.cd-empty { background: transparent; }
+.cd-normal { background: #f5eee3; }
+.cd-today { background: #c9a466; color: #fff; font-weight: 600; }
+.cd-wedding { background: #f2e3cf; color: #2c2c2c; font-weight: 700; position: relative; box-shadow: 0 0 0 0 rgba(201,164,102,0.5); animation: weddingPulse 1.8s infinite; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.cd-wedding span { position: relative; z-index: 2; }
+.cd-wedding::after { content: "♥"; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 1.7rem; color: rgba(201, 164, 102, 0.32); z-index: 1; line-height: 1; }
+@keyframes weddingPulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0.4); } 50% { transform: scale(1.06); box-shadow: 0 0 0 10px rgba(201,164,102,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0); } }
+.countdown-footer { margin-top: 16px; font-family: 'my font'; font-size: 0.95rem; color: #777; }
+
+/* Info / Form / Notes */
+.info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
+.info-card { max-width: 600px; background: #fff; padding: 40px 20px; margin: 30px auto; border: 1px solid #e0d9d0; }
+.map-container { width: 100%; height: 350px; margin: 25px 0; border: 1px solid #e0d9d0; border-radius: 8px; overflow: hidden; }
+
+.form-section { padding: 80px 20px; text-align: center; }
+.form-card { max-width: 550px; background: #fff; padding: 40px 30px; margin: 0 auto; border: 1px solid #e0d9d0; border-radius: 12px; }
+.form-group { margin-bottom: 30px; text-align: left; }
+.form-group label { display: block; font-family: 'my font'; font-size: 1.1rem; margin-bottom: 10px; color: #444; }
+.form-group input[type="text"], .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: 'my font'; font-size: 1rem; }
+.radio-stack { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
+.radio-stack label { display: flex; align-items: center; font-size: 1.1rem; font-family: 'my font'; cursor: pointer; }
+.radio-stack input { width: 18px; height: 18px; margin-right: 10px; }
+.submit-btn { width: 100%; padding: 16px; background: #c9a466; color: #fff; border: none; font-family: 'my font'; font-size: 1.2rem; cursor: pointer; border-radius: 8px; }
+
+.sticky-wall { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 40px 10px; max-width: 950px; margin: 0 auto; }
+.sticky-note { width: 210px; min-height: 190px; padding: 35px 20px 20px; box-shadow: 3px 6px 15px rgba(0,0,0,0.1); position: relative; font-family: 'my font'; text-align: left; transition: 0.3s; transform: rotate(var(--note-rot)) translate(var(--note-x), var(--note-y)); }
+.note-text { font-size: 1.1rem; line-height: 1.5; margin-bottom: 15px; color: #333; word-break: break-all; }
+.note-author { font-size: 0.95rem; text-align: right; border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 10px; }
+.sticky-note::before { content: ""; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 24px; height: 24px; background-color: #a82424; border-radius: 50%; z-index: 2; }
+.sticky-note:nth-child(5n+1) { background-color: #C9A466; }
+.sticky-note:nth-child(5n+2) { background-color: #EBDDB5; }
+.sticky-note:nth-child(5n+3) { background-color: #F7F6ED; }
+.sticky-note:nth-child(5n+4) { background-color: #DDE7A9; }
+.sticky-note:nth-child(5n+5) { background-color: #A6A35D; }
+
+#musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a466; border: none; color: white; z-index: 9999; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div id="flash-effect"></div>
+
+<!-- 白色轉場層 -->
+<div id="transition-overlay"></div>
+
+<div id="intro-overlay">
+    <!-- 包住所有東西的場景容器，負責整體的上下平移（鏡頭轉移） -->
+    <div id="scene-container">
+        <div class="polaroid-wrapper" id="polaroid-wrapper">
+            <img src="polaroid.png" alt="camera" class="camera-img">
+            
+            <!-- P3：第一張動態印出且會翻面的照片 -->
+            <div class="print-photo-container" id="printPhotoContainer">
+                <div class="photo-frame print-photo" id="printPhoto">
+                    <div class="print-photo-card" id="printPhotoCard">
+                        <!-- 正面 -->
+                        <div class="photo-face photo-front">
+                            <div class="photo-front-image"></div>
+                        </div>
+                        <!-- 背面 (橫式文字) -->
+                        <div class="photo-face photo-back">
+                            <div class="back-message">我們要結婚了！</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 手部滑動動畫元素 -->
+            <div class="hand-swipe" id="handSwipe"></div>
+
+            <!-- P2：第二張照片 -->
+            <div class="static-photo-container" id="staticPhoto">
+                <div class="photo-frame">
+                    <div class="static-photo-inner"></div>
+                    <div class="photo-date">2017.12.23</div>
+                </div>
+            </div>
+
+            <div class="print-hint" id="printHint">載入中...</div>
+        </div>
+    </div>
+</div>
+
+<div id="main-wrapper">
+    <div class="cover">
+        <p class="getting-married-text">The Wedding of</p>
+        <div class="name-container">
+            <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
+            <div class="chinese-names"><span>蔡宇杰</span><span>陳旻瑄</span></div>
+        </div>
+        <p style="margin-top:35px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
+    </div>
+
+    <section class="countdown-section" id="countdown-section">
+        <div class="flip-countdown-wrapper">
+            <span>倒數</span>
+            <div class="flip-box">
+                <div class="flip-digit" id="digit-tens">0</div>
+                <div class="flip-digit" id="digit-ones">0</div>
+            </div>
+            <span>天</span>
+        </div>
+        <div class="countdown-grid">
+            <div class="countdown-header"><span class="countdown-month">2026 · 06</span></div>
+            <div class="countdown-days-row">
+                <div class="countdown-day-label">日</div><div class="countdown-day-label">一</div>
+                <div class="countdown-day-label">二</div><div class="countdown-day-label">三</div>
+                <div class="countdown-day-label">四</div><div class="countdown-day-label">五</div>
+                <div class="countdown-day-label">六</div>
+            </div>
+            <div id="cd-calendar-body"></div>
+            <div class="countdown-footer">期待與你一起見證這一天</div>
+        </div>
+    </section>
+
+    <section class="info-section">
+        <h2 style="font-family:'Cormorant Garamond', serif; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">Wedding Info</h2>
+        <div class="info-card">
+            <p style="font-family: 'my font'; font-size: 1.2rem; color: #444;">暖居日穀</p>
+            <p style="font-size: 0.9rem; color: #888; margin-top: 5px;">台中市北屯區松竹路一段3號</p>
+            <div class="map-container">
+               <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width=100% height=100% style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <a href="https://maps.app.goo.gl/..." target="_blank" style="display:inline-block; padding:12px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; font-family: 'my font'; font-size: 1rem; background:#fff;">開啟地圖導航</a>
+        </div>
+    </section>
+
+    <section class="form-section">
+        <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">參加回覆表單</h2>
+        <div class="form-card">
+            <form id="rsvp-form">
+                <div class="form-group"><label>您的姓名</label><input type="text" id="guest-name" placeholder="請輸入姓名" required></div>
+                <div class="form-group">
+                    <label>是否參加婚禮？</label>
+                    <div class="radio-stack">
+                        <label><input type="radio" name="attendance" value="yes" required> 是的，會參加</label>
+                        <label><input type="radio" name="attendance" value="no" required> 抱歉，無法出席</label>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">送出回覆</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="form-section" style="background: #fbf9f7;">
+        <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">留言祝福</h2>
+        <div class="form-card" style="margin-bottom: 50px;">
+            <form id="wish-form">
+                <div class="form-group"><label>您的姓名</label><input type="text" id="wish-name" required placeholder="請輸入姓名"></div>
+                <div class="form-group"><label>祝福的話</label><textarea id="wish-message" required placeholder="寫些話給我們吧..." style="height: 100px;"></textarea></div>
+                <button type="submit" class="submit-btn">釘上祝福便條</button>
+            </form>
+        </div>
+        <div class="sticky-wall" id="sticky-wall"></div>
+    </section>
+
+    <footer style="text-align:center; padding:80px 0; color:#c9a466; font-family:'Cormorant Garamond', serif; font-style:italic; font-size: 1.5rem;">See You Soon</footer>
+</div>
+
+<button id="musicToggle">▶</button>
+<div id="player" style="position:fixed; top:-9999px;"></div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+const firebaseConfig = { apiKey: "AIzaSyAUFF7GdX7fAtK_wK5-YAffirtap52UgCg", authDomain: "wedding-e6351.firebaseapp.com", databaseURL: "https://wedding-e6351-default-rtdb.firebaseio.com", projectId: "wedding-e6351", storageBucket: "wedding-e6351.firebasestorage.app", messagingSenderId: "382633819825", appId: "1:382633819825:web:b3352f4f4e67423878ec90" };
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const wishesRef = ref(db, 'wishes');
+
+document.getElementById('wish-form').addEventListener('submit', (e) => { 
+    e.preventDefault(); 
+    const name = document.getElementById('wish-name').value; 
+    const message = document.getElementById('wish-message').value; 
+    push(wishesRef, { name, message, timestamp: serverTimestamp() }).then(() => { 
+        document.getElementById('wish-form').reset(); 
+    }); 
+});
+
+onValue(wishesRef, (snapshot) => { 
+    const wall = document.getElementById('sticky-wall'); wall.innerHTML = ''; 
+    const data = snapshot.val(); 
+    if (data) { 
+        const messages = Object.values(data).reverse(); 
+        messages.forEach((item, index) => { 
+            const note = document.createElement('div'); 
+            note.className = 'sticky-note'; 
+            const rot = (Math.random() - 0.5) * 12; 
+            const x = (index % 2 === 0 ? -1 : 1) * (Math.random() * 20); 
+            const y = (Math.random() - 0.5) * 15; 
+            note.style.setProperty('--note-rot', `${rot}deg`); 
+            note.style.setProperty('--note-x', `${x}px`); 
+            note.style.setProperty('--note-y', `${y}px`); 
+            note.innerHTML = `<div class="note-text">${item.message}</div><div class="note-author">From: ${item.name}</div>`; 
+            wall.appendChild(note); 
+        }); 
+    } 
+});
+</script>
+
+<script>
+if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+window.addEventListener('beforeunload', function () { window.scrollTo(0, 0); });
+window.addEventListener('load', function () { window.scrollTo(0, 0); });
+
+var fontsLoaded = false;
+document.fonts.ready.then(function() {
+    fontsLoaded = true;
+    const hint = document.getElementById('printHint');
+    if (hint) {
+        hint.innerHTML = "點擊以列印相片";
+        hint.classList.add('ready');
+    }
+});
+
+var player;
+var isPrinting = false;
+var targetDays = 0;
+var hasAnimated = false;
+var transitionStarted = false;
+
+function beginMainTransition() {
+    if (transitionStarted) return;
+    transitionStarted = true;
+
+    const introOverlay = document.getElementById('intro-overlay');
+    const transitionOverlay = document.getElementById('transition-overlay');
+    const mainWrapper = document.getElementById('main-wrapper');
+
+    // 白畫面淡入
+    transitionOverlay.classList.add('is-visible');
+
+    // 稍微等待白畫面完全蓋住後，再替換底部內容並重新開啟捲動
+    setTimeout(() => {
+        introOverlay.style.opacity = '0';
+        mainWrapper.classList.add('is-visible');
+        document.body.style.overflow = "auto";
+        document.documentElement.style.overflow = "auto";
+    }, 1600);
+
+    // 把前面開場層隱藏，然後把白畫面淡出
+    setTimeout(() => {
+        introOverlay.style.display = 'none';
+        transitionOverlay.classList.remove('is-visible');
+    }, 2000);
+
+    // 確保白畫面最後不再阻擋點擊
+    setTimeout(() => {
+        transitionOverlay.style.display = 'none';
+    }, 4300);
+}
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        videoId: 'pmrCXt4lNyA',
+        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0, 'playsinline': 1 },
+        events: {
+            'onStateChange': (e) => {
+                document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
+            }
+        }
+    });
+}
+
+document.getElementById('musicToggle').onclick = function() {
+    if (!player || typeof player.getPlayerState !== 'function') return;
+    player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
+};
+
+document.getElementById('intro-overlay').addEventListener('click', function() {
+    if (!fontsLoaded || isPrinting) return;
+    isPrinting = true;
+
+    const photo = document.getElementById('printPhoto');
+    const photoCard = document.getElementById('printPhotoCard');
+    const photoContainer = document.getElementById('printPhotoContainer');
+    const hint = document.getElementById('printHint');
+    const wrapper = document.getElementById('polaroid-wrapper');
+    const flash = document.getElementById('flash-effect');
+    const sceneContainer = document.getElementById('scene-container');
+    const handSwipe = document.getElementById('handSwipe');
+
+    if (!photo || !photoCard || !photoContainer || !hint || !wrapper || !flash || !sceneContainer || !handSwipe) return;
+
+    hint.classList.remove('ready');
+    hint.style.opacity = '0';
+
+    if (player && typeof player.playVideo === 'function') {
+        try { player.playVideo(); } catch(e) {}
+    }
+
+    /* 1. 閃光 */
+    flash.classList.add('is-flashing');
+
+    /* 2. P3 開始印出 */
+    setTimeout(() => {
+        photo.classList.add('is-printing');
+    }, 200);
+
+    /* 3. P3 顯影 + 鏡位往下平移 */
+    setTimeout(() => {
+        photo.classList.add('is-developed');
+        wrapper.classList.add('is-focusing');
+        sceneContainer.classList.add('is-panning');
+    }, 2700);
+
+    /* 4. 飄落完成後停留三秒 (2700 + 動畫3500 + 停留3000 = 9200)，再讓手伸進來 */
+    setTimeout(() => {
+        handSwipe.classList.add('is-active');
+    }, 9200);
+
+    /* 5. 手碰到照片時，快速翻到背面並轉成橫式 */
+    setTimeout(() => {
+        photoContainer.classList.add('fast-flip');
+        photoContainer.classList.add('is-back-landscape');
+        photoCard.classList.add('is-flipped');
+    }, 9500);
+
+    /* 6. 稍停一下讓大家看清文字，白色淡出轉場，再淡入主視覺 */
+    setTimeout(() => {
+        beginMainTransition();
+    }, 12500);
+});
+
+(function(){
+    const year = 2026;
+    const monthIndex = 5;
+    const weddingDay = 20;
+    const weddingDate = new Date(year, monthIndex, weddingDay, 11, 0, 0);
+
+    const firstDay = new Date(year, monthIndex, 1);
+    const firstWeekDay = firstDay.getDay();
+    const nextMonthFirst = new Date(year, monthIndex + 1, 1);
+    const lastDate = new Date(nextMonthFirst - 1).getDate();
+
+    const today = new Date();
+    const todayIsThisMonth = (today.getFullYear() === year && today.getMonth() === monthIndex);
+
+    const bodyEl = document.getElementById('cd-calendar-body');
+    if (!bodyEl) return;
+
+    let html = '<div class="countdown-days-row">';
+    let cellCount = 0;
+
+    for (let i = 0; i < firstWeekDay; i++) {
+        html += '<div class="countdown-day-cell cd-empty"></div>';
+        cellCount++;
+    }
+
+    for (let d = 1; d <= lastDate; d++) {
+        if (cellCount > 0 && cellCount % 7 === 0) {
+            html += '</div><div class="countdown-days-row">';
+        }
+        let cls = 'cd-normal';
+        if (todayIsThisMonth && d === today.getDate()) cls = 'cd-today';
+        if (d === weddingDay) cls = 'cd-wedding';
+        html += `<div class="countdown-day-cell ${cls}"><span>${d}</span></div>`;
+        cellCount++;
+    }
+
+    while (cellCount % 7 !== 0) {
+        html += '<div class="countdown-day-cell cd-empty"></div>';
+        cellCount++;
+    }
+    html += '</div>';
+    bodyEl.innerHTML = html;
+
+    const diffMs = weddingDate.getTime() - today.getTime();
+    targetDays = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+})();
+
+function animateFlipClock(targetNumber) {
+    if(targetNumber <= 0) return;
+
+    let current = 0;
+    const tensEl = document.getElementById('digit-tens');
+    const onesEl = document.getElementById('digit-ones');
+
+    const interval = setInterval(() => {
+        current += Math.ceil(targetNumber / 20);
+        if(current >= targetNumber) {
+            current = targetNumber;
+            clearInterval(interval);
+        }
+
+        let tens = Math.floor(current / 10);
+        let ones = current % 10;
+
+        if (tensEl.innerText != tens) {
+            tensEl.innerText = tens;
+            tensEl.classList.add('flipping');
+            setTimeout(()=> tensEl.classList.remove('flipping'), 50);
+        }
+        if (onesEl.innerText != ones) {
+            onesEl.innerText = ones;
+            onesEl.classList.add('flipping');
+            setTimeout(()=> onesEl.classList.remove('flipping'), 50);
+        }
+    }, 60);
+}
+
+window.addEventListener('scroll', () => {
+    const section = document.getElementById('countdown-section');
+    if (!section || hasAnimated) return;
+
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom >= 0) {
+        hasAnimated = true;
+        setTimeout(() => {
+            animateFlipClock(targetDays);
+        }, 500);
+    }
+});
+</script>
+</body>
+</html>
