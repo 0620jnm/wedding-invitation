@@ -6,223 +6,16 @@
 <title>Jay & Michelle</title>
 
 <!-- 強制優先載入字體與圖片 -->
-/ttf" crossorigin="anonymous"><!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Jay & Michelle</title>
-
-<!-- 強制優先載入字體與圖片 -->
-/ttf" crossorigin="anonymous">
->
->
->
+<link rel="preload" href="my%20font.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+<link rel="preload" href="polaroid.png" as="image">
+<link rel="preload" href="P3.jpg" as="image">
+<link rel="preload" href="P2.png" as="image">
 
 <!-- 優先連接 Google Fonts -->
-//fonts.googleapis.com" crossorigin>
-//fonts.gstatic.com" crossorigin>
-
-<!-- 修復：正確引入所有需要的 Google 字體，包含 Nanum Pen Script、Playfair Display、Gwendolyn 等 -->
-//fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-
-<style>
-@font-face {
-    font-family: 'my font';
-    src: url('my%20font.ttf') format('truetype'); 
-    font-display: swap; 
-}
-
-/* 載入辰宇落雁體 (沉魚落雁體) */
-@font-face {
-    font-family: 'ChenYuluoyan';
-    src: url('https://cdn.jsdelivr.net/gh/Chenyu-otf/chenyuluoyan_thin@main/ChenYuluoyan-Thin.ttf') format('truetype');
-    font-display: swap;
-}
-
-*{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
-html, body { width: 100%; min-height: 100%; background: #faf8f5; overflow: hidden; }
-body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-x: hidden; }
-
-/* --- 開場：Polaroid 列印動畫 --- */
-#intro-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #e8dcc4;
-    z-index: 10000;
-    display: flex; align-items: center; justify-content: center;
-    transition: opacity 1.5s ease-in-out;
-    touch-action: none;
-    cursor: pointer;
-}
-
-/* 閃光燈特效 */
-#flash-effect {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: #fff;
-    z-index: 20000;
-    opacity: 0;
-    pointer-events: none; 
-}
-#flash-effect.is-flashing {
-    animation: flashBang 0.8s ease-out forwards;
-}
-@keyframes flashBang {
-    0%   { opacity: 0; }
-    10%  { opacity: 1; }
-    100% { opacity: 0; }
-}
-
-/* ★ 整個場景容器（負責鏡頭平移） ★ */
-#scene-container {
-    position: relative;
-    transform: translateY(0);
-    /* 鏡位平移的動畫時間與曲線 */
-    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
-
-/* 鏡頭往下轉移的幅度 */
-#scene-container.is-panning {
-    transform: translateY(-70vh); 
-}
-
-/* 相機與第一張照片（P3）的主體 wrapper */
-.polaroid-wrapper {
-    position: relative;
-    width: min(340px, 80vw);
-    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    z-index: 10;
-}
-
-.camera-img {
-    display: block;
-    width: 100%;
-    height: auto;
-    position: relative;
-    z-index: 10;
-    pointer-events: none;
-    transition: opacity 3.5s ease;
-}
-
-/* 兩張照片共通的「拍立得白色邊框」設定 */
-.photo-frame {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    background: #fdfdfd;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    /* 拍立得邊框比例：上方與左右留窄邊，下方留大面積空白 (22%) */
-    padding: 6% 6% 22% 6%; 
-}
-
-/* P3 第一張照片（動態印出）的容器 */
-.print-photo-container {
-    position: absolute;
-    width: 47%;
-    left: 26.5%;
-    top: 68.3%; 
-    z-index: 20;
-    clip-path: inset(0 -50px -200% -50px);
-    transform-origin: top center;
-    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    will-change: transform;
-}
-
-.print-photo {
-    transform: translateY(-95%);
-    opacity: 0; 
-}
-
-.print-photo-inner {
-    width: 100%;
-    height: 100%;
-    background-image: url('P3.jpg'); 
-    background-size: cover;
-    background-position: center;
-    filter: brightness(0.1) saturate(0.1);
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
-}
-
-/* ★ P2 第二張照片（一開始藏在下方，不透明）的容器 ★ */
-.static-photo-container {
-    position: absolute;
-    width: 45%;
-    /* 位置固定在相機的右側 */
-    left: 52%;
-    /* 藏在很下方的地方 */
-    top: 220%; 
-    z-index: 5; 
-    transform: rotate(8deg);
-    /* 一開始就是 100% 可見，純粹靠鏡頭往下平移才會出現 */
-    opacity: 1; 
-}
-
-.static-photo-inner {
-    width: 100%;
-    height: 100%;
-    background-image: url('P2.png');
-    background-size: cover;
-    background-position: center;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
-}
-
-/* P2 照片底部的空白處手寫字 */
-.photo-date {
-    position: absolute;
-    /* 調整對齊：利用整個底部留白高度置中 */
-    bottom: 11%;
-    left: 50%;
-    /* translateY(50%) 確保字體的中心點對齊那條線 */
-    transform: translate(-50%, 50%);
-    width: 100%;
-    text-align: center;
-    font-family: 'Nanum Pen Script', cursive;
-    font-size: clamp(1.2rem, 4.5vw, 1.8rem); 
-    color: #3b3b3b; 
-    opacity: 0.85; 
-    letter-spacing: 0.1em;
-    pointer-events: none;
-    z-index: 2;
-}
-
-/* 運鏡特效：相機上抽與淡出，P3 稍微往左下擺 */
-.polaroid-wrapper.is-focusing {
-    transform: translateY(-20vh);
-}
-
-.polaroid-wrapper.is-focusing .camera-img {
-    opacity: 0;
-}
-
-.polaroid-wrapper.is-focusing .print-photo-container {
-    /* P3 印出後往下飄落，跟 P2 差不多低 */
-    transform: translate(-55%, 60vh) rotate(-6deg);
-}
-
-/* 印出動畫 */
-.print-photo.is-printing {
-    opacity: 1; 
-    animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
-}
-@keyframes photoPrint {
-    0%   { transform: translateY(-95%); }
-    100% { transform: translateY(0%); }
-}
-
-.print-photo.is-developed .print-photo-i
->
->
->
-
-<!-- 優先連接 Google Fonts -->
-//fonts.googleapis.com" crossorigin>
-//fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- 包含 Nanum Pen Script 字體 -->
-//fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
 @font-face {
@@ -476,15 +269,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     background: #fbf9f7;
     text-align: center;
 }
-.countdown-grid {
-    max-width: 640px;
-    margin: 0 auto;
-    background: #fff;
-    border-radius: 24px;
-    border: 1px solid #e0d9d0;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
-    padding: 28px 24px 24px;
-}
 .flip-countdown-wrapper {
     display: flex;
     align-items: center;
@@ -516,6 +300,15 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     transform: scale(1.1) translateY(-2px);
     color: #a88448;
 }
+.countdown-grid {
+    max-width: 640px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 24px;
+    border: 1px solid #e0d9d0;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+    padding: 28px 24px 24px;
+}
 .countdown-header {
     display: flex;
     justify-content: center;
@@ -525,7 +318,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     color: #c9a466;
 }
 .countdown-month {
-    letter-spacing: 0.15em;
+    letter-spacing: 0.35em;
     font-size: 2.2rem;
     font-weight: 600;
 }
@@ -605,7 +398,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 
 .countdown-footer {
-    margin-top: 20px;
+    margin-top: 16px;
     font-family: 'my font';
     font-size: 1.4rem;
     color: #777;
@@ -619,20 +412,12 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .form-section { padding: 80px 20px; text-align: center; }
 .form-card { max-width: 550px; background: #fff; padding: 40px 30px; margin: 0 auto; border: 1px solid #e0d9d0; border-radius: 12px; }
 .form-group { margin-bottom: 30px; text-align: left; }
-
+/* 拿掉 font-weight: bold; 恢復原本細度 */
 .form-group label { display: block; font-family: 'my font'; font-size: 1.65rem; margin-bottom: 10px; color: #444; }
 .form-group input[type="text"], .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: 'my font'; font-size: 1.5rem; }
-
-/* 修改 placeholder 顏色為 #888 */
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: #888;
-    opacity: 1; /* 確保各種瀏覽器顯示一致 */
-}
-
 .radio-stack { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
-/* 縮小按鈕文字大小到 1.1rem */
-.radio-stack label { display: flex; align-items: center; font-size: 1.1rem; font-family: 'my font'; cursor: pointer; }
+/* 拿掉 font-weight: bold; 恢復原本細度 */
+.radio-stack label { display: flex; align-items: center; font-size: 1.65rem; font-family: 'my font'; cursor: pointer; }
 .radio-stack input { width: 18px; height: 18px; margin-right: 10px; }
 .submit-btn { width: 100%; padding: 16px; background: #c9a466; color: #fff; border: none; font-family: 'my font'; font-size: 1.2rem; cursor: pointer; border-radius: 8px; }
 
@@ -695,17 +480,16 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     </div>
 
     <section class="countdown-section" id="countdown-section">
-        <div class="countdown-grid">
-            <div class="flip-countdown-wrapper">
-                <span>倒數</span>
-                <div class="flip-box">
-                    <div class="flip-digit" id="digit-tens">0</div>
-                    <div class="flip-digit" id="digit-ones">0</div>
-                </div>
-                <span>天</span>
+        <div class="flip-countdown-wrapper">
+            <span>倒數</span>
+            <div class="flip-box">
+                <div class="flip-digit" id="digit-tens">0</div>
+                <div class="flip-digit" id="digit-ones">0</div>
             </div>
-            <!-- 修改年份標題 -->
-            <div class="countdown-header"><span class="countdown-month">2026年6月</span></div>
+            <span>天</span>
+        </div>
+        <div class="countdown-grid">
+            <div class="countdown-header"><span class="countdown-month">2026 · 06</span></div>
             <div class="countdown-days-row">
                 <div class="countdown-day-label">日</div><div class="countdown-day-label">一</div>
                 <div class="countdown-day-label">二</div><div class="countdown-day-label">三</div>
@@ -714,15 +498,16 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
             </div>
             <div id="cd-calendar-body"></div>
             <!-- 文字更改並放大 -->
-            <div class="countdown-footer">期待這一天能看到你！</div>
+            <div class="countdown-footer">期待你和我們一起，見證遠距離的結束！</div>
         </div>
     </section>
 
     <section class="info-section">
-        <!-- 修改標題為婚禮資訊 -->
-        <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">婚禮資訊</h2>
+        <h2 style="font-family:'Cormorant Garamond', serif; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">Wedding Info</h2>
         <div class="info-card">
+            <!-- 暖居日穀縮小字體 -->
             <p style="font-family: 'my font'; font-size: 1.8rem; color: #444;">暖居日穀</p>
+            <!-- 地址與複製按鈕排在同一行 -->
             <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 5px;">
                 <p style="font-family: 'my font'; font-size: 1.5rem; color: #888; margin: 0;">台中市北屯區松竹路一段3號</p>
                 <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');" style="background: #c9a466; color: #fff; border: none; border-radius: 4px; padding: 4px 10px; font-size: 0.9rem; font-family: 'my font'; cursor: pointer; letter-spacing: 0.1em;">複製</button>
@@ -730,6 +515,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
             <div class="map-container">
                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width=100% height=100% style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
+            <!-- 開啟地圖導航字體縮小到 1.1rem -->
             <a href="https://maps.app.goo.gl/..." target="_blank" style="display:inline-block; padding:12px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; font-family: 'my font'; font-size: 1.1rem; background:#fff;">開啟地圖導航</a>
         </div>
     </section>
@@ -738,12 +524,12 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">參加回覆表單</h2>
         <div class="form-card">
             <form id="rsvp-form">
-                <div class="form-group">abel>您的姓名</label><input type="text" id="guest-name" placeholder="請輸入姓名" required></div>
+                <div class="form-group"><label>您的姓名</label><input type="text" id="guest-name" placeholder="請輸入姓名" required></div>
                 <div class="form-group">
-                    abel>是否參加婚禮？</label>
+                    <label>是否參加婚禮？</label>
                     <div class="radio-stack">
-                        abel><input type="radio" name="attendance" value="yes" required> 是的，我會參加！</label>
-                        abel><input type="radio" name="attendance" value="no" required> 抱歉，我無法出席</label>
+                        <label><input type="radio" name="attendance" value="yes" required> 是的，我會參加！</label>
+                        <label><input type="radio" name="attendance" value="no" required> 抱歉，我無法出席</label>
                     </div>
                 </div>
                 <button type="submit" class="submit-btn">送出回覆</button>
@@ -755,14 +541,15 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">祝福留言板</h2>
         <div class="form-card" style="margin-bottom: 50px;">
             <form id="wish-form">
-                <div class="form-group">abel>您的姓名</label><input type="text" id="wish-name" required placeholder="請輸入姓名"></div>
-                <div class="form-group">abel>祝福的話</label><textarea id="wish-message" required placeholder="想對我們說的話..." style="height: 100px;"></textarea></div>
+                <div class="form-group"><label>您的姓名</label><input type="text" id="wish-name" required placeholder="請輸入姓名"></div>
+                <div class="form-group"><label>祝福的話</label><textarea id="wish-message" required placeholder="想對我們說的話..." style="height: 100px;"></textarea></div>
                 <button type="submit" class="submit-btn">送上我的祝福！</button>
             </form>
         </div>
         <div class="sticky-wall" id="sticky-wall"></div>
     </section>
 
+    <!-- 底部文字套用沉魚落雁體 -->
     <footer style="text-align:center; padding:80px 0; color:#c9a466; font-family:'ChenYuluoyan', 'my font', cursive; font-size: 2.2rem;">好久不見，我們婚禮見！</footer>
 </div>
 
