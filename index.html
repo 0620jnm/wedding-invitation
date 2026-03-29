@@ -300,108 +300,43 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     transform: scale(1.1) translateY(-2px);
     color: #a88448;
 }
-.countdown-grid {
-    max-width: 640px;
-    margin: 0 auto;
-    background: #fff;
-    border-radius: 24px;
-    border: 1px solid #e0d9d0;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
-    padding: 28px 24px 24px;
-}
-.countdown-header {
-    display: flex;
-    justify-content: center;
-    align-items: baseline;
-    margin-bottom: 18px;
-    font-family: 'my font';
-    color: #c9a466;
-}
-.countdown-month {
-    letter-spacing: 0.35em;
-    font-size: 2.2rem;
-    font-weight: 600;
-}
-.countdown-days-row {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
-    margin-bottom: 10px;
-}
-.countdown-day-label,
-.countdown-day-cell {
-    width: 100%;
-    padding: 10px 0;
-    text-align: center;
-    font-family: 'my font';
-    font-size: 1.4rem;
-}
-.countdown-day-label {
-    color: #b79b6b;
-}
-.countdown-day-cell {
-    border-radius: 12px;
-    color: #5a4a34;
-}
-.cd-empty {
-    background: transparent;
-}
-.cd-normal {
-    background: #f5eee3;
-}
-.cd-today {
-    background: #c9a466;
-    color: #fff;
-    font-weight: 600;
-}
-.cd-wedding {
-    background: #f2e3cf;
-    color: #2c2c2c;
-    font-weight: 700;
-    position: relative;
-    box-shadow: 0 0 0 0 rgba(201,164,102,0.5);
-    animation: weddingPulse 1.8s infinite;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-.cd-wedding span {
-    position: relative;
+/* 頂部婚宴資訊文字 */
+.wedding-info-title { font-family: 'my font'; font-size: 1.8rem; color: #444; letter-spacing: 0.2em; margin-bottom: 25px; }
+.wedding-info-detail { font-family: 'my font'; font-size: 1.6rem; color: #666; margin-bottom: 8px; letter-spacing: 0.1em; }
+.wedding-info-time { font-family: 'my font'; font-size: 1.4rem; color: #888; margin-bottom: 40px; letter-spacing: 0.1em; }
+
+/* 倒數計時框框 */
+.flip-countdown-wrapper { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 35px; font-family: 'my font'; color: #c9a466; font-size: 2rem; font-weight: 700; letter-spacing: 0.1em; }
+.flip-box { display: flex; gap: 4px; }
+.flip-digit { background: #fff; border: 1px solid #e0d9d0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-radius: 8px; padding: 6px 12px; min-width: 45px; text-align: center; position: relative; transition: transform 0.1s ease-in-out; color: #444; }
+.flip-digit.flipping { transform: scale(1.1) translateY(-2px); color: #c9a466; }
+
+/* 無色塊、乾淨的月曆設計 */
+.clean-calendar-container { max-width: 320px; margin: 0 auto 40px; }
+.clean-calendar-month { display: flex; justify-content: center; font-family: 'my font'; font-size: 2.2rem; color: #c9a466; margin-bottom: 15px; letter-spacing: 0.15em; }
+.clean-calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px 2px; }
+.clean-day-label { font-family: 'Playfair Display', serif; font-size: 0.8rem; color: #a4a4a4; padding-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+.clean-day-cell { font-family: 'my font'; font-size: 1.3rem; color: #555; padding: 8px 0; display: flex; align-items: center; justify-content: center; }
+
+/* 當天婚禮日的特殊圈圈標記 */
+.clean-day-wedding { 
+    position: relative; 
+    color: #fff; 
     z-index: 2;
 }
-.cd-wedding::after {
-    content: "♥";
+.clean-day-wedding::before {
+    content: "";
     position: absolute;
-    left: 50%;
+    width: 32px;
+    height: 32px;
+    background-color: #c9a466;
+    border-radius: 50%;
+    z-index: -1;
     top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 1.7rem;
-    color: rgba(201, 164, 102, 0.32);
-    z-index: 1;
-    line-height: 1;
+    box-shadow: 0 2px 8px rgba(201,164,102,0.4);
 }
-
-@keyframes weddingPulse {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(201,164,102,0.4);
-    }
-    50% {
-        transform: scale(1.06);
-        box-shadow: 0 0 0 10px rgba(201,164,102,0);
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(201,164,102,0);
-    }
-}
-
-.countdown-footer {
-    margin-top: 16px;
-    font-family: 'my font';
-    font-size: 1.4rem;
-    color: #777;
 }
 
 /* Info / Form / Notes */
@@ -488,17 +423,50 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
       <!-- 合併後的婚禮資訊與倒數月曆 -->
     <section class="info-section" id="countdown-section">
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">婚禮資訊</h2>
-        <div class="info-card">
-            
-            <!-- 上半部：倒數月曆 -->
-            <div class="flip-countdown-wrapper">
-                <span>倒數</span>
-                <div class="flip-box">
-                    <div class="flip-digit" id="digit-tens">0</div>
-                    <div class="flip-digit" id="digit-ones">0</div>
-                </div>
-                <span>天</span>
+        <section class="info-section" id="countdown-section">
+    <div class="info-card">
+        
+        <!-- 新增：上方婚宴資訊 -->
+        <div class="wedding-info-title">婚禮資訊</div>
+        <div class="wedding-info-detail">2026年6月20日 星期六</div>
+        <div class="wedding-info-time">10:30 開始入場</div>
+
+        <!-- 倒數計時器 -->
+        <div class="flip-countdown-wrapper">
+            <span>倒數</span>
+            <div class="flip-box">
+                <div class="flip-digit" id="digit-tens">0</div>
+                <div class="flip-digit" id="digit-ones">0</div>
             </div>
+            <span>天</span>
+        </div>
+
+        <!-- 更新：乾淨無色塊月曆 (縮小且一體成型) -->
+        <div class="clean-calendar-container">
+            <div class="clean-calendar-month">06 / 20</div>
+            <div class="clean-calendar-grid" id="clean-calendar-body">
+                <div class="clean-day-label">SUN</div>
+                <div class="clean-day-label">MON</div>
+                <div class="clean-day-label">TUE</div>
+                <div class="clean-day-label">WED</div>
+                <div class="clean-day-label">THU</div>
+                <div class="clean-day-label">FRI</div>
+                <div class="clean-day-label">SAT</div>
+            </div>
+        </div>
+
+        <!-- 下半部：地點資訊不變，原本的虛線 <hr> 跟 期待文字 已被移除 -->
+        <p style="font-family: 'my font'; font-size: 1.8rem; color: #444;">暖居日穀</p>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 5px;">
+            <p style="font-family: 'my font'; font-size: 1.5rem; color: #888; margin: 0;">台中市北屯區松竹路一段3號</p>
+            <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');" style="background: #c9a466; color: #fff; border: none; border-radius: 4px; padding: 4px 10px; font-size: 0.9rem; font-family: 'my font'; cursor: pointer; letter-spacing: 0.1em;">複製</button>
+        </div>
+        <div class="map-container">
+           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width=100% height=100% style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <a href="https://maps.app.goo.gl/..." target="_blank" style="display:inline-block; padding:12px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; font-family: 'my font'; font-size: 1.1rem; background:#fff; border-radius: 8px;">開啟地圖導航</a>
+    </div>
+</section>
             <div class="countdown-header"><span class="countdown-month">2026年6月</span></div>
             <div class="countdown-days-row">
                 <div class="countdown-day-label">日</div><div class="countdown-day-label">一</div>
@@ -619,24 +587,42 @@ var isPrinting = false;
 var targetDays = 0;
 var hasAnimated = false;
 
-function endIntro() {
-    document.getElementById('intro-overlay').style.opacity = '0';
-    document.getElementById('main-wrapper').classList.add('is-visible');
-    document.body.style.overflow = "auto";
-    document.documentElement.style.overflow = "auto";
-    
-    setTimeout(() => { 
-        document.getElementById('intro-overlay').style.display = 'none'; 
-    }, 1500);
-}
+(function(){
+    const year = 2026;
+    const monthIndex = 5;
+    const weddingDay = 20;
+    const weddingDate = new Date(year, monthIndex, weddingDay, 11, 0, 0);
 
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        videoId: 'pmrCXt4lNyA',
-        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0, 'playsinline': 1 },
-        events: {
-            'onStateChange': (e) => {
-                document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
+    const firstDay = new Date(year, monthIndex, 1);
+    const firstWeekDay = firstDay.getDay(); 
+    const nextMonthFirst = new Date(year, monthIndex + 1, 1);
+    const lastDate = new Date(nextMonthFirst - 1).getDate();
+
+    const bodyEl = document.getElementById('clean-calendar-body');
+    if (!bodyEl) return;
+
+    let html = '';
+
+    // 填入月初的空白天數
+    for (let i = 0; i < firstWeekDay; i++) {
+        html += `<div class="clean-day-cell"></div>`;
+    }
+
+    // 填入日期
+    for (let d = 1; d <= lastDate; d++) {
+        let cls = 'clean-day-cell';
+        if (d === weddingDay) {
+            cls += ' clean-day-wedding'; // 婚禮當天的特效
+        }
+        html += `<div class="${cls}"><span>${d}</span></div>`;
+    }
+
+    bodyEl.insertAdjacentHTML('beforeend', html);
+
+    const today = new Date();
+    const diffMs = weddingDate.getTime() - today.getTime();
+    targetDays = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+})();
             }
         }
     });
