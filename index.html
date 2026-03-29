@@ -57,17 +57,19 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 
 /* 載入畫面的兩張真實照片設定 */
+/* 載入畫面的兩張拍立得照片設定 */
 .load-photo {
     position: absolute;
-    width: 90px;
-    height: 112px;
-    background: #fff;
-    padding: 5px 5px 18px 5px;
-    box-shadow: 0 8px 20px rgba(120, 96, 52, 0.2);
+    width: 100px;
+    aspect-ratio: 4 / 5; /* 拍立得比例 */
+    background: #fdfdfd;
+    padding: 6px 6px 24px 6px; /* 拍立得經典邊框：下方留白多 */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     border-radius: 2px;
-    /* 初始為黑白 */
-    filter: grayscale(1);
-    /* 讓它在 3 秒內平滑變成彩色 */
+    
+    /* 初始為黑白 (100% 灰階) */
+    filter: grayscale(100%);
+    /* 配合進度條的時間，設定 3 秒內平滑變成彩色 */
     animation: colorizePhoto 3s ease forwards;
 }
 
@@ -80,18 +82,23 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 
 .load-photo-left {
-    left: 20px;
-    top: 10px;
+    left: 15px;
+    top: 5px;
     transform: rotate(-8deg);
 }
 .load-photo-left .load-photo-inner { background-image: url('P3.jpg'); }
 
 .load-photo-right {
-    right: 20px;
-    top: 25px;
+    right: 15px;
+    top: 20px;
     transform: rotate(8deg);
 }
 .load-photo-right .load-photo-inner { background-image: url('P2.png'); }
+
+@keyframes colorizePhoto {
+    0%   { filter: grayscale(100%); }
+    100% { filter: grayscale(0%); }
+}
 
 .loader-heart {
     position: absolute;
@@ -106,13 +113,30 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 
 /* 載入文字換成沉魚落雁體 */
-.loader-title {
-    font-family: 'ChenYuluoyan', 'my font', cursive;
-    font-size: 2.2rem;
-    color: #8a7448;
-    letter-spacing: 0.1em;
-    margin-bottom: 10px;
-}
+<!-- 進站 Loading 動畫 -->
+<div id="site-loader">
+    <div class="loader-inner">
+        
+        <div class="loader-polaroids">
+            <!-- 拍立得照片 -->
+            <div class="load-photo load-photo-left">
+                <div class="load-photo-inner"></div>
+            </div>
+            <div class="load-photo load-photo-right">
+                <div class="load-photo-inner"></div>
+            </div>
+            <div class="loader-heart">♥</div>
+        </div>
+
+        <!-- 已經刪除「頁面載入中，請稍後」 -->
+        <div class="loader-subtitle">請記得打開聲音 🔊</div>
+
+        <div class="loader-progress-track">
+            <div id="loader-progress-fill"></div>
+        </div>
+        <div id="loader-progress-text">0%</div>
+    </div>
+</div>
 
 .loader-subtitle {
     font-family: 'ChenYuluoyan', 'my font', cursive;
