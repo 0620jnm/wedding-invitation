@@ -63,37 +63,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     100% { opacity: 0; }
 }
 
-/* ★ 準備跳轉主畫面時的過場白畫面 ★ */
-#transition-overlay {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: #fff;
-    z-index: 15000; 
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; visibility: hidden;
-    /* 拉長淡出時間為 2.5 秒，讓切換更柔和 */
-    transition: opacity 2.5s ease-in-out, visibility 2.5s ease-in-out;
-    /* 允許點擊跳轉，所以 pointer-events 改為 auto */
-    pointer-events: auto;
-    cursor: pointer;
-}
-#transition-overlay.is-visible {
-    opacity: 1; visibility: visible;
-}
-.transition-text {
-    font-family: 'ChenYuluoyan', 'my font', cursive;
-    font-size: clamp(2.5rem, 8vw, 4rem);
-    color: #111; 
-    letter-spacing: 0.15em;
-    opacity: 0;
-    transform: scale(0.95);
-    transition: opacity 1.5s ease-in-out, transform 4s ease-out;
-}
-/* 當過場畫面顯示時，文字慢慢浮現並放大，創造出柔和的動畫感 */
-#transition-overlay.is-visible .transition-text {
-    opacity: 1;
-    transform: scale(1.05);
-}
-
 /* ★ 整個場景容器（負責鏡頭平移） ★ */
 #scene-container {
     position: relative;
@@ -468,11 +437,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 <div id="flash-effect"></div>
 
-<!-- 過場顯示白畫面與字體 -->
-<div id="transition-overlay">
-    <div class="transition-text">我們要結婚了！</div>
-</div>
-
 <div id="intro-overlay">
     <!-- 包住所有東西的場景容器，負責整體的上下平移（鏡頭轉移） -->
     <div id="scene-container">
@@ -639,7 +603,6 @@ var player;
 var isPrinting = false; 
 var targetDays = 0;
 var hasAnimated = false;
-var transitionTimer = null; // 用來控制自動跳轉的計時器
 
 function endIntro() {
     document.getElementById('intro-overlay').style.opacity = '0';
@@ -647,11 +610,9 @@ function endIntro() {
     document.body.style.overflow = "auto";
     document.documentElement.style.overflow = "auto";
     
-    // 等待 2.5 秒的淡出過場完全結束後，再徹底隱藏該區塊，避免阻擋點擊
     setTimeout(() => { 
         document.getElementById('intro-overlay').style.display = 'none'; 
-        document.getElementById('transition-overlay').style.display = 'none'; 
-    }, 2500);
+    }, 1500);
 }
 
 function onYouTubeIframeAPIReady() {
@@ -680,7 +641,6 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     const wrapper        = document.getElementById('polaroid-wrapper');
     const flash          = document.getElementById('flash-effect');
     const sceneContainer = document.getElementById('scene-container');
-    const transitionOverlay = document.getElementById('transition-overlay');
     
     if (!photo || !hint || !wrapper || !flash || !sceneContainer) return;
     
@@ -706,31 +666,10 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         sceneContainer.classList.add('is-panning');
     }, 2700);
 
-    // 4. 8秒時（看完照片後）顯示白底黑字的過場畫面「我們要結婚了！」
+    // 4. 看完照片後直接進入主視覺
     setTimeout(() => { 
-        transitionOverlay.classList.add('is-visible');
-    }, 8000); 
-
-    // 5. 設定 13 秒時自動淡出進入主畫面 (停留足夠時間讓字體動畫跑完)
-    transitionTimer = setTimeout(() => { 
-        transitionOverlay.classList.remove('is-visible');
         endIntro(); 
-    }, 13000); 
-});
-
-// 開放點擊白畫面可以提早跳轉進入主畫面
-document.getElementById('transition-overlay').addEventListener('click', function() {
-    // 若畫面已經被點擊或正在關閉，則不重複執行
-    if (!this.classList.contains('is-visible')) return;
-    
-    // 清除自動跳轉的計時器，避免重複執行 endIntro
-    if (transitionTimer) {
-        clearTimeout(transitionTimer);
-    }
-    
-    // 開始淡出並進入主畫面
-    this.classList.remove('is-visible');
-    endIntro();
+    }, 8000); 
 });
 
 (function(){
