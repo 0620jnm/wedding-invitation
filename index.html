@@ -14,7 +14,6 @@
 <!-- 優先連接 Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- 包含 Nanum Pen Script 字體 -->
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
@@ -63,42 +62,51 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     100% { opacity: 0; }
 }
 
-/* ★ 準備跳轉主畫面時的過場白畫面 ★ */
+/* ★ 準備跳轉主畫面時的過場白畫面 (加入手寫 SVG 動畫) ★ */
 #transition-overlay {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background: #fff;
     z-index: 15000; 
     display: flex; align-items: center; justify-content: center;
     opacity: 0; visibility: hidden;
-    /* 拉長淡出時間為 2.5 秒，讓切換更柔和 */
     transition: opacity 2.5s ease-in-out, visibility 2.5s ease-in-out;
-    /* 允許點擊跳轉，所以 pointer-events 改為 auto */
     pointer-events: auto;
     cursor: pointer;
 }
 #transition-overlay.is-visible {
     opacity: 1; visibility: visible;
 }
-.transition-text {
+
+/* SVG 手寫文字動畫設定 */
+.svg-text {
     font-family: 'ChenYuluoyan', 'my font', cursive;
     font-size: clamp(2.5rem, 8vw, 4rem);
-    color: #111; 
     letter-spacing: 0.15em;
-    opacity: 0;
-    transform: scale(0.95);
-    transition: opacity 1.5s ease-in-out, transform 4s ease-out;
+    fill: transparent; /* 初始填滿透明，讓描邊先出來 */
+    stroke: #111;      /* 黑字描邊 */
+    stroke-width: 1.5px;
+    stroke-dasharray: 600; /* 設定線段長度，足夠包覆整個字 */
+    stroke-dashoffset: 600; /* 隱藏整條線 */
 }
-/* 當過場畫面顯示時，文字慢慢浮現並放大，創造出柔和的動畫感 */
-#transition-overlay.is-visible .transition-text {
-    opacity: 1;
-    transform: scale(1.05);
+/* 當過場畫面顯示時，觸發動畫 */
+#transition-overlay.is-visible .svg-text {
+    /* draw-stroke 負責畫線，fill-color 負責最後填黑字 */
+    animation: draw-stroke 2s ease-out forwards, fill-color 1.5s ease-in forwards 1.2s;
+}
+
+@keyframes draw-stroke {
+    0% { stroke-dashoffset: 600; }
+    100% { stroke-dashoffset: 0; }
+}
+@keyframes fill-color {
+    0% { fill: transparent; stroke: #111; }
+    100% { fill: #111; stroke: transparent; }
 }
 
 /* ★ 整個場景容器（負責鏡頭平移） ★ */
 #scene-container {
     position: relative;
     transform: translateY(0);
-    /* 鏡位平移的動畫時間與曲線 */
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     display: flex;
     align-items: center;
@@ -106,8 +114,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     width: 100%;
     height: 100%;
 }
-
-/* 鏡頭往下轉移的幅度維持在 -60vh，讓下方的照片群置中 */
 #scene-container.is-panning {
     transform: translateY(-70vh); 
 }
@@ -130,18 +136,15 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     transition: opacity 3.5s ease;
 }
 
-/* 兩張照片共通的「拍立得白色邊框」設定 */
 .photo-frame {
     position: relative;
     width: 100%;
     aspect-ratio: 4 / 5;
     background: #fdfdfd;
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    /* 拍立得邊框比例：上方與左右留窄邊，下方留大面積空白 (22%) */
     padding: 6% 6% 22% 6%; 
 }
 
-/* P3 第一張照片（動態印出）的容器 */
 .print-photo-container {
     position: absolute;
     width: 47%;
@@ -169,17 +172,13 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* ★ P2 第二張照片（一開始藏在下方，不透明）的容器 ★ */
 .static-photo-container {
     position: absolute;
     width: 45%;
-    /* 位置固定在相機的右側 */
     left: 52%;
-    /* 藏在很下方的地方 */
     top: 220%; 
     z-index: 5; 
     transform: rotate(8deg);
-    /* 一開始就是 100% 可見，純粹靠鏡頭往下平移才會出現 */
     opacity: 1; 
 }
 
@@ -192,14 +191,10 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* P2 照片底部的空白處手寫字 */
 .photo-date {
     position: absolute;
-    /* 調整對齊：利用整個底部留白高度置中 */
-    /* 留白大約佔整體的 22%，所以 11% 是這塊留白的中心高度 */
     bottom: 11%;
     left: 50%;
-    /* translateY(50%) 確保字體的中心點對齊那條線 */
     transform: translate(-50%, 50%);
     width: 100%;
     text-align: center;
@@ -212,7 +207,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     z-index: 2;
 }
 
-/* 運鏡特效：相機上抽與淡出，P3 稍微往左下擺 */
 .polaroid-wrapper.is-focusing {
     transform: translateY(-20vh);
 }
@@ -222,11 +216,9 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 
 .polaroid-wrapper.is-focusing .print-photo-container {
-    /* P3 印出後往下飄落，跟 P2 差不多低 */
     transform: translate(-55%, 60vh) rotate(-6deg);
 }
 
-/* 印出動畫 */
 .print-photo.is-printing {
     opacity: 1; 
     animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
@@ -244,7 +236,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     100% { filter: brightness(1)   saturate(1); }
 }
 
-/* 點擊文字提示 */
 .print-hint {
     position: absolute;
     bottom: -80px;
@@ -469,9 +460,12 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 <div id="flash-effect"></div>
 
-<!-- 過場顯示白畫面與字體 -->
+<!-- 過場顯示白畫面與 SVG 動畫字體 -->
 <div id="transition-overlay">
-    <div class="transition-text">我們要結婚了！</div>
+    <!-- 利用 SVG text element 來達成手寫 stroke 動畫效果 -->
+    <svg width="100%" height="200" viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg">
+        <text class="svg-text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">我們要結婚了！</text>
+    </svg>
 </div>
 
 <div id="intro-overlay">
@@ -640,7 +634,7 @@ var player;
 var isPrinting = false; 
 var targetDays = 0;
 var hasAnimated = false;
-var transitionTimer = null; // 用來控制自動跳轉的計時器
+var transitionTimer = null; 
 
 function endIntro() {
     document.getElementById('intro-overlay').style.opacity = '0';
@@ -648,7 +642,6 @@ function endIntro() {
     document.body.style.overflow = "auto";
     document.documentElement.style.overflow = "auto";
     
-    // 等待 2.5 秒的淡出過場完全結束後，再徹底隱藏該區塊，避免阻擋點擊
     setTimeout(() => { 
         document.getElementById('intro-overlay').style.display = 'none'; 
         document.getElementById('transition-overlay').style.display = 'none'; 
@@ -692,44 +685,38 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         try { player.playVideo(); } catch(e) {}
     }
 
-    // 1. 閃光
     flash.classList.add('is-flashing');
 
-    // 2. P3 開始印出
     setTimeout(() => {
         photo.classList.add('is-printing');
     }, 200);
     
-    // 3. P3 顯影 + 鏡位往下平移，把藏在深處的 P2 帶進畫面
     setTimeout(() => { 
         photo.classList.add('is-developed'); 
         wrapper.classList.add('is-focusing'); 
         sceneContainer.classList.add('is-panning');
     }, 2700);
 
-    // 4. 8秒時（看完照片後）顯示白底黑字的過場畫面「我們要結婚了！」
+    // 8秒時顯示過場畫面，觸發 SVG 手寫動畫
     setTimeout(() => { 
         transitionOverlay.classList.add('is-visible');
     }, 8000); 
 
-    // 5. 設定 13 秒時自動淡出進入主畫面 (比之前多停留了兩秒，讓字體動畫跑完)
+    // 12秒時自動淡出進入主畫面 (動畫約 3.5 秒結束)
     transitionTimer = setTimeout(() => { 
         transitionOverlay.classList.remove('is-visible');
         endIntro(); 
-    }, 13000); 
+    }, 12000); 
 });
 
 // 開放點擊白畫面可以提早跳轉進入主畫面
 document.getElementById('transition-overlay').addEventListener('click', function() {
-    // 若畫面已經被點擊或正在關閉，則不重複執行
     if (!this.classList.contains('is-visible')) return;
     
-    // 清除自動跳轉的計時器，避免重複執行 endIntro
     if (transitionTimer) {
         clearTimeout(transitionTimer);
     }
     
-    // 開始淡出並進入主畫面
     this.classList.remove('is-visible');
     endIntro();
 });
