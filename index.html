@@ -133,6 +133,45 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(4rem, 12vw, 6.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 20px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
 
+/* =========================================
+   新增：滑動照片展示區 (W1~W4)
+========================================= */
+.gallery-scroll-section {
+    width: 100%;
+    padding: 100px 20px;
+    background: #faf8f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 80px; 
+    overflow-x: hidden; 
+}
+
+.scroll-photo {
+    width: min(85vw, 400px); 
+    opacity: 0;
+    transition: all 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.scroll-photo .photo-frame {
+    width: 100%;
+    background: #fff;
+    padding: 4% 4% 15% 4%; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.scroll-photo .photo-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.photo-left { transform: translateX(-100vw) rotate(0deg); }
+.photo-right { transform: translateX(100vw) rotate(0deg); }
+
+.scroll-photo.is-visible.tilt-left { opacity: 1; transform: translateX(0) rotate(-6deg); }
+.scroll-photo.is-visible.tilt-right { opacity: 1; transform: translateX(0) rotate(6deg); }
+
 
 /* =========================================
    共用按鈕樣式 (行事曆/導航/複製)
@@ -221,7 +260,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 <!-- 進站 Loading 動畫 -->
 <div id="site-loader">
     <div class="loader-inner">
-        <!-- 只留下「請記得打開聲音」與進度條 -->
         <div class="loader-subtitle" style="margin-bottom: 30px;">請記得打開聲音 🔊</div>
         <div class="loader-progress-track">
             <div id="loader-progress-fill"></div>
@@ -262,11 +300,40 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <p style="margin-top:35px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
     </div>
 
+    <!-- =========================================
+         新增：滑動照片展示區 (W1~W4)
+    ========================================= -->
+    <section class="gallery-scroll-section">
+        <!-- 第 1 張：從左邊滑入 -->
+        <div class="scroll-photo photo-left tilt-left">
+            <div class="photo-frame">
+                <img src="W1.jpg" alt="Wedding Photo 1">
+            </div>
+        </div>
+        <!-- 第 2 張：從右邊滑入 -->
+        <div class="scroll-photo photo-right tilt-right">
+            <div class="photo-frame">
+                <img src="W2.jpg" alt="Wedding Photo 2">
+            </div>
+        </div>
+        <!-- 第 3 張：從左邊滑入 -->
+        <div class="scroll-photo photo-left tilt-left">
+            <div class="photo-frame">
+                <img src="W3.jpg" alt="Wedding Photo 3">
+            </div>
+        </div>
+        <!-- 第 4 張：從右邊滑入 -->
+        <div class="scroll-photo photo-right tilt-right">
+            <div class="photo-frame">
+                <img src="W4.jpg" alt="Wedding Photo 4">
+            </div>
+        </div>
+    </section>
+
     <section class="info-section" id="countdown-section">
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">婚禮資訊</h2>
         
         <div class="info-card">
-            
             <div class="wedding-info-detail">2026 年 6 月 20 日 星期六</div>
             <div class="wedding-info-time">10:30 開始入場</div>
 
@@ -416,12 +483,10 @@ document.fonts.ready.then(function() {
     }
 });
 
-// ===== 就是缺了下面這四行 =====
 var player;
 var isPrinting = false; 
 var targetDays = 0;
 var hasAnimated = false;
-// ==============================
 
 /* =========================================
    載入動畫與進度條邏輯
@@ -437,7 +502,6 @@ function setLoaderProgress(value) {
     if (loaderText) loaderText.textContent = Math.floor(safeValue) + '%';
 }
 
-// 拖慢進度條：每 250 毫秒增加 1~3%
 var loaderTimer = setInterval(() => {
     if (fakeProgress < 95) {
         fakeProgress += Math.random() * 2 + 1; 
@@ -446,20 +510,11 @@ var loaderTimer = setInterval(() => {
     }
 }, 250);
 
-// 當整個網頁載入完畢，進度條推到 100% 並隱藏 loader
 window.addEventListener('load', function () {
     clearInterval(loaderTimer);
     setLoaderProgress(100);
-
-    // 載入達 100% 後，多停留 1.5 秒讓大家看清楚字
-    setTimeout(() => {
-        if (siteLoader) siteLoader.classList.add('is-hidden');
-    }, 1500);
-
-    // 徹底移除 loader 元素
-    setTimeout(() => {
-        if (siteLoader) siteLoader.remove();
-    }, 2500);
+    setTimeout(() => { if (siteLoader) siteLoader.classList.add('is-hidden'); }, 1500);
+    setTimeout(() => { if (siteLoader) siteLoader.remove(); }, 2500);
 });
 
 function endIntro() {
@@ -514,6 +569,25 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         sceneContainer.classList.add('is-panning');
     }, 2700);
     setTimeout(() => { endIntro(); }, 6500); 
+});
+
+/* =========================================
+   照片左右滑入動畫 (Intersection Observer)
+========================================= */
+document.addEventListener("DOMContentLoaded", function() {
+    const scrollPhotos = document.querySelectorAll('.scroll-photo');
+    const photoObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    scrollPhotos.forEach(photo => {
+        photoObserver.observe(photo);
+    });
 });
 
 (function(){
