@@ -559,8 +559,8 @@ function endIntro() {
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-        videoId: '_yLiX6Zj58g&list',
-        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': '_yLiX6Zj58g&list', 'controls': 0, 'playsinline': 1 },
+        videoId: '_yLiX6Zj58g',
+        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': '_yLiX6Zj58g', 'controls': 0, 'playsinline': 1 },
         events: {
             'onStateChange': (e) => {
                 document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
