@@ -24,6 +24,150 @@
 *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
 html, body { width: 100%; min-height: 100%; background: #faf8f5; overflow: hidden; }
 body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-x: hidden; }
+    /* 進站 loading */
+#site-loader {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(180deg, #e8dcc4 0%, #f7f1e7 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30000;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#site-loader.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-inner {
+    width: min(82vw, 340px);
+    text-align: center;
+}
+
+.loader-polaroids {
+    position: relative;
+    width: 180px;
+    height: 120px;
+    margin: 0 auto 26px;
+}
+
+.mini-polaroid {
+    position: absolute;
+    width: 82px;
+    height: 98px;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 10px 24px rgba(120, 96, 52, 0.16);
+}
+
+.mini-polaroid::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    height: 58px;
+    background: linear-gradient(135deg, #f4ead7, #d9c19a);
+    border-radius: 2px;
+}
+
+.mini-polaroid::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    width: 38px;
+    height: 3px;
+    transform: translateX(-50%);
+    background: rgba(120, 96, 52, 0.18);
+    border-radius: 99px;
+}
+
+.polaroid-left {
+    left: 12px;
+    top: 8px;
+    transform: rotate(-10deg);
+    animation: floatLeft 1.8s ease-in-out infinite;
+}
+
+.polaroid-right {
+    right: 12px;
+    top: 18px;
+    transform: rotate(10deg);
+    animation: floatRight 1.8s ease-in-out infinite;
+}
+
+.loader-heart {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -40%);
+    font-size: 1.8rem;
+    color: #c9a466;
+    animation: heartBeat 1.2s ease-in-out infinite;
+    text-shadow: 0 4px 10px rgba(201,164,102,0.25);
+}
+
+.loader-title {
+    font-family: 'my font';
+    font-size: 1.7rem;
+    color: #8a7448;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+}
+
+.loader-subtitle {
+    font-family: 'my font';
+    font-size: 1.15rem;
+    color: #a48b5c;
+    letter-spacing: 0.05em;
+    margin-bottom: 18px;
+}
+
+.loader-progress-track {
+    width: 100%;
+    height: 10px;
+    background: rgba(255,255,255,0.65);
+    border-radius: 999px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+}
+
+#loader-progress-fill {
+    width: 0%;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #c9a466 0%, #e6cf9c 100%);
+    box-shadow: 0 0 12px rgba(201,164,102,0.28);
+    transition: width 0.25s ease;
+}
+
+#loader-progress-text {
+    margin-top: 10px;
+    font-family: 'my font';
+    font-size: 1.15rem;
+    color: #8a7448;
+    letter-spacing: 0.08em;
+}
+
+@keyframes floatLeft {
+    0%, 100% { transform: rotate(-10deg) translateY(0); }
+    50% { transform: rotate(-7deg) translateY(-8px); }
+}
+
+@keyframes floatRight {
+    0%, 100% { transform: rotate(10deg) translateY(0); }
+    50% { transform: rotate(7deg) translateY(-10px); }
+}
+
+@keyframes heartBeat {
+    0%, 100% { transform: translate(-50%, -40%) scale(1); }
+    25% { transform: translate(-50%, -40%) scale(1.12); }
+    50% { transform: translate(-50%, -40%) scale(0.96); }
+    75% { transform: translate(-50%, -40%) scale(1.08); }
+}
 
 /* 開場：Polaroid 列印動畫 */
 #intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e8dcc4; z-index: 10000; display: flex; align-items: center; justify-content: center; transition: opacity 1.5s ease-in-out; touch-action: none; cursor: pointer; }
@@ -372,6 +516,37 @@ var player;
 var isPrinting = false; 
 var targetDays = 0;
 var hasAnimated = false;
+    var siteLoader = document.getElementById('site-loader');
+var loaderFill = document.getElementById('loader-progress-fill');
+var loaderText = document.getElementById('loader-progress-text');
+var fakeProgress = 0;
+
+function setLoaderProgress(value) {
+    const safeValue = Math.max(0, Math.min(100, value));
+    if (loaderFill) loaderFill.style.width = safeValue + '%';
+    if (loaderText) loaderText.textContent = Math.floor(safeValue) + '%';
+}
+
+var loaderTimer = setInterval(() => {
+    if (fakeProgress < 92) {
+        fakeProgress += Math.random() * 8;
+        if (fakeProgress > 92) fakeProgress = 92;
+        setLoaderProgress(fakeProgress);
+    }
+}, 180);
+
+window.addEventListener('load', function () {
+    clearInterval(loaderTimer);
+    setLoaderProgress(100);
+
+    setTimeout(() => {
+        if (siteLoader) siteLoader.classList.add('is-hidden');
+    }, 350);
+
+    setTimeout(() => {
+        if (siteLoader) siteLoader.remove();
+    }, 1200);
+});
 
 function endIntro() {
     document.getElementById('intro-overlay').style.opacity = '0';
