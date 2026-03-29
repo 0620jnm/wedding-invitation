@@ -559,8 +559,8 @@ function endIntro() {
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-        videoId: 'T8ofSRLS-zqSqmXA',
-        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'T8ofSRLS-zqSqmXA', 'controls': 0, 'playsinline': 1 },
+        videoId: '_yLiX6Zj58g&list=RD_yLiX6Zj58g&start_radio=1',
+        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': '_yLiX6Zj58g&list=RD_yLiX6Zj58g&start_radio=1', 'controls': 0, 'playsinline': 1 },
         events: {
             'onStateChange': (e) => {
                 document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
