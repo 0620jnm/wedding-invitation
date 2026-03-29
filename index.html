@@ -24,7 +24,10 @@
 *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
 html, body { width: 100%; min-height: 100%; background: #faf8f5; overflow: hidden; }
 body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-x: hidden; }
-    /* 進站 loading */
+
+/* =========================================
+   載入動畫 (Loading Overlay)
+========================================= */
 #site-loader {
     position: fixed;
     inset: 0;
@@ -42,94 +45,87 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 
 .loader-inner {
-    width: min(82vw, 340px);
+    width: min(85vw, 360px);
     text-align: center;
 }
 
 .loader-polaroids {
     position: relative;
-    width: 180px;
-    height: 120px;
-    margin: 0 auto 26px;
+    width: 220px;
+    height: 150px;
+    margin: 0 auto 30px;
 }
 
-.mini-polaroid {
+/* 載入畫面的兩張真實照片設定 */
+.load-photo {
     position: absolute;
-    width: 82px;
-    height: 98px;
+    width: 90px;
+    height: 112px;
     background: #fff;
-    border-radius: 4px;
-    box-shadow: 0 10px 24px rgba(120, 96, 52, 0.16);
-}
-
-.mini-polaroid::before {
-    content: "";
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    right: 8px;
-    height: 58px;
-    background: linear-gradient(135deg, #f4ead7, #d9c19a);
+    padding: 5px 5px 18px 5px;
+    box-shadow: 0 8px 20px rgba(120, 96, 52, 0.2);
     border-radius: 2px;
+    /* 初始為黑白 */
+    filter: grayscale(1);
+    /* 讓它在 3 秒內平滑變成彩色 */
+    animation: colorizePhoto 3s ease forwards;
 }
 
-.mini-polaroid::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: 10px;
-    width: 38px;
-    height: 3px;
-    transform: translateX(-50%);
-    background: rgba(120, 96, 52, 0.18);
-    border-radius: 99px;
+.load-photo-inner {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    box-shadow: inset 0 0 4px rgba(0,0,0,0.1);
 }
 
-.polaroid-left {
-    left: 12px;
-    top: 8px;
-    transform: rotate(-10deg);
-    animation: floatLeft 1.8s ease-in-out infinite;
+.load-photo-left {
+    left: 20px;
+    top: 10px;
+    transform: rotate(-8deg);
 }
+.load-photo-left .load-photo-inner { background-image: url('P3.jpg'); }
 
-.polaroid-right {
-    right: 12px;
-    top: 18px;
-    transform: rotate(10deg);
-    animation: floatRight 1.8s ease-in-out infinite;
+.load-photo-right {
+    right: 20px;
+    top: 25px;
+    transform: rotate(8deg);
 }
+.load-photo-right .load-photo-inner { background-image: url('P2.png'); }
 
 .loader-heart {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -40%);
-    font-size: 1.8rem;
+    transform: translate(-50%, -30%);
+    font-size: 2rem;
     color: #c9a466;
     animation: heartBeat 1.2s ease-in-out infinite;
-    text-shadow: 0 4px 10px rgba(201,164,102,0.25);
+    text-shadow: 0 4px 10px rgba(201,164,102,0.3);
+    z-index: 10;
 }
 
+/* 載入文字換成沉魚落雁體 */
 .loader-title {
-    font-family: 'my font';
-    font-size: 1.7rem;
+    font-family: 'ChenYuluoyan', 'my font', cursive;
+    font-size: 2.2rem;
     color: #8a7448;
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
 }
 
 .loader-subtitle {
-    font-family: 'my font';
-    font-size: 1.15rem;
+    font-family: 'ChenYuluoyan', 'my font', cursive;
+    font-size: 1.6rem;
     color: #a48b5c;
-    letter-spacing: 0.05em;
-    margin-bottom: 18px;
+    letter-spacing: 0.08em;
+    margin-bottom: 25px;
 }
 
 .loader-progress-track {
     width: 100%;
-    height: 10px;
-    background: rgba(255,255,255,0.65);
+    height: 8px;
+    background: rgba(255,255,255,0.7);
     border-radius: 999px;
     overflow: hidden;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
@@ -140,36 +136,34 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     height: 100%;
     border-radius: 999px;
     background: linear-gradient(90deg, #c9a466 0%, #e6cf9c 100%);
-    box-shadow: 0 0 12px rgba(201,164,102,0.28);
-    transition: width 0.25s ease;
+    box-shadow: 0 0 12px rgba(201,164,102,0.3);
+    transition: width 0.3s ease;
 }
 
 #loader-progress-text {
-    margin-top: 10px;
+    margin-top: 12px;
     font-family: 'my font';
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     color: #8a7448;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
 }
 
-@keyframes floatLeft {
-    0%, 100% { transform: rotate(-10deg) translateY(0); }
-    50% { transform: rotate(-7deg) translateY(-8px); }
-}
-
-@keyframes floatRight {
-    0%, 100% { transform: rotate(10deg) translateY(0); }
-    50% { transform: rotate(7deg) translateY(-10px); }
+@keyframes colorizePhoto {
+    0%   { filter: grayscale(1); }
+    100% { filter: grayscale(0); }
 }
 
 @keyframes heartBeat {
-    0%, 100% { transform: translate(-50%, -40%) scale(1); }
-    25% { transform: translate(-50%, -40%) scale(1.12); }
-    50% { transform: translate(-50%, -40%) scale(0.96); }
-    75% { transform: translate(-50%, -40%) scale(1.08); }
+    0%, 100% { transform: translate(-50%, -30%) scale(1); }
+    25% { transform: translate(-50%, -30%) scale(1.12); }
+    50% { transform: translate(-50%, -30%) scale(0.96); }
+    75% { transform: translate(-50%, -30%) scale(1.08); }
 }
 
-/* 開場：Polaroid 列印動畫 */
+
+/* =========================================
+   開場：Polaroid 列印動畫
+========================================= */
 #intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e8dcc4; z-index: 10000; display: flex; align-items: center; justify-content: center; transition: opacity 1.5s ease-in-out; touch-action: none; cursor: pointer; }
 #flash-effect { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #fff; z-index: 20000; opacity: 0; pointer-events: none; }
 #flash-effect.is-flashing { animation: flashBang 0.8s ease-out forwards; }
@@ -188,7 +182,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 .static-photo-container { position: absolute; width: 45%; left: 52%; top: 220%; z-index: 5; transform: rotate(8deg); opacity: 1; }
 .static-photo-inner { width: 100%; height: 100%; background-image: url('P2.png'); background-size: cover; background-position: center; box-shadow: inset 0 0 5px rgba(0,0,0,0.1); }
-/* 修正 2017.12.23 位置，使其完美置中於底部留白 */
 .photo-date { position: absolute; bottom: 0; left: 0; width: 100%; height: 22%; display: flex; align-items: center; justify-content: center; font-family: 'Nanum Pen Script', cursive; font-size: clamp(1.4rem, 5vw, 1.8rem); color: #3b3b3b; opacity: 0.85; letter-spacing: 0.1em; pointer-events: none; z-index: 2; padding-bottom: 5px; }
 
 .polaroid-wrapper.is-focusing { transform: translateY(-20vh); }
@@ -204,7 +197,9 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .print-hint.ready { animation: hintBlink 1.4s infinite; }
 @keyframes hintBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-/* 主視覺 */
+/* =========================================
+   主視覺
+========================================= */
 #main-wrapper { opacity: 0; visibility: hidden; transition: opacity 2s ease; width: 100%; }
 #main-wrapper.is-visible { opacity: 1; visibility: visible; }
 
@@ -217,26 +212,21 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(4rem, 12vw, 6.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 20px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
 
-/* 婚宴資訊與月曆 */
-.info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
-.info-card { max-width: 600px; background: #fff; padding: 45px 24px 40px; margin: 0 auto; border: 1px solid #e0d9d0; border-radius: 12px; }
 
-/* 統一為與暖居日穀相同的字體：大小 1.8rem, 顏色 #444 */
-.wedding-info-detail { font-family: 'my font'; font-size: 1.8rem; color: #444; margin-bottom: 10px; }
-.wedding-info-time { font-family: 'my font'; font-size: 1.8rem; color: #444; margin-bottom: 15px; }
-
-/* 共用金色按鈕 */
+/* =========================================
+   共用按鈕樣式 (行事曆/導航/複製)
+========================================= */
 .action-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-width: 140px;
-    padding: 8px 16px;
+    padding: 10px 20px;
     background: #c9a466;
     color: #fff;
     border: none;
-    border-radius: 4px;
-    font-size: 1rem;
+    border-radius: 6px;
+    font-size: 1.1rem;
     font-family: 'my font';
     letter-spacing: 0.1em;
     text-decoration: none;
@@ -244,21 +234,23 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     box-shadow: 0 4px 10px rgba(201,164,102,0.18);
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
+.action-btn:active { transform: scale(0.96); }
+.action-btn:hover { opacity: 0.92; }
 
-.action-btn:active {
-    transform: scale(0.97);
-}
+/* =========================================
+   婚宴資訊與月曆
+========================================= */
+.info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
+.info-card { max-width: 600px; background: #fff; padding: 45px 24px 40px; margin: 0 auto; border: 1px solid #e0d9d0; border-radius: 12px; }
 
-.action-btn:hover {
-    opacity: 0.92;
-}
+.wedding-info-detail { font-family: 'my font'; font-size: 1.8rem; color: #444; margin-bottom: 10px; }
+.wedding-info-time { font-family: 'my font'; font-size: 1.8rem; color: #444; margin-bottom: 15px; }
 
 .flip-countdown-wrapper { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 40px; font-family: 'my font'; color: #444; font-size: 1.8rem; }
 .flip-box { display: flex; gap: 4px; }
 .flip-digit { background: #fff; border: 1px solid #e0d9d0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-radius: 8px; padding: 6px 12px; min-width: 45px; text-align: center; position: relative; transition: transform 0.1s ease-in-out; color: #444; }
 .flip-digit.flipping { transform: scale(1.1) translateY(-2px); color: #c9a466; }
 
-/* 撕線造型的月曆容器 */
 .clean-calendar-container { max-width: 320px; margin: 0 auto 40px; background-color: #F7F6ED; border-radius: 0 0 12px 12px; padding: 30px 15px 20px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
 .clean-calendar-container::before { content: ""; position: absolute; top: -10px; left: 0; width: 100%; height: 10px; background-image: radial-gradient(circle at 10px 10px, transparent 10px, #F7F6ED 11px); background-size: 24px 20px; background-position: center top; }
 .calendar-title-row { display: flex; justify-content: space-between; align-items: flex-end; padding: 0 10px 20px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 15px; }
@@ -269,14 +261,11 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .clean-day-label { font-family: 'Playfair Display', serif; font-size: 0.85rem; color: #8a7c64; padding-bottom: 5px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: bold; }
 .clean-day-cell { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #666; padding: 8px 0; display: flex; align-items: center; justify-content: center; }
 
-/* 當天婚禮日的特殊圈圈標記與跳動特效 */
 .clean-day-wedding { position: relative; color: #fff; z-index: 2; font-weight: bold; }
 .clean-day-wedding::before { content: ""; position: absolute; width: 34px; height: 34px; background-color: #c9a466; border-radius: 50%; z-index: -1; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 2px 8px rgba(201,164,102,0.4); animation: weddingPulse 1.8s infinite; }
 @keyframes weddingPulse { 0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0.5); } 50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 0 8px rgba(201,164,102,0); } 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0); } }
 
-/* 地點與複製地址按鈕排版 */
-.location-text { font-family: 'my font'; font-size: 1.5rem; color: #888; margin-top: 5px; margin-bottom: 10px; }
-
+.location-text { font-family: 'my font'; font-size: 1.5rem; color: #888; margin-top: 5px; margin-bottom: 12px; }
 .map-container { width: 100%; height: 350px; margin: 25px 0; border: 1px solid #e0d9d0; border-radius: 8px; overflow: hidden; }
 
 /* 表單 / 留言板 */
@@ -307,16 +296,24 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 </style>
 </head>
 <body>
+
+<!-- 進站 Loading 動畫 -->
 <div id="site-loader">
     <div class="loader-inner">
+        
         <div class="loader-polaroids">
-            <div class="mini-polaroid polaroid-left"></div>
-            <div class="mini-polaroid polaroid-right"></div>
+            <!-- 直接使用真實照片，設定動畫由黑白轉彩色 -->
+            <div class="load-photo load-photo-left">
+                <div class="load-photo-inner"></div>
+            </div>
+            <div class="load-photo load-photo-right">
+                <div class="load-photo-inner"></div>
+            </div>
             <div class="loader-heart">♥</div>
         </div>
 
-        <div class="loader-title">婚禮頁面載入中</div>
-        <div class="loader-subtitle">照片與音樂比較多，請稍等一下 ♡</div>
+        <div class="loader-title">頁面載入中，請稍後</div>
+        <div class="loader-subtitle">請記得打開聲音 🔊</div>
 
         <div class="loader-progress-track">
             <div id="loader-progress-fill"></div>
@@ -324,6 +321,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <div id="loader-progress-text">0%</div>
     </div>
 </div>
+
 <div id="flash-effect"></div>
 
 <div id="intro-overlay">
@@ -338,7 +336,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
             <div class="static-photo-container" id="staticPhoto">
                 <div class="photo-frame">
                     <div class="static-photo-inner"></div>
-                    <!-- 日期完美置中 -->
                     <div class="photo-date">2017.12.23</div>
                 </div>
             </div>
@@ -362,18 +359,17 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         
         <div class="info-card">
             
-            <!-- 上方婚宴資訊：加上空格 -->
             <div class="wedding-info-detail">2026 年 6 月 20 日 星期六</div>
             <div class="wedding-info-time">10:30 開始入場</div>
 
-            <!-- 新增：加入行事曆按鈕 -->
-            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20260620T023000Z%2F20260620T070000Z&details=Jay%20%26%20Michelle%20%E7%9A%84%E5%A9%9A%E7%A6%AE%EF%BC%81%E6%9C%9F%E5%BE%85%E6%82%A8%E7%9A%84%E5%88%B0%E4%BE%86%E3%80%82&location=%E6%9A%96%E5%B1%85%E6%97%A5%E7%A9%80&text=Jay%20%26%20Michelle%20%E5%A9%9A%E7%A6%AE"
-   target="_blank"
-   class="action-btn"
-   style="margin-bottom: 30px;">
-   加入行事曆</a>
+            <!-- 加入行事曆：套用 action-btn -->
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20260620T023000Z%2F20260620T070000Z&details=Jay%20%26%20Michelle%20%E7%9A%84%E5%A9%9A%E7%A6%AE%EF%BC%81%E6%9C%9F%E5%BE%85%E6%82%A8%E7%9A%84%E5%88%B0%E4%BE%86%E3%80%82&location=%E6%9A%96%E5%B1%85%E6%97%A5%E7%A9%80&text=Jay%20%26%20Michelle%20%E5%A9%9A%E7%A6%AE" 
+               target="_blank" 
+               class="action-btn" 
+               style="margin-bottom: 30px;">
+               加入行事曆
+            </a>
 
-            <!-- 倒數計時器 -->
             <div class="flip-countdown-wrapper">
                 <span>倒數</span>
                 <div class="flip-box">
@@ -383,7 +379,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
                 <span>天</span>
             </div>
 
-            <!-- 撕下造型的月曆設計 -->
             <div class="clean-calendar-container">
                 <div class="calendar-title-row">
                     <span class="calendar-month">06</span>
@@ -401,26 +396,27 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
                 </div>
             </div>
 
-            <!-- 下半部：地點資訊 -->
             <p style="font-family: 'my font'; font-size: 1.8rem; color: #444;">暖居日穀</p>
-            <!-- 地址單獨一行，按鈕移至下一行置中 -->
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 5px;">
                 <p class="location-text">台中市北屯區松竹路一段3號</p>
-                <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');"
-        class="action-btn">
-    複製地址
-</button>
+                <!-- 複製地址：套用 action-btn -->
+                <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');" 
+                        class="action-btn">
+                    複製地址
+                </button>
             </div>
 
             <div class="map-container">
                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width=100% height=100% style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-            <a href="https://maps.app.goo.gl/..."
-   target="_blank"
-   class="action-btn"
-   style="margin-top: 6px;">
-   開啟地圖導航
-</a>
+            
+            <!-- 開啟地圖導航：套用 action-btn -->
+            <a href="https://maps.app.goo.gl/..." 
+               target="_blank" 
+               class="action-btn" 
+               style="margin-top: 10px;">
+               開啟地圖導航
+            </a>
         </div>
     </section>
 
@@ -516,7 +512,11 @@ var player;
 var isPrinting = false; 
 var targetDays = 0;
 var hasAnimated = false;
-    var siteLoader = document.getElementById('site-loader');
+
+/* =========================================
+   載入動畫與進度條邏輯
+========================================= */
+var siteLoader = document.getElementById('site-loader');
 var loaderFill = document.getElementById('loader-progress-fill');
 var loaderText = document.getElementById('loader-progress-text');
 var fakeProgress = 0;
@@ -528,20 +528,21 @@ function setLoaderProgress(value) {
 }
 
 var loaderTimer = setInterval(() => {
-    if (fakeProgress < 92) {
-        fakeProgress += Math.random() * 8;
-        if (fakeProgress > 92) fakeProgress = 92;
+    if (fakeProgress < 95) {
+        fakeProgress += Math.random() * 6;
+        if (fakeProgress > 95) fakeProgress = 95;
         setLoaderProgress(fakeProgress);
     }
-}, 180);
+}, 150);
 
+// 當整個網頁載入完畢，進度條推到 100% 並隱藏 loader
 window.addEventListener('load', function () {
     clearInterval(loaderTimer);
     setLoaderProgress(100);
 
     setTimeout(() => {
         if (siteLoader) siteLoader.classList.add('is-hidden');
-    }, 350);
+    }, 400);
 
     setTimeout(() => {
         if (siteLoader) siteLoader.remove();
