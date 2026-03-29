@@ -18,346 +18,92 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
-@font-face {
-    font-family: 'my font';
-    src: url('my%20font.ttf') format('truetype'); 
-    font-display: swap; 
-}
-
-/* 載入辰宇落雁體 (沉魚落雁體) */
-@font-face {
-    font-family: 'ChenYuluoyan';
-    src: url('https://cdn.jsdelivr.net/gh/Chenyu-otf/chenyuluoyan_thin@main/ChenYuluoyan-Thin.ttf') format('truetype');
-    font-display: swap;
-}
+@font-face { font-family: 'my font'; src: url('my%20font.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'ChenYuluoyan'; src: url('https://cdn.jsdelivr.net/gh/Chenyu-otf/chenyuluoyan_thin@main/ChenYuluoyan-Thin.ttf') format('truetype'); font-display: swap; }
 
 *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
 html, body { width: 100%; min-height: 100%; background: #faf8f5; overflow: hidden; }
 body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-x: hidden; }
 
-/* --- 開場：Polaroid 列印動畫 --- */
-#intro-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #e8dcc4;
-    z-index: 10000;
-    display: flex; align-items: center; justify-content: center;
-    transition: opacity 1.5s ease-in-out;
-    touch-action: none;
-    cursor: pointer;
-}
+/* 開場：Polaroid 列印動畫 */
+#intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e8dcc4; z-index: 10000; display: flex; align-items: center; justify-content: center; transition: opacity 1.5s ease-in-out; touch-action: none; cursor: pointer; }
+#flash-effect { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #fff; z-index: 20000; opacity: 0; pointer-events: none; }
+#flash-effect.is-flashing { animation: flashBang 0.8s ease-out forwards; }
+@keyframes flashBang { 0% { opacity: 0; } 10% { opacity: 1; } 100% { opacity: 0; } }
 
-/* 閃光燈特效 */
-#flash-effect {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: #fff;
-    z-index: 20000;
-    opacity: 0;
-    pointer-events: none; 
-}
-#flash-effect.is-flashing {
-    animation: flashBang 0.8s ease-out forwards;
-}
-@keyframes flashBang {
-    0%   { opacity: 0; }
-    10%  { opacity: 1; }
-    100% { opacity: 0; }
-}
+#scene-container { position: relative; transform: translateY(0); transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+#scene-container.is-panning { transform: translateY(-70vh); }
 
-/* ★ 整個場景容器（負責鏡頭平移） ★ */
-#scene-container {
-    position: relative;
-    transform: translateY(0);
-    /* 鏡位平移的動畫時間與曲線 */
-    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
+.polaroid-wrapper { position: relative; width: min(340px, 80vw); transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1); z-index: 10; }
+.camera-img { display: block; width: 100%; height: auto; position: relative; z-index: 10; pointer-events: none; transition: opacity 3.5s ease; }
 
-/* 鏡頭往下轉移的幅度 */
-#scene-container.is-panning {
-    transform: translateY(-70vh); 
-}
+.photo-frame { position: relative; width: 100%; aspect-ratio: 4 / 5; background: #fdfdfd; box-shadow: 0 8px 25px rgba(0,0,0,0.3); padding: 6% 6% 22% 6%; }
+.print-photo-container { position: absolute; width: 47%; left: 26.5%; top: 68.3%; z-index: 20; clip-path: inset(0 -50px -200% -50px); transform-origin: top center; transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1); will-change: transform; }
+.print-photo { transform: translateY(-95%); opacity: 0; }
+.print-photo-inner { width: 100%; height: 100%; background-image: url('P3.jpg'); background-size: cover; background-position: center; filter: brightness(0.1) saturate(0.1); box-shadow: inset 0 0 5px rgba(0,0,0,0.1); }
 
-/* 相機與第一張照片（P3）的主體 wrapper */
-.polaroid-wrapper {
-    position: relative;
-    width: min(340px, 80vw);
-    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    z-index: 10;
-}
+.static-photo-container { position: absolute; width: 45%; left: 52%; top: 220%; z-index: 5; transform: rotate(8deg); opacity: 1; }
+.static-photo-inner { width: 100%; height: 100%; background-image: url('P2.png'); background-size: cover; background-position: center; box-shadow: inset 0 0 5px rgba(0,0,0,0.1); }
+.photo-date { position: absolute; bottom: 11%; left: 50%; transform: translate(-50%, 50%); width: 100%; text-align: center; font-family: 'Nanum Pen Script', cursive; font-size: clamp(1.2rem, 4.5vw, 1.8rem); color: #3b3b3b; opacity: 0.85; letter-spacing: 0.1em; pointer-events: none; z-index: 2; }
 
-.camera-img {
-    display: block;
-    width: 100%;
-    height: auto;
-    position: relative;
-    z-index: 10;
-    pointer-events: none;
-    transition: opacity 3.5s ease;
-}
+.polaroid-wrapper.is-focusing { transform: translateY(-20vh); }
+.polaroid-wrapper.is-focusing .camera-img { opacity: 0; }
+.polaroid-wrapper.is-focusing .print-photo-container { transform: translate(-55%, 60vh) rotate(-6deg); }
 
-/* 兩張照片共通的「拍立得白色邊框」設定 */
-.photo-frame {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    background: #fdfdfd;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    /* 拍立得邊框比例：上方與左右留窄邊，下方留大面積空白 (22%) */
-    padding: 6% 6% 22% 6%; 
-}
+.print-photo.is-printing { opacity: 1; animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+@keyframes photoPrint { 0% { transform: translateY(-95%); } 100% { transform: translateY(0%); } }
+.print-photo.is-developed .print-photo-inner { animation: developFade 4s forwards; }
+@keyframes developFade { 0% { filter: brightness(0.1) saturate(0.1); } 100% { filter: brightness(1) saturate(1); } }
 
-/* P3 第一張照片（動態印出）的容器 */
-.print-photo-container {
-    position: absolute;
-    width: 47%;
-    left: 26.5%;
-    top: 68.3%; 
-    z-index: 20;
-    clip-path: inset(0 -50px -200% -50px);
-    transform-origin: top center;
-    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    will-change: transform;
-}
+.print-hint { position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%); font-family: 'my font'; font-size: 1.5rem; letter-spacing: 0.2em; color: #8a7448; white-space: nowrap; opacity: 0; transition: opacity 0.3s ease; z-index: 30; }
+.print-hint.ready { animation: hintBlink 1.4s infinite; }
+@keyframes hintBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-.print-photo {
-    transform: translateY(-95%);
-    opacity: 0; 
-}
-
-.print-photo-inner {
-    width: 100%;
-    height: 100%;
-    background-image: url('P3.jpg'); 
-    background-size: cover;
-    background-position: center;
-    filter: brightness(0.1) saturate(0.1);
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
-}
-
-/* ★ P2 第二張照片（一開始藏在下方，不透明）的容器 ★ */
-.static-photo-container {
-    position: absolute;
-    width: 45%;
-    /* 位置固定在相機的右側 */
-    left: 52%;
-    /* 藏在很下方的地方 */
-    top: 220%; 
-    z-index: 5; 
-    transform: rotate(8deg);
-    /* 一開始就是 100% 可見，純粹靠鏡頭往下平移才會出現 */
-    opacity: 1; 
-}
-
-.static-photo-inner {
-    width: 100%;
-    height: 100%;
-    background-image: url('P2.png');
-    background-size: cover;
-    background-position: center;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
-}
-
-/* P2 照片底部的空白處手寫字 */
-.photo-date {
-    position: absolute;
-    /* 調整對齊：利用整個底部留白高度置中 */
-    bottom: 11%;
-    left: 50%;
-    /* translateY(50%) 確保字體的中心點對齊那條線 */
-    transform: translate(-50%, 50%);
-    width: 100%;
-    text-align: center;
-    font-family: 'Nanum Pen Script', cursive;
-    font-size: clamp(1.2rem, 4.5vw, 1.8rem); 
-    color: #3b3b3b; 
-    opacity: 0.85; 
-    letter-spacing: 0.1em;
-    pointer-events: none;
-    z-index: 2;
-}
-
-/* 運鏡特效：相機上抽與淡出，P3 稍微往左下擺 */
-.polaroid-wrapper.is-focusing {
-    transform: translateY(-20vh);
-}
-
-.polaroid-wrapper.is-focusing .camera-img {
-    opacity: 0;
-}
-
-.polaroid-wrapper.is-focusing .print-photo-container {
-    /* P3 印出後往下飄落，跟 P2 差不多低 */
-    transform: translate(-55%, 60vh) rotate(-6deg);
-}
-
-/* 印出動畫 */
-.print-photo.is-printing {
-    opacity: 1; 
-    animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
-}
-@keyframes photoPrint {
-    0%   { transform: translateY(-95%); }
-    100% { transform: translateY(0%); }
-}
-
-.print-photo.is-developed .print-photo-inner {
-    animation: developFade 4s forwards;
-}
-@keyframes developFade {
-    0%   { filter: brightness(0.1) saturate(0.1); }
-    100% { filter: brightness(1)   saturate(1); }
-}
-
-/* 點擊文字提示 */
-.print-hint {
-    position: absolute;
-    bottom: -80px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: 'my font';
-    font-size: 1.5rem;
-    letter-spacing: 0.2em;
-    color: #8a7448;
-    white-space: nowrap;
-    opacity: 0; 
-    transition: opacity 0.3s ease;
-    z-index: 30;
-}
-.print-hint.ready {
-    animation: hintBlink 1.4s infinite;
-}
-@keyframes hintBlink {
-    0%,100% { opacity: 1; }
-    50%     { opacity: 0.4; }
-}
-
-/* --- 主視覺 --- */
+/* 主視覺 */
 #main-wrapper { opacity: 0; visibility: hidden; transition: opacity 2s ease; width: 100%; }
 #main-wrapper.is-visible { opacity: 1; visibility: visible; }
 
-.cover {
-    height: 100vh; width: 100%;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center; position: relative;
-    overflow: hidden; background-color: #f5f5dc;
-}
-.cover::before {
-    content: ""; position: absolute; top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-image: url('bg_silk.jpg.png');
-    background-size: cover; background-position: center;
-    z-index: 1;
-}
-.getting-married-text { 
-    color:#c9a466; margin-bottom: 15px; letter-spacing: 0.3em;
-    font-size: clamp(1.2rem, 4vw, 1.6rem); z-index: 10; font-weight: 300;
-    position: relative; font-family: 'my font', serif;
-}
+.cover { height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; background-color: #f5f5dc; }
+.cover::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('bg_silk.jpg.png'); background-size: cover; background-position: center; z-index: 1; }
+.getting-married-text { color:#c9a466; margin-bottom: 15px; letter-spacing: 0.3em; font-size: clamp(1.2rem, 4vw, 1.6rem); z-index: 10; font-weight: 300; position: relative; font-family: 'my font', serif; }
 .name-container { position: relative; z-index: 10; width: 100%; }
 .english-names { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 6vw, 3.2rem); color: #2c2c2c; letter-spacing: 0.05em; }
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 20px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
 
-/* --- 倒數月曆 --- */
-.countdown-section {
-    padding: 70px 20px 50px;
-    background: #fbf9f7;
-    text-align: center;
-}
-.flip-countdown-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 20px;
-    font-family: 'my font';
-    color: #c9a466;
-    font-size: 2.2rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-}
-.flip-box {
-    display: flex;
-    gap: 4px;
-}
-.flip-digit {
-    background: #fff;
-    border: 1px solid #e0d9d0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    border-radius: 8px;
-    padding: 4px 10px;
-    min-width: 45px;
-    text-align: center;
-    position: relative;
-    transition: transform 0.1s ease-in-out;
-}
-.flip-digit.flipping {
-    transform: scale(1.1) translateY(-2px);
-    color: #a88448;
-}
-/* 頂部婚宴資訊文字 */
+/* 婚宴資訊與月曆 */
+.info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
+.info-card { max-width: 600px; background: #fff; padding: 45px 24px 40px; margin: 0 auto; border: 1px solid #e0d9d0; border-radius: 12px; }
+
 .wedding-info-title { font-family: 'my font'; font-size: 1.8rem; color: #444; letter-spacing: 0.2em; margin-bottom: 25px; }
 .wedding-info-detail { font-family: 'my font'; font-size: 1.6rem; color: #666; margin-bottom: 8px; letter-spacing: 0.1em; }
 .wedding-info-time { font-family: 'my font'; font-size: 1.4rem; color: #888; margin-bottom: 40px; letter-spacing: 0.1em; }
 
-/* 倒數計時框框 */
 .flip-countdown-wrapper { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 35px; font-family: 'my font'; color: #c9a466; font-size: 2rem; font-weight: 700; letter-spacing: 0.1em; }
 .flip-box { display: flex; gap: 4px; }
 .flip-digit { background: #fff; border: 1px solid #e0d9d0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-radius: 8px; padding: 6px 12px; min-width: 45px; text-align: center; position: relative; transition: transform 0.1s ease-in-out; color: #444; }
 .flip-digit.flipping { transform: scale(1.1) translateY(-2px); color: #c9a466; }
 
-/* 無色塊、乾淨的月曆設計 */
 .clean-calendar-container { max-width: 320px; margin: 0 auto 40px; }
 .clean-calendar-month { display: flex; justify-content: center; font-family: 'my font'; font-size: 2.2rem; color: #c9a466; margin-bottom: 15px; letter-spacing: 0.15em; }
 .clean-calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px 2px; }
 .clean-day-label { font-family: 'Playfair Display', serif; font-size: 0.8rem; color: #a4a4a4; padding-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
 .clean-day-cell { font-family: 'my font'; font-size: 1.3rem; color: #555; padding: 8px 0; display: flex; align-items: center; justify-content: center; }
 
-/* 當天婚禮日的特殊圈圈標記 */
-.clean-day-wedding { 
-    position: relative; 
-    color: #fff; 
-    z-index: 2;
-}
-.clean-day-wedding::before {
-    content: "";
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    background-color: #c9a466;
-    border-radius: 50%;
-    z-index: -1;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 2px 8px rgba(201,164,102,0.4);
-}
-}
+.clean-day-wedding { position: relative; color: #fff; z-index: 2; }
+.clean-day-wedding::before { content: ""; position: absolute; width: 32px; height: 32px; background-color: #c9a466; border-radius: 50%; z-index: -1; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 2px 8px rgba(201,164,102,0.4); }
 
-/* Info / Form / Notes */
-.info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
-.info-card { max-width: 600px; background: #fff; padding: 40px 24px; margin: 0 auto; border: 1px solid #e0d9d0; border-radius: 12px; }
 .map-container { width: 100%; height: 350px; margin: 25px 0; border: 1px solid #e0d9d0; border-radius: 8px; overflow: hidden; }
 
+/* 表單 / 留言板 */
 .form-section { padding: 80px 20px; text-align: center; }
 .form-card { max-width: 550px; background: #fff; padding: 40px 30px; margin: 0 auto; border: 1px solid #e0d9d0; border-radius: 12px; }
 .form-group { margin-bottom: 30px; text-align: left; }
-/* 拿掉 font-weight: bold; 恢復原本細度 */
 .form-group label { display: block; font-family: 'my font'; font-size: 1.65rem; margin-bottom: 10px; color: #444; }
 .form-group input[type="text"], .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: 'my font'; font-size: 1.5rem; }
-    /* 修改 placeholder 顏色為 #888 */
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: #888;
-    opacity: 1;
-}
+.form-group input::placeholder, .form-group textarea::placeholder { color: #888; opacity: 1; }
+
 .radio-stack { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
-/* 拿掉 font-weight: bold; 恢復原本細度 */
 .radio-stack label { display: flex; align-items: center; font-size: 1.3rem; font-family: 'my font'; cursor: pointer; }
 .radio-stack input { width: 18px; height: 18px; margin-right: 10px; }
 .submit-btn { width: 100%; padding: 16px; background: #c9a466; color: #fff; border: none; font-family: 'my font'; font-size: 1.2rem; cursor: pointer; border-radius: 8px; }
@@ -381,32 +127,22 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 <div id="flash-effect"></div>
 
 <div id="intro-overlay">
-    <!-- 包住所有東西的場景容器，負責整體的上下平移（鏡頭轉移） -->
     <div id="scene-container">
-        
         <div class="polaroid-wrapper" id="polaroid-wrapper">
-            
             <img src="polaroid.png" alt="camera" class="camera-img">
-            
-            <!-- P3：第一張動態印出的照片 -->
             <div class="print-photo-container">
                 <div class="photo-frame print-photo" id="printPhoto">
                     <div class="print-photo-inner"></div>
                 </div>
             </div>
-            
-            <!-- P2：第二張照片。一開始就 100% 可見，藏在螢幕最下方 -->
             <div class="static-photo-container" id="staticPhoto">
                 <div class="photo-frame">
                     <div class="static-photo-inner"></div>
-                    <!-- 寫在照片下緣空白處的手寫日期 (Nanum Pen Script) -->
                     <div class="photo-date">2017.12.23</div>
                 </div>
             </div>
-
             <div class="print-hint" id="printHint">載入中...</div>
         </div>
-
     </div>
 </div>
 
@@ -420,65 +156,38 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <p style="margin-top:35px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
     </div>
 
-      <!-- 合併後的婚禮資訊與倒數月曆 -->
+    <!-- 婚禮資訊與月曆合併區塊 -->
     <section class="info-section" id="countdown-section">
-        <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">婚禮資訊</h2>
-        <section class="info-section" id="countdown-section">
-    <div class="info-card">
-        
-        <!-- 新增：上方婚宴資訊 -->
-        <div class="wedding-info-title">婚禮資訊</div>
-        <div class="wedding-info-detail">2026年6月20日 星期六</div>
-        <div class="wedding-info-time">10:30 開始入場</div>
+        <div class="info-card">
+            
+            <!-- 上方婚宴資訊 -->
+            <div class="wedding-info-title">( 婚 宴 資 訊 )</div>
+            <div class="wedding-info-detail">2026年6月20日 星期六</div>
+            <div class="wedding-info-time">10:30 開始入場</div>
 
-        <!-- 倒數計時器 -->
-        <div class="flip-countdown-wrapper">
-            <span>倒數</span>
-            <div class="flip-box">
-                <div class="flip-digit" id="digit-tens">0</div>
-                <div class="flip-digit" id="digit-ones">0</div>
+            <!-- 倒數計時器 -->
+            <div class="flip-countdown-wrapper">
+                <span>倒數</span>
+                <div class="flip-box">
+                    <div class="flip-digit" id="digit-tens">0</div>
+                    <div class="flip-digit" id="digit-ones">0</div>
+                </div>
+                <span>天</span>
             </div>
-            <span>天</span>
-        </div>
 
-        <!-- 更新：乾淨無色塊月曆 (縮小且一體成型) -->
-        <div class="clean-calendar-container">
-            <div class="clean-calendar-month">06 / 20</div>
-            <div class="clean-calendar-grid" id="clean-calendar-body">
-                <div class="clean-day-label">SUN</div>
-                <div class="clean-day-label">MON</div>
-                <div class="clean-day-label">TUE</div>
-                <div class="clean-day-label">WED</div>
-                <div class="clean-day-label">THU</div>
-                <div class="clean-day-label">FRI</div>
-                <div class="clean-day-label">SAT</div>
+            <!-- 乾淨無色塊月曆 -->
+            <div class="clean-calendar-container">
+                <div class="clean-calendar-month">06 / 20</div>
+                <div class="clean-calendar-grid" id="clean-calendar-body">
+                    <div class="clean-day-label">SUN</div>
+                    <div class="clean-day-label">MON</div>
+                    <div class="clean-day-label">TUE</div>
+                    <div class="clean-day-label">WED</div>
+                    <div class="clean-day-label">THU</div>
+                    <div class="clean-day-label">FRI</div>
+                    <div class="clean-day-label">SAT</div>
+                </div>
             </div>
-        </div>
-
-        <!-- 下半部：地點資訊不變，原本的虛線 <hr> 跟 期待文字 已被移除 -->
-        <p style="font-family: 'my font'; font-size: 1.8rem; color: #444;">暖居日穀</p>
-        <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 5px;">
-            <p style="font-family: 'my font'; font-size: 1.5rem; color: #888; margin: 0;">台中市北屯區松竹路一段3號</p>
-            <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');" style="background: #c9a466; color: #fff; border: none; border-radius: 4px; padding: 4px 10px; font-size: 0.9rem; font-family: 'my font'; cursor: pointer; letter-spacing: 0.1em;">複製</button>
-        </div>
-        <div class="map-container">
-           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width=100% height=100% style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-        <a href="https://maps.app.goo.gl/..." target="_blank" style="display:inline-block; padding:12px 25px; border:1px solid #c9a466; color:#c9a466; text-decoration:none; font-family: 'my font'; font-size: 1.1rem; background:#fff; border-radius: 8px;">開啟地圖導航</a>
-    </div>
-</section>
-            <div class="countdown-header"><span class="countdown-month">2026年6月</span></div>
-            <div class="countdown-days-row">
-                <div class="countdown-day-label">日</div><div class="countdown-day-label">一</div>
-                <div class="countdown-day-label">二</div><div class="countdown-day-label">三</div>
-                <div class="countdown-day-label">四</div><div class="countdown-day-label">五</div>
-                <div class="countdown-day-label">六</div>
-            </div>
-            <div id="cd-calendar-body"></div>
-            <div class="countdown-footer" style="margin-bottom: 30px;">期待這一天能看到你！</div>
-
-            <!-- 中間加一條虛線分隔 -->
-            <hr style="border: 0; border-top: 1px dashed #e0d9d0; margin: 30px 0;">
 
             <!-- 下半部：地點資訊 -->
             <p style="font-family: 'my font'; font-size: 1.8rem; color: #444;">暖居日穀</p>
@@ -498,7 +207,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <div class="form-card">
             <form id="rsvp-form">
                 <div class="form-group"><label>您的姓名</label><input type="text" id="guest-name" placeholder="請輸入姓名" required></div>
-                                <div class="form-group">
+                <div class="form-group">
                     <label>是否參加婚禮？</label>
                     <div class="radio-stack">
                         <label><input type="radio" name="attendance" value="yes" required> 是的，我會參加！</label>
@@ -522,7 +231,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <div class="sticky-wall" id="sticky-wall"></div>
     </section>
 
-    <!-- 底部文字套用沉魚落雁體 -->
     <footer style="text-align:center; padding:80px 0; color:#c9a466; font-family:'ChenYuluoyan', 'my font', cursive; font-size: 2.2rem;">好久不見，我們婚禮見！</footer>
 </div>
 
@@ -587,42 +295,21 @@ var isPrinting = false;
 var targetDays = 0;
 var hasAnimated = false;
 
-(function(){
-    const year = 2026;
-    const monthIndex = 5;
-    const weddingDay = 20;
-    const weddingDate = new Date(year, monthIndex, weddingDay, 11, 0, 0);
+function endIntro() {
+    document.getElementById('intro-overlay').style.opacity = '0';
+    document.getElementById('main-wrapper').classList.add('is-visible');
+    document.body.style.overflow = "auto";
+    document.documentElement.style.overflow = "auto";
+    setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1500);
+}
 
-    const firstDay = new Date(year, monthIndex, 1);
-    const firstWeekDay = firstDay.getDay(); 
-    const nextMonthFirst = new Date(year, monthIndex + 1, 1);
-    const lastDate = new Date(nextMonthFirst - 1).getDate();
-
-    const bodyEl = document.getElementById('clean-calendar-body');
-    if (!bodyEl) return;
-
-    let html = '';
-
-    // 填入月初的空白天數
-    for (let i = 0; i < firstWeekDay; i++) {
-        html += `<div class="clean-day-cell"></div>`;
-    }
-
-    // 填入日期
-    for (let d = 1; d <= lastDate; d++) {
-        let cls = 'clean-day-cell';
-        if (d === weddingDay) {
-            cls += ' clean-day-wedding'; // 婚禮當天的特效
-        }
-        html += `<div class="${cls}"><span>${d}</span></div>`;
-    }
-
-    bodyEl.insertAdjacentHTML('beforeend', html);
-
-    const today = new Date();
-    const diffMs = weddingDate.getTime() - today.getTime();
-    targetDays = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
-})();
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        videoId: 'pmrCXt4lNyA',
+        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'pmrCXt4lNyA', 'controls': 0, 'playsinline': 1 },
+        events: {
+            'onStateChange': (e) => {
+                document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
             }
         }
     });
@@ -652,25 +339,14 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
         try { player.playVideo(); } catch(e) {}
     }
 
-    // 1. 閃光
     flash.classList.add('is-flashing');
-
-    // 2. P3 開始印出
-    setTimeout(() => {
-        photo.classList.add('is-printing');
-    }, 200);
-    
-    // 3. P3 顯影 + 鏡位往下平移，把藏在深處的 P2 帶進畫面
+    setTimeout(() => { photo.classList.add('is-printing'); }, 200);
     setTimeout(() => { 
         photo.classList.add('is-developed'); 
         wrapper.classList.add('is-focusing'); 
         sceneContainer.classList.add('is-panning');
     }, 2700);
-
-    // 4. 看完照片後直接進入主視覺
-    setTimeout(() => { 
-        endIntro(); 
-    }, 8000); 
+    setTimeout(() => { endIntro(); }, 8000); 
 });
 
 (function(){
@@ -680,42 +356,30 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     const weddingDate = new Date(year, monthIndex, weddingDay, 11, 0, 0);
 
     const firstDay = new Date(year, monthIndex, 1);
-    const firstWeekDay = firstDay.getDay();
+    const firstWeekDay = firstDay.getDay(); 
     const nextMonthFirst = new Date(year, monthIndex + 1, 1);
     const lastDate = new Date(nextMonthFirst - 1).getDate();
 
-    const today = new Date();
-    const todayIsThisMonth = (today.getFullYear() === year && today.getMonth() === monthIndex);
-
-    const bodyEl = document.getElementById('cd-calendar-body');
+    const bodyEl = document.getElementById('clean-calendar-body');
     if (!bodyEl) return;
 
-    let html = '<div class="countdown-days-row">';
-    let cellCount = 0;
+    let html = '';
 
     for (let i = 0; i < firstWeekDay; i++) {
-        html += '<div class="countdown-day-cell cd-empty"></div>';
-        cellCount++;
+        html += `<div class="clean-day-cell"></div>`;
     }
 
     for (let d = 1; d <= lastDate; d++) {
-        if (cellCount > 0 && cellCount % 7 === 0) {
-            html += '</div><div class="countdown-days-row">';
+        let cls = 'clean-day-cell';
+        if (d === weddingDay) {
+            cls += ' clean-day-wedding'; 
         }
-        let cls = 'cd-normal';
-        if (todayIsThisMonth && d === today.getDate()) cls = 'cd-today';
-        if (d === weddingDay) cls = 'cd-wedding';
-        html += `<div class="countdown-day-cell ${cls}"><span>${d}</span></div>`;
-        cellCount++;
+        html += `<div class="${cls}"><span>${d}</span></div>`;
     }
 
-    while (cellCount % 7 !== 0) {
-        html += '<div class="countdown-day-cell cd-empty"></div>';
-        cellCount++;
-    }
-    html += '</div>';
-    bodyEl.innerHTML = html;
+    bodyEl.insertAdjacentHTML('beforeend', html);
 
+    const today = new Date();
     const diffMs = weddingDate.getTime() - today.getTime();
     targetDays = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
 })();
