@@ -67,31 +67,40 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .cover::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('bg_silk.jpg.png'); background-size: cover; background-position: center; z-index: 1; }
 .getting-married-text { color:#c9a466; margin-bottom: 15px; letter-spacing: 0.3em; font-size: clamp(1.2rem, 4vw, 1.6rem); z-index: 10; font-weight: 300; position: relative; font-family: 'my font', serif; }
 .name-container { position: relative; z-index: 10; width: 100%; }
-.english-names { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 6vw, 3.2rem); color: #2c2c2c; letter-spacing: 0.05em; }
-.english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
+
+/* Jay & Michelle 字體放大 (最大 4.5rem) */
+.english-names { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 4.5rem); color: #2c2c2c; letter-spacing: 0.05em; }
+.english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(4rem, 12vw, 6.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 20px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
 
 /* 婚宴資訊與月曆 */
 .info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
 .info-card { max-width: 600px; background: #fff; padding: 45px 24px 40px; margin: 0 auto; border: 1px solid #e0d9d0; border-radius: 12px; }
 
-.wedding-info-title { font-family: 'my font'; font-size: 1.8rem; color: #444; letter-spacing: 0.2em; margin-bottom: 25px; }
-.wedding-info-detail { font-family: 'my font'; font-size: 1.6rem; color: #666; margin-bottom: 8px; letter-spacing: 0.1em; }
-.wedding-info-time { font-family: 'my font'; font-size: 1.4rem; color: #888; margin-bottom: 40px; letter-spacing: 0.1em; }
+/* 婚宴日期與時間的文字大小與顏色 (與倒數計時相同: c9a466, 2.2rem) */
+.wedding-info-detail { font-family: 'my font'; font-size: 2.2rem; color: #c9a466; margin-bottom: 10px; letter-spacing: 0.1em; font-weight: bold; }
+.wedding-info-time { font-family: 'my font'; font-size: 2.2rem; color: #c9a466; margin-bottom: 40px; letter-spacing: 0.1em; font-weight: bold; }
 
-.flip-countdown-wrapper { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 35px; font-family: 'my font'; color: #c9a466; font-size: 2rem; font-weight: 700; letter-spacing: 0.1em; }
+.flip-countdown-wrapper { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 35px; font-family: 'my font'; color: #c9a466; font-size: 2.2rem; font-weight: 700; letter-spacing: 0.1em; }
 .flip-box { display: flex; gap: 4px; }
 .flip-digit { background: #fff; border: 1px solid #e0d9d0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-radius: 8px; padding: 6px 12px; min-width: 45px; text-align: center; position: relative; transition: transform 0.1s ease-in-out; color: #444; }
 .flip-digit.flipping { transform: scale(1.1) translateY(-2px); color: #c9a466; }
 
-.clean-calendar-container { max-width: 320px; margin: 0 auto 40px; }
-.clean-calendar-month { display: flex; justify-content: center; font-family: 'my font'; font-size: 2.2rem; color: #c9a466; margin-bottom: 15px; letter-spacing: 0.15em; }
+/* 月曆容器設計 (帶有淡淡底色與邊框) */
+.clean-calendar-container { max-width: 340px; margin: 0 auto 40px; background-color: #F7F6ED; border: 1px solid #e0d9d0; border-radius: 12px; padding: 20px 15px; box-shadow: inset 0 0 10px rgba(0,0,0,0.02); }
 .clean-calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px 2px; }
-.clean-day-label { font-family: 'Playfair Display', serif; font-size: 0.8rem; color: #a4a4a4; padding-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
-.clean-day-cell { font-family: 'my font'; font-size: 1.3rem; color: #555; padding: 8px 0; display: flex; align-items: center; justify-content: center; }
+.clean-day-label { font-family: 'Playfair Display', serif; font-size: 0.85rem; color: #8a7c64; padding-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: bold; }
+.clean-day-cell { font-family: 'my font'; font-size: 1.4rem; color: #555; padding: 8px 0; display: flex; align-items: center; justify-content: center; }
 
-.clean-day-wedding { position: relative; color: #fff; z-index: 2; }
-.clean-day-wedding::before { content: ""; position: absolute; width: 32px; height: 32px; background-color: #c9a466; border-radius: 50%; z-index: -1; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 2px 8px rgba(201,164,102,0.4); }
+/* 當天婚禮日的特殊圈圈標記與跳動特效 */
+.clean-day-wedding { position: relative; color: #fff; z-index: 2; font-weight: bold; }
+.clean-day-wedding::before { content: ""; position: absolute; width: 34px; height: 34px; background-color: #c9a466; border-radius: 50%; z-index: -1; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 2px 8px rgba(201,164,102,0.4); animation: weddingPulse 1.8s infinite; }
+
+@keyframes weddingPulse {
+    0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0.5); }
+    50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 0 8px rgba(201,164,102,0); }
+    100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0); }
+}
 
 .map-container { width: 100%; height: 350px; margin: 25px 0; border: 1px solid #e0d9d0; border-radius: 8px; overflow: hidden; }
 
@@ -158,10 +167,12 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
     <!-- 婚禮資訊與月曆合併區塊 -->
     <section class="info-section" id="countdown-section">
+        <!-- 標題移出外框，放在這裡 -->
+        <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">婚禮資訊</h2>
+        
         <div class="info-card">
             
-            <!-- 上方婚宴資訊 -->
-            <div class="wedding-info-title">( 婚 宴 資 訊 )</div>
+            <!-- 上方婚宴資訊：與倒數計時相同字體顏色與大小 -->
             <div class="wedding-info-detail">2026年6月20日 星期六</div>
             <div class="wedding-info-time">10:30 開始入場</div>
 
@@ -175,9 +186,9 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
                 <span>天</span>
             </div>
 
-            <!-- 乾淨無色塊月曆 -->
+            <!-- 乾淨有底色且帶有邊框的月曆 -->
             <div class="clean-calendar-container">
-                <div class="clean-calendar-month">06 / 20</div>
+                <!-- 06/20 已刪除 -->
                 <div class="clean-calendar-grid" id="clean-calendar-body">
                     <div class="clean-day-label">SUN</div>
                     <div class="clean-day-label">MON</div>
@@ -193,7 +204,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
             <p style="font-family: 'my font'; font-size: 1.8rem; color: #444;">暖居日穀</p>
             <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 5px;">
                 <p style="font-family: 'my font'; font-size: 1.5rem; color: #888; margin: 0;">台中市北屯區松竹路一段3號</p>
-                <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');" style="background: #c9a466; color: #fff; border: none; border-radius: 4px; padding: 4px 10px; font-size: 0.9rem; font-family: 'my font'; cursor: pointer; letter-spacing: 0.1em;">複製</button>
+                <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');" style="background: #c9a466; color: #fff; border: none; border-radius: 4px; padding: 4px 10px; font-size: 0.9rem; font-family: 'my font'; cursor: pointer; letter-spacing: 0.1em;">複製地址</button>
             </div>
             <div class="map-container">
                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width=100% height=100% style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
