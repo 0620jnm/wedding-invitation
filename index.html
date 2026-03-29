@@ -114,22 +114,12 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 /* 載入文字換成沉魚落雁體 */
 <!-- 進站 Loading 動畫 -->
+<!-- 進站 Loading 動畫 -->
 <div id="site-loader">
     <div class="loader-inner">
         
-        <div class="loader-polaroids">
-            <!-- 拍立得照片 -->
-            <div class="load-photo load-photo-left">
-                <div class="load-photo-inner"></div>
-            </div>
-            <div class="load-photo load-photo-right">
-                <div class="load-photo-inner"></div>
-            </div>
-            <div class="loader-heart">♥</div>
-        </div>
-
-        <!-- 已經刪除「頁面載入中，請稍後」 -->
-        <div class="loader-subtitle">請記得打開聲音 🔊</div>
+        <!-- 只留下「請記得打開聲音」與進度條 -->
+        <div class="loader-subtitle" style="margin-bottom: 30px;">請記得打開聲音 🔊</div>
 
         <div class="loader-progress-track">
             <div id="loader-progress-fill"></div>
@@ -532,11 +522,6 @@ document.fonts.ready.then(function() {
     }
 });
 
-var player;
-var isPrinting = false; 
-var targetDays = 0;
-var hasAnimated = false;
-
 /* =========================================
    載入動畫與進度條邏輯
 ========================================= */
@@ -551,13 +536,29 @@ function setLoaderProgress(value) {
     if (loaderText) loaderText.textContent = Math.floor(safeValue) + '%';
 }
 
+// 拖慢進度條：每 250 毫秒 (原本 150) 才增加 1~3% (原本 0~6%)
 var loaderTimer = setInterval(() => {
     if (fakeProgress < 95) {
-        fakeProgress += Math.random() * 6;
+        fakeProgress += Math.random() * 2 + 1; 
         if (fakeProgress > 95) fakeProgress = 95;
         setLoaderProgress(fakeProgress);
     }
-}, 150);
+}, 250);
+
+window.addEventListener('load', function () {
+    clearInterval(loaderTimer);
+    setLoaderProgress(100);
+
+    // 載入達 100% 後，多停留 1.5 秒讓大家看清楚字 (原本是 0.4 秒)
+    setTimeout(() => {
+        if (siteLoader) siteLoader.classList.add('is-hidden');
+    }, 1500);
+
+    // 徹底移除 loader 元素
+    setTimeout(() => {
+        if (siteLoader) siteLoader.remove();
+    }, 2500);
+});
 
 // 當整個網頁載入完畢，進度條推到 100% 並隱藏 loader
 window.addEventListener('load', function () {
