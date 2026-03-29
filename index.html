@@ -63,6 +63,26 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     100% { opacity: 0; }
 }
 
+/* ★ 準備跳轉主畫面時的過場白畫面 ★ */
+#transition-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #fff;
+    z-index: 15000; /* 高於 intro-overlay，低於閃光燈 */
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden;
+    transition: opacity 1.5s ease-in-out, visibility 1.5s ease-in-out;
+    pointer-events: none;
+}
+#transition-overlay.is-visible {
+    opacity: 1; visibility: visible;
+}
+.transition-text {
+    font-family: 'ChenYuluoyan', 'my font', cursive;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    color: #111; /* 黑字 */
+    letter-spacing: 0.15em;
+}
+
 /* ★ 整個場景容器（負責鏡頭平移） ★ */
 #scene-container {
     position: relative;
@@ -256,7 +276,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 .getting-married-text { 
     color:#c9a466; margin-bottom: 15px; letter-spacing: 0.3em;
-    /* 稍微把字體放大 */
     font-size: clamp(1.2rem, 4vw, 1.6rem); z-index: 10; font-weight: 300;
     position: relative; font-family: 'my font', serif;
 }
@@ -264,15 +283,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .english-names { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 6vw, 3.2rem); color: #2c2c2c; letter-spacing: 0.05em; }
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(3.5rem, 10vw, 5.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 20px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
-
-/* 宣告結婚的文字 */
-.wedding-announce {
-    font-family: 'ChenYuluoyan', 'my font', cursive; /* 這裡套用辰宇落雁體 */
-    font-size: 2.2rem; /* 字體大小 */
-    color: #5a4a34;
-    margin-top: 25px; /* 與上方姓名的距離 */
-    letter-spacing: 0.15em;
-}
 
 /* --- 倒數月曆 --- */
 .countdown-section {
@@ -448,6 +458,11 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 <div id="flash-effect"></div>
 
+<!-- 過場顯示白畫面與字體 -->
+<div id="transition-overlay">
+    <div class="transition-text">我們要結婚了！</div>
+</div>
+
 <div id="intro-overlay">
     <!-- 包住所有東西的場景容器，負責整體的上下平移（鏡頭轉移） -->
     <div id="scene-container">
@@ -484,8 +499,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <div class="name-container">
             <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
             <div class="chinese-names"><span>蔡宇杰</span><span>陳旻瑄</span></div>
-            <!-- 新增：我們要結婚了！ -->
-            <div class="wedding-announce">我們要結婚了！</div>
         </div>
         <p style="margin-top:35px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
     </div>
@@ -622,7 +635,12 @@ function endIntro() {
     document.getElementById('main-wrapper').classList.add('is-visible');
     document.body.style.overflow = "auto";
     document.documentElement.style.overflow = "auto";
-    setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1500);
+    
+    // 將所有覆蓋層徹底隱藏，避免影響主畫面點擊
+    setTimeout(() => { 
+        document.getElementById('intro-overlay').style.display = 'none'; 
+        document.getElementById('transition-overlay').style.display = 'none'; 
+    }, 1500);
 }
 
 function onYouTubeIframeAPIReady() {
@@ -651,6 +669,7 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     const wrapper        = document.getElementById('polaroid-wrapper');
     const flash          = document.getElementById('flash-effect');
     const sceneContainer = document.getElementById('scene-container');
+    const transitionOverlay = document.getElementById('transition-overlay');
     
     if (!photo || !hint || !wrapper || !flash || !sceneContainer) return;
     
@@ -673,15 +692,19 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     setTimeout(() => { 
         photo.classList.add('is-developed'); 
         wrapper.classList.add('is-focusing'); 
-        
-        // 鏡頭往下大平移
         sceneContainer.classList.add('is-panning');
     }, 2700);
 
-    // 4. 兩張照片展示完畢後，多停留一陣子再進主畫面
+    // 4. 8秒時（看完照片後）顯示白底黑字的過場畫面「我們要結婚了！」
     setTimeout(() => { 
+        transitionOverlay.classList.add('is-visible');
+    }, 8000); 
+
+    // 5. 11秒時（過場文字停留後），淡出文字並進入主畫面
+    setTimeout(() => { 
+        transitionOverlay.classList.remove('is-visible');
         endIntro(); 
-    }, 9000); 
+    }, 11000); 
 });
 
 (function(){
