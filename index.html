@@ -68,7 +68,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .getting-married-text { color:#c9a466; margin-bottom: 15px; letter-spacing: 0.3em; font-size: clamp(1.2rem, 4vw, 1.6rem); z-index: 10; font-weight: 300; position: relative; font-family: 'my font', serif; }
 .name-container { position: relative; z-index: 10; width: 100%; }
 
-/* Jay & Michelle 字體放大 (最大 4.5rem) */
 .english-names { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 4.5rem); color: #2c2c2c; letter-spacing: 0.05em; }
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(4rem, 12vw, 6.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 20px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
@@ -77,20 +76,48 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
 .info-card { max-width: 600px; background: #fff; padding: 45px 24px 40px; margin: 0 auto; border: 1px solid #e0d9d0; border-radius: 12px; }
 
-/* 婚宴日期與時間的文字大小與顏色 (與倒數計時相同: c9a466, 2.2rem) */
-.wedding-info-detail { font-family: 'my font'; font-size: 2.2rem; color: #c9a466; margin-bottom: 10px; letter-spacing: 0.1em; font-weight: bold; }
-.wedding-info-time { font-family: 'my font'; font-size: 2.2rem; color: #c9a466; margin-bottom: 40px; letter-spacing: 0.1em; font-weight: bold; }
+/* 統一為與暖居日穀相同的字體：大小 1.8rem, 顏色 #444 */
+.wedding-info-detail { font-family: 'my font'; font-size: 1.8rem; color: #444; margin-bottom: 10px; }
+.wedding-info-time { font-family: 'my font'; font-size: 1.8rem; color: #444; margin-bottom: 30px; }
 
-.flip-countdown-wrapper { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 35px; font-family: 'my font'; color: #c9a466; font-size: 2.2rem; font-weight: 700; letter-spacing: 0.1em; }
+.flip-countdown-wrapper { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 40px; font-family: 'my font'; color: #444; font-size: 1.8rem; }
 .flip-box { display: flex; gap: 4px; }
 .flip-digit { background: #fff; border: 1px solid #e0d9d0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-radius: 8px; padding: 6px 12px; min-width: 45px; text-align: center; position: relative; transition: transform 0.1s ease-in-out; color: #444; }
 .flip-digit.flipping { transform: scale(1.1) translateY(-2px); color: #c9a466; }
 
-/* 月曆容器設計 (帶有淡淡底色與邊框) */
-.clean-calendar-container { max-width: 340px; margin: 0 auto 40px; background-color: #F7F6ED; border: 1px solid #e0d9d0; border-radius: 12px; padding: 20px 15px; box-shadow: inset 0 0 10px rgba(0,0,0,0.02); }
-.clean-calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px 2px; }
-.clean-day-label { font-family: 'Playfair Display', serif; font-size: 0.85rem; color: #8a7c64; padding-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: bold; }
-.clean-day-cell { font-family: 'my font'; font-size: 1.4rem; color: #555; padding: 8px 0; display: flex; align-items: center; justify-content: center; }
+/* 撕線造型的月曆容器 */
+.clean-calendar-container { 
+    max-width: 320px; 
+    margin: 0 auto 40px; 
+    background-color: #F7F6ED; /* 淺色底色 */
+    border-radius: 0 0 12px 12px; /* 只有下方有圓角 */
+    padding: 30px 15px 20px; 
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* 增加陰影使其像紙張 */
+}
+
+/* 頂部的圓孔撕線設計 */
+.clean-calendar-container::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    /* 利用放射漸層產生多個洞洞的效果 */
+    background-image: radial-gradient(circle at 10px 10px, transparent 10px, #F7F6ED 11px);
+    background-size: 24px 20px; /* 洞孔的間距 */
+    background-position: center top;
+}
+
+/* 年月份標題 (新增至月曆上方) */
+.calendar-title-row { display: flex; justify-content: space-between; align-items: flex-end; padding: 0 10px 20px; border-bottom: 1px solid rgba(0,0,0,0.05); margin-bottom: 15px; }
+.calendar-month { font-family: 'Playfair Display', serif; font-size: 2.8rem; color: #8a7c64; line-height: 1; }
+.calendar-year { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #a4a4a4; }
+
+.clean-calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px 2px; }
+.clean-day-label { font-family: 'Playfair Display', serif; font-size: 0.85rem; color: #8a7c64; padding-bottom: 5px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: bold; }
+.clean-day-cell { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #666; padding: 8px 0; display: flex; align-items: center; justify-content: center; }
 
 /* 當天婚禮日的特殊圈圈標記與跳動特效 */
 .clean-day-wedding { position: relative; color: #fff; z-index: 2; font-weight: bold; }
@@ -165,18 +192,16 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <p style="margin-top:35px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
     </div>
 
-    <!-- 婚禮資訊與月曆合併區塊 -->
     <section class="info-section" id="countdown-section">
-        <!-- 標題移出外框，放在這裡 -->
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">婚禮資訊</h2>
         
         <div class="info-card">
             
-            <!-- 上方婚宴資訊：與倒數計時相同字體顏色與大小 -->
+            <!-- 上方婚宴資訊：與暖居日穀字體同步 (#444, 1.8rem) -->
             <div class="wedding-info-detail">2026年6月20日 星期六</div>
             <div class="wedding-info-time">10:30 開始入場</div>
 
-            <!-- 倒數計時器 -->
+            <!-- 倒數計時器：字體同步 (#444, 1.8rem) -->
             <div class="flip-countdown-wrapper">
                 <span>倒數</span>
                 <div class="flip-box">
@@ -186,17 +211,22 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
                 <span>天</span>
             </div>
 
-            <!-- 乾淨有底色且帶有邊框的月曆 -->
+            <!-- 撕下造型的月曆設計 -->
             <div class="clean-calendar-container">
-                <!-- 06/20 已刪除 -->
+                <!-- 參考圖片的 12 與 2024 排版 -->
+                <div class="calendar-title-row">
+                    <span class="calendar-month">06</span>
+                    <span class="calendar-year">2026</span>
+                </div>
+                
                 <div class="clean-calendar-grid" id="clean-calendar-body">
-                    <div class="clean-day-label">SUN</div>
-                    <div class="clean-day-label">MON</div>
-                    <div class="clean-day-label">TUE</div>
-                    <div class="clean-day-label">WED</div>
-                    <div class="clean-day-label">THU</div>
-                    <div class="clean-day-label">FRI</div>
-                    <div class="clean-day-label">SAT</div>
+                    <div class="clean-day-label">S</div>
+                    <div class="clean-day-label">M</div>
+                    <div class="clean-day-label">T</div>
+                    <div class="clean-day-label">W</div>
+                    <div class="clean-day-label">T</div>
+                    <div class="clean-day-label">F</div>
+                    <div class="clean-day-label">S</div>
                 </div>
             </div>
 
