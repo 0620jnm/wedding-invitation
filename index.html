@@ -416,6 +416,13 @@ document.fonts.ready.then(function() {
     }
 });
 
+// ===== 就是缺了下面這四行 =====
+var player;
+var isPrinting = false; 
+var targetDays = 0;
+var hasAnimated = false;
+// ==============================
+
 /* =========================================
    載入動畫與進度條邏輯
 ========================================= */
