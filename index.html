@@ -11,6 +11,7 @@
 <link rel="preload" href="P3.jpg" as="image">
 <link rel="preload" href="P2.png" as="image">
 <link rel="preload" href="W2.jpg" as="image">
+<link rel="preload" href="W3.jpg" as="image">
 
 <!-- 優先連接 Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -127,8 +128,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 .cover { height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; background-color: #f5f5dc; }
 .cover::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('bg_silk.jpg.png'); background-size: cover; background-position: center; z-index: 1; }
-
-/* 新增：封面底部漸層，避免和下方照片硬切一條線 */
 .cover::after {
     content: "";
     position: absolute;
@@ -173,7 +172,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     line-height: 0;
 }
 
-/* 新增：照片區塊上方再補一層往上淡入，吃掉接縫 */
 .photo-transition-image-wrap::before {
     content: "";
     position: absolute;
@@ -235,6 +233,64 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .photo-transition-text {
     font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
     font-size: clamp(1.8rem, 5vw, 2.5rem);
+    color: #6b5646;
+    line-height: 1.8;
+    letter-spacing: 0.06em;
+}
+
+/* =========================================
+   新增：W3 滑入照片區塊
+========================================= */
+.slide-photo-section {
+    background: #fbf9f7;
+    padding: 40px 20px 90px;
+    overflow: hidden;
+}
+
+.slide-photo-inner {
+    max-width: 920px;
+    margin: 0 auto;
+}
+
+.slide-photo-frame {
+    width: 100%;
+    opacity: 0;
+    transform: translateX(120px);
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s ease;
+    will-change: transform, opacity;
+}
+
+.slide-photo-frame.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.slide-photo-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+}
+
+.slide-photo-text {
+    max-width: 720px;
+    margin: 34px auto 0;
+    text-align: center;
+    padding: 0 12px;
+}
+
+.slide-photo-title {
+    font-family: 'my font';
+    font-size: clamp(2rem, 6.5vw, 2.7rem);
+    color: #5a4633;
+    letter-spacing: 0.12em;
+    margin-bottom: 22px;
+    line-height: 1.6;
+}
+
+.slide-photo-desc {
+    font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
+    font-size: clamp(1.75rem, 4.8vw, 2.35rem);
     color: #6b5646;
     line-height: 1.8;
     letter-spacing: 0.06em;
@@ -327,7 +383,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 <!-- 進站 Loading 動畫 -->
 <div id="site-loader">
     <div class="loader-inner">
-        <!-- 只留下「請記得打開聲音」與進度條 -->
         <div class="loader-subtitle" style="margin-bottom: 30px;">請記得打開聲音 🔊</div>
         <div class="loader-progress-track">
             <div id="loader-progress-fill"></div>
@@ -368,7 +423,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <p style="margin-top:35px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
     </div>
 
-    <!-- 新增：封面與婚禮資訊中間照片 -->
     <section class="photo-transition-section">
         <div class="photo-transition-image-wrap">
             <img src="W2.jpg" alt="wedding photo">
@@ -386,11 +440,9 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">婚禮資訊</h2>
         
         <div class="info-card">
-            
             <div class="wedding-info-detail">2026 年 6 月 20 日 星期六</div>
             <div class="wedding-info-time">10:30 開始入場</div>
 
-            <!-- 加入行事曆 -->
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20260620T023000Z%2F20260620T070000Z&details=Jay%20%26%20Michelle%20%E7%9A%84%E5%A9%9A%E7%A6%AE%EF%BC%81%E6%9C%9F%E5%BE%85%E6%82%A8%E7%9A%84%E5%88%B0%E4%BE%86%E3%80%82&location=%E6%9A%96%E5%B1%85%E6%97%A5%E7%A9%80&text=Jay%20%26%20Michelle%20%E5%A9%9A%E7%A6%AE" 
                target="_blank" 
                class="action-btn" 
@@ -427,7 +479,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
             <p style="font-family: 'my font'; font-size: 1.8rem; color: #444;">暖居日穀</p>
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 5px;">
                 <p class="location-text">台中市北屯區松竹路一段3號</p>
-                <!-- 複製地址 -->
                 <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');" 
                         class="action-btn">
                     複製地址
@@ -438,13 +489,28 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width=100% height=100% style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             
-            <!-- 開啟地圖導航 -->
             <a href="https://maps.app.goo.gl/er8YRwgUM7B6pAR4A" 
                target="_blank" 
                class="action-btn" 
                style="margin-top: 10px;">
                開啟地圖導航
             </a>
+        </div>
+    </section>
+
+    <!-- 新增：W3 向右滑入照片區塊 -->
+    <section class="slide-photo-section">
+        <div class="slide-photo-inner">
+            <div class="slide-photo-frame js-slide-in-right">
+                <img src="W3.jpg" alt="wedding photo 2">
+            </div>
+            <div class="slide-photo-text">
+                <div class="slide-photo-title">「把平凡的日子，慢慢走成我們的故事」</div>
+                <div class="slide-photo-desc">
+                    A quiet kind of love,<br>
+                    growing beautifully through time
+                </div>
+            </div>
         </div>
     </section>
 
@@ -536,16 +602,11 @@ document.fonts.ready.then(function() {
     }
 });
 
-// ===== 就是缺了下面這四行 =====
 var player;
 var isPrinting = false; 
 var targetDays = 0;
 var hasAnimated = false;
-// ==============================
 
-/* =========================================
-   載入動畫與進度條邏輯
-========================================= */
 var siteLoader = document.getElementById('site-loader');
 var loaderFill = document.getElementById('loader-progress-fill');
 var loaderText = document.getElementById('loader-progress-text');
@@ -557,7 +618,6 @@ function setLoaderProgress(value) {
     if (loaderText) loaderText.textContent = Math.floor(safeValue) + '%';
 }
 
-// 拖慢進度條：每 250 毫秒增加 1~3%
 var loaderTimer = setInterval(() => {
     if (fakeProgress < 95) {
         fakeProgress += Math.random() * 2 + 1; 
@@ -566,17 +626,14 @@ var loaderTimer = setInterval(() => {
     }
 }, 250);
 
-// 當整個網頁載入完畢，進度條推到 100% 並隱藏 loader
 window.addEventListener('load', function () {
     clearInterval(loaderTimer);
     setLoaderProgress(100);
 
-    // 載入達 100% 後，多停留 1.5 秒讓大家看清楚字
     setTimeout(() => {
         if (siteLoader) siteLoader.classList.add('is-hidden');
     }, 1500);
 
-    // 徹底移除 loader 元素
     setTimeout(() => {
         if (siteLoader) siteLoader.remove();
     }, 2500);
@@ -714,6 +771,28 @@ window.addEventListener('scroll', () => {
         }, 500); 
     }
 });
+
+/* 新增：W3 由右滑入 */
+const slideInTargets = document.querySelectorAll('.js-slide-in-right');
+
+if ('IntersectionObserver' in window && slideInTargets.length) {
+    const slideObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.2,
+        root: null,
+        rootMargin: '0px 0px -8% 0px'
+    });
+
+    slideInTargets.forEach(el => slideObserver.observe(el));
+} else {
+    slideInTargets.forEach(el => el.classList.add('is-visible'));
+}
 </script>
 </body>
 </html>
