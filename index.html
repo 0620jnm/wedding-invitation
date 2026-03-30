@@ -133,6 +133,64 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(4rem, 12vw, 6.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 20px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
 
+/* =========================================
+   漸層照片與金句區塊
+========================================= */
+.photo-quote-section {
+    position: relative;
+    width: 100%;
+    background-color: #fbf9f7; /* 與下方的婚禮資訊背景色一致，無縫接軌 */
+    padding-bottom: 80px; 
+    text-align: center;
+}
+
+.fade-image-container {
+    position: relative;
+    width: 100%;
+    height: 60vh; /* 照片顯示高度 */
+    max-height: 800px;
+}
+
+.fade-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center top; 
+    background-repeat: no-repeat;
+}
+
+.fade-overlay {
+    position: absolute;
+    bottom: -1px; 
+    left: 0;
+    width: 100%;
+    height: 40%; /* 漸層區域高度 */
+    background: linear-gradient(to bottom, rgba(251, 249, 247, 0) 0%, rgba(251, 249, 247, 1) 100%);
+    pointer-events: none;
+}
+
+.quote-text-container {
+    position: relative;
+    z-index: 10;
+    margin-top: 10px;
+    padding: 0 20px;
+}
+
+.quote-ch {
+    font-family: 'my font', serif;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    color: #554433; 
+    letter-spacing: 0.15em;
+    margin-bottom: 25px;
+}
+
+.quote-en {
+    font-family: 'Cormorant Garamond', serif; 
+    font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+    color: #554433;
+    line-height: 1.8;
+    letter-spacing: 0.08em;
+}
 
 /* =========================================
    共用按鈕樣式 (行事曆/導航/複製)
@@ -261,6 +319,25 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         </div>
         <p style="margin-top:35px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
     </div>
+
+    <!-- 新增的漸層照片與文字區塊 -->
+    <section class="photo-quote-section">
+        <div class="fade-image-container">
+            <!-- 將檔案名設定為 W2.jpg -->
+            <div class="fade-image" style="background-image: url('W2.jpg');"></div>
+            <!-- 漸層過渡遮罩 -->
+            <div class="fade-overlay"></div>
+        </div>
+        
+        <div class="quote-text-container">
+            <!-- 你可以自行修改這裡的文字 -->
+            <p class="quote-ch">「這一天永遠屬於我們」</p>
+            <p class="quote-en">
+                I love you not for who you are<br>
+                but for who I am with you
+            </p>
+        </div>
+    </section>
 
     <section class="info-section" id="countdown-section">
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">婚禮資訊</h2>
@@ -472,8 +549,8 @@ function endIntro() {
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-        videoId: 'ODRWKGIxB4M',
-        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'ODRWKGIxB4M', 'controls': 0, 'playsinline': 1 },
+        videoId: 'OGcjeXpY9KU',
+        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'OGcjeXpY9KU', 'controls': 0, 'playsinline': 1 },
         events: {
             'onStateChange': (e) => {
                 document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
