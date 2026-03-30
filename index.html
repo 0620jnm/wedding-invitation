@@ -155,7 +155,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 20px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
 
 /* =========================================
-   封面與婚禮資訊中間照片區塊
+   W2 過渡照片區塊
 ========================================= */
 .photo-transition-section {
     position: relative;
@@ -239,11 +239,11 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 
 /* =========================================
-   新增：W3 滑入照片區塊
+   W3 右滑入照片區塊
 ========================================= */
 .slide-photo-section {
     background: #fbf9f7;
-    padding: 40px 20px 90px;
+    padding: 20px 20px 90px;
     overflow: hidden;
 }
 
@@ -255,8 +255,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .slide-photo-frame {
     width: 100%;
     opacity: 0;
-    transform: translateX(120px);
-    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s ease;
+    transform: translateX(140px);
+    transition: transform 1.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.6s ease;
     will-change: transform, opacity;
 }
 
@@ -269,7 +269,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     display: block;
     width: 100%;
     height: auto;
-    border-radius: 0;
 }
 
 .slide-photo-text {
@@ -423,6 +422,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <p style="margin-top:35px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
     </div>
 
+    <!-- W2 -->
     <section class="photo-transition-section">
         <div class="photo-transition-image-wrap">
             <img src="W2.jpg" alt="wedding photo">
@@ -436,13 +436,31 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         </div>
     </section>
 
+    <!-- W3：放在婚禮資訊上面 -->
+    <section class="slide-photo-section">
+        <div class="slide-photo-inner">
+            <div class="slide-photo-frame js-slide-in-right">
+                <img src="W3.jpg" alt="wedding photo 2">
+            </div>
+            <div class="slide-photo-text">
+                <div class="slide-photo-title">「把平凡的日子，慢慢走成我們的故事」</div>
+                <div class="slide-photo-desc">
+                    A quiet kind of love,<br>
+                    growing beautifully through time
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="info-section" id="countdown-section">
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">婚禮資訊</h2>
         
         <div class="info-card">
+            
             <div class="wedding-info-detail">2026 年 6 月 20 日 星期六</div>
             <div class="wedding-info-time">10:30 開始入場</div>
 
+            <!-- 加入行事曆 -->
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20260620T023000Z%2F20260620T070000Z&details=Jay%20%26%20Michelle%20%E7%9A%84%E5%A9%9A%E7%A6%AE%EF%BC%81%E6%9C%9F%E5%BE%85%E6%82%A8%E7%9A%84%E5%88%B0%E4%BE%86%E3%80%82&location=%E6%9A%96%E5%B1%85%E6%97%A5%E7%A9%80&text=Jay%20%26%20Michelle%20%E5%A9%9A%E7%A6%AE" 
                target="_blank" 
                class="action-btn" 
@@ -479,6 +497,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
             <p style="font-family: 'my font'; font-size: 1.8rem; color: #444;">暖居日穀</p>
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 5px;">
                 <p class="location-text">台中市北屯區松竹路一段3號</p>
+                <!-- 複製地址 -->
                 <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');" 
                         class="action-btn">
                     複製地址
@@ -489,28 +508,13 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width=100% height=100% style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             
+            <!-- 開啟地圖導航 -->
             <a href="https://maps.app.goo.gl/er8YRwgUM7B6pAR4A" 
                target="_blank" 
                class="action-btn" 
                style="margin-top: 10px;">
                開啟地圖導航
             </a>
-        </div>
-    </section>
-
-    <!-- 新增：W3 向右滑入照片區塊 -->
-    <section class="slide-photo-section">
-        <div class="slide-photo-inner">
-            <div class="slide-photo-frame js-slide-in-right">
-                <img src="W3.jpg" alt="wedding photo 2">
-            </div>
-            <div class="slide-photo-text">
-                <div class="slide-photo-title">「把平凡的日子，慢慢走成我們的故事」</div>
-                <div class="slide-photo-desc">
-                    A quiet kind of love,<br>
-                    growing beautifully through time
-                </div>
-            </div>
         </div>
     </section>
 
@@ -772,7 +776,7 @@ window.addEventListener('scroll', () => {
     }
 });
 
-/* 新增：W3 由右滑入 */
+/* W3 由右滑入 */
 const slideInTargets = document.querySelectorAll('.js-slide-in-right');
 
 if ('IntersectionObserver' in window && slideInTargets.length) {
@@ -784,9 +788,9 @@ if ('IntersectionObserver' in window && slideInTargets.length) {
             }
         });
     }, {
-        threshold: 0.2,
+        threshold: 0.15,
         root: null,
-        rootMargin: '0px 0px -8% 0px'
+        rootMargin: '0px 0px -5% 0px'
     });
 
     slideInTargets.forEach(el => slideObserver.observe(el));
