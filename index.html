@@ -391,7 +391,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 .split-photo-inner {
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
+    grid-template-columns: 1fr 1fr;
     align-items: stretch;
     background: #fff;
     border-radius: 22px;
@@ -425,17 +425,16 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     position: absolute;
     top: 0;
     right: 0;
-    width: 42%;
+    width: 34%;
     height: 100%;
     background: linear-gradient(
         to right,
         rgba(255,255,255,0) 0%,
-        rgba(255,255,255,0.45) 38%,
-        rgba(255,255,255,0.82) 68%,
-        rgba(255,255,255,0.96) 100%
+        rgba(255,255,255,0.12) 22%,
+        rgba(255,255,255,0.38) 48%,
+        rgba(255,255,255,0.72) 72%,
+        rgba(255,255,255,0.94) 100%
     );
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     pointer-events: none;
 }
 
@@ -493,8 +492,33 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 @media (max-width: 768px) {
     .split-photo-inner {
-        grid-template-columns: 1fr;
+        grid-template-columns: 0.95fr 1.05fr;
     }
+
+    .split-photo-image-wrap {
+        min-height: 320px;
+    }
+
+    .split-photo-fade {
+        width: 28%;
+    }
+
+    .split-photo-content {
+        padding: 24px 20px 24px 18px;
+        text-align: left;
+    }
+
+    .split-photo-title {
+        font-size: clamp(1.2rem, 4.6vw, 1.7rem);
+        margin-bottom: 16px;
+        line-height: 1.8;
+    }
+
+    .split-photo-text {
+        font-size: clamp(1rem, 3.8vw, 1.35rem);
+        line-height: 1.8;
+    }
+}
 
     .split-photo-image-wrap {
         min-height: 360px;
