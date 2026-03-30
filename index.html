@@ -384,8 +384,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
    W1 分割照片區塊
 ========================================= */
 .split-photo-section {
-    width: 100%;
-    margin: 55px 0 0;
+    width: calc(100% + 40px);
+    margin: 55px 0 0 -20px;
     padding: 0;
     overflow: hidden;
 }
@@ -425,14 +425,14 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     position: absolute;
     top: 0;
     right: 0;
-    width: 20%;
+    width: 33.333%;
     height: 100%;
     background: linear-gradient(
         to right,
         rgba(250,248,245,0) 0%,
-        rgba(250,248,245,0.15) 25%,
-        rgba(250,248,245,0.42) 52%,
-        rgba(250,248,245,0.78) 78%,
+        rgba(250,248,245,0.08) 28%,
+        rgba(250,248,245,0.28) 52%,
+        rgba(250,248,245,0.62) 76%,
         rgba(250,248,245,1) 100%
     );
     pointer-events: none;
@@ -441,10 +441,10 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .split-photo-content {
     min-height: 620px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center;
-    text-align: left;
-    padding: 70px 40px 70px 28px;
+    text-align: right;
+    padding: 70px 0 70px 36px;
     background: #faf8f5;
     opacity: 0;
     transform: translateX(120px);
@@ -459,9 +459,11 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 .split-photo-text-inner {
     width: 100%;
-    max-width: 720px;
-    margin: 0;
-    text-align: left;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: 0;
+    padding-right: 0;
+    text-align: right;
 }
 
 .split-photo-title {
@@ -471,7 +473,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     line-height: 1.9;
     letter-spacing: 0.08em;
     margin-bottom: 32px;
-    text-align: left;
+    text-align: right;
 }
 
 .split-photo-text {
@@ -480,7 +482,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     color: #6b5646;
     line-height: 2;
     letter-spacing: 0.04em;
-    text-align: left;
+    text-align: right;
 }
 
 /* 表單 / 留言板 */
@@ -510,6 +512,11 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 #musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a466; border: none; color: white; z-index: 9999; cursor: pointer; }
 
 @media (max-width: 768px) {
+    .split-photo-section {
+        width: calc(100% + 40px);
+        margin: 55px 0 0 -20px;
+    }
+
     .split-photo-inner {
         grid-template-columns: 1fr 1.35fr;
     }
@@ -520,33 +527,35 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
     .split-photo-content {
         min-height: 340px;
-        padding: 28px 20px 28px 14px;
+        padding: 28px 0 28px 14px;
         align-items: center;
-        justify-content: flex-start;
-        text-align: left;
+        justify-content: flex-end;
+        text-align: right;
     }
 
     .split-photo-text-inner {
         max-width: none;
-        margin: 0;
-        text-align: left;
+        margin-left: auto;
+        margin-right: 0;
+        padding-right: 0;
+        text-align: right;
     }
 
     .split-photo-title {
         font-size: clamp(1.15rem, 4.2vw, 1.65rem);
         line-height: 1.9;
         margin-bottom: 16px;
-        text-align: left;
+        text-align: right;
     }
 
     .split-photo-text {
         font-size: clamp(0.95rem, 3.2vw, 1.3rem);
         line-height: 1.9;
-        text-align: left;
+        text-align: right;
     }
 
     .split-photo-fade {
-        width: 16%;
+        width: 33.333%;
     }
 }
 </style>
