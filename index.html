@@ -10,6 +10,7 @@
 <link rel="preload" href="polaroid.png" as="image">
 <link rel="preload" href="P3.jpg" as="image">
 <link rel="preload" href="P2.png" as="image">
+<link rel="preload" href="W1.jpg" as="image">
 <link rel="preload" href="W2.jpg" as="image">
 <link rel="preload" href="W3.jpg" as="image">
 
@@ -296,34 +297,23 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 }
 
 /* =========================================
-   共用按鈕樣式 (行事曆/導航/複製)
+   婚宴資訊重整
 ========================================= */
-.action-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 140px;
-    padding: 10px 20px;
-    background: #c9a466;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-size: 1.1rem;
-    font-family: 'my font';
-    letter-spacing: 0.1em;
-    text-decoration: none;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(201,164,102,0.18);
-    transition: transform 0.2s ease, opacity 0.2s ease;
+.info-section {
+    padding: 80px 20px;
+    background: #fbf9f7;
+    text-align: center;
 }
-.action-btn:active { transform: scale(0.96); }
-.action-btn:hover { opacity: 0.92; }
 
-/* =========================================
-   婚宴資訊與月曆
-========================================= */
-.info-section { padding: 80px 20px; background: #fbf9f7; text-align: center; }
-.info-card { max-width: 600px; background: #fff; padding: 45px 24px 40px; margin: 0 auto; border: 1px solid #e0d9d0; border-radius: 12px; }
+.info-card {
+    max-width: 600px;
+    background: transparent;
+    padding: 0 24px 20px;
+    margin: 0 auto;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
 
 .wedding-info-detail { font-family: 'my font'; font-size: 1.8rem; color: #444; margin-bottom: 10px; }
 .wedding-info-time { font-family: 'my font'; font-size: 1.8rem; color: #444; margin-bottom: 15px; }
@@ -333,8 +323,29 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .flip-digit { background: #fff; border: 1px solid #e0d9d0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-radius: 8px; padding: 6px 12px; min-width: 45px; text-align: center; position: relative; transition: transform 0.1s ease-in-out; color: #444; }
 .flip-digit.flipping { transform: scale(1.1) translateY(-2px); color: #c9a466; }
 
-.clean-calendar-container { max-width: 320px; margin: 0 auto 40px; background-color: #F7F6ED; border-radius: 0 0 12px 12px; padding: 30px 15px 20px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-.clean-calendar-container::before { content: ""; position: absolute; top: -10px; left: 0; width: 100%; height: 10px; background-image: radial-gradient(circle at 10px 10px, transparent 10px, #F7F6ED 11px); background-size: 24px 20px; background-position: center top; }
+.calendar-frost-card {
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 26px 18px;
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(255,255,255,0.7);
+    box-shadow: 0 12px 35px rgba(186, 170, 144, 0.12);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.clean-calendar-container {
+    max-width: 320px;
+    margin: 0 auto;
+    background-color: rgba(247, 246, 237, 0.78);
+    border-radius: 20px;
+    padding: 30px 15px 20px;
+    position: relative;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+}
+
+.clean-calendar-container::before { content: ""; position: absolute; top: -10px; left: 0; width: 100%; height: 10px; background-image: radial-gradient(circle at 10px 10px, transparent 10px, rgba(247, 246, 237, 0.78) 11px); background-size: 24px 20px; background-position: center top; }
 .calendar-title-row { display: flex; justify-content: space-between; align-items: flex-end; padding: 0 10px 20px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 15px; }
 .calendar-month { font-family: 'Playfair Display', serif; font-size: 2.8rem; color: #8a7c64; line-height: 1; }
 .calendar-year { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #a4a4a4; }
@@ -346,6 +357,111 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .clean-day-wedding { position: relative; color: #fff; z-index: 2; font-weight: bold; }
 .clean-day-wedding::before { content: ""; position: absolute; width: 34px; height: 34px; background-color: #c9a466; border-radius: 50%; z-index: -1; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 2px 8px rgba(201,164,102,0.4); animation: weddingPulse 1.8s infinite; }
 @keyframes weddingPulse { 0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0.5); } 50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 0 8px rgba(201,164,102,0); } 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0); } }
+
+/* =========================================
+   W1 左滑入分割區塊
+========================================= */
+.split-photo-section {
+    max-width: 1100px;
+    margin: 55px auto 0;
+    padding: 0 20px;
+}
+
+.split-photo-inner {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: stretch;
+    background: #fff;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.06);
+    opacity: 0;
+    transform: translateX(-140px);
+    transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.5s ease;
+    will-change: transform, opacity;
+}
+
+.split-photo-inner.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.split-photo-image-wrap {
+    position: relative;
+    min-height: 420px;
+    overflow: hidden;
+}
+
+.split-photo-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.split-photo-fade {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 42%;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.45) 38%,
+        rgba(255,255,255,0.82) 68%,
+        rgba(255,255,255,0.96) 100%
+    );
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    pointer-events: none;
+}
+
+.split-photo-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    padding: 48px 42px;
+    background: linear-gradient(180deg, #fff 0%, #fcfaf7 100%);
+}
+
+.split-photo-title {
+    font-family: 'my font';
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    color: #5a4633;
+    line-height: 1.6;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+}
+
+.split-photo-text {
+    font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
+    font-size: clamp(1.7rem, 4vw, 2.3rem);
+    color: #6b5646;
+    line-height: 1.8;
+    letter-spacing: 0.05em;
+}
+
+/* =========================================
+   地圖區塊
+========================================= */
+.location-card {
+    max-width: 600px;
+    margin: 55px auto 0;
+    padding: 48px 24px 40px;
+    background: rgba(255,255,255,0.88);
+    border: 1px solid rgba(224, 217, 208, 0.8);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+}
+
+.location-title {
+    font-family: 'my font';
+    font-size: 1.8rem;
+    color: #444;
+    margin-bottom: 4px;
+}
 
 .location-text { font-family: 'my font'; font-size: 1.5rem; color: #888; margin-top: 5px; margin-bottom: 12px; }
 .map-container { width: 100%; height: 350px; margin: 25px 0; border: 1px solid #e0d9d0; border-radius: 8px; overflow: hidden; }
@@ -375,6 +491,25 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .sticky-note:nth-child(5n+5) { background-color: #A6A35D; }
 
 #musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a466; border: none; color: white; z-index: 9999; cursor: pointer; }
+
+@media (max-width: 768px) {
+    .split-photo-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .split-photo-image-wrap {
+        min-height: 360px;
+    }
+
+    .split-photo-fade {
+        width: 55%;
+    }
+
+    .split-photo-content {
+        padding: 34px 24px 38px;
+        text-align: center;
+    }
+}
 </style>
 </head>
 <body>
@@ -453,14 +588,10 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     </section>
 
     <section class="info-section" id="countdown-section">
-        <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.5rem; margin-bottom: 20px;">婚禮資訊</h2>
-        
         <div class="info-card">
-            
             <div class="wedding-info-detail">2026 年 6 月 20 日 星期六</div>
             <div class="wedding-info-time">10:30 開始入場</div>
 
-            <!-- 加入行事曆 -->
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20260620T023000Z%2F20260620T070000Z&details=Jay%20%26%20Michelle%20%E7%9A%84%E5%A9%9A%E7%A6%AE%EF%BC%81%E6%9C%9F%E5%BE%85%E6%82%A8%E7%9A%84%E5%88%B0%E4%BE%86%E3%80%82&location=%E6%9A%96%E5%B1%85%E6%97%A5%E7%A9%80&text=Jay%20%26%20Michelle%20%E5%A9%9A%E7%A6%AE" 
                target="_blank" 
                class="action-btn" 
@@ -477,27 +608,47 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
                 <span>天</span>
             </div>
 
-            <div class="clean-calendar-container">
-                <div class="calendar-title-row">
-                    <span class="calendar-month">06</span>
-                    <span class="calendar-year">2026</span>
-                </div>
-                
-                <div class="clean-calendar-grid" id="clean-calendar-body">
-                    <div class="clean-day-label">S</div>
-                    <div class="clean-day-label">M</div>
-                    <div class="clean-day-label">T</div>
-                    <div class="clean-day-label">W</div>
-                    <div class="clean-day-label">T</div>
-                    <div class="clean-day-label">F</div>
-                    <div class="clean-day-label">S</div>
+            <div class="calendar-frost-card">
+                <div class="clean-calendar-container">
+                    <div class="calendar-title-row">
+                        <span class="calendar-month">06</span>
+                        <span class="calendar-year">2026</span>
+                    </div>
+                    
+                    <div class="clean-calendar-grid" id="clean-calendar-body">
+                        <div class="clean-day-label">S</div>
+                        <div class="clean-day-label">M</div>
+                        <div class="clean-day-label">T</div>
+                        <div class="clean-day-label">W</div>
+                        <div class="clean-day-label">T</div>
+                        <div class="clean-day-label">F</div>
+                        <div class="clean-day-label">S</div>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <p style="font-family: 'my font'; font-size: 1.8rem; color: #444;">暖居日穀</p>
+        <!-- W1：插在月曆與地圖中間 -->
+        <section class="split-photo-section">
+            <div class="split-photo-inner js-slide-in-left">
+                <div class="split-photo-image-wrap">
+                    <img src="W1.jpg" alt="wedding photo 3">
+                    <div class="split-photo-fade"></div>
+                </div>
+                <div class="split-photo-content">
+                    <div class="split-photo-title">「在每個平凡片刻裡，慢慢靠近幸福」</div>
+                    <div class="split-photo-text">
+                        Love arrived quietly,<br>
+                        and stayed in every gentle moment
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="location-card">
+            <p class="location-title">暖居日穀</p>
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 5px;">
                 <p class="location-text">台中市北屯區松竹路一段3號</p>
-                <!-- 複製地址 -->
                 <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');" 
                         class="action-btn">
                     複製地址
@@ -508,7 +659,6 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width=100% height=100% style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             
-            <!-- 開啟地圖導航 -->
             <a href="https://maps.app.goo.gl/er8YRwgUM7B6pAR4A" 
                target="_blank" 
                class="action-btn" 
@@ -776,11 +926,11 @@ window.addEventListener('scroll', () => {
     }
 });
 
-/* W3 由右滑入 */
-const slideInTargets = document.querySelectorAll('.js-slide-in-right');
+/* W1 / W3 進場動畫 */
+const revealTargets = document.querySelectorAll('.js-slide-in-right, .js-slide-in-left');
 
-if ('IntersectionObserver' in window && slideInTargets.length) {
-    const slideObserver = new IntersectionObserver((entries, observer) => {
+if ('IntersectionObserver' in window && revealTargets.length) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
@@ -793,9 +943,9 @@ if ('IntersectionObserver' in window && slideInTargets.length) {
         rootMargin: '0px 0px -5% 0px'
     });
 
-    slideInTargets.forEach(el => slideObserver.observe(el));
+    revealTargets.forEach(el => revealObserver.observe(el));
 } else {
-    slideInTargets.forEach(el => el.classList.add('is-visible'));
+    revealTargets.forEach(el => el.classList.add('is-visible'));
 }
 </script>
 </body>
