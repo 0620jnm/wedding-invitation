@@ -147,8 +147,9 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .fade-image-container {
     position: relative;
     width: 100%;
-    height: 60vh; /* 照片顯示高度 */
-    max-height: 800px;
+    /* 這裡的高度決定圖片顯示的範圍，如果是手機版，可以改成 50vh 或具體的 400px */
+    height: 50vh; 
+    max-height: 400px;
 }
 
 .fade-image {
@@ -157,6 +158,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     background-size: cover;
     background-position: center top; 
     background-repeat: no-repeat;
+    /* 確保有背景色，即使圖片沒載入也能看到這塊區域 */
+    background-color: #e0d9d0; 
 }
 
 .fade-overlay {
