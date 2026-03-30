@@ -518,11 +518,15 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     }
 
     .split-photo-inner {
-        grid-template-columns: 1fr 1.35fr;
+        grid-template-columns: 1fr 2fr;
     }
 
     .split-photo-image-wrap {
         min-height: 340px;
+    }
+
+    .split-photo-image-wrap img {
+        object-position: 12% center;
     }
 
     .split-photo-content {
@@ -673,22 +677,22 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
         <!-- W1：插在月曆與地圖中間 -->
         <section class="split-photo-section">
-    <div class="split-photo-inner">
-        <div class="split-photo-image-wrap js-w1-image-in">
-            <img src="W1.jpg" alt="wedding photo 3">
-            <div class="split-photo-fade"></div>
-        </div>
-        <div class="split-photo-content js-w1-text-in">
-            <div class="split-photo-text-inner">
-                <div class="split-photo-title">「在每個平凡片刻裡，慢慢靠近幸福」</div>
-                <div class="split-photo-text">
-                    Love arrived quietly,<br>
-                    and stayed in every gentle moment
+            <div class="split-photo-inner">
+                <div class="split-photo-image-wrap js-w1-image-in">
+                    <img src="W1.jpg" alt="wedding photo 3">
+                    <div class="split-photo-fade"></div>
+                </div>
+                <div class="split-photo-content js-w1-text-in">
+                    <div class="split-photo-text-inner">
+                        <div class="split-photo-title">「在每個平凡片刻裡，慢慢靠近幸福」</div>
+                        <div class="split-photo-text">
+                            Love arrived quietly,<br>
+                            and stayed in every gentle moment
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
         <div class="location-card">
             <p class="location-title">暖居日穀</p>
