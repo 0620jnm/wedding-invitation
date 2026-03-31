@@ -6,18 +6,18 @@
 <title>Jay & Michelle</title>
 
 <!-- 強制優先載入字體與圖片 -->
-<link rel="preload" href="my%20font.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-<link rel="preload" href="polaroid.png" as="image">
-<link rel="preload" href="P3.jpg" as="image">
-<link rel="preload" href="P2.png" as="image">
-<link rel="preload" href="W1.jpg" as="image">
-<link rel="preload" href="W2.jpg" as="image">
-<link rel="preload" href="W3.jpg" as="image">
+/ttf" crossorigin="anonymous">
+>
+>
+>
+>
+>
+>
 
 <!-- 優先連接 Google Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+//fonts.googleapis.com" crossorigin>
+//fonts.gstatic.com" crossorigin>
+//fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
 @font-face { font-family: 'my font'; src: url('my%20font.ttf') format('truetype'); font-display: swap; }
@@ -514,22 +514,31 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 @media (max-width: 768px) {
     .split-photo-section {
-        width: calc(100% + 40px);
-        margin: 55px 0 0 -20px;
+        width: 100%;
+        margin: 55px 0 0 0;
+        padding: 0;
+        overflow: hidden;
     }
 
     .split-photo-inner {
-    grid-template-columns: minmax(120px, 34%) 1fr;
-}
+        width: 100%;
+        display: grid;
+        grid-template-columns: 38% 62%;
+        align-items: stretch;
+        background: #faf8f5;
+    }
 
     .split-photo-image-wrap {
         min-height: 340px;
+        height: 340px;
+        min-width: 0;
+        overflow: hidden;
     }
 
     .split-photo-image-wrap img {
         width: 100%;
-        height: 340px;
-        min-height: 340px;
+        height: 100%;
+        min-height: 0;
         object-fit: cover;
         object-position: left center;
         display: block;
@@ -537,6 +546,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
     .split-photo-content {
         min-height: 340px;
+        min-width: 0;
         padding: 28px 0 28px 14px;
         align-items: center;
         justify-content: flex-end;
@@ -544,10 +554,11 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     }
 
     .split-photo-text-inner {
+        width: 100%;
         max-width: none;
         margin-left: auto;
         margin-right: 0;
-        padding-right: 20px;
+        padding-right: 16px;
         text-align: right;
     }
 
@@ -565,7 +576,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     }
 
     .split-photo-fade {
-        width: 33.333%;
+        width: 28%;
     }
 }
 </style>
@@ -727,12 +738,12 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">參加回覆表單</h2>
         <div class="form-card">
             <form id="rsvp-form">
-                <div class="form-group"><label>您的姓名</label><input type="text" id="guest-name" placeholder="請輸入姓名" required></div>
+                <div class="form-group">abel>您的姓名</label><input type="text" id="guest-name" placeholder="請輸入姓名" required></div>
                 <div class="form-group">
-                    <label>是否參加婚禮？</label>
+                    abel>是否參加婚禮？</label>
                     <div class="radio-stack">
-                        <label><input type="radio" name="attendance" value="yes" required> 是的，我會參加！</label>
-                        <label><input type="radio" name="attendance" value="no" required> 抱歉，我無法出席</label>
+                        abel><input type="radio" name="attendance" value="yes" required> 是的，我會參加！</label>
+                        abel><input type="radio" name="attendance" value="no" required> 抱歉，我無法出席</label>
                     </div>
                 </div>
                 <button type="submit" class="submit-btn">送出回覆</button>
@@ -744,8 +755,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">祝福留言板</h2>
         <div class="form-card" style="margin-bottom: 50px;">
             <form id="wish-form">
-                <div class="form-group"><label>您的姓名</label><input type="text" id="wish-name" required placeholder="請輸入姓名"></div>
-                <div class="form-group"><label>祝福的話</label><textarea id="wish-message" required placeholder="想對我們說的話..." style="height: 100px;"></textarea></div>
+                <div class="form-group">abel>您的姓名</label><input type="text" id="wish-name" required placeholder="請輸入姓名"></div>
+                <div class="form-group">abel>祝福的話</label><textarea id="wish-message" required placeholder="想對我們說的話..." style="height: 100px;"></textarea></div>
                 <button type="submit" class="submit-btn">送上我的祝福！</button>
             </form>
         </div>
