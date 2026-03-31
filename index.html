@@ -156,6 +156,41 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 20px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
 
 /* =========================================
+   共用按鈕樣式 (行事曆/導航/複製)
+========================================= */
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 140px;
+    padding: 10px 20px;
+    background: #c9a466;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-family: 'my font';
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(201,164,102,0.18);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.action-btn:hover {
+    opacity: 0.92;
+}
+
+.action-btn:active {
+    transform: scale(0.96);
+}
+
+.action-btn:visited {
+    color: #fff;
+}
+/* =========================================
    W2 過渡照片區塊
 ========================================= */
 .photo-transition-section {
