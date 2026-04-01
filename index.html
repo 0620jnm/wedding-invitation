@@ -178,18 +178,10 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     appearance: none;
     -webkit-appearance: none;
 }
+.action-btn:hover { opacity: 0.92; }
+.action-btn:active { transform: scale(0.96); }
+.action-btn:visited { color: #fff; }
 
-.action-btn:hover {
-    opacity: 0.92;
-}
-
-.action-btn:active {
-    transform: scale(0.96);
-}
-
-.action-btn:visited {
-    color: #fff;
-}
 /* =========================================
    W2 過渡照片區塊
 ========================================= */
@@ -443,6 +435,23 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     will-change: transform, opacity;
 }
 
+.split-photo-image-wrap::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(250,248,245,0.92) 0%,
+        rgba(250,248,245,0.38) 12%,
+        rgba(250,248,245,0) 24%,
+        rgba(250,248,245,0) 76%,
+        rgba(250,248,245,0.38) 88%,
+        rgba(250,248,245,0.92) 100%
+    );
+    pointer-events: none;
+    z-index: 2;
+}
+
 .split-photo-image-wrap.is-visible {
     opacity: 1;
     transform: translateX(0);
@@ -471,6 +480,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         rgba(250,248,245,1) 100%
     );
     pointer-events: none;
+    z-index: 3;
 }
 
 .split-photo-content {
@@ -561,12 +571,12 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
     }
 
     .split-photo-content {
-    min-height: 340px;
-    padding: 28px 20px 28px 14px;
-    align-items: center;
-    justify-content: flex-end;
-    text-align: right;
-}
+        min-height: 340px;
+        padding: 28px 20px 28px 14px;
+        align-items: center;
+        justify-content: flex-end;
+        text-align: right;
+    }
 
     .split-photo-text-inner {
         max-width: none;
@@ -736,7 +746,7 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
             </div>
 
             <div class="map-container">
-               <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!2m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width=100% height=100% style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+               <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width=100% height=100% style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             
             <a href="https://maps.app.goo.gl/er8YRwgUM7B6pAR4A" 
