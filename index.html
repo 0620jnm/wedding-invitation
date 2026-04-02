@@ -988,11 +988,13 @@ function autoNudgeScroll() {
 
     hasAutoNudged = true;
 
-    smoothScrollToY(110, 1800, function() {
-        setTimeout(function() {
-            smoothScrollToY(0, 1600);
-        }, 180);
-    });
+    setTimeout(function() {
+        smoothScrollToY(110, 1800, function() {
+            setTimeout(function() {
+                smoothScrollToY(0, 1600);
+            }, 180);
+        });
+    }, 800);
 }
 
 function endIntro() {
