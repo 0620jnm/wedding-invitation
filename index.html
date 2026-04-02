@@ -15,7 +15,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Lavishly+Yours&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
 @font-face { font-family: 'my font'; src: url('my%20font.ttf') format('truetype'); font-display: swap; }
@@ -25,7 +25,6 @@
 html, body { width:100%; min-height:100%; background:#faf8f5; overflow:hidden; }
 body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hidden; }
 
-/* Loading */
 #site-loader {
     position: fixed;
     inset: 0;
@@ -36,14 +35,8 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     z-index: 30000;
     transition: opacity 0.8s ease, visibility 0.8s ease;
 }
-#site-loader.is-hidden {
-    opacity: 0;
-    visibility: hidden;
-}
-.loader-inner {
-    width: min(85vw, 360px);
-    text-align: center;
-}
+#site-loader.is-hidden { opacity: 0; visibility: hidden; }
+.loader-inner { width: min(85vw, 360px); text-align: center; }
 .loader-subtitle {
     font-family: 'ChenYuluoyan', 'my font', cursive;
     font-size: 1.6rem;
@@ -75,7 +68,6 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     letter-spacing: 0.1em;
 }
 
-/* Intro */
 #intro-overlay {
     position: fixed;
     top: 0;
@@ -103,11 +95,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     pointer-events: none;
 }
 #flash-effect.is-flashing { animation: flashBang 0.8s ease-out forwards; }
-@keyframes flashBang {
-    0% { opacity: 0; }
-    10% { opacity: 1; }
-    100% { opacity: 0; }
-}
+@keyframes flashBang { 0% { opacity: 0; } 10% { opacity: 1; } 100% { opacity: 0; } }
 
 #scene-container {
     position: relative;
@@ -155,10 +143,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     will-change: transform;
 }
-.print-photo {
-    transform: translateY(-95%);
-    opacity: 0;
-}
+.print-photo { transform: translateY(-95%); opacity: 0; }
 .print-photo-inner {
     width: 100%;
     height: 100%;
@@ -232,12 +217,8 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     z-index: 30;
 }
 .print-hint.ready { animation: hintBlink 1.4s infinite; }
-@keyframes hintBlink {
-    0%,100% { opacity: 1; }
-    50% { opacity: 0.4; }
-}
+@keyframes hintBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-/* Main */
 #main-wrapper {
     opacity: 0;
     visibility: hidden;
@@ -292,26 +273,13 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
 .welcome-text {
     position: relative;
     z-index: 10;
-    font-family: 'ChenYuluoyan', 'my font', cursive;
+    font-family: 'Lavishly Yours', cursive;
     font-size: clamp(3.2rem, 10vw, 5.6rem);
     line-height: 1;
     color: #c9a466;
     margin-bottom: 8px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.02em;
     text-shadow: 0 6px 18px rgba(185, 150, 91, 0.16);
-    animation: welcomeGlow 2.8s ease-in-out infinite;
-}
-@keyframes welcomeGlow {
-    0%, 100% {
-        transform: translateY(0);
-        opacity: 0.95;
-        text-shadow: 0 6px 18px rgba(185, 150, 91, 0.14);
-    }
-    50% {
-        transform: translateY(-3px);
-        opacity: 1;
-        text-shadow: 0 10px 24px rgba(185, 150, 91, 0.22);
-    }
 }
 
 .getting-married-text {
@@ -351,7 +319,6 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     color: #4a4a4a;
 }
 
-/* Buttons */
 .action-btn {
     display: inline-flex;
     align-items: center;
@@ -376,7 +343,6 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
 .action-btn:active { transform: scale(0.96); }
 .action-btn:visited { color: #fff; }
 
-/* W2 */
 .photo-transition-section {
     position: relative;
     background: #fbf9f7;
@@ -437,15 +403,22 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     text-align: left;
 }
 .photo-transition-title {
+    font-family: 'ChenYuluoyan', 'my font', cursive;
+    font-size: clamp(2rem, 7vw, 3rem);
+    color: #8a7448;
+    letter-spacing: 0.08em;
+    line-height: 1.3;
+    margin-bottom: 10px;
+}
+.photo-transition-subtitle {
     font-family: 'my font';
     font-size: clamp(1.5rem, 6.5vw, 2.3rem);
     color: #5a4633;
     letter-spacing: 0.12em;
-    margin-bottom: 24px;
     line-height: 1.6;
+    margin-top: 14px;
 }
 
-/* W3 */
 .slide-photo-section {
     background: #fbf9f7;
     padding: 20px 20px 90px;
@@ -487,7 +460,6 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     line-height: 1.6;
 }
 
-/* Info */
 .info-section {
     padding: 80px 20px;
     background: #fbf9f7;
@@ -620,7 +592,6 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0); }
 }
 
-/* Location */
 .location-card {
     max-width: 600px;
     margin: 55px auto 0;
@@ -652,7 +623,6 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     overflow: hidden;
 }
 
-/* W1 */
 .split-photo-section {
     width: calc(100% + 40px);
     margin: 55px 0 0 -20px;
@@ -762,7 +732,6 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     text-align: right;
 }
 
-/* Form */
 .form-section { padding: 80px 20px; text-align: center; }
 .form-card {
     max-width: 550px;
@@ -895,9 +864,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     .split-photo-inner {
         grid-template-columns: 1fr 1fr;
     }
-    .split-photo-image-wrap {
-        min-height: 340px;
-    }
+    .split-photo-image-wrap { min-height: 340px; }
     .split-photo-content {
         min-height: 340px;
         padding: 28px 20px 28px 14px;
@@ -918,9 +885,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
         font-size: clamp(0.95rem, 3.2vw, 1.3rem);
         line-height: 1.9;
     }
-    .split-photo-fade {
-        width: 33.333%;
-    }
+    .split-photo-fade { width: 33.333%; }
 }
 </style>
 </head>
@@ -966,15 +931,15 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
             <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
             <div class="chinese-names"><span>蔡宇杰</span><span>陳旻瑄</span></div>
         </div>
-        <p style="margin-top:35px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font'; position: relative; z-index: 10;">2026·06·20</p>
     </div>
 
     <section class="photo-transition-section">
+        <div class="photo-transition-content">
+            <div class="photo-transition-title">我們要結婚了！</div>
+            <div class="photo-transition-subtitle">才發現，<br>已經無法想像沒有你的生活了。</div>
+        </div>
         <div class="photo-transition-image-wrap">
             <img src="W2.jpg" alt="wedding photo" loading="lazy">
-        </div>
-        <div class="photo-transition-content">
-            <div class="photo-transition-title">才發現，<br>已經無法想像沒有你的生活了。</div>
         </div>
     </section>
 
@@ -1016,7 +981,6 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
                         <span class="calendar-month">06</span>
                         <span class="calendar-year">2026</span>
                     </div>
-
                     <div class="clean-calendar-grid" id="clean-calendar-body">
                         <div class="clean-day-label">S</div>
                         <div class="clean-day-label">M</div>
