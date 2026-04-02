@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Jay & Michelle</title>
 
+<!-- 強制優先載入字體與圖片 -->
 <link rel="preload" href="my%20font.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 <link rel="preload" href="polaroid.png" as="image">
 <link rel="preload" href="P3.jpg" as="image">
@@ -13,18 +14,22 @@
 <link rel="preload" href="W2.jpg" as="image">
 <link rel="preload" href="W3.jpg" as="image">
 
+<!-- 優先連接 Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Lavishly+Yours&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
 @font-face { font-family: 'my font'; src: url('my%20font.ttf') format('truetype'); font-display: swap; }
 @font-face { font-family: 'ChenYuluoyan'; src: url('https://cdn.jsdelivr.net/gh/Chenyu-otf/chenyuluoyan_thin@main/ChenYuluoyan-Thin.ttf') format('truetype'); font-display: swap; }
 
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html, body { width:100%; min-height:100%; background:#faf8f5; overflow:hidden; }
-body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hidden; }
+*{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+html, body { width: 100%; min-height: 100%; background: #faf8f5; overflow: hidden; }
+body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-x: hidden; }
 
+/* =========================================
+   載入動畫 (Loading Overlay)
+========================================= */
 #site-loader {
     position: fixed;
     inset: 0;
@@ -35,8 +40,17 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     z-index: 30000;
     transition: opacity 0.8s ease, visibility 0.8s ease;
 }
-#site-loader.is-hidden { opacity: 0; visibility: hidden; }
-.loader-inner { width: min(85vw, 360px); text-align: center; }
+
+#site-loader.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-inner {
+    width: min(85vw, 360px);
+    text-align: center;
+}
+
 .loader-subtitle {
     font-family: 'ChenYuluoyan', 'my font', cursive;
     font-size: 1.6rem;
@@ -44,6 +58,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     letter-spacing: 0.08em;
     margin-bottom: 25px;
 }
+
 .loader-progress-track {
     width: 100%;
     height: 8px;
@@ -52,6 +67,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     overflow: hidden;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
 }
+
 #loader-progress-fill {
     width: 0%;
     height: 100%;
@@ -60,6 +76,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     box-shadow: 0 0 12px rgba(201,164,102,0.3);
     transition: width 0.3s ease;
 }
+
 #loader-progress-text {
     margin-top: 12px;
     font-family: 'my font';
@@ -68,189 +85,50 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     letter-spacing: 0.1em;
 }
 
-#intro-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #e8dcc4;
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 1.5s ease-in-out;
-    touch-action: none;
-    cursor: pointer;
-}
-#flash-effect {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #fff;
-    z-index: 20000;
-    opacity: 0;
-    pointer-events: none;
-}
+/* =========================================
+   開場：Polaroid 列印動畫
+========================================= */
+#intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e8dcc4; z-index: 10000; display: flex; align-items: center; justify-content: center; transition: opacity 1.5s ease-in-out; touch-action: none; cursor: pointer; }
+#flash-effect { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #fff; z-index: 20000; opacity: 0; pointer-events: none; }
 #flash-effect.is-flashing { animation: flashBang 0.8s ease-out forwards; }
 @keyframes flashBang { 0% { opacity: 0; } 10% { opacity: 1; } 100% { opacity: 0; } }
 
-#scene-container {
-    position: relative;
-    transform: translateY(0);
-    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
+#scene-container { position: relative; transform: translateY(0); transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
 #scene-container.is-panning { transform: translateY(-70vh); }
 
-.polaroid-wrapper {
-    position: relative;
-    width: min(340px, 80vw);
-    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    z-index: 10;
-}
-.camera-img {
-    display: block;
-    width: 100%;
-    height: auto;
-    position: relative;
-    z-index: 10;
-    pointer-events: none;
-    transition: opacity 3.5s ease;
-}
-.photo-frame {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    background: #fdfdfd;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    padding: 6% 6% 22% 6%;
-}
-.print-photo-container {
-    position: absolute;
-    width: 47%;
-    left: 26.5%;
-    top: 68.3%;
-    z-index: 20;
-    clip-path: inset(0 -50px -200% -50px);
-    transform-origin: top center;
-    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    will-change: transform;
-}
+.polaroid-wrapper { position: relative; width: min(340px, 80vw); transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1); z-index: 10; }
+.camera-img { display: block; width: 100%; height: auto; position: relative; z-index: 10; pointer-events: none; transition: opacity 3.5s ease; }
+
+.photo-frame { position: relative; width: 100%; aspect-ratio: 4 / 5; background: #fdfdfd; box-shadow: 0 8px 25px rgba(0,0,0,0.3); padding: 6% 6% 22% 6%; }
+.print-photo-container { position: absolute; width: 47%; left: 26.5%; top: 68.3%; z-index: 20; clip-path: inset(0 -50px -200% -50px); transform-origin: top center; transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1); will-change: transform; }
 .print-photo { transform: translateY(-95%); opacity: 0; }
-.print-photo-inner {
-    width: 100%;
-    height: 100%;
-    background-image: url('P3.jpg');
-    background-size: cover;
-    background-position: center;
-    filter: brightness(0.1) saturate(0.1);
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
-}
-.static-photo-container {
-    position: absolute;
-    width: 45%;
-    left: 52%;
-    top: 220%;
-    z-index: 5;
-    transform: rotate(8deg);
-    opacity: 1;
-}
-.static-photo-inner {
-    width: 100%;
-    height: 100%;
-    background-image: url('P2.png');
-    background-size: cover;
-    background-position: center;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
-}
-.photo-date {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 22%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Nanum Pen Script', cursive;
-    font-size: clamp(1.4rem, 5vw, 1.8rem);
-    color: #3b3b3b;
-    opacity: 0.85;
-    letter-spacing: 0.1em;
-    pointer-events: none;
-    z-index: 2;
-    padding-bottom: 5px;
-}
+.print-photo-inner { width: 100%; height: 100%; background-image: url('P3.jpg'); background-size: cover; background-position: center; filter: brightness(0.1) saturate(0.1); box-shadow: inset 0 0 5px rgba(0,0,0,0.1); }
+
+.static-photo-container { position: absolute; width: 45%; left: 52%; top: 220%; z-index: 5; transform: rotate(8deg); opacity: 1; }
+.static-photo-inner { width: 100%; height: 100%; background-image: url('P2.png'); background-size: cover; background-position: center; box-shadow: inset 0 0 5px rgba(0,0,0,0.1); }
+.photo-date { position: absolute; bottom: 0; left: 0; width: 100%; height: 22%; display: flex; align-items: center; justify-content: center; font-family: 'Nanum Pen Script', cursive; font-size: clamp(1.4rem, 5vw, 1.8rem); color: #3b3b3b; opacity: 0.85; letter-spacing: 0.1em; pointer-events: none; z-index: 2; padding-bottom: 5px; }
+
 .polaroid-wrapper.is-focusing { transform: translateY(-20vh); }
 .polaroid-wrapper.is-focusing .camera-img { opacity: 0; }
 .polaroid-wrapper.is-focusing .print-photo-container { transform: translate(-55%, 60vh) rotate(-6deg); }
 
 .print-photo.is-printing { opacity: 1; animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
-@keyframes photoPrint {
-    0% { transform: translateY(-95%); }
-    100% { transform: translateY(0%); }
-}
+@keyframes photoPrint { 0% { transform: translateY(-95%); } 100% { transform: translateY(0%); } }
 .print-photo.is-developed .print-photo-inner { animation: developFade 4s forwards; }
-@keyframes developFade {
-    0% { filter: brightness(0.1) saturate(0.1); }
-    100% { filter: brightness(1) saturate(1); }
-}
-.print-hint {
-    position: absolute;
-    bottom: -80px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: 'my font';
-    font-size: 1.5rem;
-    letter-spacing: 0.2em;
-    color: #8a7448;
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 30;
-}
+@keyframes developFade { 0% { filter: brightness(0.1) saturate(0.1); } 100% { filter: brightness(1) saturate(1); } }
+
+.print-hint { position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%); font-family: 'my font'; font-size: 1.5rem; letter-spacing: 0.2em; color: #8a7448; white-space: nowrap; opacity: 0; transition: opacity 0.3s ease; z-index: 30; }
 .print-hint.ready { animation: hintBlink 1.4s infinite; }
 @keyframes hintBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-#main-wrapper {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 2s ease;
-    width: 100%;
-}
-#main-wrapper.is-visible {
-    opacity: 1;
-    visibility: visible;
-}
+/* =========================================
+   主視覺
+========================================= */
+#main-wrapper { opacity: 0; visibility: hidden; transition: opacity 2s ease; width: 100%; }
+#main-wrapper.is-visible { opacity: 1; visibility: visible; }
 
-.cover {
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    background-color: #f5f5dc;
-}
-.cover::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url('bg_silk.jpg.png');
-    background-size: cover;
-    background-position: center;
-    z-index: 1;
-}
+.cover { height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; background-color: #f5f5dc; }
+.cover::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('bg_silk.jpg.png'); background-size: cover; background-position: center; z-index: 1; }
 .cover::after {
     content: "";
     position: absolute;
@@ -270,55 +148,16 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     pointer-events: none;
 }
 
-.welcome-text {
-    position: relative;
-    z-index: 10;
-    font-family: 'Lavishly Yours', cursive;
-    font-size: clamp(3.2rem, 10vw, 5.6rem);
-    line-height: 1;
-    color: #c9a466;
-    margin-bottom: 8px;
-    letter-spacing: 0.02em;
-    text-shadow: 0 6px 18px rgba(185, 150, 91, 0.16);
-}
-
-.getting-married-text {
-    color:#c9a466;
-    margin-bottom: 15px;
-    letter-spacing: 0.3em;
-    font-size: clamp(1.2rem, 4vw, 1.6rem);
-    z-index: 10;
-    font-weight: 300;
-    position: relative;
-    font-family: 'my font', serif;
-}
+.getting-married-text { color:#c9a466; margin-bottom: 15px; letter-spacing: 0.3em; font-size: clamp(1.2rem, 4vw, 1.6rem); z-index: 10; font-weight: 300; position: relative; font-family: 'my font', serif; }
 .name-container { position: relative; z-index: 10; width: 100%; }
 
-.english-names {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 8vw, 4.5rem);
-    color: #2c2c2c;
-    letter-spacing: 0.05em;
-}
-.english-names .amp {
-    font-family: 'Gwendolyn', cursive;
-    font-size: clamp(4rem, 12vw, 6.5rem);
-    color: #c9a466;
-    margin: 0 8px;
-    vertical-align: middle;
-}
-.chinese-names {
-    display: flex;
-    justify-content: space-around;
-    width: 85%;
-    max-width: 450px;
-    margin: 20px auto 0;
-    font-family: 'my font';
-    font-size: 2.2rem;
-    letter-spacing: 0.2em;
-    color: #4a4a4a;
-}
+.english-names { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 4.5rem); color: #2c2c2c; letter-spacing: 0.05em; }
+.english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(4rem, 12vw, 6.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
+.chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 20px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
 
+/* =========================================
+   共用按鈕樣式 (行事曆/導航/複製)
+========================================= */
 .action-btn {
     display: inline-flex;
     align-items: center;
@@ -343,6 +182,9 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
 .action-btn:active { transform: scale(0.96); }
 .action-btn:visited { color: #fff; }
 
+/* =========================================
+   W2 過渡照片區塊
+========================================= */
 .photo-transition-section {
     position: relative;
     background: #fbf9f7;
@@ -351,11 +193,13 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     margin-top: -2px;
     z-index: 3;
 }
+
 .photo-transition-image-wrap {
     position: relative;
     width: 100%;
     line-height: 0;
 }
+
 .photo-transition-image-wrap::before {
     content: "";
     position: absolute;
@@ -372,11 +216,13 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     z-index: 2;
     pointer-events: none;
 }
+
 .photo-transition-image-wrap img {
     display: block;
     width: 100%;
     height: auto;
 }
+
 .photo-transition-image-wrap::after {
     content: "";
     position: absolute;
@@ -394,41 +240,48 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     z-index: 2;
     pointer-events: none;
 }
+
 .photo-transition-content {
     max-width: 720px;
     margin: -10px auto 0;
-    padding: 0 24px 28px;
+    padding: 0 24px 80px;
     position: relative;
     z-index: 3;
     text-align: left;
 }
+
 .photo-transition-title {
-    font-family: 'ChenYuluoyan', 'my font', cursive;
-    font-size: clamp(2rem, 7vw, 3rem);
-    color: #8a7448;
-    letter-spacing: 0.08em;
-    line-height: 1.3;
-    margin-bottom: 10px;
-}
-.photo-transition-subtitle {
     font-family: 'my font';
     font-size: clamp(1.5rem, 6.5vw, 2.3rem);
     color: #5a4633;
     letter-spacing: 0.12em;
+    margin-bottom: 24px;
     line-height: 1.6;
-    margin-top: 14px;
 }
 
+.photo-transition-text {
+    font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
+    font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+    color: #6b5646;
+    line-height: 1.8;
+    letter-spacing: 0.06em;
+}
+
+/* =========================================
+   W3 右滑入照片區塊
+========================================= */
 .slide-photo-section {
     background: #fbf9f7;
     padding: 20px 20px 90px;
     overflow: hidden;
     text-align: left;
 }
+
 .slide-photo-inner {
     max-width: 920px;
     margin: 0 auto;
 }
+
 .slide-photo-frame {
     width: 100%;
     opacity: 0;
@@ -436,21 +289,25 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     transition: transform 1.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.6s ease;
     will-change: transform, opacity;
 }
+
 .slide-photo-frame.is-visible {
     opacity: 1;
     transform: translateX(0);
 }
+
 .slide-photo-frame img {
     display: block;
     width: 100%;
     height: auto;
 }
+
 .slide-photo-text {
     max-width: 720px;
     margin: 34px auto 0;
     text-align: left;
     padding: 0 12px;
 }
+
 .slide-photo-title {
     font-family: 'my font';
     font-size: clamp(1.4rem, 6.4vw, 2.2rem);
@@ -460,11 +317,23 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     line-height: 1.6;
 }
 
+.slide-photo-desc {
+    font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
+    font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+    color: #6b5646;
+    line-height: 1.8;
+    letter-spacing: 0.06em;
+}
+
+/* =========================================
+   婚宴資訊重整
+========================================= */
 .info-section {
     padding: 80px 20px;
     background: #fbf9f7;
     text-align: center;
 }
+
 .info-card {
     max-width: 600px;
     background: transparent;
@@ -474,36 +343,14 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     border-radius: 0;
     box-shadow: none;
 }
+
 .wedding-info-detail { font-family: 'my font'; font-size: 1.8rem; color: #444; margin-bottom: 10px; }
 .wedding-info-time { font-family: 'my font'; font-size: 1.8rem; color: #444; margin-bottom: 15px; }
 
-.flip-countdown-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 40px;
-    font-family: 'my font';
-    color: #444;
-    font-size: 1.8rem;
-}
+.flip-countdown-wrapper { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 40px; font-family: 'my font'; color: #444; font-size: 1.8rem; }
 .flip-box { display: flex; gap: 4px; }
-.flip-digit {
-    background: #fff;
-    border: 1px solid #e0d9d0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    border-radius: 8px;
-    padding: 6px 12px;
-    min-width: 45px;
-    text-align: center;
-    position: relative;
-    transition: transform 0.1s ease-in-out;
-    color: #444;
-}
-.flip-digit.flipping {
-    transform: scale(1.1) translateY(-2px);
-    color: #c9a466;
-}
+.flip-digit { background: #fff; border: 1px solid #e0d9d0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-radius: 8px; padding: 6px 12px; min-width: 45px; text-align: center; position: relative; transition: transform 0.1s ease-in-out; color: #444; }
+.flip-digit.flipping { transform: scale(1.1) translateY(-2px); color: #c9a466; }
 
 .calendar-frost-card {
     max-width: 420px;
@@ -516,6 +363,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
 }
+
 .clean-calendar-container {
     max-width: 320px;
     margin: 0 auto;
@@ -525,72 +373,19 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     position: relative;
     box-shadow: 0 8px 24px rgba(0,0,0,0.04);
 }
-.clean-calendar-container::before {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: 0;
-    width: 100%;
-    height: 10px;
-    background-image: radial-gradient(circle at 10px 10px, transparent 10px, rgba(247, 246, 237, 0.78) 11px);
-    background-size: 24px 20px;
-    background-position: center top;
-}
-.calendar-title-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 0 10px 20px;
-    border-bottom: 1px dashed rgba(0,0,0,0.1);
-    margin-bottom: 15px;
-}
+
+.clean-calendar-container::before { content: ""; position: absolute; top: -10px; left: 0; width: 100%; height: 10px; background-image: radial-gradient(circle at 10px 10px, transparent 10px, rgba(247, 246, 237, 0.78) 11px); background-size: 24px 20px; background-position: center top; }
+.calendar-title-row { display: flex; justify-content: space-between; align-items: flex-end; padding: 0 10px 20px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 15px; }
 .calendar-month { font-family: 'Playfair Display', serif; font-size: 2.8rem; color: #8a7c64; line-height: 1; }
 .calendar-year { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #a4a4a4; }
 
 .clean-calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px 2px; }
-.clean-day-label {
-    font-family: 'Playfair Display', serif;
-    font-size: 0.85rem;
-    color: #8a7c64;
-    padding-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: bold;
-}
-.clean-day-cell {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem;
-    color: #666;
-    padding: 8px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.clean-day-wedding {
-    position: relative;
-    color: #fff;
-    z-index: 2;
-    font-weight: bold;
-}
-.clean-day-wedding::before {
-    content: "";
-    position: absolute;
-    width: 34px;
-    height: 34px;
-    background-color: #c9a466;
-    border-radius: 50%;
-    z-index: -1;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 2px 8px rgba(201,164,102,0.4);
-    animation: weddingPulse 1.8s infinite;
-}
-@keyframes weddingPulse {
-    0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0.5); }
-    50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 0 8px rgba(201,164,102,0); }
-    100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0); }
-}
+.clean-day-label { font-family: 'Playfair Display', serif; font-size: 0.85rem; color: #8a7c64; padding-bottom: 5px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: bold; }
+.clean-day-cell { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #666; padding: 8px 0; display: flex; align-items: center; justify-content: center; }
+
+.clean-day-wedding { position: relative; color: #fff; z-index: 2; font-weight: bold; }
+.clean-day-wedding::before { content: ""; position: absolute; width: 34px; height: 34px; background-color: #c9a466; border-radius: 50%; z-index: -1; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 2px 8px rgba(201,164,102,0.4); animation: weddingPulse 1.8s infinite; }
+@keyframes weddingPulse { 0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0.5); } 50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 0 8px rgba(201,164,102,0); } 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0); } }
 
 .location-card {
     max-width: 600px;
@@ -601,34 +396,27 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     border-radius: 18px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.04);
 }
+
 .location-title {
     font-family: 'my font';
     font-size: 1.8rem;
     color: #444;
     margin-bottom: 4px;
 }
-.location-text {
-    font-family: 'my font';
-    font-size: 1.5rem;
-    color: #888;
-    margin-top: 5px;
-    margin-bottom: 12px;
-}
-.map-container {
-    width: 100%;
-    height: 350px;
-    margin: 25px 0;
-    border: 1px solid #e0d9d0;
-    border-radius: 8px;
-    overflow: hidden;
-}
 
+.location-text { font-family: 'my font'; font-size: 1.5rem; color: #888; margin-top: 5px; margin-bottom: 12px; }
+.map-container { width: 100%; height: 350px; margin: 25px 0; border: 1px solid #e0d9d0; border-radius: 8px; overflow: hidden; }
+
+/* =========================================
+   W1 分割照片區塊
+========================================= */
 .split-photo-section {
     width: calc(100% + 40px);
     margin: 55px 0 0 -20px;
     padding: 0;
     overflow: hidden;
 }
+
 .split-photo-inner {
     width: 100%;
     display: grid;
@@ -636,6 +424,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     align-items: stretch;
     background: #faf8f5;
 }
+
 .split-photo-image-wrap {
     position: relative;
     min-height: 620px;
@@ -645,6 +434,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.5s ease;
     will-change: transform, opacity;
 }
+
 .split-photo-image-wrap::before {
     content: "";
     position: absolute;
@@ -661,10 +451,12 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     pointer-events: none;
     z-index: 2;
 }
+
 .split-photo-image-wrap.is-visible {
     opacity: 1;
     transform: translateX(0);
 }
+
 .split-photo-image-wrap img {
     width: 100%;
     height: 100%;
@@ -672,6 +464,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     object-position: center center;
     display: block;
 }
+
 .split-photo-fade {
     position: absolute;
     top: 0;
@@ -689,6 +482,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     pointer-events: none;
     z-index: 3;
 }
+
 .split-photo-content {
     min-height: 620px;
     display: flex;
@@ -702,10 +496,12 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.5s ease;
     will-change: transform, opacity;
 }
+
 .split-photo-content.is-visible {
     opacity: 1;
     transform: translateX(0);
 }
+
 .split-photo-text-inner {
     width: 100%;
     max-width: 760px;
@@ -714,6 +510,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     padding-right: 0;
     text-align: right;
 }
+
 .split-photo-title {
     font-family: 'my font';
     font-size: clamp(1.8rem, 3vw, 2.8rem);
@@ -723,6 +520,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     margin-bottom: 32px;
     text-align: right;
 }
+
 .split-photo-text {
     font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
     font-size: clamp(1.35rem, 2.2vw, 2rem);
@@ -732,139 +530,46 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
     text-align: right;
 }
 
+/* 表單 / 留言板 */
 .form-section { padding: 80px 20px; text-align: center; }
-.form-card {
-    max-width: 550px;
-    background: #fff;
-    padding: 40px 30px;
-    margin: 0 auto;
-    border: 1px solid #e0d9d0;
-    border-radius: 12px;
-}
+.form-card { max-width: 550px; background: #fff; padding: 40px 30px; margin: 0 auto; border: 1px solid #e0d9d0; border-radius: 12px; }
 .form-group { margin-bottom: 30px; text-align: left; }
-.form-group label {
-    display: block;
-    font-family: 'my font';
-    font-size: 1.65rem;
-    margin-bottom: 10px;
-    color: #444;
-}
-.form-group input[type="text"], .form-group textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-family: 'my font';
-    font-size: 1.5rem;
-}
-.form-group input::placeholder, .form-group textarea::placeholder {
-    color: #888;
-    opacity: 1;
-}
-.radio-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 10px;
-}
-.radio-stack label {
-    display: flex;
-    align-items: center;
-    font-size: 1.3rem;
-    font-family: 'my font';
-    cursor: pointer;
-}
-.radio-stack input {
-    width: 18px;
-    height: 18px;
-    margin-right: 10px;
-}
-.submit-btn {
-    width: 100%;
-    padding: 16px;
-    background: #c9a466;
-    color: #fff;
-    border: none;
-    font-family: 'my font';
-    font-size: 1.2rem;
-    cursor: pointer;
-    border-radius: 8px;
-}
+.form-group label { display: block; font-family: 'my font'; font-size: 1.65rem; margin-bottom: 10px; color: #444; }
+.form-group input[type="text"], .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: 'my font'; font-size: 1.5rem; }
+.form-group input::placeholder, .form-group textarea::placeholder { color: #888; opacity: 1; }
 
-.sticky-wall {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-    padding: 40px 10px;
-    max-width: 950px;
-    margin: 0 auto;
-}
-.sticky-note {
-    width: 210px;
-    min-height: 190px;
-    padding: 35px 20px 20px;
-    box-shadow: 3px 6px 15px rgba(0,0,0,0.1);
-    position: relative;
-    font-family: 'my font';
-    text-align: left;
-    transition: 0.3s;
-    transform: rotate(var(--note-rot)) translate(var(--note-x), var(--note-y));
-}
-.note-text {
-    font-size: 1.6rem;
-    line-height: 1.5;
-    margin-bottom: 15px;
-    color: #333;
-    word-break: break-all;
-}
-.note-author {
-    font-size: 1.3rem;
-    text-align: right;
-    border-top: 1px dashed rgba(0,0,0,0.15);
-    padding-top: 10px;
-}
-.sticky-note::before {
-    content: "";
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 24px;
-    height: 24px;
-    background-color: #a82424;
-    border-radius: 50%;
-    z-index: 2;
-}
+.radio-stack { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
+.radio-stack label { display: flex; align-items: center; font-size: 1.3rem; font-family: 'my font'; cursor: pointer; }
+.radio-stack input { width: 18px; height: 18px; margin-right: 10px; }
+.submit-btn { width: 100%; padding: 16px; background: #c9a466; color: #fff; border: none; font-family: 'my font'; font-size: 1.2rem; cursor: pointer; border-radius: 8px; }
+
+.sticky-wall { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 40px 10px; max-width: 950px; margin: 0 auto; }
+.sticky-note { width: 210px; min-height: 190px; padding: 35px 20px 20px; box-shadow: 3px 6px 15px rgba(0,0,0,0.1); position: relative; font-family: 'my font'; text-align: left; transition: 0.3s; transform: rotate(var(--note-rot)) translate(var(--note-x), var(--note-y)); }
+.note-text { font-size: 1.6rem; line-height: 1.5; margin-bottom: 15px; color: #333; word-break: break-all; }
+.note-author { font-size: 1.3rem; text-align: right; border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 10px; }
+.sticky-note::before { content: ""; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 24px; height: 24px; background-color: #a82424; border-radius: 50%; z-index: 2; }
 .sticky-note:nth-child(5n+1) { background-color: #C9A466; }
 .sticky-note:nth-child(5n+2) { background-color: #EBDDB5; }
 .sticky-note:nth-child(5n+3) { background-color: #F7F6ED; }
 .sticky-note:nth-child(5n+4) { background-color: #DDE7A9; }
 .sticky-note:nth-child(5n+5) { background-color: #A6A35D; }
 
-#musicToggle {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: #c9a466;
-    border: none;
-    color: white;
-    z-index: 9999;
-    cursor: pointer;
-}
+#musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a466; border: none; color: white; z-index: 9999; cursor: pointer; }
 
 @media (max-width: 768px) {
     .split-photo-section {
         width: calc(100% + 40px);
         margin: 55px 0 0 -20px;
     }
+
     .split-photo-inner {
         grid-template-columns: 1fr 1fr;
     }
-    .split-photo-image-wrap { min-height: 340px; }
+
+    .split-photo-image-wrap {
+        min-height: 340px;
+    }
+
     .split-photo-content {
         min-height: 340px;
         padding: 28px 20px 28px 14px;
@@ -872,25 +577,37 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
         justify-content: flex-end;
         text-align: right;
     }
+
     .split-photo-text-inner {
         max-width: none;
         margin-left: auto;
+        margin-right: 0;
+        padding-right: 0;
+        text-align: right;
     }
+
     .split-photo-title {
         font-size: clamp(1.15rem, 4.2vw, 1.65rem);
         line-height: 1.9;
         margin-bottom: 16px;
+        text-align: right;
     }
+
     .split-photo-text {
         font-size: clamp(0.95rem, 3.2vw, 1.3rem);
         line-height: 1.9;
+        text-align: right;
     }
-    .split-photo-fade { width: 33.333%; }
+
+    .split-photo-fade {
+        width: 33.333%;
+    }
 }
 </style>
 </head>
 <body>
 
+<!-- 進站 Loading 動畫 -->
 <div id="site-loader">
     <div class="loader-inner">
         <div class="loader-subtitle" style="margin-bottom: 30px;">請記得打開聲音 🔊</div>
@@ -925,31 +642,36 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
 
 <div id="main-wrapper">
     <div class="cover">
-        <div class="welcome-text">Welcome</div>
-        <p class="getting-married-text">The Wedding of</p>
+    <div class="welcome-text">Welcome</div>
+    <p class="getting-married-text">The Wedding of</p>
         <div class="name-container">
             <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
             <div class="chinese-names"><span>蔡宇杰</span><span>陳旻瑄</span></div>
         </div>
+        <p style="margin-top:35px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
     </div>
 
+    <!-- W2 -->
     <section class="photo-transition-section">
-        <div class="photo-transition-content">
-            <div class="photo-transition-title">我們要結婚了！</div>
-            <div class="photo-transition-subtitle">才發現，<br>已經無法想像沒有你的生活了。</div>
-        </div>
         <div class="photo-transition-image-wrap">
-            <img src="W2.jpg" alt="wedding photo" loading="lazy">
+            <img src="W2.jpg" alt="wedding photo">
+        </div>
+        <div class="photo-transition-content">
+            <div class="photo-transition-title">   「才發現，<br>已經無法想像沒有你的生活了。」</div>
+           
+            </div>
         </div>
     </section>
 
+    <!-- W3：放在婚禮資訊上面 -->
     <section class="slide-photo-section">
         <div class="slide-photo-inner">
             <div class="slide-photo-frame js-slide-in-right">
-                <img src="W3.jpg" alt="wedding photo 2" loading="lazy">
+                <img src="W3.jpg" alt="wedding photo 2">
             </div>
             <div class="slide-photo-text">
                 <div class="slide-photo-title">「第一個想分享的人，一直都是你啊」</div>
+    
             </div>
         </div>
     </section>
@@ -959,9 +681,9 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
             <div class="wedding-info-detail">2026 年 6 月 20 日 星期六</div>
             <div class="wedding-info-time">10:30 開始入場</div>
 
-            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20260620T023000Z%2F20260620T070000Z&details=Jay%20%26%20Michelle%20%E7%9A%84%E5%A9%9A%E7%A6%AE%EF%BC%81%E6%9C%9F%E5%BE%85%E6%82%A8%E7%9A%84%E5%88%B0%E4%BE%86%E3%80%82&location=%E6%9A%96%E5%B1%85%E6%97%A5%E7%A9%80&text=Jay%20%26%20Michelle%20%E5%A9%9A%E7%A6%AE"
-               target="_blank" rel="noopener noreferrer"
-               class="action-btn"
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20260620T023000Z%2F20260620T070000Z&details=Jay%20%26%20Michelle%20%E7%9A%84%E5%A9%9A%E7%A6%AE%EF%BC%81%E6%9C%9F%E5%BE%85%E6%82%A8%E7%9A%84%E5%88%B0%E4%BE%86%E3%80%82&location=%E6%9A%96%E5%B1%85%E6%97%A5%E7%A9%80&text=Jay%20%26%20Michelle%20%E5%A9%9A%E7%A6%AE" 
+               target="_blank" 
+               class="action-btn" 
                style="margin-bottom: 30px;">
                加入行事曆
             </a>
@@ -981,6 +703,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
                         <span class="calendar-month">06</span>
                         <span class="calendar-year">2026</span>
                     </div>
+                    
                     <div class="clean-calendar-grid" id="clean-calendar-body">
                         <div class="clean-day-label">S</div>
                         <div class="clean-day-label">M</div>
@@ -994,43 +717,42 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
             </div>
         </div>
 
+        <!-- W1：插在月曆與地圖中間 -->
         <section class="split-photo-section">
-            <div class="split-photo-inner">
-                <div class="split-photo-image-wrap js-w1-image-in">
-                    <img src="W1.jpg" alt="wedding photo 3" loading="lazy">
-                    <div class="split-photo-fade"></div>
-                </div>
-                <div class="split-photo-content js-w1-text-in">
-                    <div class="split-photo-text-inner">
-                        <div class="split-photo-title">「在每個平凡片刻裡，慢慢靠近幸福」</div>
-                        <div class="split-photo-text">
-                            Love arrived quietly,<br>
-                            and stayed in every gentle moment
-                        </div>
-                    </div>
+    <div class="split-photo-inner">
+        <div class="split-photo-image-wrap js-w1-image-in">
+            <img src="W1.jpg" alt="wedding photo 3">
+            <div class="split-photo-fade"></div>
+        </div>
+        <div class="split-photo-content js-w1-text-in">
+            <div class="split-photo-text-inner">
+                <div class="split-photo-title">「在每個平凡片刻裡，慢慢靠近幸福」</div>
+                <div class="split-photo-text">
+                    Love arrived quietly,<br>
+                    and stayed in every gentle moment
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
         <div class="location-card">
             <p class="location-title">暖居日穀</p>
-            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; margin-top:5px;">
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 5px;">
                 <p class="location-text">台中市北屯區松竹路一段3號</p>
-                <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');" class="action-btn">
+                <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');" 
+                        class="action-btn">
                     複製地址
                 </button>
             </div>
 
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw"
-                    width="100%" height="100%" style="border:0;"
-                    allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+               <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width=100% height=100% style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-
-            <a href="https://maps.app.goo.gl/er8YRwgUM7B6pAR4A"
-               target="_blank" rel="noopener noreferrer"
-               class="action-btn"
+            
+            <a href="https://maps.app.goo.gl/er8YRwgUM7B6pAR4A" 
+               target="_blank" 
+               class="action-btn" 
                style="margin-top: 10px;">
                開啟地圖導航
             </a>
@@ -1041,10 +763,7 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">參加回覆表單</h2>
         <div class="form-card">
             <form id="rsvp-form">
-                <div class="form-group">
-                    <label>您的姓名</label>
-                    <input type="text" id="guest-name" placeholder="請輸入姓名" required>
-                </div>
+                <div class="form-group"><label>您的姓名</label><input type="text" id="guest-name" placeholder="請輸入姓名" required></div>
                 <div class="form-group">
                     <label>是否參加婚禮？</label>
                     <div class="radio-stack">
@@ -1061,14 +780,8 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">祝福留言板</h2>
         <div class="form-card" style="margin-bottom: 50px;">
             <form id="wish-form">
-                <div class="form-group">
-                    <label>您的姓名</label>
-                    <input type="text" id="wish-name" required placeholder="請輸入姓名">
-                </div>
-                <div class="form-group">
-                    <label>祝福的話</label>
-                    <textarea id="wish-message" required placeholder="想對我們說的話..." style="height: 100px;"></textarea>
-                </div>
+                <div class="form-group"><label>您的姓名</label><input type="text" id="wish-name" required placeholder="請輸入姓名"></div>
+                <div class="form-group"><label>祝福的話</label><textarea id="wish-message" required placeholder="想對我們說的話..." style="height: 100px;"></textarea></div>
                 <button type="submit" class="submit-btn">送上我的祝福！</button>
             </form>
         </div>
@@ -1082,56 +795,43 @@ body { font-family:'my font','Noto Serif TC',serif; color:#2c2c2c; overflow-x:hi
 <div id="player" style="position:fixed; top:-9999px;"></div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyAUFF7GdX7fAtK_wK5-YAffirtap52UgCg",
-    authDomain: "wedding-e6351.firebaseapp.com",
-    databaseURL: "https://wedding-e6351-default-rtdb.firebaseio.com",
-    projectId: "wedding-e6351",
-    storageBucket: "wedding-e6351.firebasestorage.app",
-    messagingSenderId: "382633819825",
-    appId: "1:382633819825:web:b3352f4f4e67423878ec90"
-};
-
+const firebaseConfig = { apiKey: "AIzaSyAUFF7GdX7fAtK_wK5-YAffirtap52UgCg", authDomain: "wedding-e6351.firebaseapp.com", databaseURL: "https://wedding-e6351-default-rtdb.firebaseio.com", projectId: "wedding-e6351", storageBucket: "wedding-e6351.firebasestorage.app", messagingSenderId: "382633819825", appId: "1:382633819825:web:b3352f4f4e67423878ec90" };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const wishesRef = ref(db, 'wishes');
 
-document.getElementById('wish-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.getElementById('wish-name').value;
-    const message = document.getElementById('wish-message').value;
-    push(wishesRef, { name, message, timestamp: serverTimestamp() }).then(() => {
-        document.getElementById('wish-form').reset();
-    });
+document.getElementById('wish-form').addEventListener('submit', (e) => { 
+    e.preventDefault(); 
+    const name = document.getElementById('wish-name').value; 
+    const message = document.getElementById('wish-message').value; 
+    push(wishesRef, { name, message, timestamp: serverTimestamp() }).then(() => { 
+        document.getElementById('wish-form').reset(); 
+    }); 
 });
 
-onValue(wishesRef, (snapshot) => {
-    const wall = document.getElementById('sticky-wall');
-    wall.innerHTML = '';
-    const data = snapshot.val();
-    if (data) {
-        const messages = Object.values(data).reverse();
-        messages.forEach((item, index) => {
-            const note = document.createElement('div');
-            note.className = 'sticky-note';
-            const rot = (Math.random() - 0.5) * 12;
-            const x = (index % 2 === 0 ? -1 : 1) * (Math.random() * 20);
-            const y = (Math.random() - 0.5) * 15;
-            note.style.setProperty('--note-rot', `${rot}deg`);
-            note.style.setProperty('--note-x', `${x}px`);
-            note.style.setProperty('--note-y', `${y}px`);
-            note.innerHTML = `<div class="note-text">${item.message}</div><div class="note-author">From: ${item.name}</div>`;
-            wall.appendChild(note);
-        });
-    }
+onValue(wishesRef, (snapshot) => { 
+    const wall = document.getElementById('sticky-wall'); wall.innerHTML = ''; 
+    const data = snapshot.val(); 
+    if (data) { 
+        const messages = Object.values(data).reverse(); 
+        messages.forEach((item, index) => { 
+            const note = document.createElement('div'); 
+            note.className = 'sticky-note'; 
+            const rot = (Math.random() - 0.5) * 12; 
+            const x = (index % 2 === 0 ? -1 : 1) * (Math.random() * 20); 
+            const y = (Math.random() - 0.5) * 15; 
+            note.style.setProperty('--note-rot', `${rot}deg`); 
+            note.style.setProperty('--note-x', `${x}px`); 
+            note.style.setProperty('--note-y', `${y}px`); 
+            note.innerHTML = `<div class="note-text">${item.message}</div><div class="note-author">From: ${item.name}</div>`; 
+            wall.appendChild(note); 
+        }); 
+    } 
 });
 </script>
-
 <script>
 if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
 window.addEventListener('beforeunload', function () { window.scrollTo(0, 0); });
@@ -1142,13 +842,13 @@ document.fonts.ready.then(function() {
     fontsLoaded = true;
     const hint = document.getElementById('printHint');
     if (hint) {
-        hint.innerHTML = "載入中...";
-        hint.classList.add('ready');
+        hint.innerHTML = "點擊以列印相片";
+        hint.classList.add('ready'); 
     }
 });
 
 var player;
-var isPrinting = false;
+var isPrinting = false; 
 var targetDays = 0;
 var hasAnimated = false;
 
@@ -1165,7 +865,7 @@ function setLoaderProgress(value) {
 
 var loaderTimer = setInterval(() => {
     if (fakeProgress < 95) {
-        fakeProgress += Math.random() * 2 + 1;
+        fakeProgress += Math.random() * 2 + 1; 
         if (fakeProgress > 95) fakeProgress = 95;
         setLoaderProgress(fakeProgress);
     }
@@ -1189,23 +889,15 @@ function endIntro() {
     document.getElementById('main-wrapper').classList.add('is-visible');
     document.body.style.overflow = "auto";
     document.documentElement.style.overflow = "auto";
-    setTimeout(() => {
-        document.getElementById('intro-overlay').style.display = 'none';
-    }, 1500);
+    setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1500);
 }
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         videoId: 'ODRWKGIxB4M',
-        playerVars: {
-            autoplay: 0,
-            loop: 1,
-            playlist: 'ODRWKGIxB4M',
-            controls: 0,
-            playsinline: 1
-        },
+        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'ODRWKGIxB4M', 'controls': 0, 'playsinline': 1 },
         events: {
-            onStateChange: (e) => {
+            'onStateChange': (e) => {
                 document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
             }
         }
@@ -1219,16 +911,16 @@ document.getElementById('musicToggle').onclick = function() {
 
 document.getElementById('intro-overlay').addEventListener('click', function() {
     if (!fontsLoaded || isPrinting) return;
-    isPrinting = true;
+    isPrinting = true; 
 
-    const photo = document.getElementById('printPhoto');
-    const hint = document.getElementById('printHint');
-    const wrapper = document.getElementById('polaroid-wrapper');
-    const flash = document.getElementById('flash-effect');
+    const photo          = document.getElementById('printPhoto');
+    const hint           = document.getElementById('printHint');
+    const wrapper        = document.getElementById('polaroid-wrapper');
+    const flash          = document.getElementById('flash-effect');
     const sceneContainer = document.getElementById('scene-container');
-
+    
     if (!photo || !hint || !wrapper || !flash || !sceneContainer) return;
-
+    
     hint.classList.remove('ready');
     hint.style.opacity = '0';
 
@@ -1238,12 +930,12 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
 
     flash.classList.add('is-flashing');
     setTimeout(() => { photo.classList.add('is-printing'); }, 200);
-    setTimeout(() => {
-        photo.classList.add('is-developed');
-        wrapper.classList.add('is-focusing');
+    setTimeout(() => { 
+        photo.classList.add('is-developed'); 
+        wrapper.classList.add('is-focusing'); 
         sceneContainer.classList.add('is-panning');
     }, 2700);
-    setTimeout(() => { endIntro(); }, 6500);
+    setTimeout(() => { endIntro(); }, 6500); 
 });
 
 (function(){
@@ -1253,7 +945,7 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
     const weddingDate = new Date(year, monthIndex, weddingDay, 11, 0, 0);
 
     const firstDay = new Date(year, monthIndex, 1);
-    const firstWeekDay = firstDay.getDay();
+    const firstWeekDay = firstDay.getDay(); 
     const nextMonthFirst = new Date(year, monthIndex + 1, 1);
     const lastDate = new Date(nextMonthFirst - 1).getDate();
 
@@ -1268,7 +960,9 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
 
     for (let d = 1; d <= lastDate; d++) {
         let cls = 'clean-day-cell';
-        if (d === weddingDay) cls += ' clean-day-wedding';
+        if (d === weddingDay) {
+            cls += ' clean-day-wedding'; 
+        }
         html += `<div class="${cls}"><span>${d}</span></div>`;
     }
 
@@ -1280,32 +974,33 @@ document.getElementById('intro-overlay').addEventListener('click', function() {
 })();
 
 function animateFlipClock(targetNumber) {
-    if (targetNumber <= 0) return;
+    if(targetNumber <= 0) return; 
 
     let current = 0;
     const tensEl = document.getElementById('digit-tens');
     const onesEl = document.getElementById('digit-ones');
-
+    
     const interval = setInterval(() => {
-        current += Math.ceil(targetNumber / 20);
-        if (current >= targetNumber) {
+        current += Math.ceil(targetNumber / 20); 
+        if(current >= targetNumber) {
             current = targetNumber;
             clearInterval(interval);
         }
 
         let tens = Math.floor(current / 10);
         let ones = current % 10;
-
+        
         if (tensEl.innerText != tens) {
             tensEl.innerText = tens;
             tensEl.classList.add('flipping');
-            setTimeout(() => tensEl.classList.remove('flipping'), 50);
+            setTimeout(()=> tensEl.classList.remove('flipping'), 50);
         }
         if (onesEl.innerText != ones) {
             onesEl.innerText = ones;
             onesEl.classList.add('flipping');
-            setTimeout(() => onesEl.classList.remove('flipping'), 50);
+            setTimeout(()=> onesEl.classList.remove('flipping'), 50);
         }
+
     }, 60);
 }
 
@@ -1318,7 +1013,7 @@ window.addEventListener('scroll', () => {
         hasAnimated = true;
         setTimeout(() => {
             animateFlipClock(targetDays);
-        }, 500);
+        }, 500); 
     }
 });
 
