@@ -6,18 +6,18 @@
 <title>Jay & Michelle</title>
 
 <!-- 強制優先載入字體與圖片 -->
-<link rel="preload" href="my%20font.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-<link rel="preload" href="polaroid.png" as="image">
-<link rel="preload" href="P3.jpg" as="image">
-<link rel="preload" href="P2.png" as="image">
-<link rel="preload" href="W1.jpg" as="image">
-<link rel="preload" href="W2.jpg" as="image">
-<link rel="preload" href="W3.jpg" as="image">
+/ttf" crossorigin="anonymous">
+>
+>
+>
+>
+>
+>
 
 <!-- 優先連接 Google Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+//fonts.googleapis.com" crossorigin>
+//fonts.gstatic.com" crossorigin>
+//fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
 @font-face { font-family: 'my font'; src: url('my%20font.ttf') format('truetype'); font-display: swap; }
@@ -154,6 +154,52 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 .english-names { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 4.5rem); color: #2c2c2c; letter-spacing: 0.05em; }
 .english-names .amp { font-family: 'Gwendolyn', cursive; font-size: clamp(4rem, 12vw, 6.5rem); color: #c9a466; margin: 0 8px; vertical-align: middle; }
 .chinese-names { display: flex; justify-content: space-around; width: 85%; max-width: 450px; margin: 20px auto 0; font-family: 'my font'; font-size: 2.2rem; letter-spacing: 0.2em; color: #4a4a4a; }
+
+.scroll-hint {
+    position: absolute;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%);
+    z-index: 12;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: scrollHintFadeIn 1.2s ease 1.8s forwards;
+    pointer-events: none;
+}
+
+.scroll-hint-arrow {
+    width: 18px;
+    height: 18px;
+    border-right: 2px solid rgba(138, 116, 72, 0.9);
+    border-bottom: 2px solid rgba(138, 116, 72, 0.9);
+    transform: rotate(45deg);
+    animation: scrollArrowBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollArrowBounce {
+    0%, 100% {
+        transform: rotate(45deg) translate(0, 0);
+        opacity: 0.72;
+    }
+    50% {
+        transform: rotate(45deg) translate(6px, 6px);
+        opacity: 1;
+    }
+}
+
+@keyframes scrollHintFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
 
 /* =========================================
    共用按鈕樣式 (行事曆/導航/複製)
@@ -556,6 +602,17 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
 #musicToggle { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: #c9a466; border: none; color: white; z-index: 9999; cursor: pointer; }
 
+@media (prefers-reduced-motion: reduce) {
+    .scroll-hint {
+        animation: none;
+        opacity: 1;
+    }
+
+    .scroll-hint-arrow {
+        animation: none;
+    }
+}
+
 @media (max-width: 768px) {
     .split-photo-section {
         width: calc(100% + 40px);
@@ -601,6 +658,15 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
 
     .split-photo-fade {
         width: 33.333%;
+    }
+
+    .scroll-hint {
+        bottom: 22px;
+    }
+
+    .scroll-hint-arrow {
+        width: 16px;
+        height: 16px;
     }
 }
 </style>
@@ -649,6 +715,9 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
             <div class="chinese-names"><span>蔡宇杰</span><span>陳旻瑄</span></div>
         </div>
         <p style="margin-top:35px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
+        <div class="scroll-hint" aria-hidden="true">
+            <span class="scroll-hint-arrow"></span>
+        </div>
     </div>
 
     <!-- W2 -->
@@ -763,12 +832,12 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">參加回覆表單</h2>
         <div class="form-card">
             <form id="rsvp-form">
-                <div class="form-group"><label>您的姓名</label><input type="text" id="guest-name" placeholder="請輸入姓名" required></div>
+                <div class="form-group">abel>您的姓名</label><input type="text" id="guest-name" placeholder="請輸入姓名" required></div>
                 <div class="form-group">
-                    <label>是否參加婚禮？</label>
+                    abel>是否參加婚禮？</label>
                     <div class="radio-stack">
-                        <label><input type="radio" name="attendance" value="yes" required> 是的，我會參加！</label>
-                        <label><input type="radio" name="attendance" value="no" required> 抱歉，我無法出席</label>
+                        abel><input type="radio" name="attendance" value="yes" required> 是的，我會參加！</label>
+                        abel><input type="radio" name="attendance" value="no" required> 抱歉，我無法出席</label>
                     </div>
                 </div>
                 <button type="submit" class="submit-btn">送出回覆</button>
@@ -780,8 +849,8 @@ body { font-family: 'my font', 'Noto Serif TC', serif; color: #2c2c2c; overflow-
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">祝福留言板</h2>
         <div class="form-card" style="margin-bottom: 50px;">
             <form id="wish-form">
-                <div class="form-group"><label>您的姓名</label><input type="text" id="wish-name" required placeholder="請輸入姓名"></div>
-                <div class="form-group"><label>祝福的話</label><textarea id="wish-message" required placeholder="想對我們說的話..." style="height: 100px;"></textarea></div>
+                <div class="form-group">abel>您的姓名</label><input type="text" id="wish-name" required placeholder="請輸入姓名"></div>
+                <div class="form-group">abel>祝福的話</label><textarea id="wish-message" required placeholder="想對我們說的話..." style="height: 100px;"></textarea></div>
                 <button type="submit" class="submit-btn">送上我的祝福！</button>
             </form>
         </div>
@@ -851,6 +920,7 @@ var player;
 var isPrinting = false; 
 var targetDays = 0;
 var hasAnimated = false;
+var hasAutoNudged = false;
 
 var siteLoader = document.getElementById('site-loader');
 var loaderFill = document.getElementById('loader-progress-fill');
@@ -884,12 +954,30 @@ window.addEventListener('load', function () {
     }, 2500);
 });
 
+function autoNudgeScroll() {
+    if (hasAutoNudged) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    hasAutoNudged = true;
+
+    setTimeout(() => {
+        window.scrollTo({ top: 90, behavior: 'smooth' });
+
+        setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 1100);
+    }, 1200);
+}
+
 function endIntro() {
     document.getElementById('intro-overlay').style.opacity = '0';
     document.getElementById('main-wrapper').classList.add('is-visible');
     document.body.style.overflow = "auto";
     document.documentElement.style.overflow = "auto";
-    setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1500);
+    setTimeout(() => { 
+        document.getElementById('intro-overlay').style.display = 'none';
+        autoNudgeScroll();
+    }, 1500);
 }
 
 function onYouTubeIframeAPIReady() {
