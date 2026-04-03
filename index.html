@@ -6,7 +6,7 @@
 <title>Jay & Michelle</title>
 
 <link rel="preload" href="my%20font.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-<link rel="preload" href="polaroid.png" as="image">
+<link rel="preload" href="miniEVO.png" as="image">
 <link rel="preload" href="P3.jpg" as="image">
 <link rel="preload" href="P2.png" as="image">
 <link rel="preload" href="W1.jpg" as="image">
@@ -173,21 +173,27 @@ body {
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     padding: 6% 6% 22% 6%;
 }
+
+/* =============================================
+   照片容器：從頂部出來（已修改）
+============================================= */
 .print-photo-container {
     position: absolute;
     width: 47%;
     left: 26.5%;
-    top: 68.3%;
+    top: -12%;
     z-index: 20;
-    clip-path: inset(0 -50px -200% -50px);
-    transform-origin: top center;
+    clip-path: inset(-200% -50px 0 -50px);
+    transform-origin: bottom center;
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     will-change: transform;
 }
+
 .print-photo {
-    transform: translateY(-95%);
+    transform: translateY(95%);
     opacity: 0;
 }
+
 .print-photo-inner {
     width: 100%;
     height: 100%;
@@ -240,18 +246,22 @@ body {
 .polaroid-wrapper.is-focusing .camera-img {
     opacity: 0;
 }
+
+/* 照片飄走方向：往上（已修改） */
 .polaroid-wrapper.is-focusing .print-photo-container {
-    transform: translate(-55%, 60vh) rotate(-6deg);
+    transform: translate(-55%, -60vh) rotate(6deg);
 }
 
+/* 照片列印動畫：從下往上噴出（已修改） */
 .print-photo.is-printing {
     opacity: 1;
     animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
 @keyframes photoPrint {
-    0% { transform: translateY(-95%); }
-    100% { transform: translateY(0%); }
+    0%  { transform: translateY(95%); }
+    100%{ transform: translateY(0%); }
 }
+
 .print-photo.is-developed .print-photo-inner {
     animation: developFade 4s forwards;
 }
@@ -1002,13 +1012,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .scroll-hint {
-        animation: none;
-        opacity: 1;
-    }
-    .scroll-hint-arrow {
-        animation: none;
-    }
+    .scroll-hint { animation: none; opacity: 1; }
+    .scroll-hint-arrow { animation: none; }
 }
 
 @media (max-width: 768px) {
@@ -1016,15 +1021,12 @@ body {
         width: calc(100% + 40px);
         margin: 55px 0 0 -20px;
     }
-
     .split-photo-inner {
         grid-template-columns: 1fr 1fr;
     }
-
     .split-photo-image-wrap {
         min-height: 340px;
     }
-
     .split-photo-content {
         min-height: 340px;
         padding: 28px 20px 28px 14px;
@@ -1032,39 +1034,28 @@ body {
         justify-content: flex-end;
         text-align: right;
     }
-
     .split-photo-text-inner {
         max-width: none;
         margin-left: auto;
         margin-right: 0;
         text-align: right;
     }
-
     .split-photo-title {
         font-size: clamp(1.15rem, 4.2vw, 1.65rem);
         line-height: 1.9;
         margin-bottom: 16px;
         text-align: right;
     }
-
     .split-photo-text {
         font-size: clamp(0.95rem, 3.2vw, 1.3rem);
         line-height: 1.9;
         text-align: right;
     }
-
     .split-photo-fade {
         width: 33.333%;
     }
-
-    .scroll-hint {
-        bottom: 22px;
-    }
-
-    .scroll-hint-arrow {
-        width: 16px;
-        height: 16px;
-    }
+    .scroll-hint { bottom: 22px; }
+    .scroll-hint-arrow { width: 16px; height: 16px; }
 }
 </style>
 </head>
@@ -1085,7 +1076,8 @@ body {
 <div id="intro-overlay">
     <div id="scene-container">
         <div class="polaroid-wrapper" id="polaroid-wrapper">
-            <img src="polaroid.png" alt="camera" class="camera-img">
+            <!-- miniEVO.png 替換 polaroid.png -->
+            <img src="miniEVO.png" alt="camera" class="camera-img">
             <div class="print-photo-container">
                 <div class="photo-frame print-photo" id="printPhoto">
                     <div class="print-photo-inner"></div>
@@ -1287,12 +1279,7 @@ document.getElementById('wish-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('wish-name').value;
     const message = document.getElementById('wish-message').value;
-
-    push(wishesRef, {
-        name,
-        message,
-        timestamp: serverTimestamp()
-    }).then(() => {
+    push(wishesRef, { name, message, timestamp: serverTimestamp() }).then(() => {
         document.getElementById('wish-form').reset();
     });
 });
@@ -1301,28 +1288,21 @@ onValue(wishesRef, (snapshot) => {
     const wall = document.getElementById('sticky-wall');
     wall.innerHTML = '';
     const data = snapshot.val();
-
     if (!data) return;
-
     const messages = Object.values(data).reverse();
-
     messages.forEach((item, index) => {
         const note = document.createElement('div');
         note.className = 'sticky-note';
-
         const rot = (Math.random() - 0.5) * 12;
         const x = (index % 2 === 0 ? -1 : 1) * (Math.random() * 20);
         const y = (Math.random() - 0.5) * 15;
-
         note.style.setProperty('--note-rot', `${rot}deg`);
         note.style.setProperty('--note-x', `${x}px`);
         note.style.setProperty('--note-y', `${y}px`);
-
         note.innerHTML = `
             <div class="note-text">${item.message}</div>
             <div class="note-author">From: ${item.name}</div>
         `;
-
         wall.appendChild(note);
     });
 });
@@ -1376,14 +1356,8 @@ document.fonts.ready.then(function () {
 window.addEventListener('load', function () {
     clearInterval(loaderTimer);
     setLoaderProgress(100);
-
-    setTimeout(() => {
-        siteLoader.classList.add('is-hidden');
-    }, 1500);
-
-    setTimeout(() => {
-        siteLoader.remove();
-    }, 2500);
+    setTimeout(() => { siteLoader.classList.add('is-hidden'); }, 1500);
+    setTimeout(() => { siteLoader.remove(); }, 2500);
 });
 
 function endIntro() {
@@ -1391,7 +1365,6 @@ function endIntro() {
     document.getElementById('main-wrapper').classList.add('is-visible');
     document.body.style.overflow = 'auto';
     document.documentElement.style.overflow = 'auto';
-
     setTimeout(() => {
         document.getElementById('intro-overlay').style.display = 'none';
     }, 1500);
@@ -1400,13 +1373,7 @@ function endIntro() {
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         videoId: 'ODRWKGIxB4M',
-        playerVars: {
-            autoplay: 0,
-            loop: 1,
-            playlist: 'ODRWKGIxB4M',
-            controls: 0,
-            playsinline: 1
-        },
+        playerVars: { autoplay: 0, loop: 1, playlist: 'ODRWKGIxB4M', controls: 0, playsinline: 1 },
         events: {
             onStateChange: (e) => {
                 document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
@@ -1438,20 +1405,13 @@ document.getElementById('intro-overlay').addEventListener('click', function () {
     }
 
     flash.classList.add('is-flashing');
-
-    setTimeout(() => {
-        photo.classList.add('is-printing');
-    }, 200);
-
+    setTimeout(() => { photo.classList.add('is-printing'); }, 200);
     setTimeout(() => {
         photo.classList.add('is-developed');
         wrapper.classList.add('is-focusing');
         sceneContainer.classList.add('is-panning');
     }, 2700);
-
-    setTimeout(() => {
-        endIntro();
-    }, 6500);
+    setTimeout(() => { endIntro(); }, 6500);
 });
 
 (function () {
@@ -1471,7 +1431,6 @@ document.getElementById('intro-overlay').addEventListener('click', function () {
     for (let i = 0; i < firstWeekDay; i++) {
         html += `<div class="clean-day-cell"></div>`;
     }
-
     for (let d = 1; d <= lastDate; d++) {
         let cls = 'clean-day-cell';
         if (d === weddingDay) cls += ' clean-day-wedding';
@@ -1487,19 +1446,16 @@ document.getElementById('intro-overlay').addEventListener('click', function () {
 
 function animateFlipClock(targetNumber) {
     if (targetNumber <= 0) return;
-
     let current = 0;
     const tensEl = document.getElementById('digit-tens');
     const onesEl = document.getElementById('digit-ones');
 
     const interval = setInterval(() => {
         current += Math.ceil(targetNumber / 20);
-
         if (current >= targetNumber) {
             current = targetNumber;
             clearInterval(interval);
         }
-
         const tens = Math.floor(current / 10);
         const ones = current % 10;
 
@@ -1508,7 +1464,6 @@ function animateFlipClock(targetNumber) {
             tensEl.classList.add('flipping');
             setTimeout(() => tensEl.classList.remove('flipping'), 50);
         }
-
         if (onesEl.innerText != ones) {
             onesEl.innerText = ones;
             onesEl.classList.add('flipping');
@@ -1520,13 +1475,10 @@ function animateFlipClock(targetNumber) {
 window.addEventListener('scroll', () => {
     const section = document.getElementById('countdown-section');
     if (!section || hasAnimated) return;
-
     const rect = section.getBoundingClientRect();
     if (rect.top < window.innerHeight && rect.bottom >= 0) {
         hasAnimated = true;
-        setTimeout(() => {
-            animateFlipClock(targetDays);
-        }, 500);
+        setTimeout(() => { animateFlipClock(targetDays); }, 500);
     }
 });
 
@@ -1542,10 +1494,7 @@ if ('IntersectionObserver' in window && revealTargets.length) {
                 observer.unobserve(entry.target);
             }
         });
-    }, {
-        threshold: 0.15,
-        rootMargin: '0px 0px -5% 0px'
-    });
+    }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
 
     revealTargets.forEach(el => revealObserver.observe(el));
 } else {
