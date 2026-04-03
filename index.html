@@ -7,6 +7,7 @@
 
 <link rel="preload" href="my%20font.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 <link rel="preload" href="miniEVO.png" as="image">
+<link rel="preload" href="P3.jpg" as="image">
 <link rel="preload" href="P2.png" as="image">
 <link rel="preload" href="W1.jpg" as="image">
 <link rel="preload" href="W2.jpg" as="image">
@@ -48,7 +49,9 @@ body {
     overflow-x: hidden;
 }
 
-/* Loading */
+/* =========================================
+   Loading
+========================================= */
 #site-loader {
     position: fixed;
     inset: 0;
@@ -98,7 +101,9 @@ body {
     letter-spacing: 0.1em;
 }
 
-/* Intro */
+/* =========================================
+   Intro 動畫區塊
+========================================= */
 #intro-overlay {
     position: fixed;
     top: 0;
@@ -145,12 +150,12 @@ body {
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 #scene-container.is-panning {
-    transform: translateY(-70vh);
+    transform: translateY(-70vh); /* 場景往上移，帶出下方主畫面 */
 }
 
 .polaroid-wrapper {
     position: relative;
-    /* 1. 相機縮小，讓底片印出來的比例更寫實 */
+    /* 相機大小 */
     width: min(150px, 40vw); 
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 10;
@@ -158,12 +163,20 @@ body {
     justify-content: center;
     align-items: center;
 }
+.polaroid-wrapper.is-focusing {
+    transform: translateY(-20vh); /* 相機往上退的運鏡 */
+}
+.polaroid-wrapper.is-focusing .camera-img {
+    opacity: 0; /* 相機本體慢慢淡出 */
+}
+
 .camera-img {
     display: block;
     width: 100%;
     height: auto;
     position: relative;
-    z-index: 10;
+    /* 相機層級 10，擋住背後的 P3 */
+    z-index: 10; 
     pointer-events: none;
     transition: opacity 3.5s ease;
 }
@@ -178,19 +191,21 @@ body {
     overflow: visible;
 }
 
-/* 1. 印出的底片 P3 (上方出片口，最後落在左側) */
+/* =========================================
+   P3: 點擊後印出的新照片
+========================================= */
 .print-photo-container {
     position: absolute;
-    width: 62%; 
-    left: 50%; 
-    top: 5%; /* 對齊相機上方出片口 */
-    margin-left: -31%; /* 用 margin 讓中心點對齊 */
-    z-index: 5; /* 初始藏在相機(10)後面 */
+    width: 62%;
+    left: 50%;
+    top: 5%; 
+    margin-left: -31%; /* 絕對置中 */
+    z-index: 5; /* 藏在相機(10)背後 */
     pointer-events: none;
 }
 
 .print-photo {
-    transform: translateY(50%); /* 藏進相機機身 */
+    transform: translateY(50%); /* 藏進機身內 */
     opacity: 0;
 }
 
@@ -204,6 +219,7 @@ body {
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
+/* 觸發列印動畫 */
 .print-photo.is-printing {
     animation: printAndFloat 5.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
@@ -220,36 +236,39 @@ body {
         z-index: 5;
     }
     35% {
-        /* 完全升出相機 */
+        /* 從機身上方抽出 */
         opacity: 1;
-        transform: translateY(-110%) rotate(-2deg);
+        transform: translateY(-110%) rotate(-1deg);
         z-index: 5;
     }
     36% {
-        /* 升到最高點時層級切換到相機前方 */
-        z-index: 20;
+        /* 圖層瞬間跳到相機前方 */
+        z-index: 20; 
     }
     100% {
+        /* 落在左下方 */
         opacity: 1;
-        /* 落在相機左側 */
-        transform: translateY(40%) translateX(-45%) rotate(-10deg);
+        transform: translateY(50%) translateX(-40%) rotate(-8deg);
         z-index: 20;
     }
 }
 
+/* P3 列印完顯影 */
 .print-photo.is-developed .print-photo-inner {
     animation: developFade 4s forwards;
 }
 
-
-/* 2. 靜態底片 P2 (從相機前方飄落到右下側) */
+/* =========================================
+   P2: 從前方飄落的舊照片
+========================================= */
 .static-photo-container {
     position: absolute;
-    width: 62%; /* 與 P3 一樣大 */
+    width: 62%; /* 和 P3 一樣大 */
     left: 50%;
-    top: 50%; /* 放在相機正中心 */
-    margin-left: -31%; /* 置中對齊 */
-    z-index: 15; /* 確保它在相機(10)的「前面」 */
+    top: 50%;   /* 從正中心出發 */
+    margin-left: -31%;
+    /* 永遠在相機(10)前面 */
+    z-index: 15; 
     transform: translateY(0) rotate(0deg);
     opacity: 0; /* 初始隱藏 */
     pointer-events: none;
@@ -261,13 +280,13 @@ body {
     background-image: url('P2.png');
     background-size: cover;
     background-position: center;
-    filter: brightness(0.1) saturate(0.1); /* 初始黑壓壓 */
+    filter: brightness(0.1) saturate(0.1);
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* 點擊印相片後，P2 同時從前面飄落 */
-.polaroid-wrapper.is-focusing .static-photo-container {
-    animation: staticFloatOut 3.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+/* 點擊印相片後，P2 同時飄落 */
+.polaroid-wrapper.is-printing .static-photo-container {
+    animation: staticFloatOut 4.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
 
 @keyframes staticFloatOut {
@@ -276,19 +295,19 @@ body {
         transform: translateY(0%) rotate(0deg);
     }
     10% {
-        opacity: 1; /* 浮現並開始飄落 */
+        opacity: 1; /* 浮現並往下飄落 */
         transform: translateY(0%) rotate(0deg);
     }
     100% {
         opacity: 1;
-        /* 飄落到相機右下方 */
-        transform: translateY(70%) translateX(50%) rotate(12deg);
+        /* 落在右下側 */
+        transform: translateY(80%) translateX(45%) rotate(12deg);
     }
 }
 
-/* P2 到位後慢慢顯影 */
-.polaroid-wrapper.is-focusing .static-photo-inner {
-    animation: developFade 3.5s ease 3s forwards; /* 延遲 3 秒顯影 */
+/* P2 到位後慢慢顯影 (延遲 2.5 秒) */
+.polaroid-wrapper.is-printing .static-photo-inner {
+    animation: developFade 3.5s ease 2.5s forwards;
 }
 
 @keyframes developFade {
@@ -296,7 +315,9 @@ body {
     100% { filter: brightness(1) saturate(1); }
 }
 
-/* P2 下方的日期 */
+/* =========================================
+   P2 下方的日期
+========================================= */
 .photo-date {
     position: absolute;
     bottom: 0;
@@ -309,15 +330,15 @@ body {
     font-family: 'Nanum Pen Script', cursive;
     font-size: clamp(1rem, 3vw, 1.4rem);
     color: #3b3b3b;
-    opacity: 0; /* 初始隱藏 */
+    opacity: 0; 
     pointer-events: none;
     z-index: 2;
     padding-bottom: 3px;
 }
 
-/* 日期跟著照片顯影一起浮現 */
-.polaroid-wrapper.is-focusing .photo-date {
-    animation: fadeInDate 2s ease 4s forwards;
+/* 日期跟著顯影浮現 */
+.polaroid-wrapper.is-printing .photo-date {
+    animation: fadeInDate 2s ease 3.5s forwards;
 }
 
 @keyframes fadeInDate {
@@ -325,16 +346,7 @@ body {
     100% { opacity: 0.85; }
 }
 
-.polaroid-wrapper.is-focusing {
-    transform: translateY(-20vh);
-}
-.polaroid-wrapper.is-focusing .camera-img {
-    opacity: 0;
-}
-.polaroid-wrapper.is-focusing .print-photo-container {
-    transform: translate(-55%, 60vh) rotate(-6deg);
-}
-
+/* 提示字 */
 .print-hint {
     position: absolute;
     bottom: -80px;
@@ -357,7 +369,9 @@ body {
     50% { opacity: 0.4; }
 }
 
-/* Main */
+/* =========================================
+   主視覺與內容 (Main)
+========================================= */
 #main-wrapper {
     opacity: 0;
     visibility: hidden;
@@ -407,6 +421,32 @@ body {
     );
     z-index: 2;
     pointer-events: none;
+}
+
+/* Welcome 發光標題 */
+.welcome-text {
+    position: relative;
+    z-index: 10;
+    font-family: 'ChenYuluoyan', 'my font', cursive;
+    font-size: clamp(3.6rem, 11vw, 6.2rem);
+    line-height: 1;
+    color: #c9a466;
+    margin-bottom: 12px;
+    letter-spacing: 0.08em;
+    text-shadow: 0 6px 18px rgba(185, 150, 91, 0.16);
+    animation: welcomeGlow 2.8s ease-in-out infinite;
+}
+@keyframes welcomeGlow {
+    0%, 100% {
+        transform: translateY(0);
+        opacity: 0.95;
+        text-shadow: 0 6px 18px rgba(185, 150, 91, 0.14);
+    }
+    50% {
+        transform: translateY(-3px);
+        opacity: 1;
+        text-shadow: 0 10px 24px rgba(185, 150, 91, 0.22);
+    }
 }
 
 .getting-married-text {
@@ -492,7 +532,9 @@ body {
     }
 }
 
-/* Buttons */
+/* =========================================
+   其他共用與元件
+========================================= */
 .action-btn {
     display: inline-flex;
     align-items: center;
@@ -1091,15 +1133,12 @@ body {
         width: calc(100% + 40px);
         margin: 55px 0 0 -20px;
     }
-
     .split-photo-inner {
         grid-template-columns: 1fr 1fr;
     }
-
     .split-photo-image-wrap {
         min-height: 340px;
     }
-
     .split-photo-content {
         min-height: 340px;
         padding: 28px 20px 28px 14px;
@@ -1107,35 +1146,29 @@ body {
         justify-content: flex-end;
         text-align: right;
     }
-
     .split-photo-text-inner {
         max-width: none;
         margin-left: auto;
         margin-right: 0;
         text-align: right;
     }
-
     .split-photo-title {
         font-size: clamp(1.15rem, 4.2vw, 1.65rem);
         line-height: 1.9;
         margin-bottom: 16px;
         text-align: right;
     }
-
     .split-photo-text {
         font-size: clamp(0.95rem, 3.2vw, 1.3rem);
         line-height: 1.9;
         text-align: right;
     }
-
     .split-photo-fade {
         width: 33.333%;
     }
-
     .scroll-hint {
         bottom: 22px;
     }
-
     .scroll-hint-arrow {
         width: 16px;
         height: 16px;
@@ -1160,18 +1193,17 @@ body {
 <div id="intro-overlay">
     <div id="scene-container">
         <div class="polaroid-wrapper" id="polaroid-wrapper">
-            
-            <!-- 1. 先放印出來的底片 (藏在相機後面) -->
+            <!-- 1. 新照片 P3 (初始藏在相機機身背後) -->
             <div class="print-photo-container">
                 <div class="photo-frame print-photo" id="printPhoto">
                     <div class="print-photo-inner"></div>
                 </div>
             </div>
 
-            <!-- 2. 放相機本人 (會蓋住印出來的底片初始狀態) -->
+            <!-- 2. 相機本體 -->
             <img src="miniEVO.png" alt="camera" class="camera-img">
             
-            <!-- 3. 放旁邊的靜態小照片 (2017.12.23) -->
+            <!-- 3. 舊照片 P2 (從相機正前方浮現) -->
             <div class="static-photo-container">
                 <div class="photo-frame">
                     <div class="static-photo-inner"></div>
@@ -1179,12 +1211,15 @@ body {
                 </div>
             </div>
 
-            <div class="print-hint" id="printHint">點擊以列印相片</div>
+            <!-- 4. 點擊提示 -->
+            <div class="print-hint" id="printHint">載入中...</div>
         </div>
     </div>
 </div>
+
 <div id="main-wrapper">
     <div class="cover">
+        <div class="welcome-text">Welcome</div>
         <p class="getting-married-text">The Wedding of</p>
         <div class="name-container">
             <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
@@ -1521,6 +1556,7 @@ document.getElementById('intro-overlay').addEventListener('click', function () {
 
     setTimeout(() => {
         photo.classList.add('is-printing');
+        wrapper.classList.add('is-printing'); // 觸發 P2 動畫
     }, 200);
 
     setTimeout(() => {
@@ -1530,11 +1566,11 @@ document.getElementById('intro-overlay').addEventListener('click', function () {
     setTimeout(() => {
         wrapper.classList.add('is-focusing');
         sceneContainer.classList.add('is-panning');
-    }, 3600);
+    }, 4000); // 等待飄落完成後開始往下帶場景
 
     setTimeout(() => {
         endIntro();
-    }, 6500);
+    }, 7000);
 });
 
 (function () {
