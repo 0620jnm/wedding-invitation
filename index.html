@@ -150,8 +150,8 @@ body {
 
 .polaroid-wrapper {
     position: relative;
-    /* 原本是 min(340px, 80vw)，改成 220px 讓相機變小 */
-    width: min(220px, 50vw);
+    /* 1. 相機縮小，讓底片印出來的比例更寫實 */
+    width: min(150px, 40vw); 
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 10;
     display: flex;
@@ -180,26 +180,26 @@ body {
 
 .print-photo-container {
     position: absolute;
-    width: 47%;
-    left: 26.5%; /* 相機出片口的水平位置 */
-    top: -14%;   /* 相機出片口的垂直位置 */
-    z-index: 20;
+    /* 2. 對準出片口：底片寬度約為 miniEVO 寬度的 62%，並將其置中 (19%) */
+    width: 62%;
+    left: 19%;
+    top: 2%; /* 對齊相機頂部出片口 */
     pointer-events: none;
-    transform: translateY(-120%) rotate(-2deg);
-    transform-origin: top center;
-    transition: transform 4.2s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform, opacity;
 }
 
 .print-photo {
+    position: relative;
     opacity: 0;
-    transform: translateY(-120%);
+    /* 初始狀態藏在相機機身裡面偏下方 */
+    transform: translateY(20%); 
+    /* 初始圖層在相機(10)的後面，這樣往上跑才像從洞口出來 */
+    z-index: 5; 
 }
 
 .print-photo-inner {
     width: 100%;
     height: 100%;
-    background-image: url('P3.jpg'); /* 正確的出片相片 */
+    background-image: url('P3.jpg');
     background-size: cover;
     background-position: center;
     filter: brightness(0.1) saturate(0.1);
@@ -207,42 +207,47 @@ body {
 }
 
 .print-photo.is-printing {
-    opacity: 1;
-    animation: photoDrop 4.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    /* 3. 將動畫時間拉長到 5.5 秒，執行先上後下的飄落效果 */
+    animation: printAndFloat 5.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
 
-@keyframes photoDrop {
+@keyframes printAndFloat {
     0% {
-        transform: translateY(-120%) rotate(-2deg);
         opacity: 0;
+        transform: translateY(20%) rotate(0deg);
+        z-index: 5;
     }
-    8% {
+    5% {
         opacity: 1;
+        transform: translateY(20%) rotate(0deg);
+        z-index: 5;
     }
-    28% {
-        transform: translateY(0%) rotate(1deg);
+    40% {
+        /* 階段一：從相機背後慢慢往上抽出 */
+        opacity: 1;
+        transform: translateY(-105%) rotate(-1deg);
+        z-index: 5;
     }
-    55% {
-        transform: translateY(32%) rotate(-1deg);
+    49% {
+        z-index: 5;
     }
-    75% {
-        transform: translateY(18%) rotate(0.6deg);
+    50% {
+        /* 階段二：在最高點稍微停頓，並把圖層 z-index 拉到相機前面 (20) */
+        opacity: 1;
+        transform: translateY(-110%) rotate(-3deg);
+        z-index: 20;
     }
     100% {
-        transform: translateY(24%) rotate(0deg);
+        /* 階段三：緩緩飄落到相機前方，稍微偏右下角 */
         opacity: 1;
+        transform: translateY(60%) translateX(12%) rotate(6deg);
+        z-index: 20;
     }
 }
 
 .print-photo.is-developed .print-photo-inner {
     animation: developFade 4s forwards;
 }
-
-@keyframes developFade {
-    0% { filter: brightness(0.1) saturate(0.1); }
-    100% { filter: brightness(1) saturate(1); }
-}
-
 
 @keyframes developFade {
     0% { filter: brightness(0.1) saturate(0.1); }
