@@ -178,22 +178,19 @@ body {
     overflow: visible;
 }
 
+/* 1. 印出的底片 P3 (上方出片口) */
 .print-photo-container {
     position: absolute;
-    /* 2. 對準出片口：底片寬度約為 miniEVO 寬度的 62%，並將其置中 (19%) */
-    width: 62%;
-    left: 19%;
-    top: 2%; /* 對齊相機頂部出片口 */
+    width: 62%; /* 強制固定寬度 */
+    left: 19%; 
+    top: 5%;
+    z-index: 5;
     pointer-events: none;
 }
 
 .print-photo {
-    position: relative;
+    transform: translateY(50%); 
     opacity: 0;
-    /* 初始狀態藏在相機機身裡面偏下方 */
-    transform: translateY(20%); 
-    /* 初始圖層在相機(10)的後面，這樣往上跑才像從洞口出來 */
-    z-index: 5; 
 }
 
 .print-photo-inner {
@@ -207,40 +204,33 @@ body {
 }
 
 .print-photo.is-printing {
-    /* 3. 將動畫時間拉長到 5.5 秒，執行先上後下的飄落效果 */
     animation: printAndFloat 5.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
 
 @keyframes printAndFloat {
     0% {
         opacity: 0;
-        transform: translateY(20%) rotate(0deg);
+        transform: translateY(50%) rotate(0deg);
         z-index: 5;
     }
     5% {
         opacity: 1;
-        transform: translateY(20%) rotate(0deg);
+        transform: translateY(50%) rotate(0deg);
+        z-index: 5;
+    }
+    35% {
+        opacity: 1;
+        transform: translateY(-110%) rotate(-1deg);
         z-index: 5;
     }
     40% {
-        /* 階段一：從相機背後慢慢往上抽出 */
-        opacity: 1;
-        transform: translateY(-105%) rotate(-1deg);
-        z-index: 5;
-    }
-    49% {
-        z-index: 5;
-    }
-    50% {
-        /* 階段二：在最高點稍微停頓，並把圖層 z-index 拉到相機前面 (20) */
-        opacity: 1;
-        transform: translateY(-110%) rotate(-3deg);
+        /* 圖層躍升至相機前方 */
         z-index: 20;
     }
     100% {
-        /* 階段三：緩緩飄落到相機前方，稍微偏右下角 */
         opacity: 1;
-        transform: translateY(60%) translateX(12%) rotate(6deg);
+        /* 飄落到偏左側的落點 */
+        transform: translateY(40%) translateX(-20%) rotate(-8deg);
         z-index: 20;
     }
 }
@@ -249,31 +239,70 @@ body {
     animation: developFade 4s forwards;
 }
 
-@keyframes developFade {
-    0% { filter: brightness(0.1) saturate(0.1); }
-    100% { filter: brightness(1) saturate(1); }
-}
 
-/* 恢復原本的運鏡設定：一開始藏在畫面下方，等場景平移時才進入鏡頭 */
+/* 2. 靜態底片 P2 (改為從機底滑出至右下角) */
 .static-photo-container {
     position: absolute;
-    width: 80%; /* 因為相機變小了，P2 比例稍微調大一點才清楚 */
-    left: 50%;
-    /* 關鍵在這裡！把你原本的 220% 改成 70vh，這樣剛好完美對接你的往下運鏡 */
-    top: 70vh; 
-    z-index: 5;
-    /* 確保 P2 在下方正中間並帶點傾斜 */
-    transform: translate(-50%, 0) rotate(8deg); 
-    opacity: 1;
+    width: 62%; /* 與 P3 維持絕對一樣大 */
+    left: 19%;  /* 初始位置跟 P3 一樣置中 */
+    top: 20%;   /* 藏在相機機身中心 */
+    z-index: 4; /* 藏在相機背後更深層 */
+    transform: translateY(0) rotate(0deg);
+    opacity: 0; /* 初始完全隱形 */
+    pointer-events: none;
 }
+
 .static-photo-inner {
     width: 100%;
     height: 100%;
     background-image: url('P2.png');
     background-size: cover;
     background-position: center;
+    /* 初始狀態為全黑未顯影 */
+    filter: brightness(0.1) saturate(0.1);
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
+
+/* 綁定與 P3 同時觸發的動畫 */
+.polaroid-wrapper.is-focusing .static-photo-container {
+    /* 這裡利用 wrapper 加上 is-focusing 類別時觸發 P2 滑出 */
+    animation: staticFloatOut 3.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes staticFloatOut {
+    0% {
+        opacity: 0;
+        transform: translateY(0%) rotate(0deg);
+        z-index: 4;
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(0%) rotate(0deg);
+        z-index: 4;
+    }
+    60% {
+        /* 往下滑出相機底部，圖層依然在相機後面 */
+        z-index: 4;
+    }
+    100% {
+        opacity: 1;
+        /* 飄落到偏右下的落點 */
+        transform: translateY(110%) translateX(25%) rotate(12deg);
+        z-index: 4; 
+    }
+}
+
+/* P2 到位後的顯影動畫 */
+.polaroid-wrapper.is-focusing .static-photo-inner {
+    /* 延遲 3 秒，等它滑到位之後再慢慢變亮 */
+    animation: developFade 3.5s ease 3s forwards;
+}
+
+@keyframes developFade {
+    0% { filter: brightness(0.1) saturate(0.1); }
+    100% { filter: brightness(1) saturate(1); }
+}
+
 .photo-date {
     position: absolute;
     bottom: 0;
@@ -284,13 +313,23 @@ body {
     align-items: center;
     justify-content: center;
     font-family: 'Nanum Pen Script', cursive;
-    font-size: clamp(1.4rem, 5vw, 1.8rem);
+    font-size: clamp(1rem, 3vw, 1.4rem);
     color: #3b3b3b;
-    opacity: 0.85;
-    letter-spacing: 0.1em;
+    /* 讓日期跟著照片一起慢慢浮現 */
+    opacity: 0; 
     pointer-events: none;
     z-index: 2;
-    padding-bottom: 5px;
+    padding-bottom: 3px;
+}
+
+/* 日期顯影 */
+.polaroid-wrapper.is-focusing .photo-date {
+    animation: fadeInDate 2s ease 4s forwards;
+}
+
+@keyframes fadeInDate {
+    0% { opacity: 0; }
+    100% { opacity: 0.85; }
 }
 
 .polaroid-wrapper.is-focusing {
