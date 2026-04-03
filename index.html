@@ -6,8 +6,7 @@
 <title>Jay & Michelle</title>
 
 <link rel="preload" href="my%20font.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-<link rel="preload" href="polaroid.png" as="image">
-<link rel="preload" href="P3.jpg" as="image">
+<link rel="preload" href="miniEVO.png" as="image">
 <link rel="preload" href="P2.png" as="image">
 <link rel="preload" href="W1.jpg" as="image">
 <link rel="preload" href="W2.jpg" as="image">
@@ -172,30 +171,72 @@ body {
     background: #fdfdfd;
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     padding: 6% 6% 22% 6%;
+    overflow: visible;
 }
+
 .print-photo-container {
     position: absolute;
     width: 47%;
     left: 26.5%;
-    top: 68.3%;
+    top: -14%;
     z-index: 20;
-    clip-path: inset(0 -50px -200% -50px);
+    pointer-events: none;
+    transform: translateY(-120%) rotate(-2deg);
     transform-origin: top center;
-    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    will-change: transform;
+    transition: transform 4.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
 }
+
 .print-photo {
-    transform: translateY(-95%);
     opacity: 0;
+    transform: translateY(-120%);
 }
+
 .print-photo-inner {
     width: 100%;
     height: 100%;
-    background-image: url('P3.jpg');
+    background-image: url('miniEVO.png');
     background-size: cover;
     background-position: center;
     filter: brightness(0.1) saturate(0.1);
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
+.print-photo.is-printing {
+    opacity: 1;
+    animation: photoDrop 4.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes photoDrop {
+    0% {
+        transform: translateY(-120%) rotate(-2deg);
+        opacity: 0;
+    }
+    8% {
+        opacity: 1;
+    }
+    28% {
+        transform: translateY(0%) rotate(1deg);
+    }
+    55% {
+        transform: translateY(32%) rotate(-1deg);
+    }
+    75% {
+        transform: translateY(18%) rotate(0.6deg);
+    }
+    100% {
+        transform: translateY(24%) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.print-photo.is-developed .print-photo-inner {
+    animation: developFade 4s forwards;
+}
+
+@keyframes developFade {
+    0% { filter: brightness(0.1) saturate(0.1); }
+    100% { filter: brightness(1) saturate(1); }
 }
 
 .static-photo-container {
@@ -242,22 +283,6 @@ body {
 }
 .polaroid-wrapper.is-focusing .print-photo-container {
     transform: translate(-55%, 60vh) rotate(-6deg);
-}
-
-.print-photo.is-printing {
-    opacity: 1;
-    animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
-}
-@keyframes photoPrint {
-    0% { transform: translateY(-95%); }
-    100% { transform: translateY(0%); }
-}
-.print-photo.is-developed .print-photo-inner {
-    animation: developFade 4s forwards;
-}
-@keyframes developFade {
-    0% { filter: brightness(0.1) saturate(0.1); }
-    100% { filter: brightness(1) saturate(1); }
 }
 
 .print-hint {
@@ -1085,7 +1110,7 @@ body {
 <div id="intro-overlay">
     <div id="scene-container">
         <div class="polaroid-wrapper" id="polaroid-wrapper">
-            <img src="polaroid.png" alt="camera" class="camera-img">
+            <img src="miniEVO.png" alt="camera" class="camera-img">
             <div class="print-photo-container">
                 <div class="photo-frame print-photo" id="printPhoto">
                     <div class="print-photo-inner"></div>
@@ -1204,7 +1229,6 @@ body {
                     複製地址
                 </button>
             </div>
-
             <div class="map-container">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
@@ -1445,9 +1469,12 @@ document.getElementById('intro-overlay').addEventListener('click', function () {
 
     setTimeout(() => {
         photo.classList.add('is-developed');
+    }, 2600);
+
+    setTimeout(() => {
         wrapper.classList.add('is-focusing');
         sceneContainer.classList.add('is-panning');
-    }, 2700);
+    }, 3600);
 
     setTimeout(() => {
         endIntro();
