@@ -1125,22 +1125,26 @@ body {
 <div id="intro-overlay">
     <div id="scene-container">
         <div class="polaroid-wrapper" id="polaroid-wrapper">
-            <!-- 這裡是相機本體 -->
-            <img src="miniEVO.png" alt="camera" class="camera-img">
             
+            <!-- 1. 先放印出來的底片 (藏在相機後面) -->
             <div class="print-photo-container">
                 <div class="photo-frame print-photo" id="printPhoto">
-                    <!-- 這裡是印出來的照片，CSS 中已設定為 P3.jpg -->
                     <div class="print-photo-inner"></div>
                 </div>
             </div>
+
+            <!-- 2. 放相機本人 (會蓋住印出來的底片初始狀態) -->
+            <img src="miniEVO.png" alt="camera" class="camera-img">
+            
+            <!-- 3. 放旁邊的靜態小照片 (2017.12.23) -->
             <div class="static-photo-container">
                 <div class="photo-frame">
                     <div class="static-photo-inner"></div>
                     <div class="photo-date">2017.12.23</div>
                 </div>
             </div>
-            <div class="print-hint" id="printHint">載入中...</div>
+
+            <div class="print-hint" id="printHint">點擊以列印相片</div>
         </div>
     </div>
 </div>
