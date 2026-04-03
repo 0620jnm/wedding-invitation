@@ -149,12 +149,16 @@ body {
     transform: translateY(-70vh);
 }
 
+/* =============================================
+   相機縮小 50%（已修改）
+============================================= */
 .polaroid-wrapper {
     position: relative;
-    width: min(340px, 80vw);
+    width: min(170px, 40vw);
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 10;
 }
+
 .camera-img {
     display: block;
     width: 100%;
@@ -175,7 +179,7 @@ body {
 }
 
 /* =============================================
-   照片容器：從頂部出來（已修改）
+   照片容器：從頂部出來
 ============================================= */
 .print-photo-container {
     position: absolute;
@@ -204,6 +208,7 @@ body {
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
+/* P2 靜態照片：維持右下 */
 .static-photo-container {
     position: absolute;
     width: 45%;
@@ -247,12 +252,14 @@ body {
     opacity: 0;
 }
 
-/* 照片飄走方向：往上（已修改） */
+/* =============================================
+   P3 列印後往左下飄（已修改）
+============================================= */
 .polaroid-wrapper.is-focusing .print-photo-container {
-    transform: translate(-55%, -60vh) rotate(6deg);
+    transform: translate(-155%, 60vh) rotate(-6deg);
 }
 
-/* 照片列印動畫：從下往上噴出（已修改） */
+/* 照片從頂部噴出動畫 */
 .print-photo.is-printing {
     opacity: 1;
     animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
@@ -473,12 +480,7 @@ body {
     right: 0;
     top: 0;
     height: clamp(90px, 12vw, 160px);
-    background: linear-gradient(
-        to bottom,
-        #fbf9f7 0%,
-        rgba(251, 249, 247, 0.65) 45%,
-        rgba(251, 249, 247, 0) 100%
-    );
+    background: linear-gradient(to bottom, #fbf9f7 0%, rgba(251,249,247,0.65) 45%, rgba(251,249,247,0) 100%);
     z-index: 2;
     pointer-events: none;
 }
@@ -494,13 +496,7 @@ body {
     right: 0;
     bottom: 0;
     height: clamp(140px, 24vw, 240px);
-    background: linear-gradient(
-        to bottom,
-        rgba(251, 249, 247, 0) 0%,
-        rgba(251, 249, 247, 0.35) 35%,
-        rgba(251, 249, 247, 0.75) 68%,
-        #fbf9f7 100%
-    );
+    background: linear-gradient(to bottom, rgba(251,249,247,0) 0%, rgba(251,249,247,0.35) 35%, rgba(251,249,247,0.75) 68%, #fbf9f7 100%);
     z-index: 2;
     pointer-events: none;
 }
@@ -634,16 +630,16 @@ body {
     margin: 0 auto;
     padding: 26px 18px;
     border-radius: 26px;
-    background: rgba(255, 255, 255, 0.55);
+    background: rgba(255,255,255,0.55);
     border: 1px solid rgba(255,255,255,0.7);
-    box-shadow: 0 12px 35px rgba(186, 170, 144, 0.12);
+    box-shadow: 0 12px 35px rgba(186,170,144,0.12);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
 }
 .clean-calendar-container {
     max-width: 320px;
     margin: 0 auto;
-    background-color: rgba(247, 246, 237, 0.78);
+    background-color: rgba(247,246,237,0.78);
     border-radius: 20px;
     padding: 30px 15px 20px;
     position: relative;
@@ -656,7 +652,7 @@ body {
     left: 0;
     width: 100%;
     height: 10px;
-    background-image: radial-gradient(circle at 10px 10px, transparent 10px, rgba(247, 246, 237, 0.78) 11px);
+    background-image: radial-gradient(circle at 10px 10px, transparent 10px, rgba(247,246,237,0.78) 11px);
     background-size: 24px 20px;
     background-position: center top;
 }
@@ -723,18 +719,9 @@ body {
     animation: weddingPulse 1.8s infinite;
 }
 @keyframes weddingPulse {
-    0% {
-        transform: translate(-50%, -50%) scale(1);
-        box-shadow: 0 0 0 0 rgba(201,164,102,0.5);
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.1);
-        box-shadow: 0 0 0 8px rgba(201,164,102,0);
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(1);
-        box-shadow: 0 0 0 0 rgba(201,164,102,0);
-    }
+    0% { transform: translate(-50%,-50%) scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0.5); }
+    50% { transform: translate(-50%,-50%) scale(1.1); box-shadow: 0 0 0 8px rgba(201,164,102,0); }
+    100% { transform: translate(-50%,-50%) scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0); }
 }
 
 /* W1 */
@@ -851,7 +838,7 @@ body {
     margin: 55px auto 0;
     padding: 48px 24px 40px;
     background: rgba(255,255,255,0.88);
-    border: 1px solid rgba(224, 217, 208, 0.8);
+    border: 1px solid rgba(224,217,208,0.8);
     border-radius: 18px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.04);
 }
@@ -1017,43 +1004,14 @@ body {
 }
 
 @media (max-width: 768px) {
-    .split-photo-section {
-        width: calc(100% + 40px);
-        margin: 55px 0 0 -20px;
-    }
-    .split-photo-inner {
-        grid-template-columns: 1fr 1fr;
-    }
-    .split-photo-image-wrap {
-        min-height: 340px;
-    }
-    .split-photo-content {
-        min-height: 340px;
-        padding: 28px 20px 28px 14px;
-        align-items: center;
-        justify-content: flex-end;
-        text-align: right;
-    }
-    .split-photo-text-inner {
-        max-width: none;
-        margin-left: auto;
-        margin-right: 0;
-        text-align: right;
-    }
-    .split-photo-title {
-        font-size: clamp(1.15rem, 4.2vw, 1.65rem);
-        line-height: 1.9;
-        margin-bottom: 16px;
-        text-align: right;
-    }
-    .split-photo-text {
-        font-size: clamp(0.95rem, 3.2vw, 1.3rem);
-        line-height: 1.9;
-        text-align: right;
-    }
-    .split-photo-fade {
-        width: 33.333%;
-    }
+    .split-photo-section { width: calc(100% + 40px); margin: 55px 0 0 -20px; }
+    .split-photo-inner { grid-template-columns: 1fr 1fr; }
+    .split-photo-image-wrap { min-height: 340px; }
+    .split-photo-content { min-height: 340px; padding: 28px 20px 28px 14px; align-items: center; justify-content: flex-end; text-align: right; }
+    .split-photo-text-inner { max-width: none; margin-left: auto; margin-right: 0; text-align: right; }
+    .split-photo-title { font-size: clamp(1.15rem, 4.2vw, 1.65rem); line-height: 1.9; margin-bottom: 16px; text-align: right; }
+    .split-photo-text { font-size: clamp(0.95rem, 3.2vw, 1.3rem); line-height: 1.9; text-align: right; }
+    .split-photo-fade { width: 33.333%; }
     .scroll-hint { bottom: 22px; }
     .scroll-hint-arrow { width: 16px; height: 16px; }
 }
@@ -1076,7 +1034,6 @@ body {
 <div id="intro-overlay">
     <div id="scene-container">
         <div class="polaroid-wrapper" id="polaroid-wrapper">
-            <!-- miniEVO.png 替換 polaroid.png -->
             <img src="miniEVO.png" alt="camera" class="camera-img">
             <div class="print-photo-container">
                 <div class="photo-frame print-photo" id="printPhoto">
@@ -1196,11 +1153,9 @@ body {
                     複製地址
                 </button>
             </div>
-
             <div class="map-container">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-
             <a href="https://maps.app.goo.gl/er8YRwgUM7B6pAR4A"
                target="_blank"
                rel="noopener noreferrer"
@@ -1312,14 +1267,8 @@ onValue(wishesRef, (snapshot) => {
 if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
-
-window.addEventListener('beforeunload', function () {
-    window.scrollTo(0, 0);
-});
-
-window.addEventListener('load', function () {
-    window.scrollTo(0, 0);
-});
+window.addEventListener('beforeunload', function () { window.scrollTo(0, 0); });
+window.addEventListener('load', function () { window.scrollTo(0, 0); });
 
 let fontsLoaded = false;
 let player;
@@ -1436,7 +1385,6 @@ document.getElementById('intro-overlay').addEventListener('click', function () {
         if (d === weddingDay) cls += ' clean-day-wedding';
         html += `<div class="${cls}"><span>${d}</span></div>`;
     }
-
     bodyEl.insertAdjacentHTML('beforeend', html);
 
     const today = new Date();
