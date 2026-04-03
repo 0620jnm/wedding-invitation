@@ -150,10 +150,10 @@ body {
 
 .polaroid-wrapper {
     position: relative;
-    width: min(340px, 80vw);
+    /* 原本是 min(340px, 80vw)，改成 220px 讓相機變小 */
+    width: min(220px, 50vw);
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 10;
-    /* 確保這層本身置中，不需絕對定位 */
     display: flex;
     justify-content: center;
     align-items: center;
