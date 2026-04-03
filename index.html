@@ -254,13 +254,16 @@ body {
     100% { filter: brightness(1) saturate(1); }
 }
 
+/* 恢復原本的運鏡設定：一開始藏在畫面下方，等場景平移時才進入鏡頭 */
 .static-photo-container {
     position: absolute;
-    width: 45%;
-    left: 52%;
-    top: 220%;
+    width: 80%; /* 因為相機變小了，P2 比例稍微調大一點才清楚 */
+    left: 50%;
+    /* 關鍵在這裡！把你原本的 220% 改成 70vh，這樣剛好完美對接你的往下運鏡 */
+    top: 70vh; 
     z-index: 5;
-    transform: rotate(8deg);
+    /* 確保 P2 在下方正中間並帶點傾斜 */
+    transform: translate(-50%, 0) rotate(8deg); 
     opacity: 1;
 }
 .static-photo-inner {
