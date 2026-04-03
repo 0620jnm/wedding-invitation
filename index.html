@@ -136,23 +136,27 @@ body {
 
 #scene-container {
     position: relative;
-    transform: translateY(0);
-    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
+    transform: translateY(0);
+    transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+#scene-container.is-panning {
+    transform: translateY(-70vh);
 }
 
 .polaroid-wrapper {
     position: relative;
     width: min(340px, 80vw);
-    margin: 0 auto;
-    left: 50%;
-    transform: translateX(-50%);
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 10;
+    /* 確保這層本身置中，不需絕對定位 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .camera-img {
     display: block;
@@ -177,8 +181,8 @@ body {
 .print-photo-container {
     position: absolute;
     width: 47%;
-    left: 26.5%;
-    top: -14%;
+    left: 26.5%; /* 相機出片口的水平位置 */
+    top: -14%;   /* 相機出片口的垂直位置 */
     z-index: 20;
     pointer-events: none;
     transform: translateY(-120%) rotate(-2deg);
@@ -195,7 +199,7 @@ body {
 .print-photo-inner {
     width: 100%;
     height: 100%;
-    background-image: url('miniEVO.png');
+    background-image: url('P3.jpg'); /* 正確的出片相片 */
     background-size: cover;
     background-position: center;
     filter: brightness(0.1) saturate(0.1);
@@ -233,6 +237,12 @@ body {
 .print-photo.is-developed .print-photo-inner {
     animation: developFade 4s forwards;
 }
+
+@keyframes developFade {
+    0% { filter: brightness(0.1) saturate(0.1); }
+    100% { filter: brightness(1) saturate(1); }
+}
+
 
 @keyframes developFade {
     0% { filter: brightness(0.1) saturate(0.1); }
@@ -1110,9 +1120,12 @@ body {
 <div id="intro-overlay">
     <div id="scene-container">
         <div class="polaroid-wrapper" id="polaroid-wrapper">
-            <img src="P3.jpg" alt="camera" class="camera-img">
+            <!-- 這裡是相機本體 -->
+            <img src="miniEVO.png" alt="camera" class="camera-img">
+            
             <div class="print-photo-container">
                 <div class="photo-frame print-photo" id="printPhoto">
+                    <!-- 這裡是印出來的照片，CSS 中已設定為 P3.jpg -->
                     <div class="print-photo-inner"></div>
                 </div>
             </div>
@@ -1126,7 +1139,6 @@ body {
         </div>
     </div>
 </div>
-
 <div id="main-wrapper">
     <div class="cover">
         <p class="getting-married-text">The Wedding of</p>
