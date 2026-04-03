@@ -178,18 +178,19 @@ body {
     overflow: visible;
 }
 
-/* 1. 印出的底片 P3 (上方出片口) */
+/* 1. 印出的底片 P3 (上方出片口，最後落在左側) */
 .print-photo-container {
     position: absolute;
-    width: 62%; /* 強制固定寬度 */
-    left: 19%; 
-    top: 5%;
-    z-index: 5;
+    width: 62%; 
+    left: 50%; 
+    top: 5%; /* 對齊相機上方出片口 */
+    margin-left: -31%; /* 用 margin 讓中心點對齊 */
+    z-index: 5; /* 初始藏在相機(10)後面 */
     pointer-events: none;
 }
 
 .print-photo {
-    transform: translateY(50%); 
+    transform: translateY(50%); /* 藏進相機機身 */
     opacity: 0;
 }
 
@@ -219,18 +220,19 @@ body {
         z-index: 5;
     }
     35% {
+        /* 完全升出相機 */
         opacity: 1;
-        transform: translateY(-110%) rotate(-1deg);
+        transform: translateY(-110%) rotate(-2deg);
         z-index: 5;
     }
-    40% {
-        /* 圖層躍升至相機前方 */
+    36% {
+        /* 升到最高點時層級切換到相機前方 */
         z-index: 20;
     }
     100% {
         opacity: 1;
-        /* 飄落到偏左側的落點 */
-        transform: translateY(40%) translateX(-20%) rotate(-8deg);
+        /* 落在相機左側 */
+        transform: translateY(40%) translateX(-45%) rotate(-10deg);
         z-index: 20;
     }
 }
@@ -240,15 +242,16 @@ body {
 }
 
 
-/* 2. 靜態底片 P2 (改為從機底滑出至右下角) */
+/* 2. 靜態底片 P2 (從相機前方飄落到右下側) */
 .static-photo-container {
     position: absolute;
-    width: 62%; /* 與 P3 維持絕對一樣大 */
-    left: 19%;  /* 初始位置跟 P3 一樣置中 */
-    top: 20%;   /* 藏在相機機身中心 */
-    z-index: 4; /* 藏在相機背後更深層 */
+    width: 62%; /* 與 P3 一樣大 */
+    left: 50%;
+    top: 50%; /* 放在相機正中心 */
+    margin-left: -31%; /* 置中對齊 */
+    z-index: 15; /* 確保它在相機(10)的「前面」 */
     transform: translateY(0) rotate(0deg);
-    opacity: 0; /* 初始完全隱形 */
+    opacity: 0; /* 初始隱藏 */
     pointer-events: none;
 }
 
@@ -258,14 +261,12 @@ body {
     background-image: url('P2.png');
     background-size: cover;
     background-position: center;
-    /* 初始狀態為全黑未顯影 */
-    filter: brightness(0.1) saturate(0.1);
+    filter: brightness(0.1) saturate(0.1); /* 初始黑壓壓 */
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* 綁定與 P3 同時觸發的動畫 */
+/* 點擊印相片後，P2 同時從前面飄落 */
 .polaroid-wrapper.is-focusing .static-photo-container {
-    /* 這裡利用 wrapper 加上 is-focusing 類別時觸發 P2 滑出 */
     animation: staticFloatOut 3.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
 
@@ -273,29 +274,21 @@ body {
     0% {
         opacity: 0;
         transform: translateY(0%) rotate(0deg);
-        z-index: 4;
     }
     10% {
-        opacity: 1;
+        opacity: 1; /* 浮現並開始飄落 */
         transform: translateY(0%) rotate(0deg);
-        z-index: 4;
-    }
-    60% {
-        /* 往下滑出相機底部，圖層依然在相機後面 */
-        z-index: 4;
     }
     100% {
         opacity: 1;
-        /* 飄落到偏右下的落點 */
-        transform: translateY(110%) translateX(25%) rotate(12deg);
-        z-index: 4; 
+        /* 飄落到相機右下方 */
+        transform: translateY(70%) translateX(50%) rotate(12deg);
     }
 }
 
-/* P2 到位後的顯影動畫 */
+/* P2 到位後慢慢顯影 */
 .polaroid-wrapper.is-focusing .static-photo-inner {
-    /* 延遲 3 秒，等它滑到位之後再慢慢變亮 */
-    animation: developFade 3.5s ease 3s forwards;
+    animation: developFade 3.5s ease 3s forwards; /* 延遲 3 秒顯影 */
 }
 
 @keyframes developFade {
@@ -303,6 +296,7 @@ body {
     100% { filter: brightness(1) saturate(1); }
 }
 
+/* P2 下方的日期 */
 .photo-date {
     position: absolute;
     bottom: 0;
@@ -315,14 +309,13 @@ body {
     font-family: 'Nanum Pen Script', cursive;
     font-size: clamp(1rem, 3vw, 1.4rem);
     color: #3b3b3b;
-    /* 讓日期跟著照片一起慢慢浮現 */
-    opacity: 0; 
+    opacity: 0; /* 初始隱藏 */
     pointer-events: none;
     z-index: 2;
     padding-bottom: 3px;
 }
 
-/* 日期顯影 */
+/* 日期跟著照片顯影一起浮現 */
 .polaroid-wrapper.is-focusing .photo-date {
     animation: fadeInDate 2s ease 4s forwards;
 }
