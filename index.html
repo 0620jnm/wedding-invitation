@@ -1166,7 +1166,7 @@ body {
         </div>
     </section>
 
-    <section class="form-section">
+        <section class="form-section">
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">參加回覆表單</h2>
         <div class="form-card">
             <form id="rsvp-form">
@@ -1175,9 +1175,11 @@ body {
                     <input type="text" id="guest-name" placeholder="請輸入姓名" required>
                 </div>
                 <div class="form-group">
-                    <label>是否參加婚禮？</label>
+                    <label>請選擇您的出席意願</label>
                     <div class="radio-stack">
-                        <label><input type="radio" name="attendance" value="yes" required> 是的，我會參加！</label>
+                        <label><input type="radio" name="attendance" value="both" required> 證婚儀式與午宴都會參加！</label>
+                        <label><input type="radio" name="attendance" value="banquet_only" required> 僅參加午宴</label>
+                        <label><input type="radio" name="attendance" value="ceremony_only" required> 僅參加證婚儀式</label>
                         <label><input type="radio" name="attendance" value="no" required> 抱歉，我無法出席</label>
                     </div>
                 </div>
@@ -1185,7 +1187,6 @@ body {
             </form>
         </div>
     </section>
-
     <section class="form-section" style="background: #fbf9f7;">
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">祝福留言板</h2>
         <div class="form-card" style="margin-bottom: 50px;">
