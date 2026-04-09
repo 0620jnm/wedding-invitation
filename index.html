@@ -154,7 +154,7 @@ body {
 ============================================= */
 .polaroid-wrapper {
     position: relative;
-    width: min(170px, 40vw);
+    width: min(260px, 58vw);   /* 原本 170px → 放大到 260px */
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 10;
 }
@@ -183,15 +183,16 @@ body {
 ============================================= */
 .print-photo-container {
     position: absolute;
-    width: 47%;
-    left: 26.5%;
-    top: -12%;
+    width: 52%;           /* 稍微加寬讓照片更明顯 */
+    left: 24%;            /* 水平置中對齊出紙口，可微調 */
+    top: 8%;              /* 從相機頂部附近開始（正值 = 往下，負值 = 往上）*/
     z-index: 20;
     clip-path: inset(-200% -50px 0 -50px);
     transform-origin: bottom center;
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     will-change: transform;
 }
+
 
 .print-photo {
     transform: translateY(95%);
@@ -208,12 +209,14 @@ body {
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* P2 靜態照片：維持右下 */
+/* =============================================
+   P2 靜態照片：放大並放到相機旁邊
+============================================= */
 .static-photo-container {
     position: absolute;
-    width: 45%;
-    left: 52%;
-    top: 220%;
+    width: 75%;           /* 原本 45% → 放大到 75% */
+    left: 55%;
+    top: 100%;            /* 原本 220% 太遠，拉近到 100% */
     z-index: 5;
     transform: rotate(8deg);
     opacity: 1;
