@@ -185,9 +185,9 @@ body {
     position: absolute;
     width: 80%;           /* 稍微加寬讓照片更明顯 */
     left: 11%;            /* 水平置中對齊出紙口，可微調 */
-    top: -120%;              /* 從相機頂部附近開始（正值 = 往下，負值 = 往上）*/
+    top: -87%;              /* 從相機頂部附近開始（正值 = 往下，負值 = 往上）*/
     z-index: 20;
-    clip-path: inset(-200% -50px -65px -50px);
+    clip-path: inset(-200% -50px 0 -50px);
     transform-origin: bottom center;
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     will-change: transform;
@@ -206,6 +206,7 @@ body {
     background-size: cover;
     background-position: center;
     filter: brightness(0.1) saturate(0.1);
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
 /* =============================================
@@ -268,7 +269,7 @@ body {
 }
 @keyframes photoPrint {
     0%  { transform: translateY(95%); }
-    100%{ transform: translateY(20%); }
+    100%{ transform: translateY(0%); }
 }
 
 .print-photo.is-developed .print-photo-inner {
