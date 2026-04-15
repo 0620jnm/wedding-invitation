@@ -872,16 +872,16 @@ body {
 
 /* P5 區塊 */
 .p5-section {
-    padding: 70px 24px 80px;
+    padding: 40px 24px 30px;
     background: #fbf9f7;
     text-align: center;
 }
 .p5-photo-frame {
     width: min(320px, 82vw);
     margin: 0 auto 40px;
-    background: transparent;
-    padding: 0;
-    box-shadow: none;
+    background: #fff;
+    padding: 14px 14px 52px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.13);
     border-radius: 4px;
     opacity: 0;
     transform: translateY(40px);
@@ -953,7 +953,7 @@ body {
 }
 .p5-slogan {
     font-family: 'ChenYuluoyan', 'my font', cursive;
-    font-size: clamp(1.8rem, 6.3vw, 2.7rem);
+    font-size: clamp(2rem, 7vw, 3rem);
     color: #5a4633;
     letter-spacing: 0.25em;
     line-height: 1.6;
@@ -961,7 +961,6 @@ body {
     transform: translateY(20px);
     transition: opacity 1.2s ease 0.5s, transform 1.2s cubic-bezier(0.16,1,0.3,1) 0.5s;
     will-change: transform, opacity;
-    margin-bottom: 0;
 }
 .p5-slogan.is-visible {
     opacity: 1;
@@ -1374,10 +1373,10 @@ body {
         <div class="dual-photo-section">
             <div class="dual-photo-grid">
                 <div class="dual-photo-big js-dual-photo-left">
-                    <img src="P4.jpg" alt="wedding photo 4">
+                    <img src="P4.jpg" alt="wedding photo 4" loading="lazy">
                 </div>
                 <div class="dual-photo-small js-dual-photo-right">
-                    <img src="P5.jpg" alt="wedding photo 5">
+                    <img src="P5.jpg" alt="wedding photo 5" loading="lazy">
                 </div>
                 <div class="dual-photo-date-cell">
                     <span>06 / 20</span>
@@ -1385,12 +1384,12 @@ body {
             </div>
             <div class="dual-photo-text-block js-dual-text-in">
                 <div class="dual-photo-title">
-                    「有了彼此後，<br>
-                    我們漸漸期待起了有對方的生活」
+                    「謝謝你，出現在我的生命裡<br>
+                    成為我的光，我的餘生所向」
                 </div>
                 <div class="dual-photo-desc">
-                    Life, somehow, <br>
-                    became something we look forward to.
+                    我愛你，不止今天，<br>
+                    而是往後的每一個朝暮。
                 </div>
             </div>
         </div>
@@ -1399,7 +1398,7 @@ body {
         <!-- P5 區塊 -->
         <section class="p5-section">
             <div class="p5-photo-frame js-p5-photo">
-                <img src="P6.jpg" alt="wedding photo 6">
+                <img src="P6.jpg" alt="wedding photo 6" loading="lazy">
             </div>
             <div class="p5-lines js-p5-lines">
                 <div class="p5-line">千言萬語，最終都匯成一句</div>
