@@ -869,6 +869,104 @@ body {
 }
 
 
+
+/* P5 區塊 */
+.p5-section {
+    padding: 70px 24px 80px;
+    background: #fbf9f7;
+    text-align: center;
+}
+.p5-photo-frame {
+    width: min(320px, 82vw);
+    margin: 0 auto 40px;
+    background: #fff;
+    padding: 14px 14px 52px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    border-radius: 4px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.4s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1);
+    will-change: transform, opacity;
+}
+.p5-photo-frame.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.p5-photo-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+}
+.p5-lines {
+    margin: 0 auto 44px;
+    max-width: 420px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.2s ease 0.2s, transform 1.2s cubic-bezier(0.16,1,0.3,1) 0.2s;
+    will-change: transform, opacity;
+}
+.p5-lines.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.p5-line {
+    font-family: 'my font';
+    font-size: clamp(1.25rem, 4.5vw, 1.75rem);
+    color: #5a4633;
+    line-height: 2.2;
+    letter-spacing: 0.1em;
+}
+.p5-countdown {
+    display: flex;
+    justify-content: center;
+    gap: clamp(16px, 5vw, 36px);
+    margin-bottom: 50px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.2s ease 0.35s, transform 1.2s cubic-bezier(0.16,1,0.3,1) 0.35s;
+    will-change: transform, opacity;
+}
+.p5-countdown.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.p5-cd-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+.p5-cd-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 8vw, 3.2rem);
+    color: #c9a466;
+    line-height: 1;
+    min-width: 2ch;
+    text-align: center;
+}
+.p5-cd-label {
+    font-family: 'my font';
+    font-size: clamp(0.85rem, 3vw, 1.1rem);
+    color: #8a7448;
+    letter-spacing: 0.15em;
+}
+.p5-slogan {
+    font-family: 'ChenYuluoyan', 'my font', cursive;
+    font-size: clamp(2rem, 7vw, 3rem);
+    color: #5a4633;
+    letter-spacing: 0.25em;
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.2s ease 0.5s, transform 1.2s cubic-bezier(0.16,1,0.3,1) 0.5s;
+    will-change: transform, opacity;
+}
+.p5-slogan.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* P4 P5 雙照片區塊 */
 .dual-photo-section {
     padding: 60px 24px 70px;
@@ -1297,6 +1395,39 @@ body {
         </div>
 
 
+        <!-- P5 區塊 -->
+        <section class="p5-section">
+            <div class="p5-photo-frame js-p5-photo">
+                <img src="P5.jpg" alt="wedding photo 5" loading="lazy">
+            </div>
+            <div class="p5-lines js-p5-lines">
+                <div class="p5-line">千言萬語，最終都匯成一句</div>
+                <div class="p5-line">「謝謝你出現在我的生命裡」</div>
+                <div class="p5-line">讓我明白什麼是雙向奔赴的愛</div>
+                <div class="p5-line">謝謝你包容我的不完美，讓我安心做自己</div>
+            </div>
+            <div class="p5-countdown js-p5-cd">
+                <div class="p5-cd-item">
+                    <span class="p5-cd-num" id="p5-days">00</span>
+                    <span class="p5-cd-label">天</span>
+                </div>
+                <div class="p5-cd-item">
+                    <span class="p5-cd-num" id="p5-hours">00</span>
+                    <span class="p5-cd-label">時</span>
+                </div>
+                <div class="p5-cd-item">
+                    <span class="p5-cd-num" id="p5-mins">00</span>
+                    <span class="p5-cd-label">分</span>
+                </div>
+                <div class="p5-cd-item">
+                    <span class="p5-cd-num" id="p5-secs">00</span>
+                    <span class="p5-cd-label">秒</span>
+                </div>
+            </div>
+            <div class="p5-slogan js-p5-slogan">小待盈滿　愛逢其時</div>
+        </section>
+
+
     </section>
 
         <section class="form-section">
@@ -1565,7 +1696,7 @@ window.addEventListener('scroll', () => {
 });
 
 const revealTargets = document.querySelectorAll(
-    '.js-slide-in-right, .js-w1-image-in, .js-w1-text-in, .js-dual-photo-left, .js-dual-photo-right, .js-dual-text-in'
+    '.js-slide-in-right, .js-w1-image-in, .js-w1-text-in, .js-dual-photo-left, .js-dual-photo-right, .js-dual-text-in, .js-p5-photo, .js-p5-lines, .js-p5-cd, .js-p5-slogan'
 );
 
 if ('IntersectionObserver' in window && revealTargets.length) {
