@@ -1548,7 +1548,7 @@ document.fonts.ready.then(function () {
 document.querySelectorAll('input[name="attendance"]').forEach(radio => {
     radio.addEventListener('change', () => {
         const extraFields = document.getElementById('extra-fields');
-        if (radio.value === 'no') {
+        if (radio.value === 'no' || radio.value === 'ceremony_only') {
             extraFields.style.display = 'none';
         } else {
             extraFields.style.display = 'block';
