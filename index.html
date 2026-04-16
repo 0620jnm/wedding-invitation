@@ -149,9 +149,12 @@ body {
     transform: translateY(-70vh);
 }
 
+/* =============================================
+   �㮾璈毺葬撠� 50%嚗�歇靽格㺿嚗�
+============================================= */
 .polaroid-wrapper {
     position: relative;
-    width: min(170px, 58vw);
+    width: min(170px, 58vw);   /* ���𧋦 170px �� �𦆮憭批� 260px */
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 10;
 }
@@ -176,18 +179,21 @@ body {
     padding: 6% 6% 22% 6%;
 }
 
+/* =============================================
+   �抒��捆�膥嚗𡁜�鮋��典枂靘�
+============================================= */
 .print-photo-container {
     position: absolute;
-    width: 72%;
-    left: 50%;
-    top: -62%;
-    margin-left: -36%;
+    width: 80%;           /* 蝔滚凝��惩祝霈梶�抒��凒��𡡞＊ */
+    left: 11%;            /* 瘞游像蝵桐葉撠漤�𠰴枂蝝坔藁嚗�虾敺株矽 */
+    top: -87%;              /* 敺䂿㮾璈罸��券�餈煾�见�页��迤�� = 敺�銝页�諹�惩�� = 敺�銝𠺪��*/
     z-index: 20;
     clip-path: inset(-200% -50px 0 -50px);
     transform-origin: bottom center;
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     will-change: transform;
 }
+
 
 .print-photo {
     transform: translateY(95%);
@@ -204,6 +210,9 @@ body {
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
+/* =============================================
+   P2 ��𨀣�讠�抒���𡁏𦆮憭找蒂�𦆮���㮾璈����
+============================================= */
 .static-photo-container {
     position: absolute;
     width: 80%;
@@ -247,10 +256,14 @@ body {
     opacity: 0;
 }
 
+/* =============================================
+   P3 ��堒㫲敺��撌虫�钅�嚗�歇靽格㺿嚗�
+============================================= */
 .polaroid-wrapper.is-focusing .print-photo-container {
     transform: translate(-45%, 115vh) rotate(-6deg);
 }
 
+/* �抒���鮋��典荗�枂��閧𧞄 */
 .print-photo.is-printing {
     opacity: 1;
     animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
@@ -816,11 +829,11 @@ body {
     text-align: right;
 }
 .split-photo-text {
-    font-family: 'ChenYuluoyan', 'my font', cursive;
+    font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
     font-size: clamp(1.35rem, 2.2vw, 2rem);
     color: #6b5646;
     line-height: 2;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
     text-align: right;
 }
 
@@ -855,7 +868,9 @@ body {
     overflow: hidden;
 }
 
-/* P5 區塊 */
+
+
+/* P5 ��憛� */
 .p5-section {
     padding: 10px 24px 0;
     background: #fbf9f7;
@@ -953,7 +968,7 @@ body {
     transform: translateY(0);
 }
 
-/* P4 P5 雙照片區塊 */
+/* P4 P5 ��嗵�抒���憛� */
 .dual-photo-section {
     padding: 60px 24px 20px;
     background: #fbf9f7;
@@ -1044,16 +1059,16 @@ body {
     margin-bottom: 18px;
 }
 .dual-photo-desc {
-    font-family: 'ChenYuluoyan', 'my font', cursive;
+    font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
     font-size: clamp(1.2rem, 3.5vw, 1.75rem);
     color: #6b5646;
     line-height: 1.9;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
 }
 
 /* Forms */
 .form-section {
-    padding: 10px 20px 80px;
+    padding: 10px 20px 80px;   /* 銝𢠃𢒰蝮桀�𧶏�䔶�钅𢒰靽脲� */
     text-align: center;
 }
 .form-card {
@@ -1209,7 +1224,7 @@ body {
 <div id="site-loader">
     <div class="loader-inner">
         <div class="loader-subtitle" style="margin-bottom: 30px;">
-            <img src="open.png" alt="請開啟聲音" style="max-width: 350px; width: 140vw; height: auto; display: block; margin: 0 auto;">
+            <img src="open.png" alt="隢钅�见�蠘�脤𨺗" style="max-width: 350px; width: 140vw; height: auto; display: block; margin: 0 auto;">
         </div>
         <div class="loader-progress-track">
             <div id="loader-progress-fill"></div>
@@ -1235,7 +1250,7 @@ body {
                     <div class="photo-date">2017.12.23</div>
                 </div>
             </div>
-            <div class="print-hint" id="printHint">載入中...</div>
+            <div class="print-hint" id="printHint">頛匧�乩葉...</div>
         </div>
     </div>
 </div>
@@ -1245,9 +1260,9 @@ body {
         <p class="getting-married-text">The Wedding of</p>
         <div class="name-container">
             <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
-            <div class="chinese-names"><span>蔡宇杰</span><span>陳旻瑄</span></div>
+            <div class="chinese-names"><span>�㷍摰�𨀤</span><span>�䒰�鉟��</span></div>
         </div>
-        <p style="margin-top:35px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
+        <p style="margin-top:35px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026繚06繚20</p>
         <div class="scroll-hint" aria-hidden="true">
             <span class="scroll-hint-arrow"></span>
         </div>
@@ -1258,7 +1273,7 @@ body {
             <img src="W2.jpg" alt="wedding photo">
         </div>
         <div class="photo-transition-content">
-            <div class="photo-transition-title">「才發現，<br>已經無法想像沒有你的生活了」</div>
+            <div class="photo-transition-title">�峕�滨䔄�𣶹嚗�<br>撌脩�梶�⊥�閙�喳�𤩺�埝�劐�删����暑鈭���</div>
             <div class="photo-transition-text">Somehow, I can no longer imagine life without you.</div>
         </div>
     </section>
@@ -1269,7 +1284,7 @@ body {
                 <img src="W3.jpg" alt="wedding photo 2">
             </div>
             <div class="slide-photo-text">
-                <div class="slide-photo-title">「後來才發現，<br>第一個想分享的人一直都是你。」</div>
+                <div class="slide-photo-title">���䔶���滨䔄�𣶹嚗�<br>蝚砌��𧢲�喳�鈭怎�鈭箔��凒�賣糓雿𨬭����</div>
                 <div class="slide-photo-desc">Turns out, every beginning carried your name.</div>
             </div>
         </div>
@@ -1277,24 +1292,24 @@ body {
 
     <section class="info-section" id="countdown-section">
         <div class="info-card">
-            <div class="wedding-info-detail">2026 年 6 月 20 日 星期六</div>
-            <div class="wedding-info-time">10:30 開始入場</div>
+            <div class="wedding-info-detail">2026 撟� 6 ��� 20 �𠯫 ����笔��</div>
+            <div class="wedding-info-time">10:30 ��见�见�亙聦</div>
 
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20260620T023000Z%2F20260620T070000Z&details=Jay%20%26%20Michelle%20%E7%9A%84%E5%A9%9A%E7%A6%AE%EF%BC%81%E6%9C%9F%E5%BE%85%E6%82%A8%E7%9A%84%E5%88%B0%E4%BE%86%E3%80%82&location=%E6%9A%96%E5%B1%85%E6%97%A5%E7%A9%80&text=Jay%20%26%20Michelle%20%E5%A9%9A%E7%A6%AE"
                target="_blank"
                rel="noopener noreferrer"
                class="action-btn"
                style="margin-bottom: 30px;">
-               加入行事曆
+               ��惩�亥�䔶�𧢲�
             </a>
 
             <div class="flip-countdown-wrapper">
-                <span>倒數</span>
+                <span>�埝彍</span>
                 <div class="flip-box">
                     <div class="flip-digit" id="digit-tens">0</div>
                     <div class="flip-digit" id="digit-ones">0</div>
                 </div>
-                <span>天</span>
+                <span>憭�</span>
             </div>
 
             <div class="calendar-frost-card">
@@ -1324,12 +1339,15 @@ body {
                 </div>
                 <div class="split-photo-content js-w1-text-in">
                     <div class="split-photo-text-inner">
-                        <div class="split-photo-title">3000多個日子</div>
+                        <div class="split-photo-title">3000憭𡁜�𧢲𠯫摮�</div>
+                        ��穃�𤑳㮾霅塩���佅璆准������𥪜�拙𧑐��銝�韏瑕����</div>
+                        銝�撘萄撐頠羓巨</div>
+                        銝�頞蠘�笔�堒�堒�餈�</div>
+                        �Ｘ�Ｘ𣄽��𣂷��怠僑����鈭�</div>
+                
                         <div class="split-photo-text">
-                            我們相識、畢業、分隔兩地、一起勇闖<br>
-                            一張張車票<br>
-                            一趟趟南北往返<br>
-                            慢慢拼成了八年的故事
+                            Love arrived quietly,<br>
+                            and stayed in every gentle moment
                         </div>
                     </div>
                 </div>
@@ -1337,11 +1355,11 @@ body {
         </section>
 
         <div class="location-card">
-            <p class="location-title">暖居日穀</p>
+            <p class="location-title">��硋��𠯫蝛�</p>
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 5px;">
-                <p class="location-text">台中市北屯區松竹路一段3號</p>
-                <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');" class="action-btn">
-                    複製地址
+                <p class="location-text">�蝱銝剖���堒扈���𠹭蝡寡楝銝�畾�3���</p>
+                <button onclick="navigator.clipboard.writeText('�蝱銝剖���堒扈���𠹭蝡寡楝銝�畾�3���'); alert('�𧑐��撌脰��ˊ嚗�');" class="action-btn">
+                    銴�ˊ�𧑐��
                 </button>
             </div>
             <div class="map-container">
@@ -1352,10 +1370,12 @@ body {
                rel="noopener noreferrer"
                class="action-btn"
                style="margin-top: 10px;">
-               開啟地圖導航
+               ��见�笔𧑐��硋�舘⏛
             </a>
         </div>
 
+
+        <!-- P4 P5 ��嗵�抒���憛� -->
         <div class="dual-photo-section">
             <div class="dual-photo-grid">
                 <div class="dual-photo-big js-dual-photo-left">
@@ -1370,53 +1390,361 @@ body {
             </div>
             <div class="dual-photo-text-block js-dual-text-in">
                 <div class="dual-photo-title">
-                    願你在這一天與我們相聚，<br>
-                    為我們的故事添上一筆溫柔。
+                    憿䀝�惩銁�嗘�憭抵���穃�𤑳㮾�𡄯��<br>
+                    �箸�穃�𤑳���鈭𧢲溶銝𠹺�蝑�皞急�𢛵��
                 </div>
                 <div class="dual-photo-desc">
-                    邀請你一起來見證，<br>
-                    跨越距離的日子終於落定，<br>
-                    而我們的新生活，也悄然展開。
+                    ��隢衤�牐�韏瑚�閬贝�㚁��<br>
+                    頝刻�𡃏�嗪𣪧���𠯫摮鞟��䲰�氜摰𡄯��<br>
+                    �峕�穃�𤑳��鰵���暑嚗䔶�����嗅�閖�卝��
                 </div>
             </div>
         </div>
 
+
+        <!-- P5 ��憛� -->
         <section class="p5-section">
             <div class="p5-photo-frame js-p5-photo">
                 <img src="P6.jpg" alt="wedding photo 6" loading="lazy">
             </div>
             <div class="p5-lines js-p5-lines">
-                <div class="p5-line">願你在這一天與我們相聚，</div>
-                <div class="p5-line">為我們的故事添上一筆溫柔。</div>
+                憿䀝�惩銁�嗘�憭抵���穃�𤑳㮾�𡄯��</div>
+                �箸�穃�𤑳���鈭𧢲溶銝𠹺�蝑�皞急�𢛵��
+            
             </div>
             <div class="p5-countdown js-p5-cd">
                 <div class="p5-cd-item">
                     <span class="p5-cd-num" id="p5-days">00</span>
-                    <span class="p5-cd-label">天</span>
+                    <span class="p5-cd-label">憭�</span>
                 </div>
                 <div class="p5-cd-item">
                     <span class="p5-cd-num" id="p5-hours">00</span>
-                    <span class="p5-cd-label">時</span>
+                    <span class="p5-cd-label">��</span>
                 </div>
                 <div class="p5-cd-item">
                     <span class="p5-cd-num" id="p5-mins">00</span>
-                    <span class="p5-cd-label">分</span>
+                    <span class="p5-cd-label">��</span>
                 </div>
                 <div class="p5-cd-item">
                     <span class="p5-cd-num" id="p5-secs">00</span>
-                    <span class="p5-cd-label">秒</span>
+                    <span class="p5-cd-label">蝘�</span>
                 </div>
             </div>
-            <div class="p5-slogan js-p5-slogan">時光為證　餘生為約</div>
+            <div class="p5-slogan js-p5-slogan">���厩�箄�剹��擗条�毺�箇�</div>
         </section>
+
+
     </section>
 
-    <section class="form-section">
-        <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">參加回覆表單</h2>
+        <section class="form-section">
+        <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">����惩�噼�銵典鱓</h2>
         <div class="form-card">
             <form id="rsvp-form">
                 <div class="form-group">
-                    <label>您的姓名</label>
-                    <input type="text" id="guest-name" placeholder="請輸入姓名" required>
+                    <label>�函�憪枏��</label>
+                    <input type="text" id="guest-name" placeholder="隢贝撓�亙�枏��" required>
                 </div>
-                <div
+                <div class="form-group">
+                    <label>隢钅�豢���函��枂撣剜�誯��</label>
+                    <div class="radio-stack">
+                        <label><input type="radio" name="attendance" value="both" required> 霅匧�𡁜��撘讛����捎�賣�����𩤃�</label>
+                        <label><input type="radio" name="attendance" value="banquet_only" required> ������惩��捎</label>
+                        <label><input type="radio" name="attendance" value="ceremony_only" required> ������㰘�匧�𡁜��撘�</label>
+                        <label><input type="radio" name="attendance" value="no" required> ��甇㚁�峕�𤑳�⊥�訫枂撣�</label>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">���枂��噼�</button>
+            </form>
+        </div>
+    </section>
+    <section class="form-section" style="background: #fbf9f7;">
+        <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">蟡萘�讐�躰��踎</h2>
+        <div class="form-card" style="margin-bottom: 50px;">
+            <form id="wish-form">
+                <div class="form-group">
+                    <label>�函�憪枏��</label>
+                    <input type="text" id="wish-name" required placeholder="隢贝撓�亙�枏��">
+                </div>
+                <div class="form-group">
+                    <label>蟡萘�讐�閰�</label>
+                    <textarea id="wish-message" required placeholder="�喳�齿�穃�𤏸牧��閰�..." style="height: 100px;"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">��銝𦠜�𤑳�蟡萘�𧶏�</button>
+            </form>
+        </div>
+        <div class="sticky-wall" id="sticky-wall"></div>
+    </section>
+
+    <footer style="text-align:center; padding:80px 0; color:#c9a466; font-family:'ChenYuluoyan', 'my font', cursive; font-size: 2.2rem;">憟賭�銝滩�页�峕�穃�穃�𡁶旨閬页�</footer>
+</div>
+
+<button id="musicToggle">�𪇵</button>
+<div id="player" style="position:fixed; top:-9999px;"></div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAUFF7GdX7fAtK_wK5-YAffirtap52UgCg",
+    authDomain: "wedding-e6351.firebaseapp.com",
+    databaseURL: "https://wedding-e6351-default-rtdb.firebaseio.com",
+    projectId: "wedding-e6351",
+    storageBucket: "wedding-e6351.firebasestorage.app",
+    messagingSenderId: "382633819825",
+    appId: "1:382633819825:web:b3352f4f4e67423878ec90"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const wishesRef = ref(db, 'wishes');
+
+document.getElementById('wish-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('wish-name').value;
+    const message = document.getElementById('wish-message').value;
+    push(wishesRef, { name, message, timestamp: serverTimestamp() }).then(() => {
+        document.getElementById('wish-form').reset();
+    });
+});
+
+onValue(wishesRef, (snapshot) => {
+    const wall = document.getElementById('sticky-wall');
+    wall.innerHTML = '';
+    const data = snapshot.val();
+    if (!data) return;
+    const messages = Object.values(data).reverse();
+    messages.forEach((item, index) => {
+        const note = document.createElement('div');
+        note.className = 'sticky-note';
+        const rot = (Math.random() - 0.5) * 12;
+        const x = (index % 2 === 0 ? -1 : 1) * (Math.random() * 20);
+        const y = (Math.random() - 0.5) * 15;
+        note.style.setProperty('--note-rot', `${rot}deg`);
+        note.style.setProperty('--note-x', `${x}px`);
+        note.style.setProperty('--note-y', `${y}px`);
+        note.innerHTML = `
+            <div class="note-text">${item.message}</div>
+            <div class="note-author">From: ${item.name}</div>
+        `;
+        wall.appendChild(note);
+    });
+});
+</script>
+
+<script>
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+window.addEventListener('beforeunload', function () { window.scrollTo(0, 0); });
+window.addEventListener('load', function () { window.scrollTo(0, 0); });
+
+let fontsLoaded = false;
+let player;
+let isPrinting = false;
+let targetDays = 0;
+let hasAnimated = false;
+
+const siteLoader = document.getElementById('site-loader');
+const loaderFill = document.getElementById('loader-progress-fill');
+const loaderText = document.getElementById('loader-progress-text');
+let fakeProgress = 0;
+
+function setLoaderProgress(value) {
+    const safeValue = Math.max(0, Math.min(100, value));
+    loaderFill.style.width = safeValue + '%';
+    loaderText.textContent = Math.floor(safeValue) + '%';
+}
+
+const loaderTimer = setInterval(() => {
+    if (fakeProgress < 95) {
+        fakeProgress += Math.random() * 2 + 1;
+        if (fakeProgress > 95) fakeProgress = 95;
+        setLoaderProgress(fakeProgress);
+    }
+}, 250);
+
+document.fonts.ready.then(function () {
+    fontsLoaded = true;
+    const hint = document.getElementById('printHint');
+    hint.innerHTML = "暺墧�𠹺誑��堒㫲�㮾���";
+    hint.classList.add('ready');
+});
+
+window.addEventListener('load', function () {
+    clearInterval(loaderTimer);
+    setLoaderProgress(100);
+    setTimeout(() => { siteLoader.classList.add('is-hidden'); }, 1500);
+    setTimeout(() => { siteLoader.remove(); }, 2500);
+});
+
+function endIntro() {
+    document.getElementById('intro-overlay').style.opacity = '0';
+    document.getElementById('main-wrapper').classList.add('is-visible');
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
+    setTimeout(() => {
+        document.getElementById('intro-overlay').style.display = 'none';
+    }, 1500);
+}
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        videoId: 'ODRWKGIxB4M',
+        playerVars: { autoplay: 0, loop: 1, playlist: 'ODRWKGIxB4M', controls: 0, playsinline: 1 },
+        events: {
+            onStateChange: (e) => {
+                document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '�𪇵';
+            }
+        }
+    });
+}
+
+document.getElementById('musicToggle').onclick = function () {
+    if (!player || typeof player.getPlayerState !== 'function') return;
+    player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
+};
+
+document.getElementById('intro-overlay').addEventListener('click', function () {
+    if (!fontsLoaded || isPrinting) return;
+    isPrinting = true;
+
+    const photo = document.getElementById('printPhoto');
+    const hint = document.getElementById('printHint');
+    const wrapper = document.getElementById('polaroid-wrapper');
+    const flash = document.getElementById('flash-effect');
+    const sceneContainer = document.getElementById('scene-container');
+
+    hint.classList.remove('ready');
+    hint.style.opacity = '0';
+
+    if (player && typeof player.playVideo === 'function') {
+        try { player.playVideo(); } catch (e) {}
+    }
+
+    flash.classList.add('is-flashing');
+    setTimeout(() => { photo.classList.add('is-printing'); }, 200);
+    setTimeout(() => {
+        photo.classList.add('is-developed');
+        wrapper.classList.add('is-focusing');
+        sceneContainer.classList.add('is-panning');
+    }, 2700);
+    setTimeout(() => { endIntro(); }, 6500);
+});
+
+(function () {
+    const year = 2026;
+    const monthIndex = 5;
+    const weddingDay = 20;
+    const weddingDate = new Date(year, monthIndex, weddingDay, 11, 0, 0);
+
+    const firstDay = new Date(year, monthIndex, 1);
+    const firstWeekDay = firstDay.getDay();
+    const nextMonthFirst = new Date(year, monthIndex + 1, 1);
+    const lastDate = new Date(nextMonthFirst - 1).getDate();
+
+    const bodyEl = document.getElementById('clean-calendar-body');
+    let html = '';
+
+    for (let i = 0; i < firstWeekDay; i++) {
+        html += `<div class="clean-day-cell"></div>`;
+    }
+    for (let d = 1; d <= lastDate; d++) {
+        let cls = 'clean-day-cell';
+        if (d === weddingDay) cls += ' clean-day-wedding';
+        html += `<div class="${cls}"><span>${d}</span></div>`;
+    }
+    bodyEl.insertAdjacentHTML('beforeend', html);
+
+    const today = new Date();
+    const diffMs = weddingDate.getTime() - today.getTime();
+    targetDays = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+})();
+
+function animateFlipClock(targetNumber) {
+    if (targetNumber <= 0) return;
+    let current = 0;
+    const tensEl = document.getElementById('digit-tens');
+    const onesEl = document.getElementById('digit-ones');
+
+    const interval = setInterval(() => {
+        current += Math.ceil(targetNumber / 20);
+        if (current >= targetNumber) {
+            current = targetNumber;
+            clearInterval(interval);
+        }
+        const tens = Math.floor(current / 10);
+        const ones = current % 10;
+
+        if (tensEl.innerText != tens) {
+            tensEl.innerText = tens;
+            tensEl.classList.add('flipping');
+            setTimeout(() => tensEl.classList.remove('flipping'), 50);
+        }
+        if (onesEl.innerText != ones) {
+            onesEl.innerText = ones;
+            onesEl.classList.add('flipping');
+            setTimeout(() => onesEl.classList.remove('flipping'), 50);
+        }
+    }, 60);
+}
+
+window.addEventListener('scroll', () => {
+    const section = document.getElementById('countdown-section');
+    if (!section || hasAnimated) return;
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom >= 0) {
+        hasAnimated = true;
+        setTimeout(() => { animateFlipClock(targetDays); }, 500);
+    }
+});
+
+const revealTargets = document.querySelectorAll(
+    '.js-slide-in-right, .js-w1-image-in, .js-w1-text-in, .js-dual-photo-left, .js-dual-photo-right, .js-dual-text-in, .js-p5-photo, .js-p5-lines, .js-p5-cd, .js-p5-slogan'
+);
+
+if ('IntersectionObserver' in window && revealTargets.length) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+
+    revealTargets.forEach(el => revealObserver.observe(el));
+} else {
+    revealTargets.forEach(el => el.classList.add('is-visible'));
+}
+</script>
+
+<script>
+(function() {
+    var target = new Date(2026, 5, 20, 10, 30, 0);
+    function pad(n){ return String(n).padStart(2,'0'); }
+    function tick(){
+        var now = new Date();
+        var diff = target - now;
+        if(diff < 0) diff = 0;
+        var days  = Math.floor(diff / 86400000);
+        var hours = Math.floor((diff % 86400000) / 3600000);
+        var mins  = Math.floor((diff % 3600000) / 60000);
+        var secs  = Math.floor((diff % 60000) / 1000);
+        var d = document.getElementById('p5-days');
+        var h = document.getElementById('p5-hours');
+        var m = document.getElementById('p5-mins');
+        var s = document.getElementById('p5-secs');
+        if(d) d.textContent = pad(days);
+        if(h) h.textContent = pad(hours);
+        if(m) m.textContent = pad(mins);
+        if(s) s.textContent = pad(secs);
+    }
+    tick();
+    setInterval(tick, 1000);
+})();
+</script>
+</body>
+</html>
