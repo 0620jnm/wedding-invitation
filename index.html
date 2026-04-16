@@ -235,7 +235,7 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 18%;
+    height: 15%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -959,7 +959,7 @@ body {
     grid-column: 1;
     grid-row: 1 / 3;
     overflow: hidden;
-    border-radius: 6px;
+    border-radius: 0;
     opacity: 0;
     transform: translateX(-60px);
     transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.5s ease;
@@ -974,13 +974,13 @@ body {
     height: 100%;
     object-fit: cover;
     display: block;
-    border-radius: 6px;
+    border-radius: 0;
 }
 .dual-photo-small {
     grid-column: 2;
     grid-row: 1;
     overflow: hidden;
-    border-radius: 6px;
+    border-radius: 0;
     margin-top: 28px;
     opacity: 0;
     transform: translateX(60px);
@@ -995,7 +995,7 @@ body {
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 6px;
+    border-radius: 0;
 }
 .dual-photo-date-cell {
     grid-column: 2;
@@ -1231,7 +1231,8 @@ body {
 
 <div id="main-wrapper">
     <div class="cover">
-        <p class="getting-married-text">Welcome to </br>The Wedding of</p>
+        <p style="font-family:'Gwendolyn', cursive; color:#c9a466; font-size:clamp(2rem, 7vw, 3.2rem); letter-spacing:0.08em; margin-bottom:8px; font-weight:400; z-index:10; position:relative;">Welcome to</p>
+        <p class="getting-married-text">The Wedding of</p>
         <div class="name-container">
             <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
             <div class="chinese-names"><span>蔡宇杰</span><span>陳旻瑄</span></div>
