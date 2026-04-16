@@ -6,7 +6,7 @@
 <title>Jay & Michelle</title>
 
 <link rel="preload" href="my%20font.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-<link rel="preload" href="polaroid.png" as="image">
+<link rel="preload" href="miniEVO.png" as="image">
 <link rel="preload" href="P3.jpg" as="image">
 <link rel="preload" href="P2.png" as="image">
 <link rel="preload" href="W1.jpg" as="image">
@@ -149,12 +149,16 @@ body {
     transform: translateY(-70vh);
 }
 
+/* =============================================
+   相機縮小 50%（已修改）
+============================================= */
 .polaroid-wrapper {
     position: relative;
-    width: min(340px, 80vw);
+    width: min(170px, 58vw);   /* 原本 170px → 放大到 260px */
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 10;
 }
+
 .camera-img {
     display: block;
     width: 100%;
@@ -170,24 +174,32 @@ body {
     width: 100%;
     aspect-ratio: 4 / 5;
     background: #fdfdfd;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    box-shadow: none;
+    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.3));
     padding: 6% 6% 22% 6%;
 }
+
+/* =============================================
+   照片容器：從頂部出來
+============================================= */
 .print-photo-container {
     position: absolute;
-    width: 47%;
-    left: 26.5%;
-    top: 68.3%;
+    width: 80%;           /* 稍微加寬讓照片更明顯 */
+    left: 11%;            /* 水平置中對齊出紙口，可微調 */
+    top: -87%;              /* 從相機頂部附近開始（正值 = 往下，負值 = 往上）*/
     z-index: 20;
-    clip-path: inset(0 -50px -200% -50px);
-    transform-origin: top center;
+    clip-path: inset(-200% -50px 0 -50px);
+    transform-origin: bottom center;
     transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     will-change: transform;
 }
+
+
 .print-photo {
-    transform: translateY(-95%);
+    transform: translateY(95%);
     opacity: 0;
 }
+
 .print-photo-inner {
     width: 100%;
     height: 100%;
@@ -198,11 +210,14 @@ body {
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
 
+/* =============================================
+   P2 靜態照片：放大並放到相機旁邊
+============================================= */
 .static-photo-container {
     position: absolute;
-    width: 45%;
+    width: 80%;
     left: 52%;
-    top: 220%;
+    top: 250%;
     z-index: 5;
     transform: rotate(8deg);
     opacity: 1;
@@ -240,18 +255,24 @@ body {
 .polaroid-wrapper.is-focusing .camera-img {
     opacity: 0;
 }
+
+/* =============================================
+   P3 列印後往左下飄（已修改）
+============================================= */
 .polaroid-wrapper.is-focusing .print-photo-container {
-    transform: translate(-55%, 60vh) rotate(-6deg);
+    transform: translate(-45%, 115vh) rotate(-6deg);
 }
 
+/* 照片從頂部噴出動畫 */
 .print-photo.is-printing {
     opacity: 1;
     animation: photoPrint 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
 @keyframes photoPrint {
-    0% { transform: translateY(-95%); }
-    100% { transform: translateY(0%); }
+    0%  { transform: translateY(95%); }
+    100%{ transform: translateY(0%); }
 }
+
 .print-photo.is-developed .print-photo-inner {
     animation: developFade 4s forwards;
 }
@@ -463,12 +484,7 @@ body {
     right: 0;
     top: 0;
     height: clamp(90px, 12vw, 160px);
-    background: linear-gradient(
-        to bottom,
-        #fbf9f7 0%,
-        rgba(251, 249, 247, 0.65) 45%,
-        rgba(251, 249, 247, 0) 100%
-    );
+    background: linear-gradient(to bottom, #fbf9f7 0%, rgba(251,249,247,0.65) 45%, rgba(251,249,247,0) 100%);
     z-index: 2;
     pointer-events: none;
 }
@@ -484,13 +500,7 @@ body {
     right: 0;
     bottom: 0;
     height: clamp(140px, 24vw, 240px);
-    background: linear-gradient(
-        to bottom,
-        rgba(251, 249, 247, 0) 0%,
-        rgba(251, 249, 247, 0.35) 35%,
-        rgba(251, 249, 247, 0.75) 68%,
-        #fbf9f7 100%
-    );
+    background: linear-gradient(to bottom, rgba(251,249,247,0) 0%, rgba(251,249,247,0.35) 35%, rgba(251,249,247,0.75) 68%, #fbf9f7 100%);
     z-index: 2;
     pointer-events: none;
 }
@@ -624,16 +634,16 @@ body {
     margin: 0 auto;
     padding: 26px 18px;
     border-radius: 26px;
-    background: rgba(255, 255, 255, 0.55);
-    border: 1px solid rgba(255,255,255,0.7);
-    box-shadow: 0 12px 35px rgba(186, 170, 144, 0.12);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 .clean-calendar-container {
     max-width: 320px;
     margin: 0 auto;
-    background-color: rgba(247, 246, 237, 0.78);
+    background-color: rgba(247,246,237,0.90);
     border-radius: 20px;
     padding: 30px 15px 20px;
     position: relative;
@@ -646,7 +656,7 @@ body {
     left: 0;
     width: 100%;
     height: 10px;
-    background-image: radial-gradient(circle at 10px 10px, transparent 10px, rgba(247, 246, 237, 0.78) 11px);
+    background-image: radial-gradient(circle at 10px 10px, transparent 10px, rgba(247,246,237,0.78) 11px);
     background-size: 24px 20px;
     background-position: center top;
 }
@@ -713,18 +723,9 @@ body {
     animation: weddingPulse 1.8s infinite;
 }
 @keyframes weddingPulse {
-    0% {
-        transform: translate(-50%, -50%) scale(1);
-        box-shadow: 0 0 0 0 rgba(201,164,102,0.5);
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.1);
-        box-shadow: 0 0 0 8px rgba(201,164,102,0);
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(1);
-        box-shadow: 0 0 0 0 rgba(201,164,102,0);
-    }
+    0% { transform: translate(-50%,-50%) scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0.5); }
+    50% { transform: translate(-50%,-50%) scale(1.1); box-shadow: 0 0 0 8px rgba(201,164,102,0); }
+    100% { transform: translate(-50%,-50%) scale(1); box-shadow: 0 0 0 0 rgba(201,164,102,0); }
 }
 
 /* W1 */
@@ -840,10 +841,10 @@ body {
     max-width: 600px;
     margin: 55px auto 0;
     padding: 48px 24px 40px;
-    background: rgba(255,255,255,0.88);
-    border: 1px solid rgba(224, 217, 208, 0.8);
-    border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
 }
 .location-title {
     font-family: 'my font';
@@ -865,6 +866,204 @@ body {
     border: 1px solid #e0d9d0;
     border-radius: 8px;
     overflow: hidden;
+}
+
+
+
+/* P5 區塊 */
+.p5-section {
+    padding: 40px 24px 0;
+    background: #fbf9f7;
+    text-align: center;
+}
+.p5-photo-frame {
+    width: min(320px, 82vw);
+    margin: 0 auto 40px;
+    background: #fff;
+    padding: 14px 14px 52px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    border-radius: 4px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.4s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1);
+    will-change: transform, opacity;
+}
+.p5-photo-frame.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.p5-photo-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+}
+.p5-lines {
+    margin: 0 auto 44px;
+    max-width: 420px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.2s ease 0.2s, transform 1.2s cubic-bezier(0.16,1,0.3,1) 0.2s;
+    will-change: transform, opacity;
+}
+.p5-lines.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.p5-line {
+    font-family: 'my font';
+    font-size: clamp(1.25rem, 4.5vw, 1.75rem);
+    color: #5a4633;
+    line-height: 2.2;
+    letter-spacing: 0.1em;
+}
+.p5-countdown {
+    display: flex;
+    justify-content: center;
+    gap: clamp(16px, 5vw, 36px);
+    margin-bottom: 50px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.2s ease 0.35s, transform 1.2s cubic-bezier(0.16,1,0.3,1) 0.35s;
+    will-change: transform, opacity;
+}
+.p5-countdown.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.p5-cd-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+.p5-cd-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 8vw, 3.2rem);
+    color: #c9a466;
+    line-height: 1;
+    min-width: 2ch;
+    text-align: center;
+}
+.p5-cd-label {
+    font-family: 'my font';
+    font-size: clamp(0.85rem, 3vw, 1.1rem);
+    color: #8a7448;
+    letter-spacing: 0.15em;
+}
+.p5-slogan {
+    font-family: 'ChenYuluoyan', 'my font', cursive;
+    font-size: clamp(1.8rem, 6.3vw, 2.7rem);
+    color: #5a4633;
+    letter-spacing: 0.25em;
+    line-height: 1.6;
+    margin-bottom: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.2s ease 0.5s, transform 1.2s cubic-bezier(0.16,1,0.3,1) 0.5s;
+    will-change: transform, opacity;
+}
+.p5-slogan.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* P4 P5 雙照片區塊 */
+.dual-photo-section {
+    padding: 60px 24px 70px;
+    background: #fbf9f7;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.dual-photo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 12px;
+    margin-bottom: 40px;
+    align-items: start;
+}
+.dual-photo-big {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    overflow: hidden;
+    border-radius: 6px;
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.5s ease;
+    will-change: transform, opacity;
+}
+.dual-photo-big.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+.dual-photo-big img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 6px;
+}
+.dual-photo-small {
+    grid-column: 2;
+    grid-row: 1;
+    overflow: hidden;
+    border-radius: 6px;
+    margin-top: 28px;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, opacity 1.5s ease 0.15s;
+    will-change: transform, opacity;
+}
+.dual-photo-small.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+.dual-photo-small img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+}
+.dual-photo-date-cell {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 10px;
+    padding-left: 4px;
+}
+.dual-photo-date-cell span {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 5vw, 1.9rem);
+    color: #8a7448;
+    letter-spacing: 0.05em;
+}
+.dual-photo-text-block {
+    padding: 0 4px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, opacity 1.2s ease 0.2s;
+    will-change: transform, opacity;
+}
+.dual-photo-text-block.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.dual-photo-title {
+    font-family: 'my font';
+    font-size: clamp(1.4rem, 6vw, 2.1rem);
+    color: #5a4633;
+    letter-spacing: 0.12em;
+    line-height: 1.9;
+    margin-bottom: 18px;
+}
+.dual-photo-desc {
+    font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
+    font-size: clamp(1.2rem, 3.5vw, 1.75rem);
+    color: #6b5646;
+    line-height: 1.9;
+    letter-spacing: 0.06em;
 }
 
 /* Forms */
@@ -1002,69 +1201,21 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .scroll-hint {
-        animation: none;
-        opacity: 1;
-    }
-    .scroll-hint-arrow {
-        animation: none;
-    }
+    .scroll-hint { animation: none; opacity: 1; }
+    .scroll-hint-arrow { animation: none; }
 }
 
 @media (max-width: 768px) {
-    .split-photo-section {
-        width: calc(100% + 40px);
-        margin: 55px 0 0 -20px;
-    }
-
-    .split-photo-inner {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .split-photo-image-wrap {
-        min-height: 340px;
-    }
-
-    .split-photo-content {
-        min-height: 340px;
-        padding: 28px 20px 28px 14px;
-        align-items: center;
-        justify-content: flex-end;
-        text-align: right;
-    }
-
-    .split-photo-text-inner {
-        max-width: none;
-        margin-left: auto;
-        margin-right: 0;
-        text-align: right;
-    }
-
-    .split-photo-title {
-        font-size: clamp(1.15rem, 4.2vw, 1.65rem);
-        line-height: 1.9;
-        margin-bottom: 16px;
-        text-align: right;
-    }
-
-    .split-photo-text {
-        font-size: clamp(0.95rem, 3.2vw, 1.3rem);
-        line-height: 1.9;
-        text-align: right;
-    }
-
-    .split-photo-fade {
-        width: 33.333%;
-    }
-
-    .scroll-hint {
-        bottom: 22px;
-    }
-
-    .scroll-hint-arrow {
-        width: 16px;
-        height: 16px;
-    }
+    .split-photo-section { width: calc(100% + 40px); margin: 55px 0 0 -20px; }
+    .split-photo-inner { grid-template-columns: 1fr 1fr; }
+    .split-photo-image-wrap { min-height: 340px; }
+    .split-photo-content { min-height: 340px; padding: 28px 20px 28px 14px; align-items: center; justify-content: flex-end; text-align: right; }
+    .split-photo-text-inner { max-width: none; margin-left: auto; margin-right: 0; text-align: right; }
+    .split-photo-title { font-size: clamp(1.15rem, 4.2vw, 1.65rem); line-height: 1.9; margin-bottom: 16px; text-align: right; }
+    .split-photo-text { font-size: clamp(0.95rem, 3.2vw, 1.3rem); line-height: 1.9; text-align: right; }
+    .split-photo-fade { width: 33.333%; }
+    .scroll-hint { bottom: 22px; }
+    .scroll-hint-arrow { width: 16px; height: 16px; }
 }
 </style>
 </head>
@@ -1072,7 +1223,9 @@ body {
 
 <div id="site-loader">
     <div class="loader-inner">
-        <div class="loader-subtitle" style="margin-bottom: 30px;">請記得打開聲音 🔊</div>
+        <div class="loader-subtitle" style="margin-bottom: 30px;">
+            <img src="open.png" alt="請開啟聲音" style="max-width: 350px; width: 140vw; height: auto; display: block; margin: 0 auto;">
+        </div>
         <div class="loader-progress-track">
             <div id="loader-progress-fill"></div>
         </div>
@@ -1085,7 +1238,7 @@ body {
 <div id="intro-overlay">
     <div id="scene-container">
         <div class="polaroid-wrapper" id="polaroid-wrapper">
-            <img src="polaroid.png" alt="camera" class="camera-img">
+            <img src="miniEVO.png" alt="camera" class="camera-img">
             <div class="print-photo-container">
                 <div class="photo-frame print-photo" id="printPhoto">
                     <div class="print-photo-inner"></div>
@@ -1204,11 +1357,9 @@ body {
                     複製地址
                 </button>
             </div>
-
             <div class="map-container">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6121.518491102163!2d120.72671715366228!3d24.176057604857792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691930ddbe73b5%3A0xe9019e28fe9eeef1!2z5pqW5bGF5pel56mAL-WPsOS4reWpmuemri_nvo7lvI_lqZrnpq4v5oi25aSW5ama56auL-WPsOS4reWklueHtC_lhazlj7jogZrppJAv5pel5byP56mA5YCJL-aKk-WRqOa0vuWwjQ!5e0!3m2!1szh-TW!2stw!4v1774714039105!5m2!1szh-TW!2stw" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-
             <a href="https://maps.app.goo.gl/er8YRwgUM7B6pAR4A"
                target="_blank"
                rel="noopener noreferrer"
@@ -1217,9 +1368,70 @@ body {
                開啟地圖導航
             </a>
         </div>
+
+
+        <!-- P4 P5 雙照片區塊 -->
+        <div class="dual-photo-section">
+            <div class="dual-photo-grid">
+                <div class="dual-photo-big js-dual-photo-left">
+                    <img src="P4.jpg" alt="wedding photo 4" loading="lazy">
+                </div>
+                <div class="dual-photo-small js-dual-photo-right">
+                    <img src="P5.jpg" alt="wedding photo 5" loading="lazy">
+                </div>
+                <div class="dual-photo-date-cell">
+                    <span>06 / 20</span>
+                </div>
+            </div>
+            <div class="dual-photo-text-block js-dual-text-in">
+                <div class="dual-photo-title">
+                    「謝謝你，出現在我的生命裡<br>
+                    成為我的光，我的餘生所向」
+                </div>
+                <div class="dual-photo-desc">
+                    我愛你，不止今天，<br>
+                    而是往後的每一個朝暮。
+                </div>
+            </div>
+        </div>
+
+
+        <!-- P5 區塊 -->
+        <section class="p5-section">
+            <div class="p5-photo-frame js-p5-photo">
+                <img src="P6.jpg" alt="wedding photo 6" loading="lazy">
+            </div>
+            <div class="p5-lines js-p5-lines">
+                <div class="p5-line">千言萬語，最終都匯成一句</div>
+                <div class="p5-line">「謝謝你出現在我的生命裡」</div>
+                <div class="p5-line">讓我明白什麼是雙向奔赴的愛</div>
+                <div class="p5-line">謝謝你包容我的不完美，讓我安心做自己</div>
+            </div>
+            <div class="p5-countdown js-p5-cd">
+                <div class="p5-cd-item">
+                    <span class="p5-cd-num" id="p5-days">00</span>
+                    <span class="p5-cd-label">天</span>
+                </div>
+                <div class="p5-cd-item">
+                    <span class="p5-cd-num" id="p5-hours">00</span>
+                    <span class="p5-cd-label">時</span>
+                </div>
+                <div class="p5-cd-item">
+                    <span class="p5-cd-num" id="p5-mins">00</span>
+                    <span class="p5-cd-label">分</span>
+                </div>
+                <div class="p5-cd-item">
+                    <span class="p5-cd-num" id="p5-secs">00</span>
+                    <span class="p5-cd-label">秒</span>
+                </div>
+            </div>
+            <div class="p5-slogan js-p5-slogan">小待盈滿　愛逢其時</div>
+        </section>
+
+
     </section>
 
-    <section class="form-section">
+        <section class="form-section">
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">參加回覆表單</h2>
         <div class="form-card">
             <form id="rsvp-form">
@@ -1228,9 +1440,11 @@ body {
                     <input type="text" id="guest-name" placeholder="請輸入姓名" required>
                 </div>
                 <div class="form-group">
-                    <label>是否參加婚禮？</label>
+                    <label>請選擇您的出席意願</label>
                     <div class="radio-stack">
-                        <label><input type="radio" name="attendance" value="yes" required> 是的，我會參加！</label>
+                        <label><input type="radio" name="attendance" value="both" required> 證婚儀式與午宴都會參加！</label>
+                        <label><input type="radio" name="attendance" value="banquet_only" required> 僅參加午宴</label>
+                        <label><input type="radio" name="attendance" value="ceremony_only" required> 僅參加證婚儀式</label>
                         <label><input type="radio" name="attendance" value="no" required> 抱歉，我無法出席</label>
                     </div>
                 </div>
@@ -1238,7 +1452,6 @@ body {
             </form>
         </div>
     </section>
-
     <section class="form-section" style="background: #fbf9f7;">
         <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">祝福留言板</h2>
         <div class="form-card" style="margin-bottom: 50px;">
@@ -1287,12 +1500,7 @@ document.getElementById('wish-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('wish-name').value;
     const message = document.getElementById('wish-message').value;
-
-    push(wishesRef, {
-        name,
-        message,
-        timestamp: serverTimestamp()
-    }).then(() => {
+    push(wishesRef, { name, message, timestamp: serverTimestamp() }).then(() => {
         document.getElementById('wish-form').reset();
     });
 });
@@ -1301,28 +1509,21 @@ onValue(wishesRef, (snapshot) => {
     const wall = document.getElementById('sticky-wall');
     wall.innerHTML = '';
     const data = snapshot.val();
-
     if (!data) return;
-
     const messages = Object.values(data).reverse();
-
     messages.forEach((item, index) => {
         const note = document.createElement('div');
         note.className = 'sticky-note';
-
         const rot = (Math.random() - 0.5) * 12;
         const x = (index % 2 === 0 ? -1 : 1) * (Math.random() * 20);
         const y = (Math.random() - 0.5) * 15;
-
         note.style.setProperty('--note-rot', `${rot}deg`);
         note.style.setProperty('--note-x', `${x}px`);
         note.style.setProperty('--note-y', `${y}px`);
-
         note.innerHTML = `
             <div class="note-text">${item.message}</div>
             <div class="note-author">From: ${item.name}</div>
         `;
-
         wall.appendChild(note);
     });
 });
@@ -1332,14 +1533,8 @@ onValue(wishesRef, (snapshot) => {
 if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
-
-window.addEventListener('beforeunload', function () {
-    window.scrollTo(0, 0);
-});
-
-window.addEventListener('load', function () {
-    window.scrollTo(0, 0);
-});
+window.addEventListener('beforeunload', function () { window.scrollTo(0, 0); });
+window.addEventListener('load', function () { window.scrollTo(0, 0); });
 
 let fontsLoaded = false;
 let player;
@@ -1376,14 +1571,8 @@ document.fonts.ready.then(function () {
 window.addEventListener('load', function () {
     clearInterval(loaderTimer);
     setLoaderProgress(100);
-
-    setTimeout(() => {
-        siteLoader.classList.add('is-hidden');
-    }, 1500);
-
-    setTimeout(() => {
-        siteLoader.remove();
-    }, 2500);
+    setTimeout(() => { siteLoader.classList.add('is-hidden'); }, 1500);
+    setTimeout(() => { siteLoader.remove(); }, 2500);
 });
 
 function endIntro() {
@@ -1391,7 +1580,6 @@ function endIntro() {
     document.getElementById('main-wrapper').classList.add('is-visible');
     document.body.style.overflow = 'auto';
     document.documentElement.style.overflow = 'auto';
-
     setTimeout(() => {
         document.getElementById('intro-overlay').style.display = 'none';
     }, 1500);
@@ -1400,13 +1588,7 @@ function endIntro() {
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         videoId: 'ODRWKGIxB4M',
-        playerVars: {
-            autoplay: 0,
-            loop: 1,
-            playlist: 'ODRWKGIxB4M',
-            controls: 0,
-            playsinline: 1
-        },
+        playerVars: { autoplay: 0, loop: 1, playlist: 'ODRWKGIxB4M', controls: 0, playsinline: 1 },
         events: {
             onStateChange: (e) => {
                 document.getElementById('musicToggle').innerHTML = (e.data == 1) ? '||' : '▶';
@@ -1438,20 +1620,13 @@ document.getElementById('intro-overlay').addEventListener('click', function () {
     }
 
     flash.classList.add('is-flashing');
-
-    setTimeout(() => {
-        photo.classList.add('is-printing');
-    }, 200);
-
+    setTimeout(() => { photo.classList.add('is-printing'); }, 200);
     setTimeout(() => {
         photo.classList.add('is-developed');
         wrapper.classList.add('is-focusing');
         sceneContainer.classList.add('is-panning');
     }, 2700);
-
-    setTimeout(() => {
-        endIntro();
-    }, 6500);
+    setTimeout(() => { endIntro(); }, 6500);
 });
 
 (function () {
@@ -1471,13 +1646,11 @@ document.getElementById('intro-overlay').addEventListener('click', function () {
     for (let i = 0; i < firstWeekDay; i++) {
         html += `<div class="clean-day-cell"></div>`;
     }
-
     for (let d = 1; d <= lastDate; d++) {
         let cls = 'clean-day-cell';
         if (d === weddingDay) cls += ' clean-day-wedding';
         html += `<div class="${cls}"><span>${d}</span></div>`;
     }
-
     bodyEl.insertAdjacentHTML('beforeend', html);
 
     const today = new Date();
@@ -1487,19 +1660,16 @@ document.getElementById('intro-overlay').addEventListener('click', function () {
 
 function animateFlipClock(targetNumber) {
     if (targetNumber <= 0) return;
-
     let current = 0;
     const tensEl = document.getElementById('digit-tens');
     const onesEl = document.getElementById('digit-ones');
 
     const interval = setInterval(() => {
         current += Math.ceil(targetNumber / 20);
-
         if (current >= targetNumber) {
             current = targetNumber;
             clearInterval(interval);
         }
-
         const tens = Math.floor(current / 10);
         const ones = current % 10;
 
@@ -1508,7 +1678,6 @@ function animateFlipClock(targetNumber) {
             tensEl.classList.add('flipping');
             setTimeout(() => tensEl.classList.remove('flipping'), 50);
         }
-
         if (onesEl.innerText != ones) {
             onesEl.innerText = ones;
             onesEl.classList.add('flipping');
@@ -1520,18 +1689,15 @@ function animateFlipClock(targetNumber) {
 window.addEventListener('scroll', () => {
     const section = document.getElementById('countdown-section');
     if (!section || hasAnimated) return;
-
     const rect = section.getBoundingClientRect();
     if (rect.top < window.innerHeight && rect.bottom >= 0) {
         hasAnimated = true;
-        setTimeout(() => {
-            animateFlipClock(targetDays);
-        }, 500);
+        setTimeout(() => { animateFlipClock(targetDays); }, 500);
     }
 });
 
 const revealTargets = document.querySelectorAll(
-    '.js-slide-in-right, .js-w1-image-in, .js-w1-text-in'
+    '.js-slide-in-right, .js-w1-image-in, .js-w1-text-in, .js-dual-photo-left, .js-dual-photo-right, .js-dual-text-in, .js-p5-photo, .js-p5-lines, .js-p5-cd, .js-p5-slogan'
 );
 
 if ('IntersectionObserver' in window && revealTargets.length) {
@@ -1542,15 +1708,38 @@ if ('IntersectionObserver' in window && revealTargets.length) {
                 observer.unobserve(entry.target);
             }
         });
-    }, {
-        threshold: 0.15,
-        rootMargin: '0px 0px -5% 0px'
-    });
+    }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
 
     revealTargets.forEach(el => revealObserver.observe(el));
 } else {
     revealTargets.forEach(el => el.classList.add('is-visible'));
 }
+</script>
+
+<script>
+(function() {
+    var target = new Date(2026, 5, 20, 10, 30, 0);
+    function pad(n){ return String(n).padStart(2,'0'); }
+    function tick(){
+        var now = new Date();
+        var diff = target - now;
+        if(diff < 0) diff = 0;
+        var days  = Math.floor(diff / 86400000);
+        var hours = Math.floor((diff % 86400000) / 3600000);
+        var mins  = Math.floor((diff % 3600000) / 60000);
+        var secs  = Math.floor((diff % 60000) / 1000);
+        var d = document.getElementById('p5-days');
+        var h = document.getElementById('p5-hours');
+        var m = document.getElementById('p5-mins');
+        var s = document.getElementById('p5-secs');
+        if(d) d.textContent = pad(days);
+        if(h) h.textContent = pad(hours);
+        if(m) m.textContent = pad(mins);
+        if(s) s.textContent = pad(secs);
+    }
+    tick();
+    setInterval(tick, 1000);
+})();
 </script>
 </body>
 </html>
