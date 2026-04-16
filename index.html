@@ -1575,23 +1575,29 @@ document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
     }
 
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxpJd0PhZTBjHR7OvfmTF3cjsaQdMu6PIkFvTofZYzDAdAtSGwnjudaukjiLmNcBkOTPg/exec';
-
+    const submitBtn = document.querySelector('#rsvp-form .submit-btn');
     try {
-        await fetch(SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify({
-                name,
-                attendance,
-                diet: needExtra ? diet : '',
-                relation: needExtra ? relation : ''
-            })
-        });
-        alert('已收到您的回覆，感謝！');
-        document.getElementById('rsvp-form').reset();
-        document.getElementById('extra-fields').style.display = 'none';
-    } catch (err) {
-        alert('送出失敗，請稍後再試');
-    }
+    submitBtn.disabled = true;
+    submitBtn.textContent = '送出中...';
+
+    await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+            name,
+            attendance,
+            diet: needExtra ? diet : '',
+            relation: needExtra ? relation : ''
+        })
+    });
+    alert('已收到您的回覆，感謝！');
+    document.getElementById('rsvp-form').reset();
+    document.getElementById('extra-fields').style.display = 'none';
+} catch (err) {
+    alert('送出失敗，請稍後再試');
+} finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = '送出回覆';
+}
 });
 
 window.addEventListener('load', function () {
