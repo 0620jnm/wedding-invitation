@@ -1414,6 +1414,17 @@ body {
                         <label><input type="radio" name="attendance" value="no" required> 抱歉，我無法出席</label>
                     </div>
                 </div>
+                <!-- 飲食需求 & 關係（選非無法出席才顯示） -->
+<div id="extra-fields" style="display:none;">
+    <div class="form-group">
+        <label>飲食需求</label>
+        <input type="text" id="guest-diet" placeholder="葷 / 素 / 特殊過敏（例如海鮮、堅果）">
+    </div>
+    <div class="form-group">
+        <label>與我們的關係</label>
+        <input type="text" id="guest-relation" placeholder="親戚 / 朋友 / 同學 / 等等">
+    </div>
+</div>
                 <button type="submit" class="submit-btn">送出回覆</button>
             </form>
         </div>
@@ -1532,6 +1543,17 @@ document.fonts.ready.then(function () {
     const hint = document.getElementById('printHint');
     hint.innerHTML = "點擊以列印相片";
     hint.classList.add('ready');
+});
+
+document.querySelectorAll('input[name="attendance"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        const extraFields = document.getElementById('extra-fields');
+        if (radio.value === 'no') {
+            extraFields.style.display = 'none';
+        } else {
+            extraFields.style.display = 'block';
+        }
+    });
 });
 
 window.addEventListener('load', function () {
