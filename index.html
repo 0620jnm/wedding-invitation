@@ -601,34 +601,6 @@ body {
 .wedding-info-detail { margin-bottom: 10px; }
 .wedding-info-time { margin-bottom: 15px; }
 
-.flip-countdown-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 40px;
-    font-family: 'my font';
-    color: #444;
-    font-size: 1.8rem;
-}
-.flip-box { display: flex; gap: 4px; }
-.flip-digit {
-    background: #fff;
-    border: 1px solid #e0d9d0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    border-radius: 8px;
-    padding: 6px 12px;
-    min-width: 45px;
-    text-align: center;
-    position: relative;
-    transition: transform 0.1s ease-in-out;
-    color: #444;
-}
-.flip-digit.flipping {
-    transform: scale(1.1) translateY(-2px);
-    color: #c9a466;
-}
-
 .calendar-frost-card {
     max-width: 420px;
     margin: 0 auto;
@@ -1302,16 +1274,7 @@ body {
                style="margin-bottom: 30px;">
                加入行事曆
             </a>
-
-            <div class="flip-countdown-wrapper">
-                <span>倒數</span>
-                <div class="flip-box">
-                    <div class="flip-digit" id="digit-tens">0</div>
-                    <div class="flip-digit" id="digit-ones">0</div>
-                </div>
-                <span>天</span>
-            </div>
-
+            
             <div class="calendar-frost-card">
                 <div class="clean-calendar-container">
                     <div class="calendar-title-row">
@@ -1657,44 +1620,6 @@ document.getElementById('intro-overlay').addEventListener('click', function () {
     const diffMs = weddingDate.getTime() - today.getTime();
     targetDays = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
 })();
-
-function animateFlipClock(targetNumber) {
-    if (targetNumber <= 0) return;
-    let current = 0;
-    const tensEl = document.getElementById('digit-tens');
-    const onesEl = document.getElementById('digit-ones');
-
-    const interval = setInterval(() => {
-        current += Math.ceil(targetNumber / 20);
-        if (current >= targetNumber) {
-            current = targetNumber;
-            clearInterval(interval);
-        }
-        const tens = Math.floor(current / 10);
-        const ones = current % 10;
-
-        if (tensEl.innerText != tens) {
-            tensEl.innerText = tens;
-            tensEl.classList.add('flipping');
-            setTimeout(() => tensEl.classList.remove('flipping'), 50);
-        }
-        if (onesEl.innerText != ones) {
-            onesEl.innerText = ones;
-            onesEl.classList.add('flipping');
-            setTimeout(() => onesEl.classList.remove('flipping'), 50);
-        }
-    }, 60);
-}
-
-window.addEventListener('scroll', () => {
-    const section = document.getElementById('countdown-section');
-    if (!section || hasAnimated) return;
-    const rect = section.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom >= 0) {
-        hasAnimated = true;
-        setTimeout(() => { animateFlipClock(targetDays); }, 500);
-    }
-});
 
 const revealTargets = document.querySelectorAll(
     '.js-slide-in-right, .js-w1-image-in, .js-w1-text-in, .js-dual-photo-left, .js-dual-photo-right, .js-dual-text-in, .js-p5-photo, .js-p5-lines, .js-p5-cd, .js-p5-slogan'
