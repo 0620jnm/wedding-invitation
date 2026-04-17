@@ -272,7 +272,20 @@ body {
     0%  { transform: translateY(95%); }
     100%{ transform: translateY(0%); }
 }
-
+@keyframes warmGlowBreath {
+    0% {
+        opacity: 0.72;
+        text-shadow: 0 0 0 rgba(215, 134, 116, 0);
+    }
+    50% {
+        opacity: 0.92;
+        text-shadow: 0 0 10px rgba(215, 134, 116, 0.14);
+    }
+    100% {
+        opacity: 0.72;
+        text-shadow: 0 0 0 rgba(215, 134, 116, 0);
+    }
+}
 .print-photo.is-developed .print-photo-inner {
     animation: developFade 4s forwards;
 }
@@ -367,7 +380,7 @@ body {
 .welcome-line {
     position: relative;
     z-index: 10;
-    font-family: 'Passions Conflict', cursive;
+    font-family: 'Passions Conflict', serif;
     font-size: clamp(9.6rem, 30vw, 15.6rem);
     line-height: 1;
     color: #ffffff;
@@ -388,7 +401,7 @@ body {
     font-size: clamp(1.2rem, 4vw, 1.6rem);
     font-weight: 300;
     position: relative;
-    font-family: 'my font', serif;
+    font-family: 'Passions Conflict', serif;
     margin: 0;
 }
 .welcome-text,
@@ -556,7 +569,7 @@ body {
 }
 .photo-transition-content {
     max-width: 720px;
-    margin: -10px auto 0;
+    margin: 30px auto 0;
     padding: 0 24px 150px;
     position: relative;
     z-index: 3;
@@ -923,7 +936,7 @@ body {
     border-radius: 2px;
 }
 .p5-lines {
-    margin: 0 auto 70px;
+    margin: 0 auto 90px;
     max-width: 420px;
     opacity: 0;
     transform: translateY(20px);
@@ -952,7 +965,7 @@ body {
     display: flex;
     justify-content: center;
     gap: clamp(16px, 5vw, 36px);
-    margin-bottom: 80px;
+    margin-bottom: 100px;
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 1.2s ease 0.35s, transform 1.2s cubic-bezier(0.16,1,0.3,1) 0.35s;
@@ -970,7 +983,7 @@ body {
 }
 .p5-cd-num {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(4rem, 16vw, 6.4rem);
+    font-size: clamp(2.6rem, 16vw, 4.2rem);
     color: #c9a466;
     line-height: 1;
     min-width: 2ch;
@@ -978,21 +991,27 @@ body {
 }
 .p5-cd-label {
     font-family: 'my font';
-    font-size: clamp(1.7rem, 6vw, 2.2rem);
+    font-size: clamp(1rem, 3.8vw, 1.35rem);
     color: #8a7448;
     letter-spacing: 0.15em;
 }
 .p5-slogan {
     font-family: 'ChenYuluoyan', 'my font', cursive;
     font-size: clamp(1.8rem, 6.3vw, 2.7rem);
-    color: #ED7464;
-    letter-spacing: 0.25em;
+    color: #d78674;
+    letter-spacing: 0.18em;
     line-height: 1.6;
     margin-bottom: 0;
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 1.2s ease 0.5s, transform 1.2s cubic-bezier(0.16,1,0.3,1) 0.5s;
     will-change: transform, opacity;
+}
+
+.p5-slogan.is-visible {
+    opacity: 0.88;
+    transform: translateY(0);
+    animation: warmGlowBreath 4.8s ease-in-out infinite;
 }
 .p5-slogan.is-visible {
     opacity: 1;
@@ -1083,12 +1102,12 @@ body {
 }
 .dual-photo-title {
     font-family: 'my font';
-    font-size: clamp(2rem, 7.5vw, 3remm);
+    font-size: clamp(1.3rem, 3.5vw, 1.9rem);
     color: #5a4633;
     letter-spacing: 0.12em;
     line-height: 1.9;
     margin-bottom: 18px;
-    text-align: left;
+    text-align: center;
 }
 .dual-photo-desc {
     font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
@@ -1096,7 +1115,7 @@ body {
     color: #6b5646;
     line-height: 1.9;
     letter-spacing: 0.06em;
-    text-align: left;
+    text-align: center;
 }
 
 /* Forms */
@@ -1427,10 +1446,10 @@ body {
                 <img src="P6.jpg" alt="wedding photo 6">
             </div>
             <div class="p5-lines js-p5-lines">
-                    <div class="p5-line" style="transition-delay: 0s;">邀請你在這一天與我們相聚！</div>
+                    <div class="p5-line" style="transition-delay: 0s;">邀請你在這一天<br>與我們相聚！</div>
                     <div class="p5-line" style="transition-delay: 0.5s;">和我們一起來見證</div>
-                    <div class="p5-line" style="transition-delay: 0.75s;">這段跨越距離的日子 終於落定</div>
-                    <div class="p5-line" style="transition-delay: 1s;">有你的參與，都將是我們很大的支持與鼓勵！</div>
+                    <div class="p5-line" style="transition-delay: 0.75s;">這段跨越距離的日子<br>終於落定</div>
+                    <div class="p5-line" style="transition-delay: 1s;">有你的參與，<br>都將是我們很大的支持與鼓勵！</div>
             </div>
             <div class="p5-countdown js-p5-cd">
                 <div class="p5-cd-item">
