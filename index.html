@@ -687,10 +687,17 @@ body {
 .wedding-info-time {
     font-family: 'my font';
     font-size: 1.8rem;
+}
+
+.wedding-info-detail {
+    margin-bottom: 10px;
     color: #c9a466;
 }
-.wedding-info-detail { margin-bottom: 10px; }
-.wedding-info-time { margin-bottom: 15px; }
+
+.wedding-info-time {
+    margin-bottom: 15px;
+    color: #888;
+}
 
 .calendar-frost-card {
     max-width: 420px;
@@ -1112,11 +1119,12 @@ body {
     letter-spacing: 0.05em;
 }
 .dual-photo-text-block {
-    padding: 0 4px;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, opacity 1.2s ease 0.2s;
-    will-change: transform, opacity;
+    font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
+    font-size: clamp(1.1rem, 3.3vw, 1.7rem);
+    color: #6b5646;
+    line-height: 1.8;
+    letter-spacing: 0.06em;
+    text-align: center
 }
 .dual-photo-text-block.is-visible {
     opacity: 1;
