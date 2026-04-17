@@ -15,7 +15,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gwendolyn:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+TC:wght@200;300;400;500;700&family=Passions+Conflict&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
 @font-face {
@@ -364,7 +364,33 @@ body {
     margin-bottom: 15px;
     flex-wrap: wrap;
 }
+.welcome-line {
+    position: relative;
+    z-index: 10;
+    font-family: 'Passions Conflict', cursive;
+    font-size: clamp(3.2rem, 10vw, 5.2rem);
+    line-height: 1;
+    color: #ffffff;
+    margin-bottom: 8px;
+    text-align: center;
+}
 
+.cover-topline {
+    position: relative;
+    z-index: 10;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.getting-married-text {
+    color: #c9a466;
+    letter-spacing: 0.3em;
+    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    font-weight: 300;
+    position: relative;
+    font-family: 'my font', serif;
+    margin: 0;
+}
 .welcome-text,
 .getting-married-text {
     font-family: 'my font', serif;
@@ -531,7 +557,7 @@ body {
 .photo-transition-content {
     max-width: 720px;
     margin: -10px auto 0;
-    padding: 0 24px 130px;
+    padding: 0 24px 150px;
     position: relative;
     z-index: 3;
     text-align: center;
@@ -592,6 +618,7 @@ body {
     letter-spacing: 0.12em;
     margin-bottom: 22px;
     line-height: 1.6;
+    text-align: center
 }
 .slide-photo-desc {
     font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
@@ -599,6 +626,7 @@ body {
     color: #6b5646;
     line-height: 1.8;
     letter-spacing: 0.06em;
+    text-align: center
 }
 
 /* Info */
@@ -1262,10 +1290,10 @@ body {
 
 <div id="main-wrapper">
     <div class="cover">
-       <div class="cover-topline">
-    <span class="welcome-text">Welcome to</span>
-    <span class="getting-married-text">The Wedding of</span>
-</div>
+        <div class="welcome-line">Welcome</div>
+        <div class="cover-topline">
+            <span class="getting-married-text">The Wedding of</span>
+        </div>
         <div class="name-container">
             <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
             <div class="chinese-names"><span>蔡宇杰</span><span>陳旻瑄</span></div>
@@ -1292,8 +1320,8 @@ body {
                 <img src="W3.jpg" alt="wedding photo 2">
             </div>
             <div class="slide-photo-text">
-                <div class="slide-photo-title">「後來才發現，<br>每件想分享的事，第一個想到的始終是你。」</div>
-                <div class="slide-photo-desc">Turns out, every beginning carried your name.</div>
+                <div class="slide-photo-title">後來才發現，<br>每件想分享的事，第一個想到的<br>始終是你。</div>
+                <div class="slide-photo-desc">Turns out,<br>every beginning carried your name.</div>
             </div>
         </div>
     </section>
