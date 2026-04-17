@@ -342,11 +342,15 @@ body {
 .cover::before {
     content: "";
     position: absolute;
-    inset: 0;
+    inset: -4%;
     background-image: url('bg_silk.jpg.png');
     background-size: cover;
     background-position: center;
     z-index: 1;
+    transform: scale(1.08) translate3d(0, 0, 0);
+    transform-origin: center center;
+    animation: coverBgFloat 16s ease-in-out infinite alternate;
+    will-change: transform;
 }
 .cover::after {
     content: "";
@@ -489,6 +493,17 @@ body {
     50% {
         transform: rotate(45deg) translate(7px, 7px);
         opacity: 1;
+    }
+}
+@keyframes coverBgFloat {
+    0% {
+        transform: scale(1.08) translate3d(0, 0, 0);
+    }
+    50% {
+        transform: scale(1.14) translate3d(-1.2%, -1.8%, 0);
+    }
+    100% {
+        transform: scale(1.1) translate3d(1%, 1.2%, 0);
     }
 }
 @keyframes scrollHintFadeIn {
@@ -1185,6 +1200,48 @@ body {
 }
 
 /* Wishes */
+
+    .sticky-note.is-pinning {
+    animation: notePinDrop 0.75s cubic-bezier(0.18, 0.9, 0.2, 1) both;
+    transform-origin: top center;
+}
+
+.sticky-note.is-pinning::before {
+    animation: pinPop 0.45s ease-out 0.18s both;
+}
+
+@keyframes notePinDrop {
+    0% {
+        opacity: 0;
+        transform: translateY(-34px) scale(0.92) rotate(var(--note-rot));
+        box-shadow: 0 0 0 rgba(0,0,0,0);
+    }
+    55% {
+        opacity: 1;
+        transform: translateY(8px) scale(1.02) rotate(calc(var(--note-rot) + 0.4deg));
+        box-shadow: 0 16px 28px rgba(0,0,0,0.14);
+    }
+    100% {
+        opacity: 1;
+        transform: rotate(var(--note-rot)) translate(var(--note-x), var(--note-y));
+        box-shadow: 3px 6px 15px rgba(0,0,0,0.1);
+    }
+}
+
+@keyframes pinPop {
+    0% {
+        transform: translateX(-50%) scale(0.2);
+        opacity: 0;
+    }
+    65% {
+        transform: translateX(-50%) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+    }
+}
 .sticky-wall {
     display: flex;
     flex-wrap: wrap;
@@ -1307,7 +1364,6 @@ body {
 
 <div id="main-wrapper">
 <div class="cover">
-    <p style="font-family:'Gwendolyn', cursive; color:#c9a466; font-size:clamp(2rem, 7vw, 3.2rem); letter-spacing:0.08em; margin-bottom:8px; font-weight:400; z-index:10; position:relative;">Welcome to</p>
     <p class="getting-married-text">The Wedding of</p>
     <div class="name-container">
         <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
@@ -1324,7 +1380,7 @@ body {
             <img src="W2.jpg" alt="wedding photo">
         </div>
         <div class="photo-transition-content">
-            <div class="photo-transition-title">八年來，總是在道別的我們<br>這一次我們終於要一起回家了！</div>
+            <div class="photo-transition-title">八年來，總是在道別的我們<br>這一次要一起回家了！</div>
             <div class="photo-transition-text">After years of parting,<br>we finally on our way home－together.</div>
         </div>
     </section>
@@ -1442,10 +1498,10 @@ body {
                 <img src="P6.jpg" alt="wedding photo 6">
             </div>
             <div class="p5-lines js-p5-lines">
-                    <div class="p5-line" style="transition-delay: 0s;">邀請你在這一天<br>與我們相聚！</div>
-                    <div class="p5-line" style="transition-delay: 0.5s;">和我們一起來見證</div>
-                    <div class="p5-line" style="transition-delay: 0.75s;">這段跨越距離的日子<br>終於落定</div>
-                    <div class="p5-line" style="transition-delay: 1s;">有你的參與，<br>都將是我們很大的支持與鼓勵！</div>
+                    <div class="p5-line" style="transition-delay: 0s;">邀請你在這一天<br>與我們相聚！<br></div>
+                    <div class="p5-line" style="transition-delay: 0.5s;">和我們一起見證</div>
+                    <div class="p5-line" style="transition-delay: 0.75s;">這段跨越距離的日子<br>終於落定<br></div>
+                    <div class="p5-line" style="transition-delay: 1s;">有你的參與，<br>都將是對我們很大的支持與鼓勵！</div>
             </div>
             <div class="p5-countdown js-p5-cd">
                 <div class="p5-cd-item">
@@ -1564,18 +1620,26 @@ onValue(wishesRef, (snapshot) => {
     const messages = Object.values(data).reverse();
     messages.forEach((item, index) => {
         const note = document.createElement('div');
-        note.className = 'sticky-note';
-        const rot = (Math.random() - 0.5) * 12;
-        const x = (index % 2 === 0 ? -1 : 1) * (Math.random() * 20);
-        const y = (Math.random() - 0.5) * 15;
-        note.style.setProperty('--note-rot', `${rot}deg`);
-        note.style.setProperty('--note-x', `${x}px`);
-        note.style.setProperty('--note-y', `${y}px`);
-        note.innerHTML = `
-            <div class="note-text">${item.message}</div>
-            <div class="note-author">From: ${item.name}</div>
-        `;
-        wall.appendChild(note);
+note.className = index === 0 ? 'sticky-note is-pinning' : 'sticky-note';
+
+const rot = (Math.random() - 0.5) * 12;
+const x = (index % 2 === 0 ? -1 : 1) * (Math.random() * 20);
+const y = (Math.random() - 0.5) * 15;
+
+note.style.setProperty('--note-rot', `${rot}deg`);
+note.style.setProperty('--note-x', `${x}px`);
+note.style.setProperty('--note-y', `${y}px`);
+
+note.innerHTML = `
+    <div class="note-text">${item.message}</div>
+    <div class="note-author">From: ${item.name}</div>
+`;
+
+wall.appendChild(note);
+
+setTimeout(() => {
+    note.classList.remove('is-pinning');
+}, 900);
     });
 });
 </script>
