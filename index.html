@@ -271,18 +271,27 @@ body {
     0%  { transform: translateY(95%); }
     100%{ transform: translateY(0%); }
 }
-@keyframes warmGlowBreath {
+@keyframes warmGlowBreathStrong {
     0% {
-        opacity: 0.72;
-        text-shadow: 0 0 0 rgba(215, 134, 116, 0);
+        opacity: 0.68;
+        text-shadow:
+            0 0 0 rgba(224, 123, 104, 0),
+            0 0 0 rgba(255, 214, 186, 0);
+        filter: saturate(0.96) brightness(0.98);
     }
     50% {
         opacity: 1;
-        text-shadow: 0 0 12px rgba(215, 134, 116, 0.18);
+        text-shadow:
+            0 0 12px rgba(224, 123, 104, 0.26),
+            0 0 24px rgba(255, 214, 186, 0.18);
+        filter: saturate(1.08) brightness(1.06);
     }
     100% {
-        opacity: 0.72;
-        text-shadow: 0 0 0 rgba(215, 134, 116, 0);
+        opacity: 0.68;
+        text-shadow:
+            0 0 0 rgba(224, 123, 104, 0),
+            0 0 0 rgba(255, 214, 186, 0);
+        filter: saturate(0.96) brightness(0.98);
     }
 }
 .print-photo.is-developed .print-photo-inner {
@@ -1014,21 +1023,21 @@ body {
 }
 .p5-slogan {
     font-family: 'ChenYuluoyan', 'my font', cursive;
-    font-size: clamp(1.8rem, 6.3vw, 2.7rem);
-    color: #d78674;
+    font-size: clamp(1.95rem, 6.8vw, 2.95rem);
+    color: #e07b68;
     letter-spacing: 0.18em;
     line-height: 1.6;
     margin-bottom: 0;
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 1.2s ease 0.5s, transform 1.2s cubic-bezier(0.16,1,0.3,1) 0.5s;
-    will-change: transform, opacity;
+    will-change: transform, opacity, filter;
 }
 
 .p5-slogan.is-visible {
     opacity: 0.9;
     transform: translateY(0);
-    animation: warmGlowBreath 3.8s ease-in-out infinite;
+    animation: warmGlowBreathStrong 3.4s ease-in-out infinite;
 }
 
 /* P4 P5 雙照片區塊 */
@@ -1481,13 +1490,10 @@ body {
             </div>
             <div class="dual-photo-text-block js-dual-text-in">
                 <div class="dual-photo-title">
-                    「有了彼此後，<br>
-                    我們漸漸期待起了有對方的生活」
+                    那一句「我們下次什麼時候見面」<br>
+                    也有了踏實的答案。
                 </div>
-                <div class="dual-photo-desc">
-                    Life, somehow, <br>
-                    became something we look forward to.
-                </div>
+               
             </div>
         </div>
 
