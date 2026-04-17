@@ -354,7 +354,31 @@ body {
     z-index: 2;
     pointer-events: none;
 }
+.cover-topline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    position: relative;
+    z-index: 10;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
 
+.welcome-text,
+.getting-married-text {
+    font-family: 'my font', serif;
+    color: #c9a466;
+    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    letter-spacing: 0.3em;
+    font-weight: 300;
+    margin: 0;
+    position: relative;
+}
+
+.getting-married-text {
+    margin-bottom: 0;
+}
 .getting-married-text {
     color:#c9a466;
     margin-bottom: 15px;
@@ -510,7 +534,7 @@ body {
     padding: 0 24px 80px;
     position: relative;
     z-index: 3;
-    text-align: left;
+    text-align: center;
 }
 .photo-transition-title {
     font-family: 'my font';
