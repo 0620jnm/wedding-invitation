@@ -277,8 +277,8 @@ body {
         text-shadow: 0 0 0 rgba(215, 134, 116, 0);
     }
     50% {
-        opacity: 0.92;
-        text-shadow: 0 0 10px rgba(215, 134, 116, 0.14);
+        opacity: 1;
+        text-shadow: 0 0 12px rgba(215, 134, 116, 0.18);
     }
     100% {
         opacity: 0.72;
@@ -397,17 +397,17 @@ body {
 .getting-married-text {
     color: #c9a466;
     margin-bottom: 15px;
-    letter-spacing: 0.06em;
-    font-size: clamp(2.2rem, 7vw, 3.8rem);
+    letter-spacing: 0.04em;
+    font-size: clamp(2.1rem, 7vw, 3.6rem);
     z-index: 10;
     font-weight: 400;
     position: relative;
-    font-family: 'Passions Conflict', cursive;
+    font-family: 'Passions Conflict', cursive !important;
     line-height: 1;
 }
 .welcome-text,
 .getting-married-text {
-    font-family: 'my font', serif;
+    font-family: 'Passions Conflict', cursive;
     color: #c9a466;
     font-size: clamp(1.2rem, 4vw, 1.6rem);
     letter-spacing: 0.3em;
@@ -1011,13 +1011,9 @@ body {
 }
 
 .p5-slogan.is-visible {
-    opacity: 0.88;
+    opacity: 0.9;
     transform: translateY(0);
-    animation: warmGlowBreath 4.8s ease-in-out infinite;
-}
-.p5-slogan.is-visible {
-    opacity: 1;
-    transform: translateY(0);
+    animation: warmGlowBreath 3.8s ease-in-out infinite;
 }
 
 /* P4 P5 雙照片區塊 */
@@ -1310,13 +1306,11 @@ body {
 </div>
 
 <div id="main-wrapper">
-    <div class="cover">
-        <div class="welcome-line">Welcome</div>
-        <div class="cover-topline">
-            <span class="getting-married-text">The Wedding of</span>
-        </div>
-        <div class="name-container">
-            <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
+<div class="cover">
+    <p style="font-family:'Gwendolyn', cursive; color:#c9a466; font-size:clamp(2rem, 7vw, 3.2rem); letter-spacing:0.08em; margin-bottom:8px; font-weight:400; z-index:10; position:relative;">Welcome to</p>
+    <p class="getting-married-text">The Wedding of</p>
+    <div class="name-container">
+        <div class="english-names">Jay <span class="amp">&</span> Michelle</div>
             <div class="chinese-names"><span>蔡宇杰</span><span>陳旻瑄</span></div>
         </div>
         <p style="margin-top:35px; color:#c9a466; font-size: 1rem; letter-spacing: 0.3em; font-family: 'my font';">2026·06·20</p>
