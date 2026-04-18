@@ -422,7 +422,7 @@ body {
 .getting-married-text {
     font-family: 'Passions Conflict', cursive;
     color: #c9a466;
-    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    font-size: clamp(1.5rem, 4.3vw, 1.9rem);
     letter-spacing: 0.3em;
     font-weight: 300;
     margin: 0;
@@ -608,8 +608,24 @@ body {
     margin-bottom: 24px;
     line-height: 1.6;
 }
+.photo-transition-title,
 .photo-transition-text {
-    font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 1.4s ease, transform 1.4s ease;
+}
+
+.photo-transition-text {
+    transition-delay: 0.28s;
+}
+
+.photo-transition-title.is-visible,
+.photo-transition-text.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.photo-transition-text {
+    font-family: 'Cormorant Garamond', 'Playfair Display', serif;
     font-size: clamp(1.1rem, 3.3vw, 1.7rem);
     color: #6b5646;
     line-height: 1.8;
@@ -660,7 +676,7 @@ body {
     text-align: center
 }
 .slide-photo-desc {
-    font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
+    font-family: 'Cormorant Garamond', 'Playfair Display', serif;
     font-size: clamp(1.1rem, 3.3vw, 1.7rem);
     color: #6b5646;
     line-height: 1.8;
@@ -1525,9 +1541,10 @@ body {
             </div>
             <div class="dual-photo-text-block js-dual-text-in">
                 <div class="dual-photo-title">
-                    那一句「我們下次什麼時候見面?」<br>
-                    這一次終於有了踏實的答案。
-                    <div class="dual-photo-text">We finally has a reassuring answer of<br>“When will we get to see each other next time?”</div>
+                    "青春的誓言 紮了根<br>願望比誰都深<br>
+過了門 永遠是一家人"
+                    <div class="dual-photo-text">"Promise made at youth now rooted in heart,<br>the hope is deeper than any others<br>
+Once we cross this threshold,<br>we step into forever as family."</div>
                 </div>
                
             </div>
@@ -1901,7 +1918,23 @@ if ('IntersectionObserver' in window && revealTargets.length) {
     revealTargets.forEach(el => el.classList.add('is-visible'));
 }
 </script>
+<script>
+const photoTransitionTitle = document.querySelector('.photo-transition-title');
+const photoTransitionText = document.querySelector('.photo-transition-text');
 
+const photoTransitionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            photoTransitionTitle?.classList.add('is-visible');
+            photoTransitionText?.classList.add('is-visible');
+        }
+    });
+}, {
+    threshold: 0.35
+});
+
+if (photoTransitionTitle) photoTransitionObserver.observe(photoTransitionTitle);
+</script>
 <script>
 (function() {
     var target = new Date(2026, 5, 20, 10, 30, 0);
