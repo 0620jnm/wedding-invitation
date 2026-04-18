@@ -411,7 +411,7 @@ body {
     color: #c9a466;
     margin-bottom: 15px;
     letter-spacing: 0.04em;
-    font-size: clamp(2.3rem, 7.3vw, 3.9rem);
+    font-size: clamp(2.6rem, 7.6vw, 4.5rem);
     z-index: 10;
     font-weight: 400;
     position: relative;
@@ -686,7 +686,7 @@ body {
 .wedding-info-detail,
 .wedding-info-time {
     font-family: 'my font';
-    font-size: 1.8rem;
+    font-size: 1.6rem;
 }
 
 .wedding-info-detail {
@@ -1118,13 +1118,17 @@ body {
     color: #c9a466;
     letter-spacing: 0.05em;
 }
-.dual-photo-text-block {
-    font-family: 'Cormorant Garamond', 'Noto Serif TC', serif;
+.dual-photo-text {
+    font-family: 'Cormorant Garamond', 'Playfair Display', serif;
     font-size: clamp(1.1rem, 3.3vw, 1.7rem);
+    font-style: italic;
+    font-weight: 400;
     color: #6b5646;
     line-height: 1.8;
-    letter-spacing: 0.06em;
-    text-align: center
+    letter-spacing: 0.03em;
+    text-align: center;
+    margin-top: 16px;
+}
 }
 .dual-photo-text-block.is-visible {
     opacity: 1;
@@ -1295,14 +1299,37 @@ body {
 .sticky-note::before {
     content: "";
     position: absolute;
-    top: -12px;
+    top: -16px;
     left: 50%;
     transform: translateX(-50%);
-    width: 24px;
-    height: 24px;
-    background-color: #a82424;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    z-index: 2;
+    z-index: 3;
+    background:
+        radial-gradient(circle at 32% 30%, rgba(255,255,255,0.95) 0 16%, rgba(255,255,255,0.28) 17% 26%, rgba(255,255,255,0) 27%),
+        radial-gradient(circle at 38% 35%, #f26b6b 0%, #d93f3f 38%, #b72121 68%, #7f1010 100%);
+    box-shadow:
+        inset -3px -5px 7px rgba(78, 8, 8, 0.45),
+        inset 2px 3px 5px rgba(255,255,255,0.28),
+        0 4px 8px rgba(86, 18, 18, 0.28),
+        0 10px 10px rgba(0,0,0,0.10);
+}
+
+.sticky-note::after {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    width: 3px;
+    height: 18px;
+    transform: translateX(-50%);
+    background: linear-gradient(to bottom, #d8d8d8 0%, #9f9f9f 45%, #6c6c6c 100%);
+    border-radius: 999px;
+    box-shadow:
+        inset 1px 0 0 rgba(255,255,255,0.5),
+        0 2px 3px rgba(0,0,0,0.18);
+    z-index: 1;
 }
 .sticky-note:nth-child(5n+1) { background-color: #C9A466; }
 .sticky-note:nth-child(5n+2) { background-color: #EBDDB5; }
@@ -1499,8 +1526,8 @@ body {
             <div class="dual-photo-text-block js-dual-text-in">
                 <div class="dual-photo-title">
                     那一句「我們下次什麼時候見面?」<br>
-                    終於也有了踏實的答案。
-                    <div class="dual-photo-text">“When will we get to see each other next time?”,<br>finally has a certain and reassuring answer.</div>
+                    這一次終於有了踏實的答案。
+                    <div class="dual-photo-text">We finally has a reassuring answer of<br>“When will we get to see each other next time?”</div>
                 </div>
                
             </div>
