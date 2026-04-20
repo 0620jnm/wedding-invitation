@@ -1726,6 +1726,7 @@ body {
 
 <button id="musicToggle">▶</button>
 <div id="player" style="position:fixed; top:-9999px;"></div>
+    <div id="custom-alert" class="custom-alert">
 
 <script src="https://www.youtube.com/iframe_api"></script>
 
@@ -1852,16 +1853,19 @@ document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
 
     const name = document.getElementById('guest-name').value.trim();
     if (!name) { showCustomAlert('請填寫姓名'); return; }
-if (!attendance) { showCustomAlert('請選擇出席意願'); return; }
+
+    const attendance = document.querySelector('input[name="attendance"]:checked')?.value;
+    if (!attendance) { showCustomAlert('請選擇出席意願'); return; }
 
     const needExtra = attendance !== 'no' && attendance !== 'ceremony_only';
     const diet = document.getElementById('guest-diet').value.trim();
     const relation = document.getElementById('guest-relation').value.trim();
 
     if (needExtra && (!diet || !relation)) {
-        alert('請填寫飲食需求與關係欄位');
+        showCustomAlert('請填寫飲食需求與關係欄位');
         return;
     }
+});
 
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxpJd0PhZTBjHR7OvfmTF3cjsaQdMu6PIkFvTofZYzDAdAtSGwnjudaukjiLmNcBkOTPg/exec';
     const submitBtn = document.querySelector('#rsvp-form .submit-btn');
@@ -1886,11 +1890,11 @@ if (!attendance) { showCustomAlert('請選擇出席意願'); return; }
          relation: needExtra ? relation : ''
         })
     });
-    alert('已收到您的回覆，感謝！');
+    showCustomAlert('已收到您的回覆，感謝！');
     document.getElementById('rsvp-form').reset();
     document.getElementById('extra-fields').style.display = 'none';
 } catch (err) {
-    alert('送出失敗，請稍後再試');
+    showCustomAlert('送出失敗，請稍後再試');
 } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = '送出回覆';
@@ -2052,7 +2056,7 @@ if (photoTransitionTitle) photoTransitionObserver.observe(photoTransitionTitle);
     setInterval(tick, 1000);
 })();
 </script>
-    <div id="custom-alert" class="custom-alert">
+    
   <div class="custom-alert-box">
     <div id="custom-alert-text">已收到您的回覆，感謝！</div>
     <button id="custom-alert-ok">確定</button>
