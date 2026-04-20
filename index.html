@@ -737,7 +737,6 @@ body {
     color: #7b6858;
     text-align: center;  /* 加這行 */
 }
-}
 /* Info */
 .info-section {
     padding: 80px 20px;
@@ -1223,7 +1222,6 @@ body {
     text-align: center;
     margin-top: 16px;
 }
-}
 .dual-photo-text-block.is-visible {
     opacity: 1;
     transform: translateY(0);
@@ -1683,8 +1681,8 @@ body {
                     <label>請選擇您的出席意願</label>
                     <div class="radio-stack">
                         <label><input type="radio" name="attendance" value="both" required> 證婚儀式與午宴都會參加！</label>
-                        <label><input type="radio" name="attendance" value="banquet_only" required> 僅參加午宴</label>
-                        <label><input type="radio" name="attendance" value="ceremony_only" required> 僅參加證婚儀式</label>
+                        <label><input type="radio" name="attendance" value="banquetonly" required> 僅參加午宴</label>
+                        <label><input type="radio" name="attendance" value="ceremonyonly" required> 僅參加證婚儀式</label>
                         <label><input type="radio" name="attendance" value="no" required> 抱歉，我無法出席</label>
                     </div>
                 </div>
@@ -1727,6 +1725,11 @@ body {
 <button id="musicToggle">▶</button>
 <div id="player" style="position:fixed; top:-9999px;"></div>
     <div id="custom-alert" class="custom-alert">
+         <div class="custom-alert-box">
+            <div id="custom-alert-text">已收到您的回覆，感謝！</div>
+            <button id="custom-alert-ok">確定</button>
+  </div>
+</div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 
@@ -1840,7 +1843,7 @@ document.fonts.ready.then(function () {
 document.querySelectorAll('input[name="attendance"]').forEach(radio => {
     radio.addEventListener('change', () => {
         const extraFields = document.getElementById('extra-fields');
-        if (radio.value === 'no' || radio.value === 'ceremony_only') {
+        if (radio.value === 'no' || radio.value === 'ceremonyonly') {
             extraFields.style.display = 'none';
         } else {
             extraFields.style.display = 'block';
@@ -1857,7 +1860,7 @@ document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
     const attendance = document.querySelector('input[name="attendance"]:checked')?.value;
     if (!attendance) { showCustomAlert('請選擇出席意願'); return; }
 
-    const needExtra = attendance !== 'no' && attendance !== 'ceremony_only';
+    const needExtra = attendance !== 'no' && attendance !== 'ceremonyonly';
     const diet = document.getElementById('guest-diet').value.trim();
     const relation = document.getElementById('guest-relation').value.trim();
 
@@ -1865,15 +1868,14 @@ document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
         showCustomAlert('請填寫飲食需求與關係欄位');
         return;
     }
-});
 
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxpJd0PhZTBjHR7OvfmTF3cjsaQdMu6PIkFvTofZYzDAdAtSGwnjudaukjiLmNcBkOTPg/exec';
     const submitBtn = document.querySelector('#rsvp-form .submit-btn');
     
     const attendanceMap = {
     both: '證婚儀式與午宴都參加',
-    banquet_only: '僅參加午宴',
-    ceremony_only: '僅參加證婚儀式',
+    banquetonly: '僅參加午宴',
+    ceremonyonly: '僅參加證婚儀式',
     no: '無法出席'
     };
     
@@ -2057,10 +2059,6 @@ if (photoTransitionTitle) photoTransitionObserver.observe(photoTransitionTitle);
 })();
 </script>
     
-  <div class="custom-alert-box">
-    <div id="custom-alert-text">已收到您的回覆，感謝！</div>
-    <button id="custom-alert-ok">確定</button>
-  </div>
-</div>
+ 
 </body>
 </html>
