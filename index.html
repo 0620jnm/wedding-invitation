@@ -528,7 +528,8 @@ body {
 
 /* Buttons */
 .action-btn {
-    display: inline-flex;
+    display: flex;
+    width: fit-content;
     align-items: center;
     justify-content: center;
     min-width: 140px;
@@ -546,6 +547,8 @@ body {
     transition: transform 0.2s ease, opacity 0.2s ease;
     appearance: none;
     -webkit-appearance: none;
+    margin-left: auto;
+    margin-right: auto;
 }
 .action-btn:hover { opacity: 0.92; }
 .action-btn:active { transform: scale(0.96); }
@@ -1473,9 +1476,7 @@ body {
             <a href="data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:20260620T023000Z%0ADTEND:20260620T070000Z%0ASUMMARY:Jay%20%26%20Michelle%20%E5%A9%9A%E7%A6%AE%0ADESCRIPTION:%E6%9C%9F%E5%BE%85%E6%82%A8%E7%9A%84%E5%88%B0%E4%BE%86%EF%BC%81%0ALOCATION:%E6%9A%96%E5%B1%85%E6%97%A5%E7%A9%80%0AEND:VEVENT%0AEND:VCALENDAR"
                download="Jay_Michelle_Wedding.ics"
                class="action-btn"
-               style="margin-bottom: 30px;
-                align-items: center;
-    justify-content: center;">
+               style="margin: 0 auto 30px;">
                加入行事曆
             </a>
             
@@ -1517,7 +1518,7 @@ body {
 
         <div class="location-card">
             <p class="location-title">暖居日穀</p>
-            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 5px;">
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                 <p class="location-text">台中市北屯區松竹路一段3號</p>
                 <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');" class="action-btn">
                     複製地址
@@ -1530,7 +1531,7 @@ body {
                target="_blank"
                rel="noopener noreferrer"
                class="action-btn"
-               style="margin-top: 10px;">
+               style="margin: 10px auto 0;">
                開啟地圖導航
             </a>
         </div>
