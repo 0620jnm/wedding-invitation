@@ -27,7 +27,16 @@
     src: url('https://cdn.jsdelivr.net/gh/Chenyu-otf/chenyuluoyan_thin@main/ChenYuluoyan-Thin.ttf') format('truetype');
     font-display: swap;
 }
-
+.p5-countdown-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 3.5vw, 1.35rem);
+    color: #8a7448;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 18px;
+    opacity: 0.9;
+}
 * {
     margin: 0;
     padding: 0;
@@ -705,6 +714,18 @@ body {
     border-radius: 0;
     box-shadow: none;
 }
+.info-card,
+.location-card {
+    text-align: center;
+}
+
+.wedding-info-detail,
+.wedding-info-time,
+.location-title,
+.location-text {
+    width: 100%;
+    text-align: center;
+}
 .wedding-info-detail,
 .wedding-info-time {
     font-family: 'my font';
@@ -713,7 +734,15 @@ body {
     justify-content: center;
     
 }
-
+.wedding-info-detail,
+.wedding-info-time,
+.location-title {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
 .wedding-info-detail {
     margin-bottom: 10px;
     color: #c9a466;
@@ -1061,7 +1090,7 @@ body {
     color: #e07b68;
     letter-spacing: 0.18em;
     line-height: 1.6;
-    margin-bottom: 0;
+    margin-bottom: 60px;
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 1.2s ease 0.5s, transform 1.2s cubic-bezier(0.16,1,0.3,1) 0.5s;
@@ -1571,6 +1600,7 @@ body {
                     <div class="p5-line" style="transition-delay: 0.75s;">這段跨越距離的日子<br>終於落定<br></div>
                     <div class="p5-line" style="transition-delay: 1s;">有你的參與，<br>都將是對我們很大的支持與鼓勵！</div>
             </div>
+            <div class="p5-countdown-title">距離我們的這一天</div>
             <div class="p5-countdown js-p5-cd">
                 <div class="p5-cd-item">
                     <span class="p5-cd-num" id="p5-days">00</span>
