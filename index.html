@@ -106,7 +106,46 @@ body {
     color: #8a7448;
     letter-spacing: 0.1em;
 }
+.custom-alert {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.38);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 50000;
+    padding: 24px;
+}
 
+.custom-alert.show {
+    display: flex;
+}
+
+.custom-alert-box {
+    width: min(420px, 100%);
+    background: #fff;
+    border-radius: 24px;
+    padding: 32px 24px 22px;
+    text-align: center;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.16);
+}
+
+#custom-alert-text {
+    font-family: 'my font';
+    font-size: 1.5rem;
+    line-height: 1.8;
+    color: #5a4633;
+    margin-bottom: 24px;
+}
+
+#custom-alert-ok {
+    border: none;
+    background: transparent;
+    color: #2c2c2c;
+    font-family: 'my font';
+    font-size: 1.5rem;
+    cursor: pointer;
+}
 /* Intro */
 #intro-overlay {
     position: fixed;
@@ -274,7 +313,7 @@ body {
 /* 照片從頂部噴出動畫 */
 .print-photo.is-printing {
     opacity: 1;
-    animation: photoPrint 3.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+    animation: photoPrint 4s cubic-bezier(0.18, 0.7, 0.2, 1) forwards;
 }
 @keyframes photoPrint {
     0%  { transform: translateY(95%); }
@@ -1415,7 +1454,15 @@ body {
     .split-photo-section { width: calc(100% + 40px); margin: 55px 0 0 -20px; }
     .split-photo-inner { grid-template-columns: 1fr 1fr; }
     .split-photo-image-wrap { min-height: 340px; }
-    .split-photo-content { min-height: 340px; padding: 28px 20px 28px 14px; align-items: center; justify-content: flex-end; text-align: right; }
+   .split-photo-content {
+    padding: 70px 72px 70px 36px;
+}
+
+.split-photo-text-inner {
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: 24px;
+}
     .split-photo-text-inner { max-width: none; margin-left: auto; margin-right: 0; text-align: right; }
     .split-photo-title { font-size: clamp(1.15rem, 4.2vw, 1.65rem); line-height: 1.9; margin-bottom: 16px; text-align: right; }
     .split-photo-text { font-size: clamp(0.95rem, 3.2vw, 1.3rem); line-height: 1.9; text-align: right; }
@@ -1490,7 +1537,7 @@ body {
                 <img src="W3.jpg" alt="wedding photo 2">
             </div>
             <div class="slide-photo-text">
-                <div class="slide-photo-title">"我想，我找到了<br>從今往後想一起慢慢變老的人"</div>
+                <div class="slide-photo-title">''我想，我找到了<br>從今往後想一起慢慢變老的人''</div>
                 <div class="slide-photo-desc">"I think I've found the one with whom<br>I wish to grow old, from this day forward."</div>
             </div>
         </div>
@@ -1548,7 +1595,7 @@ body {
             <p class="location-title">暖居日穀</p>
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                 <p class="location-text">台中市北屯區松竹路一段3號</p>
-                <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); alert('地址已複製！');" class="action-btn">
+                <button onclick="navigator.clipboard.writeText('台中市北屯區松竹路一段3號'); showCustomAlert('地址已複製！');" class="action-btn">
                     複製地址
                 </button>
             </div>
@@ -1580,7 +1627,7 @@ body {
             </div>
             <div class="dual-photo-text-block js-dual-text-in">
                 <div class="dual-photo-title">
-                    "過了門 永遠是一家人"
+                    ''過了門 永遠是一家人''
                     <div class="dual-photo-text">"Once we cross this threshold,<br>we step into forever as family."</div>
                 </div>
                
@@ -1764,7 +1811,16 @@ function setLoaderProgress(value) {
     loaderFill.style.width = safeValue + '%';
     loaderText.textContent = Math.floor(safeValue) + '%';
 }
+function showCustomAlert(message) {
+    const modal = document.getElementById('custom-alert');
+    const text = document.getElementById('custom-alert-text');
+    text.textContent = message;
+    modal.classList.add('show');
+}
 
+document.getElementById('custom-alert-ok').addEventListener('click', () => {
+    document.getElementById('custom-alert').classList.remove('show');
+});
 const loaderTimer = setInterval(() => {
     if (fakeProgress < 95) {
         fakeProgress += Math.random() * 2 + 1;
@@ -1795,10 +1851,8 @@ document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const name = document.getElementById('guest-name').value.trim();
-    if (!name) { alert('請填寫姓名'); return; }
-
-    const attendance = document.querySelector('input[name="attendance"]:checked')?.value;
-    if (!attendance) { alert('請選擇出席意願'); return; }
+    if (!name) { showCustomAlert('請填寫姓名'); return; }
+if (!attendance) { showCustomAlert('請選擇出席意願'); return; }
 
     const needExtra = attendance !== 'no' && attendance !== 'ceremony_only';
     const diet = document.getElementById('guest-diet').value.trim();
@@ -1998,5 +2052,11 @@ if (photoTransitionTitle) photoTransitionObserver.observe(photoTransitionTitle);
     setInterval(tick, 1000);
 })();
 </script>
+    <div id="custom-alert" class="custom-alert">
+  <div class="custom-alert-box">
+    <div id="custom-alert-text">已收到您的回覆，感謝！</div>
+    <button id="custom-alert-ok">確定</button>
+  </div>
+</div>
 </body>
 </html>
