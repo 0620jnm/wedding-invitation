@@ -1821,68 +1821,9 @@ document.fonts.ready.then(function () {
     hint.classList.add('ready');
 });
 
-document.querySelectorAll('input[name="attendance"]').forEach(radio => {
-    radio.addEventListener('change', () => {
-        const extraFields = document.getElementById('extra-fields');
-        if (radio.value === 'no' || radio.value === 'ceremonyonly') {
-            extraFields.style.display = 'none';
-        } else {
-            extraFields.style.display = 'block';
-        }
-    });
-});
 
-document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
 
-    const name = document.getElementById('guest-name').value.trim();
-    if (!name) { showCustomAlert('請填寫姓名'); return; }
 
-    const attendance = document.querySelector('input[name="attendance"]:checked')?.value;
-    if (!attendance) { showCustomAlert('請選擇出席意願'); return; }
-
-    const needExtra = attendance !== 'no' && attendance !== 'ceremonyonly';
-    const diet = document.getElementById('guest-diet').value.trim();
-    const relation = document.getElementById('guest-relation').value.trim();
-
-    if (needExtra && (!diet || !relation)) {
-        showCustomAlert('請填寫飲食需求與關係欄位');
-        return;
-    }
-
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxpJd0PhZTBjHR7OvfmTF3cjsaQdMu6PIkFvTofZYzDAdAtSGwnjudaukjiLmNcBkOTPg/exec';
-    const submitBtn = document.querySelector('#rsvp-form .submit-btn');
-    
-    const attendanceMap = {
-    both: '證婚儀式與午宴都參加',
-    banquetonly: '僅參加午宴',
-    ceremonyonly: '僅參加證婚儀式',
-    no: '無法出席'
-    };
-    
-    try {
-    submitBtn.disabled = true;
-    submitBtn.textContent = '送出中...';
-
-    await fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-         name,
-         attendance: attendanceMap[attendance],
-         diet: needExtra ? diet : '',
-         relation: needExtra ? relation : ''
-        })
-    });
-    showCustomAlert('已收到您的回覆，感謝！');
-    document.getElementById('rsvp-form').reset();
-    document.getElementById('extra-fields').style.display = 'none';
-} catch (err) {
-    showCustomAlert('送出失敗，請稍後再試');
-} finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = '送出回覆';
-}
-});
 
 window.addEventListener('load', function () {
     clearInterval(loaderTimer);
