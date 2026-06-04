@@ -1486,18 +1486,6 @@ body {
 </div>
 
 <div id="flash-effect"></div>
-
-<div id="extra-fields">
-    <div class="form-group">
-        <label>飲食需求</label>
-        <input type="text" id="guest-diet" placeholder="葷 / 素 / 其他需求">
-    </div>
-
-    <div class="form-group">
-        <label>您與我們的關係</label>
-        <input type="text" id="guest-relation" placeholder="例如：朋友 / 同學 / 親戚">
-    </div>
-</div>
     
 <div id="intro-overlay">
     <div id="scene-container">
@@ -1857,15 +1845,15 @@ document.fonts.ready.then(function () {
 });
 
 
-document.querySelectorAll('input[name="attendance"]').forEach(radio => {
-    radio.addEventListener('change', () => {
+document.querySelectorAll('input[name="attendance"]').forEach((radio) => {
+    radio.addEventListener('change', function () {
         const extraFields = document.getElementById('extra-fields');
+        if (!extraFields) return;
 
-        if (radio.value === 'both' || radio.value === 'banquetonly') {
-            extraFields.style.display = 'block';
-        } else {
-            extraFields.style.display = 'none';
-        }
+        const shouldShow =
+            this.value === 'both' || this.value === 'banquetonly';
+
+        extraFields.style.display = shouldShow ? 'block' : 'none';
     });
 });
 
@@ -1919,7 +1907,7 @@ document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
 
         showCustomAlert('已收到您的回覆，感謝！');
         document.getElementById('rsvp-form').reset();
-        document.getElementById('extra-fields').style.display = 'block';
+        document.getElementById('extra-fields').style.display = 'none';
     } catch (err) {
         showCustomAlert('送出失敗，請稍後再試');
     } finally {
