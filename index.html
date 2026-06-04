@@ -72,6 +72,9 @@ body {
     opacity: 0;
     visibility: hidden;
 }
+#extra-fields {
+    display: none;
+}   
 .loader-inner {
     width: min(85vw, 360px);
     text-align: center;
@@ -1484,6 +1487,18 @@ body {
 
 <div id="flash-effect"></div>
 
+<div id="extra-fields">
+    <div class="form-group">
+        <label>飲食需求</label>
+        <input type="text" id="guest-diet" placeholder="葷 / 素 / 其他需求">
+    </div>
+
+    <div class="form-group">
+        <label>您與我們的關係</label>
+        <input type="text" id="guest-relation" placeholder="例如：朋友 / 同學 / 親戚">
+    </div>
+</div>
+    
 <div id="intro-overlay">
     <div id="scene-container">
         <div class="polaroid-wrapper" id="polaroid-wrapper">
@@ -1670,16 +1685,36 @@ body {
         <section class="form-section">
     <h2 style="font-family:'my font'; color:#c9a466; font-size: 2.2rem; margin-bottom: 30px;">參加回覆表單</h2>
     <div class="form-card">
-        <p style="
-            font-family: 'my font';
-            font-size: 1.6rem;
-            line-height: 2;
-            color: #5a4633;
-            text-align: center;
-            margin: 0;
-        ">
-            目前表單已關閉，人數在統整中，若有任何異動請直接聯繫宇杰或旻瑄喔！
-        </p>
+        <form id="rsvp-form">
+            <div class="form-group">
+                <label>您的姓名</label>
+                <input type="text" id="guest-name" required placeholder="請輸入姓名">
+            </div>
+
+            <div class="form-group">
+                <label>是否參加</label>
+                <div class="radio-stack">
+                    <label><input type="radio" name="attendance" value="both"> 證婚儀式與午宴都參加</label>
+                    <label><input type="radio" name="attendance" value="banquetonly"> 僅參加午宴</label>
+                    <label><input type="radio" name="attendance" value="ceremonyonly"> 僅參加證婚儀式</label>
+                    <label><input type="radio" name="attendance" value="no"> 無法出席</label>
+                </div>
+            </div>
+
+            <div id="extra-fields">
+                <div class="form-group">
+                    <label>飲食需求</label>
+                    <input type="text" id="guest-diet" placeholder="葷 / 素 / 其他需求">
+                </div>
+
+                <div class="form-group">
+                    <label>您與我們的關係</label>
+                    <input type="text" id="guest-relation" placeholder="例如：朋友 / 同學 / 親戚">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">送出回覆</button>
+        </form>
     </div>
 </section>
     <section class="form-section" style="background: #fbf9f7;">
@@ -1822,7 +1857,76 @@ document.fonts.ready.then(function () {
 });
 
 
+document.querySelectorAll('input[name="attendance"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        const extraFields = document.getElementById('extra-fields');
 
+        if (radio.value === 'both' || radio.value === 'banquetonly') {
+            extraFields.style.display = 'block';
+        } else {
+            extraFields.style.display = 'none';
+        }
+    });
+});
+
+document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('guest-name').value.trim();
+    if (!name) { 
+        showCustomAlert('請填寫姓名'); 
+        return; 
+    }
+
+    const attendance = document.querySelector('input[name="attendance"]:checked')?.value;
+    if (!attendance) { 
+        showCustomAlert('請選擇出席意願'); 
+        return; 
+    }
+
+    const needExtra = attendance !== 'no' && attendance !== 'ceremonyonly';
+    const diet = document.getElementById('guest-diet').value.trim();
+    const relation = document.getElementById('guest-relation').value.trim();
+
+    if (needExtra && (!diet || !relation)) {
+        showCustomAlert('請填寫飲食需求與關係欄位');
+        return;
+    }
+
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxpJd0PhZTBjHR7OvfmTF3cjsaQdMu6PIkFvTofZYzDAdAtSGwnjudaukjiLmNcBkOTPg/exec';
+    const submitBtn = document.querySelector('#rsvp-form .submit-btn');
+
+    const attendanceMap = {
+        both: '證婚儀式與午宴都參加',
+        banquetonly: '僅參加午宴',
+        ceremonyonly: '僅參加證婚儀式',
+        no: '無法出席'
+    };
+
+    try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = '送出中...';
+
+        await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                name,
+                attendance: attendanceMap[attendance],
+                diet: needExtra ? diet : '',
+                relation: needExtra ? relation : ''
+            })
+        });
+
+        showCustomAlert('已收到您的回覆，感謝！');
+        document.getElementById('rsvp-form').reset();
+        document.getElementById('extra-fields').style.display = 'block';
+    } catch (err) {
+        showCustomAlert('送出失敗，請稍後再試');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '送出回覆';
+    }
+});
 
 
 window.addEventListener('load', function () {
